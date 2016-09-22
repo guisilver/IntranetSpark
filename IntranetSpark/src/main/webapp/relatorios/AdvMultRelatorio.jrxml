@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="AdvMultRelatorio" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="66b3ca34-ea03-4893-a420-fb8b5b71b35e">
+	<property name="ireport.zoom" value="1.771561000000001"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="codigo" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="tipoPesquisa" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[declare @contador int
+set @contador = $P{tipoPesquisa}
+if @contador = 1
+select * from omacorp.dbo.intra_advert_mult where condominio = $P{codigo}
+else
+select * from omacorp.dbo.intra_advert_mult where codigo_gerente = $P{codigo}]]>
+	</queryString>
+	<field name="codigo" class="java.lang.Long"/>
+	<field name="artigo" class="java.lang.String"/>
+	<field name="bloco" class="java.lang.String"/>
+	<field name="clausula" class="java.lang.String"/>
+	<field name="codigo_gerente" class="java.lang.Integer"/>
+	<field name="condominio" class="java.lang.Short"/>
+	<field name="data_" class="java.sql.Timestamp"/>
+	<field name="data_ocorrido" class="java.lang.String"/>
+	<field name="email_geren" class="java.lang.String"/>
+	<field name="frase" class="java.lang.String"/>
+	<field name="item_clausula" class="java.lang.Boolean"/>
+	<field name="motivo" class="java.lang.String"/>
+	<field name="nome" class="java.lang.String"/>
+	<field name="nome_condo" class="java.lang.String"/>
+	<field name="nome_geren" class="java.lang.String"/>
+	<field name="ocorrido" class="java.lang.String"/>
+	<field name="protocolo" class="java.lang.Object"/>
+	<field name="sexo" class="java.lang.String"/>
+	<field name="texto" class="java.lang.String"/>
+	<field name="tipo_reg_cov" class="java.lang.String"/>
+	<field name="unidade" class="java.lang.String"/>
+	<field name="validaTexto" class="java.lang.String"/>
+	<field name="valor" class="java.lang.String"/>
+	<field name="valorExtenso" class="java.lang.String"/>
+	<field name="vencimento" class="java.lang.String"/>
+	<variable name="nomeColumn" class="java.lang.Object"/>
+	<title>
+		<band height="23" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="23" uuid="2d57df1e-05ee-4885-bcb3-eb134613f6eb"/>
+				<textElement textAlignment="Center">
+					<font fontName="Verdana" size="18"/>
+				</textElement>
+				<text><![CDATA[Relatório]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="21" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="1" width="46" height="20" uuid="d14328b1-3043-4a2c-8e97-9364d19de88c"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana"/>
+				</textElement>
+				<text><![CDATA[Cond.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="46" y="1" width="62" height="20" uuid="aa4ede5c-8413-4792-9aff-a21de73ccf9b"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana"/>
+				</textElement>
+				<text><![CDATA[Bloco]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="108" y="1" width="54" height="20" uuid="0b66bd26-c8bd-46d7-af32-140cfde90246"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana"/>
+				</textElement>
+				<text><![CDATA[Unidade]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="162" y="1" width="111" height="20" uuid="6cf54efa-f2d4-447f-bcce-119bb6fad660"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana"/>
+				</textElement>
+				<text><![CDATA[Tipo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="273" y="1" width="86" height="20" uuid="8b21b41c-697d-4e36-9bf4-1d870622ca81"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana"/>
+				</textElement>
+				<text><![CDATA[Cadastrado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="359" y="1" width="133" height="20" uuid="5be51781-3290-4944-b02b-3fe920660869"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana"/>
+				</textElement>
+				<text><![CDATA[Data / Ocorrido]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="46" height="20" uuid="febf67b5-bf0c-44ae-a415-f59ac3e9761f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{condominio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="46" y="0" width="62" height="20" uuid="6066ca98-bfef-4f50-aa4d-093520a2486a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{bloco}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="108" y="0" width="54" height="20" uuid="984cf25c-431b-42fb-bc4f-cdf267ec41ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{unidade}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="162" y="0" width="111" height="20" uuid="42ff260b-f2dd-40c2-8e0c-0ad3b09886bb"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valor} == null ? "Advertência" : "Multa"]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="273" y="0" width="86" height="20" isRemoveLineWhenBlank="true" uuid="9620ba54-08ca-4603-b744-4693299a8b16"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{data_}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement x="359" y="0" width="133" height="20" uuid="857ccde7-4164-4524-9b99-5276229a8e55"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{data_ocorrido} == null ? "" : ($F{data_ocorrido}.trim().equals("") ? "" :  new java.text.SimpleDateFormat("dd/MM/yyyy", new Locale("pt","BR")).format(new Date($F{data_ocorrido})))]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

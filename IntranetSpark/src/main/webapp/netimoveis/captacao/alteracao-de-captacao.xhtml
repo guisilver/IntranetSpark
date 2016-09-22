@@ -1,0 +1,493 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<style>
+.msg {
+	color: #FFF;
+	font-size: 20px;
+}
+
+#frmFiltro table td {
+	border: 0px !important;
+}
+
+.ui-selectoneradio tbody tr td {
+	border: 0px !important;
+}
+
+.gridFiltro tbody tr td {
+	border: 0px !important;
+}
+</style>
+		<div class="layout-portlets-box">
+			<div class="DispInlBlock TexAlLeft">
+				<div class="Fleft">
+					<h2 class="black Fs24 FontRalewayMedium">Alteração de Captação</h2>
+				</div>
+			</div>
+			<div class="Seperator"></div>
+			<div class="Container100 Responsive100">
+				<div class="ContainerIndent">
+					<h:form id="frmAlteraCaptacao"
+						rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.verificaDepto('NetImoveis')}">
+						<f:metadata>
+							<f:event listener="#{ntMB.pesquisaCaptacaoSelecionada()}"
+								type="preRenderView" />
+						</f:metadata>
+						<p:growl autoUpdate="true" id="growl" widgetVar="growl" />
+						<p:messages id="msg" showDetail="true" autoUpdate="false"
+							closable="true" escape="true" showSummary="false"
+							styleClass="msg" />
+						<div class="Container100 ui-fluid">
+							<div class="ContainerIndent">
+								<p:panelGrid columns="2" layout="grid"
+									styleClass="ui-panelgrid-blank"
+									style="border:0px none; background-color:transparent;"
+									columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4">
+									<p:outputLabel value="Código nº:" />
+									<p:inputText value="#{ntMB.ncBEAN.codigoCondominio}" />
+									<p:outputLabel value="Tipo de Imóvel:" />
+									<p:inputText value="#{ntMB.ncBEAN.tipoImovel}" maxlength="50" />
+									<p:outputLabel value="Preço R$:" />
+									<pe:inputNumber value="#{ntMB.ncBEAN.precoImovel}"
+										decimalPlaces="2" thousandSeparator="." minValue="0"
+										maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+									<p:outputLabel value="Data:" />
+									<p:calendar value="#{ntMB.ncBEAN.data}" pattern="dd/MM/yyyy"
+										locale="pt" timeZone="America/Sao_Paulo"
+										styleClass="calendario" yearRange="c-3:c+5" />
+								</p:panelGrid>
+								<br />
+								<p:panelGrid columns="1" layout="grid"
+									styleClass="ui-panelgrid-blank"
+									style="border:0px none; background-color:transparent;"
+									columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4">
+									<h:panelGrid columns="4" styleClass="gridFiltro">
+										<p:outputLabel value="Exclusividade:" />
+										<p:selectBooleanCheckbox value="#{ntMB.ncBEAN.exclusividade}" />
+										<p:outputLabel value="Autorização:" />
+										<p:selectBooleanCheckbox value="#{ntMB.ncBEAN.autorizacao}" />
+										<p:outputLabel value="Venda:" />
+										<p:selectBooleanCheckbox value="#{ntMB.ncBEAN.venda}" />
+										<p:outputLabel value="Aluguel:" />
+										<p:selectBooleanCheckbox value="#{ntMB.ncBEAN.aluguel}" />
+									</h:panelGrid>
+								</p:panelGrid>
+								<br />
+								<p:accordionPanel multiple="false" id="accordion">
+									<p:tab title="Laudo de Avaliação" id="tabLaudo">
+										<p:panelGrid columns="2" layout="grid"
+											styleClass="ui-panelgrid-blank"
+											style="border:0px none; background-color:transparent;"
+											columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4">
+											<p:outputLabel value="Bairro:" />
+											<p:inputText value="#{ntMB.ncBEAN.bairro}" maxlength="50" />
+											<p:outputLabel value="Nº Salas:" />
+											<p:inputText value="#{ntMB.ncBEAN.nroSalas}" />
+											<p:outputLabel value="Quartos:" />
+											<p:inputText value="#{ntMB.ncBEAN.nroQuartos}" />
+											<p:outputLabel value="Bh. Social:" />
+											<p:inputText value="#{ntMB.ncBEAN.bhSocial}" />
+											<p:outputLabel value="Varanda:" />
+											<p:inputText value="#{ntMB.ncBEAN.varanda}" />
+										</p:panelGrid>
+										<p:panelGrid columns="5"
+											columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+											layout="grid" styleClass="ui-panelgrid-blank"
+											style="border:0px none; background-color:transparent;">
+											<p:outputLabel value="Vaga(s) Garagem:" />
+											<p:outputLabel value="• Livre" />
+											<p:inputText value="#{ntMB.ncBEAN.vagaLivre}" />
+											<p:outputLabel value="• Presa" />
+											<p:inputText value="#{ntMB.ncBEAN.vagaPresa}" />
+										</p:panelGrid>
+
+										<p:panelGrid columns="2" layout="grid"
+											styleClass="ui-panelgrid-blank"
+											style="border:0px none; background-color:transparent;"
+											columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4">
+											<p:outputLabel value="Endereço:" />
+											<p:inputText value="#{ntMB.ncBEAN.endereco}" maxlength="100" />
+											<p:outputLabel value="Cep:" />
+											<p:inputMask value="#{ntMB.ncBEAN.cep}" mask="99999-999" />
+											<p:outputLabel value="Nº:" />
+											<p:inputText value="#{ntMB.ncBEAN.nroEndereco}" />
+											<p:outputLabel value="Unidade:" />
+											<p:inputText value="#{ntMB.ncBEAN.unidade}" maxlength="20" />
+											<p:outputLabel value="Idade:" />
+											<p:inputText value="#{ntMB.ncBEAN.idade}" />
+											<p:outputLabel value="Edifício:" />
+											<p:inputText value="#{ntMB.ncBEAN.edificio}" maxlength="150" />
+											<p:outputLabel value="Condomínio R$:"
+												style="margin-left:295px;" />
+											<pe:inputNumber value="#{ntMB.ncBEAN.condominioValor}"
+												decimalPlaces="2" thousandSeparator="." minValue="0"
+												maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+											<p:outputLabel value="IPTU R$:" />
+											<pe:inputNumber value="#{ntMB.ncBEAN.iptuValor}"
+												decimalPlaces="2" thousandSeparator="." minValue="0"
+												maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+											<p:outputLabel value="Índice Cadastral:" />
+											<p:inputText value="#{ntMB.ncBEAN.indiceCadastral}"
+												maxlength="50" />
+											<p:outputLabel value="Fachada Frontal:" />
+											<p:inputText value="#{ntMB.ncBEAN.fachadaFrontal}"
+												maxlength="50" />
+											<p:outputLabel value="Fachada Lateral:" />
+											<p:inputText value="#{ntMB.ncBEAN.fachadaLateral}"
+												maxlength="50" />
+											<p:outputLabel value="Posição:" />
+											<p:selectOneMenu value="#{ntMB.ncBEAN.posicao}">
+												<f:selectItem itemLabel="Selecione" itemValue="" />
+												<f:selectItem itemLabel="Frente" itemValue="Frente" />
+												<f:selectItem itemLabel="Fundos" itemValue="Fundos" />
+											</p:selectOneMenu>
+											<p:outputLabel value="Síndico/ Telefone:" />
+											<p:inputText value="#{ntMB.ncBEAN.sindicoTelefone}"
+												maxlength="20" />
+
+											<p:outputLabel value="Conservadora/ Telefone:" />
+											<p:inputText value="#{ntMB.ncBEAN.conservadoraTelefone}"
+												maxlength="20" />
+											<p:outputLabel value="Nº de Unid.:" />
+											<p:inputText value="#{ntMB.ncBEAN.nroUnidades}" />
+											<p:outputLabel value="Nº Pavimentos:" />
+											<p:inputText value="#{ntMB.ncBEAN.nroPavimentos}" />
+											<p:outputLabel value="Unid. p/ And.:" />
+											<p:inputText value="#{ntMB.ncBEAN.unidsPorAndar}" />
+											<p:outputLabel value="Área Real Priv.:" />
+											<p:inputText value="#{ntMB.ncBEAN.areaRealPriv}"
+												maxlength="20" />
+											<p:outputLabel value="Área Construída (m²):" />
+											<p:inputText value="#{ntMB.ncBEAN.areaConstruida}"
+												maxlength="20" />
+											<p:outputLabel value="Área Lote (m²):" />
+											<p:inputText value="#{ntMB.ncBEAN.areaLote}" maxlength="20" />
+											<p:outputLabel value="Frente do Lote:" />
+											<p:inputText value="#{ntMB.ncBEAN.frenteLote}" maxlength="20" />
+											<p:outputLabel value="Zona de Uso:" />
+											<p:inputText value="#{ntMB.ncBEAN.zonaUso}" maxlength="20" />
+											<p:outputLabel value="Aproveitamento:" />
+											<p:inputText value="#{ntMB.ncBEAN.aproveitamento}"
+												maxlength="30" />
+											<p:outputLabel value="Referência:" />
+											<p:inputText value="#{ntMB.ncBEAN.referencia}" />
+											<p:outputLabel value="Melhor Acesso:" />
+											<p:inputText value="#{ntMB.ncBEAN.melhorAcesso}" />
+											<p:outputLabel value="Imóvel Ocupado:" />
+											<p:selectOneMenu value="#{ntMB.ncBEAN.imovelOcupado}">
+												<f:selectItem itemLabel="Selecione" itemValue="" />
+												<f:selectItem itemLabel="Próprio" itemValue="Próprio" />
+												<f:selectItem itemLabel="Locatário" itemValue="Locatário" />
+											</p:selectOneMenu>
+											<p:outputLabel value="Imóvel:" />
+											<p:selectBooleanCheckbox value="#{ntMB.ncBEAN.imovelVago}" />
+											<p:outputLabel value="Locatário:" />
+											<p:inputText value="#{ntMB.ncBEAN.nomeLocatario}" />
+											<p:outputLabel value="Telefone:" />
+											<p:inputMask value="#{ntMB.ncBEAN.telefone}"
+												mask="(999)9999-99999" />
+											<p:outputLabel value="Chaves:" />
+											<p:selectOneMenu value="#{ntMB.ncBEAN.chaves}">
+												<f:selectItem itemLabel="Selecione" itemValue="" />
+												<f:selectItem itemLabel="Próprio" itemValue="Próprio" />
+												<f:selectItem itemLabel="Locatário" itemValue="Locatário" />
+												<f:selectItem itemLabel="Portaria" itemValue="Portaria" />
+												<f:selectItem itemLabel="Corretora" itemValue="Corretora" />
+											</p:selectOneMenu>
+											<p:outputLabel value="Horário de Visita:" />
+											<p:inputText value="#{ntMB.ncBEAN.horaVisita}" maxlength="50" />
+											<p:outputLabel value="Benefícios:" />
+											<p:inputText value="#{ntMB.ncBEAN.beneficios}"
+												maxlength="300" />
+											<h:panelGrid columns="4" styleClass="gridFiltro">
+												<p:selectBooleanCheckbox
+													value="#{ntMB.ncBEAN.arCondicionado}" />
+												<p:outputLabel value="Ar Condicionado" />
+												<p:selectBooleanCheckbox value="#{ntMB.ncBEAN.salaMassagem}" />
+												<p:outputLabel value="Sala Massagem" />
+												<p:selectBooleanCheckbox value="#{ntMB.ncBEAN.playground}" />
+												<p:outputLabel value="Playground" />
+												<p:selectBooleanCheckbox
+													value="#{ntMB.ncBEAN.hallSocialDecorado}" />
+												<p:outputLabel value="Hall Social Decorado" />
+												<p:selectBooleanCheckbox
+													value="#{ntMB.ncBEAN.portaoEletronico}" />
+												<p:outputLabel value="Portão Eletrônico" />
+												<p:selectBooleanCheckbox value="#{ntMB.ncBEAN.salaoFestas}" />
+												<p:outputLabel value="Salão de Festas" />
+												<p:selectBooleanCheckbox
+													value="#{ntMB.ncBEAN.churrasqEspGourmet}" />
+												<p:outputLabel value="Churrasqueira/Espaço Gourmet" />
+												<p:selectBooleanCheckbox value="#{ntMB.ncBEAN.interfone}" />
+												<p:outputLabel value="Interfone" />
+												<p:selectBooleanCheckbox
+													value="#{ntMB.ncBEAN.portariaPermanente}" />
+												<p:outputLabel value="Portaria Permanente" />
+												<p:selectBooleanCheckbox value="#{ntMB.ncBEAN.salaoJogos}" />
+												<p:outputLabel value="Salão de Jogos" />
+												<p:selectBooleanCheckbox value="#{ntMB.ncBEAN.circuitoTV}" />
+												<p:outputLabel value="Circuito de TV" />
+												<p:selectBooleanCheckbox
+													value="#{ntMB.ncBEAN.janelaComVenezianas}" />
+												<p:outputLabel value="Janela com Venezianas" />
+												<p:selectBooleanCheckbox
+													value="#{ntMB.ncBEAN.quadraEsportes}" />
+												<p:outputLabel value="Quadra de Esportes" />
+												<p:selectBooleanCheckbox value="#{ntMB.ncBEAN.sauna}" />
+												<p:outputLabel value="Sauna" />
+												<p:selectBooleanCheckbox
+													value="#{ntMB.ncBEAN.elevadorServico}" />
+												<p:outputLabel value="Elevador de Serviço" />
+												<p:selectBooleanCheckbox value="#{ntMB.ncBEAN.jardins}" />
+												<p:outputLabel value="Jardins" />
+												<p:selectBooleanCheckbox
+													value="#{ntMB.ncBEAN.elevadorSocial}" />
+												<p:outputLabel value="Elevador Social" />
+												<p:selectBooleanCheckbox value="#{ntMB.ncBEAN.solDeManha}" />
+												<p:outputLabel value="Sol de Manhã" />
+												<p:selectBooleanCheckbox
+													value="#{ntMB.ncBEAN.esquadriasAluminio}" />
+												<p:outputLabel value="Esquadrias de Alumínio" />
+												<p:selectBooleanCheckbox value="#{ntMB.ncBEAN.mobilhado}" />
+												<p:outputLabel value="Mobiliado" />
+												<p:selectBooleanCheckbox value="#{ntMB.ncBEAN.academia}" />
+												<p:outputLabel value="Academia" />
+												<p:selectBooleanCheckbox value="#{ntMB.ncBEAN.piscinas}" />
+												<p:outputLabel value="Piscinas" />
+												<p:selectBooleanCheckbox
+													value="#{ntMB.ncBEAN.gasCanalizado}" />
+												<p:outputLabel value="Gás Canalizado" />
+												<p:selectBooleanCheckbox value="#{ntMB.ncBEAN.andarAlto}" />
+												<p:outputLabel value="Andar Alto" />
+											</h:panelGrid>
+											<h:panelGrid>
+												<p:outputLabel></p:outputLabel>
+											</h:panelGrid>
+											<p:outputLabel value="Descreva o Prédio:" />
+											<p:inputText value="#{ntMB.ncBEAN.descrevaPredio}"
+												maxlength="200" />
+											<p:outputLabel value="Construtora:" />
+											<p:inputText value="#{ntMB.ncBEAN.construtora}" />
+											<p:outputLabel
+												value="Descreva o Imóvel pela Ordem: Sala/ Varanda/ Quarto/ Banho/ Cozinha/ Área/ DCE:" />
+											<p:inputTextarea value="#{ntMB.ncBEAN.descrevaImovelOrdem}"
+												maxlength="750" />
+											<p:outputLabel value="Documentação:" />
+											<p:selectOneMenu value="#{ntMB.ncBEAN.documentacao}">
+												<f:selectItem itemLabel="Selecione" itemValue="" />
+												<f:selectItem itemLabel="Registro" itemValue="Registro" />
+												<f:selectItem itemLabel="Escritura" itemValue="Escritura" />
+											</p:selectOneMenu>
+											<p:outputLabel value="Valor de Escritura R$:" />
+											<pe:inputNumber value="#{ntMB.ncBEAN.valorEscritura}"
+												decimalPlaces="2" thousandSeparator="." minValue="0"
+												maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+											<p:outputLabel value="Condições Pagto:" />
+											<p:inputText value="#{ntMB.ncBEAN.condicoesPagto}" />
+											<p:outputLabel value="Estuda Permuta?" />
+											<p:inputText value="#{ntMB.ncBEAN.estudaPermuta}" />
+											<p:outputLabel value="Motiva da Venda?" />
+											<p:inputText value="#{ntMB.ncBEAN.motivoVenda}"
+												maxlength="150" />
+											<p:outputLabel value="Captador/ Celular:" />
+											<p:inputText value="#{ntMB.ncBEAN.captadorCelular}" />
+											<p:outputLabel value="Avaliação da Corretora R$:" />
+											<pe:inputNumber value="#{ntMB.ncBEAN.avaliacaoCorretora}"
+												decimalPlaces="2" thousandSeparator="." minValue="0"
+												maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+											<p:outputLabel value="Custo p/ m²:" />
+											<pe:inputNumber value="#{ntMB.ncBEAN.custoM3}"
+												decimalPlaces="2" thousandSeparator="." minValue="0"
+												maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+											<p:outputLabel value="Última Confirmação:" />
+											<p:calendar value="#{ntMB.ncBEAN.ultimaConfirmacao}"
+												pattern="dd/MM/yyyy" locale="pt"
+												timeZone="America/Sao_Paulo" styleClass="calendario"
+												yearRange="c-3:c+5" />
+										</p:panelGrid>
+									</p:tab>
+									<p:tab title="Dados do Proprietário" id="tabProprietario">
+										<br />
+										<p:panelGrid columns="1" styleClass="gridFiltro" width="100%">
+											<f:facet name="header">Dados do Proprietário</f:facet>
+											<p:panelGrid columns="2" layout="grid"
+												styleClass="ui-panelgrid-blank"
+												style="border:0px none; background-color:transparent;"
+												columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4">
+												<p:outputLabel value="Prop./ Empresa:" />
+												<p:inputText value="#{ntMB.npBEAN.nome}" maxlength="100" />
+												<p:outputLabel value="Nacionalidade:" />
+												<p:inputText value="#{ntMB.npBEAN.nacionalidade}"
+													maxlength="50" />
+												<p:outputLabel value="Estado Civil:" />
+												<p:inputText value="#{ntMB.npBEAN.estadoCivil}"
+													maxlength="20" />
+												<p:outputLabel value="Profissão:" />
+												<p:inputText value="#{ntMB.npBEAN.profissao}" maxlength="50" />
+												<p:outputLabel value="CPF/ CNPJ:" />
+												<p:inputText value="#{ntMB.npBEAN.cpfCnpj}" maxlength="20" />
+												<p:outputLabel value="C.I.:" />
+												<p:inputText value="#{ntMB.npBEAN.ci}" maxlength="30" />
+												<p:outputLabel value="Dia/Mês (Nasc.):" />
+												<p:calendar value="#{ntMB.npBEAN.nascimento}"
+													pattern="dd/MM/yyyy" locale="pt"
+													timeZone="America/Sao_Paulo" styleClass="calendario"
+													yearRange="c-3:c+5" />
+												<p:outputLabel value="Tel. Residencial:" />
+												<p:inputMask value="#{ntMB.npBEAN.telResidencial}"
+													mask="(999)9999-9999" />
+												<p:outputLabel value="Tel. Comercial:" />
+												<p:inputMask value="#{ntMB.npBEAN.telComercial}"
+													mask="(999)9999-9999" />
+												<p:outputLabel value="Fax:" />
+												<p:inputMask value="#{ntMB.npBEAN.fax}"
+													mask="(999)9999-9999" />
+												<p:outputLabel value="Celular:" />
+												<p:inputMask value="#{ntMB.npBEAN.celular}"
+													mask="(999)99999-9999" />
+												<p:outputLabel value="E-mail:" />
+												<p:inputText value="#{ntMB.npBEAN.email}" maxlength="75" />
+												<p:outputLabel value="End. Res.:" />
+												<p:inputText value="#{ntMB.npBEAN.enderecoResidencial}"
+													maxlength="100" />
+												<p:outputLabel value="Bairro:" />
+												<p:inputText value="#{ntMB.npBEAN.bairroResidencial}"
+													maxlength="50" />
+												<p:outputLabel value="Cidade/ UF:" />
+												<p:inputText value="#{ntMB.npBEAN.cidadeResidencia}"
+													maxlength="50" />
+												<p:outputLabel value="Cep:" />
+												<p:inputMask value="#{ntMB.npBEAN.cepResidencial}"
+													mask="99999-999" />
+												<p:outputLabel value="End. Com.:" />
+												<p:inputText value="#{ntMB.npBEAN.enderecoComercial}"
+													maxlength="100" />
+												<p:outputLabel value="Bairro:" />
+												<p:inputText value="#{ntMB.npBEAN.bairroComercial}"
+													maxlength="50" />
+												<p:outputLabel value="Cidade/ UF:" />
+												<p:inputText value="#{ntMB.npBEAN.cidadeComercial}"
+													maxlength="50" />
+												<p:outputLabel value="Cep:" />
+												<p:inputMask value="#{ntMB.npBEAN.cepComercial}"
+													mask="99999-999" />
+												<p:outputLabel value="Cônjuge:" />
+												<p:inputText value="#{ntMB.npBEAN.conjuge}" maxlength="75" />
+												<p:outputLabel value="Nacionalidade:" />
+												<p:inputText value="#{ntMB.npBEAN.nacionalidade}"
+													maxlength="50" />
+												<p:outputLabel value="Estado Civil:" />
+												<p:inputText value="#{ntMB.npBEAN.estadoCivilConjuge}"
+													maxlength="50" />
+												<p:outputLabel value="Profissão:" />
+												<p:inputText value="#{ntMB.npBEAN.profissaoConjuge}"
+													maxlength="50" />
+												<p:outputLabel value="CPF:" />
+												<p:inputMask value="#{ntMB.npBEAN.cpfConjuge}"
+													mask="999.999.999-99" />
+												<p:outputLabel value="C.I.:" />
+												<p:inputText value="#{ntMB.npBEAN.ciConjuge}" maxlength="30" />
+												<p:outputLabel value="Dia/Mês (Nasc.):" />
+												<p:calendar value="#{ntMB.npBEAN.nascimentoConjuge}"
+													pattern="dd/MM/yyyy" locale="pt"
+													timeZone="America/Sao_Paulo" styleClass="calendario"
+													yearRange="c-3:c+5" />
+												<p:outputLabel value="End. Res./ Bairro:" />
+												<p:inputText value="#{ntMB.npBEAN.endResConjuge}"
+													maxlength="100" />
+												<p:outputLabel value="Telefones:" />
+												<p:inputMask value="#{ntMB.npBEAN.telResConjuge}"
+													mask="(999)9999-9999" />
+												<p:outputLabel value="Procurador:" />
+												<p:inputText value="#{ntMB.npBEAN.procurador}"
+													maxlength="75" />
+												<p:outputLabel value="Telefone:" />
+												<p:inputMask value="#{ntMB.npBEAN.telefoneProcurador}"
+													mask="(999)9999-99999" />
+												<p:outputLabel value="E-mail:" />
+												<p:inputText value="#{ntMB.npBEAN.emailProcurador}"
+													maxlength="75" />
+											</p:panelGrid>
+										</p:panelGrid>
+										<br />
+										<p:panelGrid columns="1" styleClass="gridFiltro" width="100%">
+											<f:facet name="header">Banco</f:facet>
+											<p:panelGrid columns="2" layout="grid"
+												styleClass="ui-panelgrid-blank"
+												style="border:0px none; background-color:transparent;"
+												columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4">
+												<p:outputLabel value="Banco:" />
+												<p:inputText value="#{ntMB.npBEAN.banco}" />
+												<p:outputLabel value="Nome Agência:" />
+												<p:inputText value="#{ntMB.npBEAN.nomeAgencia}" />
+												<p:outputLabel value="Agência nº:" />
+												<p:inputText value="#{ntMB.npBEAN.agencia}" />
+												<p:outputLabel value="Conta Corrente:" />
+												<p:inputText value="#{ntMB.npBEAN.contaCorrente}" />
+												<p:outputLabel value="Praça:" />
+												<p:inputText value="#{ntMB.npBEAN.praca}" />
+												<p:outputLabel value="Correntista/ Favorecido:" />
+												<p:inputText value="#{ntMB.npBEAN.correntista}" />
+											</p:panelGrid>
+										</p:panelGrid>
+										<br />
+										<p:panelGrid columns="1" styleClass="gridFiltro" width="100%">
+											<f:facet name="header">Contrato</f:facet>
+											<p:panelGrid columns="2" layout="grid"
+												styleClass="ui-panelgrid-blank"
+												style="border:0px none; background-color:transparent;"
+												columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4">
+												<p:outputLabel value="Prazo de Contrato:" />
+												<p:inputText value="#{ntMB.npBEAN.prazoContrato}" />
+												<p:outputLabel value="Forma de Reajuste:" />
+												<p:inputText value="#{ntMB.npBEAN.reajuste}" />
+												<p:outputLabel value="Taxa Adm (%):" />
+												<p:inputText value="#{ntMB.npBEAN.taxaAdm}" />
+												<p:outputLabel value="% Propriedade:" />
+												<p:inputText value="#{ntMB.npBEAN.porcPropriedade}" />
+												<p:outputLabel value="Taxa de Contrato(%):" />
+												<p:inputText value="#{ntMB.npBEAN.taxaContrato}" />
+												<p:outputLabel value="Ass Jurídica?" />
+												<p:inputText value="#{ntMB.npBEAN.assJuridica}" />
+												<p:outputLabel value="Valor Venal (Seguro c/ incêndio):" />
+												<p:inputText value="#{ntMB.npBEAN.valorVenal}" />
+												<p:outputLabel value="Contr. Remoto Garagem/ Qtos?" />
+												<p:inputText value="#{ntMB.npBEAN.controleGaragem}" />
+												<p:outputLabel value="Marca:" />
+												<p:inputText value="#{ntMB.npBEAN.marca}" />
+												<p:outputLabel value="O imóvel poderá ser anunciado?" />
+												<p:selectBooleanCheckbox
+													value="#{ntMB.npBEAN.imovelAnuncio}" />
+												<p:outputLabel value="Paga PA?" />
+												<p:selectBooleanCheckbox value="#{ntMB.npBEAN.pagaPA}" />
+											</p:panelGrid>
+										</p:panelGrid>
+										<br />
+										<p:panelGrid columns="2" layout="grid"
+											styleClass="ui-panelgrid-blank"
+											style="border:0px none; background-color:transparent;"
+											columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4">
+											<p:outputLabel value="Observações Internas:" />
+											<p:inputTextarea value="#{ntMB.npBEAN.observacao}"
+												maxlength="350" />
+										</p:panelGrid>
+									</p:tab>
+								</p:accordionPanel>
+								<br />
+								<h:panelGrid>
+									<p:commandButton value="Salvar" icon="fa fa-check Fs16 white"
+										action="#{ntMB.salvar()}" />
+								</h:panelGrid>
+							</div>
+						</div>
+					</h:form>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

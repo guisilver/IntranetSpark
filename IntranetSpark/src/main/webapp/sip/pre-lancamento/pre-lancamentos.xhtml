@@ -1,0 +1,260 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<style>
+.ui-button-icon-only .ui-button-text {
+	padding: 0px 0px !important;
+}
+
+.alertaSuspenso {
+	color: red !important;
+	font-size: 12px !important;
+}
+
+.fontSize {
+	font-size: 12px !important;
+}
+
+.btnLittle>.ui-icon {
+	height: auto !important;
+	top: 61% !important;
+	font-size: 10px !important;
+}
+
+#frmPreLancamentos\:dtFiscal\:clNumeroNota\:filter {
+	width: 70px !important;
+}
+
+.Aprovado {
+	color: green;
+}
+
+.Reprovado {
+	color: red;
+}
+
+.Adicionado {
+	color: blue;
+}
+
+.Excluído {
+	color: black;
+}
+
+.Alterado {
+	color: orange;
+}
+</style>
+		<div class="layout-portlets-box trilha"
+			style="padding-top: 0px !important; padding-bottom: 0px !important;">
+			<p:breadCrumb>
+				<p:menuitem value="Home" url="/dashboard.xhtml" />
+				<p:menuitem value="Novo Pré-Lançamento"
+					url="/sip/pre-lancamento/novo-pre-lancamento.xhtml" />
+			</p:breadCrumb>
+		</div>
+
+
+		<div class="layout-portlets-box">
+			<div class="DispInlBlock TexAlLeft">
+				<div class="Fleft">
+					<h2 class="black Fs24 FontRalewayMedium">SIP - Pré-Lançamentos</h2>
+				</div>
+			</div>
+			<div class="Seperator"></div>
+			<div class="Container100 Responsive100">
+				<h:form id="frmPreLancamentos">
+
+					<p:messages autoUpdate="true" />
+
+					<h:panelGrid>
+						<p:outputLabel value="Opções" />
+						<p:selectOneRadio value="#{consultaReprovadosMB.filtro}">
+							<p:ajax process="@this" event="change"
+								listener="#{consultaReprovadosMB.pesquisarLancamentos()}"
+								update="@form:dtFiscal" />
+							<f:selectItem itemLabel="Lançados" itemValue="0" />
+							<f:selectItem itemLabel="Reprovados" itemValue="1" />
+						</p:selectOneRadio>
+					</h:panelGrid>
+
+					<p:dataTable id="dtFiscal"
+						value="#{consultaReprovadosMB.listaReprovados}" var="lancamento"
+						paginator="true" rows="20" rowsPerPageTemplate="5,10,15,20,30,50"
+						widgetVar="singleDT" style="margin-top:20px;">
+
+						<p:ajax event="page" oncomplete="subPag();" />
+
+						<p:column headerText="Emissão"
+							style="width:80px;text-align:center;"
+							sortBy="#{lancamento.emissaoNf}"
+							filterBy="#{lancamento.emissaoNf}" styleClass="col60">
+							<p:outputLabel value="#{lancamento.emissaoNf}"
+								styleClass="#{alerta.alertaSuspenso(lancamento.suspensoFiscal)}">
+								<f:convertDateTime pattern="dd/MM/yyyy" locale="pt"
+									timeZone="America/Sao_Paulo" />
+							</p:outputLabel>
+						</p:column>
+
+						<p:column headerText="Vencimento"
+							style="width:80px;text-align:center;"
+							sortBy="#{lancamento.vencimento}"
+							filterBy="#{lancamento.vencimento}" styleClass="col60">
+							<p:outputLabel value="#{lancamento.vencimento}"
+								styleClass="#{alerta.alertaSuspenso(lancamento.suspensoFiscal)}">
+								<f:convertDateTime pattern="dd/MM/yyyy" locale="pt"
+									timeZone="America/Sao_Paulo" />
+							</p:outputLabel>
+						</p:column>
+
+						<p:column headerText="Condomínio"
+							filterBy="#{lancamento.condominio}"
+							sortBy="#{lancamento.condominio}">
+							<p:outputLabel value="#{lancamento.cndCodNome}"
+								styleClass="#{alerta.alertaSuspenso(lancamento.suspensoFiscal)}" />
+						</p:column>
+
+						<p:column headerText="Credor" width="250px !important;"
+							sortBy="#{lancamento.credor}" filterBy="#{lancamento.credor}"
+							filterMatchMode="contains">
+							<p:outputLabel value="#{lancamento.credor}"
+								styleClass="#{alerta.alertaSuspenso(lancamento.suspensoFiscal)}" />
+						</p:column>
+
+						<p:column headerText="CPF/CNPJ" width="150px !important;"
+							style="text-align: center !important;"
+							filterBy="#{lancamento.fornecedorCnpj}"
+							sortBy="#{lancamento.fornecedorCnpj}" filterMatchMode="contains">
+							<p:outputLabel value="#{lancamento.fornecedorCnpj}"
+								styleClass="#{alerta.alertaSuspenso(lancamento.suspensoFiscal)}" />
+						</p:column>
+
+						<p:column id="clNumeroNota" headerText="NF"
+							sortBy="#{lancamento.numeroNf}" width="100px !important;"
+							style="text-align: center !important;"
+							filterBy="#{lancamento.numeroNf}" filterMatchMode="contains">
+							<p:outputLabel value="#{lancamento.numeroNf}"
+								styleClass="#{alerta.alertaSuspenso(lancamento.suspensoFiscal)}" />
+						</p:column>
+
+						<p:column headerText="Valor Bruto" width="150px !important;"
+							sortBy="#{lancamento.valorLancto}"
+							filterBy="#{lancamento.valorLancto}" filterMatchMode="contains">
+							<h:outputLabel value="R$ "
+								styleClass="#{alerta.alertaSuspenso(lancamento.suspensoFiscal)}" />
+							<h:outputLabel id="oplValor1" value="#{lancamento.valorLancto}"
+								styleClass="#{alerta.alertaSuspenso(lancamento.suspensoFiscal)}">
+								<f:convertNumber currencySymbol="R$" for="oplValor1"
+									pattern="#,##0.00" locale="pt_BR" type="currency" />
+							</h:outputLabel>
+						</p:column>
+
+						<p:column headerText="Valor Liquido" width="150px !important;"
+							sortBy="#{lancamento.valor}" filterBy="#{lancamento.valor}"
+							filterMatchMode="contains">
+							<h:outputLabel value="R$ "
+								styleClass="#{alerta.alertaSuspenso(lancamento.suspensoFiscal)}" />
+							<h:outputLabel id="oplValor2" value="#{lancamento.valor}"
+								styleClass="#{alerta.alertaSuspenso(lancamento.suspensoFiscal)}">
+								<f:convertNumber currencySymbol="R$" for="oplValor2"
+									pattern="#,##0.00" locale="pt_BR" type="currency" />
+							</h:outputLabel>
+						</p:column>
+
+						<p:column headerText="Feito em:"
+							style="text-align: center !important;width: 120px !important;">
+							<p:outputLabel
+								value="#{not empty lancamento.feitoFiscalSIP ? lancamento.feitoFiscalSIP :lancamento.statusSIP == 1 ? lancamento.feitoPreLanctoSIP : lancamento.statusSIP == 2 ? lancamento.feitoFiscalSIP : lancamento.statusSIP == 3 ? lancamento.feitoLanctoSIP : lancamento.statusSIP == 4 ? lancamento.feitoGerenteSIP : ''}"
+								styleClass="#{alerta.alertaSuspenso(lancamento.suspensoFiscal)}">
+								<f:convertDateTime pattern="dd/MM/yyyy HH:mm" locale="pt_BR"
+									timeZone="America/Sao_Paulo" />
+							</p:outputLabel>
+						</p:column>
+
+						<p:column style="width:90px;">
+							<h:panelGrid columns="2" styleClass="tblAcoes"
+								style="text-align:center;">
+								<p:commandButton icon="fa fa-file-text-o Fs16 white"
+									styleClass="btnLittle"
+									actionListener="#{consultaReprovadosMB.abrirFollowUp(lancamento.codigo)}"
+									update=":frmFollowUp" title="Follow Up" />
+
+								<p:commandButton id="btnAlterar" icon="fa fa-pencil Fs16 white"
+									styleClass="btnLittle"
+									action="#{consultaReprovadosMB.abreAlteraPreLancamento(lancamento.codigo)}"
+									ajax="false" title="Alterar" />
+							</h:panelGrid>
+						</p:column>
+					</p:dataTable>
+				</h:form>
+			</div>
+		</div>
+		<p:dialog widgetVar="dlgFollowUp" resizable="false" modal="true"
+			header="Follow Up Lançamento" showEffect="slide" hideEffect="slide"
+			responsive="true" closeOnEscape="true" width="790">
+			<h:form id="frmFollowUp">
+				<p:dataTable var="item" emptyMessage="Não há registros."
+					rowKey="#{item.codigo}" value="#{consultaReprovadosMB.lstFollowUp}"
+					id="tblFollowUp" rows="10"
+					style="font-size:12px;text-align:center;"
+					rowsPerPageTemplate="5,10,15,20,25,30,50,100" paginator="true">
+
+					<p:column headerText="Código" rendered="false"
+						filterBy="#{item.codigo}">
+						<h:outputText value="#{item.codigo}" />
+					</p:column>
+
+					<p:column headerText="Nº Lançamento" filterBy="#{item.nrolancto}"
+						styleClass="col60">
+						<h:outputText value="#{item.nrolancto}" />
+					</p:column>
+
+					<p:column headerText="Ação" filterBy="#{item.acao}"
+						styleClass="col60">
+						<h:outputText value="#{item.acao}" styleClass="#{item.acao}" />
+					</p:column>
+
+					<p:column headerText="Feito Por"
+						style="width:auto;text-align:left;" filterBy="#{item.feitoPor}"
+						styleClass="col60">
+						<h:outputText value="#{item.feitoPor}"
+							style="word-wrap:break-word;" />
+					</p:column>
+
+					<p:column headerText="Obs"
+						style="width:auto;text-align:left;width:200px;"
+						filterBy="#{item.obs}">
+						<h:outputText value="#{item.obs}" style="word-wrap:break-word;" />
+					</p:column>
+
+					<p:column headerText="Data" sortBy="#{item.data}"
+						filterBy="#{item.data}" styleClass="col60">
+						<h:outputText value="#{item.data}">
+							<f:convertDateTime pattern="dd/MM/yyyy HH:mm" locale="pt"
+								timeZone="America/Sao_Paulo" />
+						</h:outputText>
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</p:dialog>
+		<script>
+			function subPag() {
+				$('#frmPreLancamentos').submit();
+			}
+		</script>
+		<p:ajaxStatus onstart="PF('statusDialog').show()"
+			onsuccess="PF('statusDialog').hide()" />
+		<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+			closable="false" resizable="false" showHeader="false">
+					Aguarde...<br />
+			<br />
+			<p:graphicImage library="imagens" name="loader.gif" />
+		</p:dialog>
+	</ui:define>
+</ui:composition>

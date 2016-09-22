@@ -1,0 +1,36 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<div class="layout-portlets-box">
+
+			<div class="DispInlBlock TexAlLeft">
+				<div class="Fleft">
+					<h2 class="black Fs24 FontRalewayMedium">Novos Grupos</h2>
+				</div>
+			</div>
+			<div class="Seperator"></div>
+
+			<div class="Container100 Responsive100">
+				<div class="ContainerIndent">
+					<div class="Container50 Responsive50">
+						<h:form id="frmGrupos">
+							<p:messages showDetail="true" autoUpdate="true" closable="true"
+								escape="true" showSummary="false" />
+							<p:tabView id="tbvGrupos">
+								<p:tab title="Departamento">
+									<ui:include src="grupos/grupoDepto.xhtml" />
+								</p:tab>
+								<p:tab title="Permissões">
+									<ui:include src="grupos/grupoPerm.xhtml" />
+								</p:tab>
+							</p:tabView>
+						</h:form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

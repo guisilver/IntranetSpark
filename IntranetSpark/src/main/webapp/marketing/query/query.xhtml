@@ -1,0 +1,55 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<div class="Container100 Responsive100">
+		<div class="ContainerIndent">
+
+			<h:form id="frmQ">
+
+				<p:panelGrid columns="2">
+					<p:outputLabel value="Condômino:" />
+						<p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="fa fa-download Fs16 white">
+							<p:fileDownload value="#{qMB.stream}" />
+						</p:commandButton>
+					<p:outputLabel value="Síndico:" />
+						<p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="fa fa-download Fs16 white">
+							<p:fileDownload value="#{qMB.stream2}" />
+						</p:commandButton>
+					<p:outputLabel value="Proprietário:" />
+						<p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="fa fa-download Fs16 white">	
+							<p:fileDownload value="#{qMB.stream3}" />
+						</p:commandButton>
+					<p:outputLabel value="Inquilino:" />
+						<p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="fa fa-download Fs16 white">
+							<p:fileDownload value="#{qMB.stream4}" />
+						</p:commandButton>
+					<p:outputLabel value="Zeladores (FolhaWeb):" />
+						<p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="fa fa-download Fs16 white">
+							<p:fileDownload value="#{qMB.stream5}" />
+						</p:commandButton>
+					<p:outputLabel value="Zeladores (CondoWeb):" />
+						<p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="fa fa-download Fs16 white">
+							<p:fileDownload value="#{qMB.stream6}" />
+						</p:commandButton>
+				</p:panelGrid>				
+						
+				<script type="text/javascript">
+					function start() {
+						PF('statusDialog').show();
+					}
+					function stop() {
+						PF('statusDialog').hide();
+						PF('relatorio').hide();
+					}
+				</script>
+				
+			</h:form>
+
+		</div>
+	</div>
+
+</ui:composition>

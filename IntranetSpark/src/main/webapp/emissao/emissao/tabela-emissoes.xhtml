@@ -1,0 +1,227 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<style>
+.msg {
+	color: #FFF;
+	font-size: 20px;
+}
+
+#frmFiltro table td {
+	border: 0px !important;
+}
+
+.ui-selectoneradio tbody tr td {
+	border: 0px !important;
+}
+
+.gridFiltro tbody tr td {
+	border: 0px !important;
+}
+</style>
+		<div class="layout-portlets-box"
+			style="padding-top: 0px !important; padding-bottom: 0px !important;">
+			<p:breadCrumb>
+				<p:menuitem value="Home" url="/dashboard.xhtml" />
+				<p:menuitem value="Emissões Canceladas"
+					url="/emissao/emissao/tabela-emissoes-canceladas" />
+			</p:breadCrumb>
+		</div>
+		<div class="layout-portlets-box">
+			<div class="DispInlBlock TexAlLeft">
+				<div class="Fleft">
+					<h2 class="black Fs24 FontRalewayMedium">Tabela Emissão</h2>
+				</div>
+			</div>
+			<div class="Seperator"></div>
+			<div class="Container100 Responsive100">
+				<div class="ContainerIndent">
+					<h:form id="frmTblDEmissao"
+						rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysSEM}">
+						<p:panelGrid columns="1" styleClass="gridFiltro" id="gridFiltro">
+							<f:facet name="header">
+								<h:outputText value="Filtros" />
+							</f:facet>
+							<h:panelGrid columns="2" border="0" styleClass="gridFiltro">
+								<p:outputLabel for="pesquisarPor" value="Pesquisar Por:" />
+								<p:selectOneRadio id="pesquisarPor" value="#{emMB.pesquisarPor}">
+									<p:ajax update="frmTblDEmissao:gridFiltro" />
+									<f:selectItem itemLabel="Todos" itemValue="Todos" />
+									<f:selectItem itemLabel="Pendentes" itemValue="Pendentes" />
+								</p:selectOneRadio>
+							</h:panelGrid>
+							<h:panelGrid columns="3" border="0" styleClass="gridFiltro">
+								<p:outputLabel value="Período:" />
+								<p:calendar value="#{emMB.dataInicial}" id="dataInicial"
+									pattern="dd/MM/yyyy" locale="pt" timeZone="America/Sao_Paulo"
+									styleClass="calendario" />
+								<p:calendar value="#{emMB.dataFinal}" id="dataFinal"
+									pattern="dd/MM/yyyy" locale="pt" timeZone="America/Sao_Paulo"
+									styleClass="calendario" />
+							</h:panelGrid>
+							<h:panelGrid width="100%" style="text-align:right">
+								<p:commandButton value="Filtrar"
+									action="#{emMB.pesquisarPorDataE()}"
+									update=":frmTblDEmissao:tblDEmissao"
+									onstart="PF('dlgStatus').show();"
+									oncomplete="PF('dlgStatus').hide();"
+									icon="fa fa-search Fs16 white" />
+							</h:panelGrid>
+						</p:panelGrid>
+						<br />
+						<br />
+						<p:dataTable id="tblDEmissao" var="emissao"
+							value="#{emMB.listaDEmissoes}" rows="50"
+							selection="#{emMB.listarEmissoesSelecionadas}"
+							rowKey="#{emissao.id}" paginator="true"
+							rowsPerPageTemplate="50,100,200,500"
+							style="font-size:12px; text-align:center;heigth:600px;"
+							emptyMessage="Nenhuma emissão para esse mês!">
+							<f:facet name="header"> Emissões</f:facet>
+							<p:column selectionMode="multiple"
+								style="width:16px;text-align:center;" />
+							<p:column headerText="Condomínio:" footerText="Condomínio:"
+								filterBy="#{emissao.codigo_condominio}">
+								<h:outputText
+									value="#{emissao.codigo_condominio} - #{emissao.nome_condominio}" />
+							</p:column>
+							<p:column headerText="Vencimento:" footerText="Vencimento:"
+								sortBy="#{emissao.vencimento}">
+								<h:outputText value="#{emissao.vencimento}">
+									<f:convertDateTime locale="pt" pattern="dd/MM/yyyy"
+										timeZone="America/Sao_Paulo" />
+								</h:outputText>
+							</p:column>
+							<p:column headerText="Nº Emissão" footerText="Nº Emissão">
+								<h:outputText value="#{emissao.nroEmissao}" />
+							</p:column>
+							<p:column headerText="Tipo:" footerText="Tipo:">
+								<h:outputText value="Avulso" rendered="#{emissao.tipo == 0}" />
+								<h:outputText value="Ordinário" rendered="#{emissao.tipo == 1}" />
+							</p:column>
+							<p:column headerText="Correio:" footerText="Correio:">
+								<h:outputText value="Sim" rendered="#{emissao.correio eq true}"
+									style="color:blue;" />
+								<h:outputText value="Não" rendered="#{emissao.correio eq false}"
+									style="color:red;" />
+							</p:column>
+							<p:column headerText="Liberação do Gerente:"
+								footerText="Liberação do Gerente:">
+								<h:outputText value="#{emissao.liberacao_gerente}">
+									<f:convertDateTime locale="pt" pattern="dd/MM/yyyy"
+										timeZone="America/Sao_Paulo" />
+								</h:outputText>
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+									<h:commandLink
+										actionListener="#{emMB.atualizarDataImpressao()}"
+										value="Data de Impressão:" style="color:#778D9B"
+										update="tblDEmissao" title="Responsável: Depto. Emissão" />
+								</f:facet>
+								<f:facet name="footer">
+									<h:commandLink
+										actionListener="#{emMB.atualizarDataImpressao()}"
+										value="Data de Impressão:" style="color:#778D9B"
+										update="tblDEmissao" title="Responsável: Depto. Emissão" />
+								</f:facet>
+								<h:outputText value="#{emissao.data_impressao}">
+									<f:convertDateTime locale="pt" pattern="dd/MM/yyyy"
+										timeZone="America/Sao_Paulo" />
+								</h:outputText>
+							</p:column>
+							<p:column headerText="Tipo de Impressão:"
+								footerText="Tipo de Impressão:">
+								<h:outputText value="Global" style="color:blue"
+									rendered="#{emissao.tipo_impressao == 'Global'}" />
+								<h:outputText value="OMA" style="color:red"
+									rendered="#{emissao.tipo_impressao == 'OMA'}" />
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+									<h:commandLink
+										actionListener="#{emMB.atualizarLiberacaoExpedicao()}"
+										value="Liberação para a Expedição:" style="color:#778D9B"
+										update="tblDEmissao" title="Responsável: Depto. Condomínio" />
+								</f:facet>
+								<f:facet name="footer">
+									<h:commandLink
+										actionListener="#{emMB.atualizarLiberacaoExpedicao()}"
+										value="Liberação para a Expedição:" style="color:#778D9B"
+										update="tblDEmissao" title="Responsável: Depto. Condomínio" />
+								</f:facet>
+								<h:outputText value="#{emissao.liberacao_expedicao}">
+									<f:convertDateTime locale="pt" pattern="dd/MM/yyyy"
+										timeZone="America/Sao_Paulo" />
+								</h:outputText>
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+									<h:commandLink
+										actionListener="#{emMB.atualizarLiberacaoPredio()}"
+										value="Liberação para o Prédio:" style="color:#778D9B"
+										update="tblDEmissao" title="Responsável: Depto. Expedição" />
+								</f:facet>
+								<f:facet name="footer">
+									<h:commandLink
+										actionListener="#{emMB.atualizarLiberacaoPredio()}"
+										value="Liberação para o Prédio:" style="color:#778D9B"
+										update="tblDEmissao" title="Responsável: Depto. Expedição" />
+								</f:facet>
+								<h:outputText value="#{emissao.envio_predio}">
+									<f:convertDateTime locale="pt" pattern="dd/MM/yyyy"
+										timeZone="America/Sao_Paulo" />
+								</h:outputText>
+							</p:column>
+							<p:column headerText="Tipo de Geração:"
+								footerText="Tipo de Geração:">
+								<h:outputText value="#{emissao.proximoMes}" />
+							</p:column>
+							<p:column headerText="Detalhes"
+								footerText="Qnt. Emissões: #{emMB.quantidadeEmissoes()}">
+								<p:commandButton id="btnAlterar" title="Alterar"
+									update=":frmAlterarEmissao" ajax="false"
+									icon="fa fa-pencil Fs16 white" styleClass="btnLittle"
+									actionListener="#{emMB.abreAlteraEmissao()}">
+									<f:setPropertyActionListener value="#{emissao}"
+										target="#{emMB.emcSelecionado}" />
+								</p:commandButton>
+								<p:commandButton
+									actionListener="#{emMB.listarEmissaoPorCondominio(emissao.id)}"
+									oncomplete="PF('dlgConsultar').show();"
+									icon="fa fa-search Fs16 white" styleClass="btnLittle"
+									update=":frmConsRateio:tblConsultar"
+									style="margin-left:5px !important" />
+							</p:column>
+						</p:dataTable>
+						<p:dialog widgetVar="dlgStatus" id="dlgStatus" header="Status"
+							style="font-size:13px;" resizable="false" modal="true"
+							closable="false">	
+							Esta pesquisa pode levar alguns segundos.<br />
+							Carregando...<br />
+							<br />
+							<p:graphicImage library="imagens" name="loader.gif" />
+							<br />
+						</p:dialog>
+
+						<script type="text/javascript">
+							function start() {
+								PF('statusDialog').show();
+							}
+							function stop() {
+								PF('statusDialog').hide();
+								PF('relatorio').hide();
+							}
+						</script>
+					</h:form>
+				</div>
+			</div>
+		</div>
+		<ui:include src="/emissao/gerencia/dialog-consultar-rateio.xhtml" />
+	</ui:define>
+</ui:composition>

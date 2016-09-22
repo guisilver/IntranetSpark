@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.2.0.final using JasperReports Library version 6.2.0  -->
+<!-- 2016-08-17T16:41:33 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7f7afa22-5dd7-463f-9c88-712134434d7c">
+	<property name="ireport.zoom" value="1.4641000000000057"/>
+	<property name="ireport.x" value="348"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="condominio_num" class="java.lang.Short"/>
+	<parameter name="bloco_num" class="java.lang.String"/>
+	<parameter name="textfield" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select u.condominio, p.nome AS nomecondo, u.bloco, u.unidade, c.nome AS nomeunidade, t.tel_email,cnpj_cpf as cpf, nro_identidade as rg from cndunida u inner join ilclient c
+on u.cod_cliente = c.codigo left join iltelcli t
+on c.codigo = t.cliente inner join cndcondo p
+on u.condominio = p.codigo
+where u.condominio = $P{condominio_num} and u.bloco = $P{bloco_num}
+order by u.condominio,u.bloco,u.unidade]]>
+	</queryString>
+	<field name="condominio" class="java.lang.Short"/>
+	<field name="nomecondo" class="java.lang.String"/>
+	<field name="bloco" class="java.lang.String"/>
+	<field name="unidade" class="java.lang.String"/>
+	<field name="nomeunidade" class="java.lang.String"/>
+	<field name="tel_email" class="java.lang.String"/>
+	<field name="cpf" class="java.lang.String"/>
+	<field name="rg" class="java.lang.String"/>
+	<variable name="Data" class="java.lang.String"/>
+	<group name="UnidadeNome" keepTogether="true">
+		<groupExpression><![CDATA[$F{unidade}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="75" splitType="Stretch">
+			<frame>
+				<reportElement x="0" y="0" width="802" height="75" uuid="0a0773d8-1946-4f0e-a666-25507715d7a2"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<staticText>
+					<reportElement x="318" y="0" width="212" height="25" uuid="31fd3e7b-4085-4ce1-b545-ccda29b77e44"/>
+					<textElement>
+						<font size="18" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Lista de Contatos]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="7" y="55" width="65" height="20" uuid="2286cc92-ad1c-43da-a60d-3332bee46b31"/>
+					<text><![CDATA[Condomínio:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="72" y="55" width="27" height="20" uuid="85529bd8-9627-4171-8daf-53044bb61ad7"/>
+					<textFieldExpression><![CDATA[$P{condominio_num}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="714" y="55" width="43" height="20" uuid="240c94b1-2082-4007-8bfd-fd0aec9cccbc"/>
+					<text><![CDATA[Página:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="774" y="55" width="28" height="20" uuid="99f0611d-8407-4a99-80b6-174af84e8a71"/>
+					<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="101" y="55" width="479" height="20" uuid="1d890fef-7aa9-4d88-b93a-f601b5555746"/>
+					<textFieldExpression><![CDATA[$F{nomecondo}]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEE, d MMM yyyy HH:mm:ss Z">
+					<reportElement x="580" y="55" width="134" height="20" uuid="0783cf27-0108-44bf-b6c8-406b24d95a46"/>
+					<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("dd 'de' MMMM 'de' yyyy", new Locale("pt","BR")).format(new Date())]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="7" y="25" width="795" height="30" uuid="35d9c333-a596-484d-9477-318e2ca8488c"/>
+					<textElement>
+						<font fontName="SansSerif"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{textfield}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="24" splitType="Stretch">
+			<frame>
+				<reportElement x="0" y="0" width="802" height="24" uuid="75efa9eb-901f-4aec-acc2-fa2ce52adea3"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<staticText>
+					<reportElement x="390" y="4" width="54" height="20" uuid="63675737-79c0-448e-b45a-009d6d2c96fd"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Contatos]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="350" y="4" width="40" height="20" uuid="5ce86f7d-c365-4806-9178-bb8ae4b52f7c"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Excluir]]></text>
+				</staticText>
+			</frame>
+			<staticText>
+				<reportElement x="28" y="4" width="52" height="20" uuid="1fb1611f-94c4-41dc-adf4-c0cbc9deeb02"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Unidade]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="551" y="4" width="245" height="20" uuid="65048d87-b48f-49c9-b75b-197aba5f95f1"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dados para atualizar (se necessário)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="80" y="4" width="48" height="20" uuid="30ba9ee0-5fc7-43c0-8403-88bf98f9ccf3"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nome]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="7" y="4" width="14" height="20" uuid="9d6c387a-95e6-4e21-89c6-9beb9160791e"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Bl]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="43" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<line>
+				<reportElement x="551" y="36" width="245" height="1" uuid="af445376-460b-4aea-9cba-2fef9bb8ca37"/>
+			</line>
+			<rectangle>
+				<reportElement x="365" y="29" width="8" height="8" uuid="98c674dc-38e8-4d98-9a19-af6b324ad929"/>
+			</rectangle>
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="80" y="7" width="238" height="15" uuid="131319e7-9af2-42b3-8331-1bb692805d9b"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nomeunidade}]]></textFieldExpression>
+			</textField>
+			<elementGroup>
+				<textField>
+					<reportElement isPrintRepeatedValues="false" x="7" y="6" width="14" height="16" printWhenGroupChanges="UnidadeNome" uuid="748e5df4-cf20-472f-8487-de0994e52d59"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{bloco_num}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement isPrintRepeatedValues="false" x="28" y="7" width="42" height="15" uuid="c2901365-9a3a-4704-8847-b6084363f809"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{unidade}]]></textFieldExpression>
+				</textField>
+			</elementGroup>
+			<line>
+				<reportElement isPrintRepeatedValues="false" x="0" y="-1" width="798" height="1" printWhenGroupChanges="UnidadeNome" uuid="65596fd2-b14f-4826-9231-6477085dfdfa"/>
+				<graphicElement>
+					<pen lineStyle="Dotted" lineColor="#666666"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="390" y="25" width="161" height="15" uuid="4df956fc-f8c4-4c93-b77e-8b372fce9ccb"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tel_email} == null ? "NENHUM" :  $F{tel_email}.trim().isEmpty() ? "NENHUM" : $F{tel_email}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="80" y="27" width="138" height="13" printWhenGroupChanges="UnidadeNome" uuid="bffe2c53-78b6-4a3b-9770-8caa4f7b469b"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cpf}.trim().equals("0") ? "CPF:" : "CPF: "+$F{cpf}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="235" y="27" width="108" height="13" printWhenGroupChanges="UnidadeNome" uuid="236feab6-3772-4b1c-9a9e-808cdd5a3491"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{rg} == null ? "RG:" : $F{rg}.trim().isEmpty() ? "RG:" : "RG: " + $F{rg}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

@@ -1,0 +1,204 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<div class="layout-portlets-box">
+			<div class="Container100 TexAlCenter">
+				<div class="DispInlBlock TexAlLeft MarTop20">
+					<i class="fa fa-calendar Fs40 blue Fleft MarRight10"></i>
+					<div class="Fleft">
+						<h2 class="black Fs24 FontRalewayMedium">Detalhes da Reserva</h2>
+					</div>
+				</div>
+			</div>
+			<div class="Container100 TexALeft">
+				<div class="Seperator"></div>
+				<div class="Container100">
+					<p:messages />
+					<f:metadata>
+						<f:event
+							listener="#{reservaEquipamentosMB.pesquisaReservaSelecionada()}"
+							type="preRenderView" />
+					</f:metadata>
+					<h:form id="frmNovaReserva"
+						rendered="#{reservaEquipamentosMB.reserva.codigo > 0}">
+						<div style="margin-left: auto; margin-right: auto; width: 260px;">
+							<h:panelGrid columns="2">
+								<p:outputLabel value="Gerente: " />
+								<p:outputLabel
+									value="#{reservaEquipamentosMB.reserva.nome_gerente}" />
+								<p:outputLabel value="CND: " />
+								<p:column>
+									<p:outputLabel
+										value="#{reservaEquipamentosMB.reserva.cod_condominio} -"
+										style="margin-right:5px;" />
+									<p:outputLabel
+										value="#{reservaEquipamentosMB.reserva.nome_condominio}" />
+								</p:column>
+								<p:outputLabel value="Tipo: " />
+								<p:outputLabel value="#{reservaEquipamentosMB.reserva.tipo}" />
+								<p:outputLabel value="Data: " />
+								<p:column>
+									<p:outputLabel value="#{reservaEquipamentosMB.reserva.data}"
+										style="color:red;margin-right:5px;">
+										<f:convertDateTime timeZone="America/Sao_Paulo" locale="pt"
+											pattern="dd/MM/yyyy" />
+									</p:outputLabel>
+									<p:outputLabel value="#{reservaEquipamentosMB.reserva.horario}"
+										style="color:red;">
+										<f:convertDateTime timeZone="America/Sao_Paulo" locale="pt"
+											pattern="HH:mm" />
+									</p:outputLabel>
+								</p:column>
+								<p:outputLabel value="Status: " />
+								<p:outputLabel
+									value="#{reservaEquipamentosMB.verificaStatus(reservaEquipamentosMB.reserva.status)}"
+									style="color: #{reservaEquipamentosMB.reserva.status eq 'E' ? 'red' : 'null'};
+								color: #{reservaEquipamentosMB.reserva.status eq 'D' ? 'green' : 'null'}" />
+							</h:panelGrid>
+							<br />
+							<p:outputLabel value="Todos: " />
+							<p:selectBooleanCheckbox id="todos"
+								value="#{reservaEquipamentosMB.todosEquipamentos}"
+								disabled="#{reservaEquipamentosMB.reserva.status == 'D'}">
+								<p:ajax event="change"
+									listener="#{reservaEquipamentosMB.selecionaTodosEquipamentos()}"
+									update=":frmNovaReserva:gridEquipamentos" />
+							</p:selectBooleanCheckbox>
+							<p:panelGrid columns="2" style="margin-top:10px;"
+								id="gridEquipamentos">
+								<p:outputLabel value="Adaptador: " />
+								<p:selectBooleanCheckbox
+									value="#{reservaEquipamentosMB.reserva.adaptador}"
+									disabled="#{reservaEquipamentosMB.reserva.status == 'D'}">
+									<p:ajax event="change"
+										listener="#{reservaEquipamentosMB.verificaTodosSelecionados()}"
+										update=":frmNovaReserva:todos" />
+								</p:selectBooleanCheckbox>
+
+								<p:outputLabel value="Apresentador: " />
+								<p:selectBooleanCheckbox
+									value="#{reservaEquipamentosMB.reserva.apresentador}"
+									disabled="#{reservaEquipamentosMB.reserva.status == 'D'}">
+									<p:ajax event="change"
+										listener="#{reservaEquipamentosMB.verificaTodosSelecionados()}"
+										update=":frmNovaReserva:todos" />
+								</p:selectBooleanCheckbox>
+
+								<p:outputLabel value="Extensão de Energia: " />
+								<p:selectBooleanCheckbox
+									value="#{reservaEquipamentosMB.reserva.energia}"
+									disabled="#{reservaEquipamentosMB.reserva.status == 'D'}">
+									<p:ajax event="change"
+										listener="#{reservaEquipamentosMB.verificaTodosSelecionados()}"
+										update=":frmNovaReserva:todos" />
+								</p:selectBooleanCheckbox>
+
+								<p:outputLabel value="Extensão de VGA: " />
+								<p:selectBooleanCheckbox
+									value="#{reservaEquipamentosMB.reserva.vga}"
+									disabled="#{reservaEquipamentosMB.reserva.status == 'D'}">
+									<p:ajax event="change"
+										listener="#{reservaEquipamentosMB.verificaTodosSelecionados()}"
+										update=":frmNovaReserva:todos" />
+								</p:selectBooleanCheckbox>
+
+								<p:outputLabel value="Mala: " />
+								<p:selectBooleanCheckbox
+									value="#{reservaEquipamentosMB.reserva.mala}"
+									disabled="#{reservaEquipamentosMB.reserva.status == 'D'}">
+									<p:ajax event="change"
+										listener="#{reservaEquipamentosMB.verificaTodosSelecionados()}"
+										update=":frmNovaReserva:todos" />
+								</p:selectBooleanCheckbox>
+
+								<p:outputLabel value="Notebook: " />
+								<p:selectBooleanCheckbox
+									value="#{reservaEquipamentosMB.reserva.notebook}"
+									disabled="#{reservaEquipamentosMB.reserva.status == 'D'}">
+									<p:ajax event="change"
+										listener="#{reservaEquipamentosMB.verificaTodosSelecionados()}"
+										update=":frmNovaReserva:todos" />
+								</p:selectBooleanCheckbox>
+
+								<p:outputLabel value="Pen Drive: " />
+								<p:selectBooleanCheckbox
+									value="#{reservaEquipamentosMB.reserva.pendrive}"
+									disabled="#{reservaEquipamentosMB.reserva.status == 'D'}">
+									<p:ajax event="change"
+										listener="#{reservaEquipamentosMB.verificaTodosSelecionados()}"
+										update=":frmNovaReserva:todos" />
+								</p:selectBooleanCheckbox>
+
+								<p:outputLabel value="Projetor: " />
+								<p:selectBooleanCheckbox
+									value="#{reservaEquipamentosMB.reserva.projetor}"
+									disabled="#{reservaEquipamentosMB.reserva.status == 'D'}">
+									<p:ajax event="change"
+										listener="#{reservaEquipamentosMB.verificaTodosSelecionados()}"
+										update=":frmNovaReserva:todos" />
+								</p:selectBooleanCheckbox>
+
+								<p:outputLabel value="Tela: " />
+								<p:selectBooleanCheckbox
+									value="#{reservaEquipamentosMB.reserva.tela}"
+									disabled="#{reservaEquipamentosMB.reserva.status == 'D'}">
+									<p:ajax event="change"
+										listener="#{reservaEquipamentosMB.verificaTodosSelecionados()}"
+										update=":frmNovaReserva:todos" />
+								</p:selectBooleanCheckbox>
+							</p:panelGrid>
+
+							<h:panelGrid columns="2" style="margin-top: 20px;">
+								<p:outputLabel value="Emprestado"
+									rendered="#{reservaEquipamentosMB.reserva.status == 'P'}" />
+								<p:selectBooleanCheckbox
+									value="#{reservaEquipamentosMB.emprestado}"
+									rendered="#{reservaEquipamentosMB.reserva.status == 'P'}" />
+								<p:outputLabel value="Devolvido"
+									rendered="#{reservaEquipamentosMB.reserva.status == 'E'}" />
+								<p:selectBooleanCheckbox
+									value="#{reservaEquipamentosMB.devolvido}"
+									rendered="#{reservaEquipamentosMB.reserva.status == 'E'}" />
+							</h:panelGrid>
+						</div>
+						<h:panelGrid id="gridBtn"
+							style="margin-top:20px;margin-left:auto;margin-right:auto;"
+							columns="3">
+							<p:commandButton value="Voltar" process="@this"
+								action="/reserva-de-equipamentos?faces-redirect=true;"
+								icon="fa fa-arrow-left Fs16 white" style="float:left;" />
+
+							<p:commandButton value="Excluir"
+								actionListener="#{reservaEquipamentosMB.excluiReservaTi()}"
+								icon="fa fa-trash Fs16 white"
+								rendered="#{reservaEquipamentosMB.reserva.status != 'D'}"
+								style="float:left;margin-left:20px;">
+								<p:confirm header="Confirmação"
+									message="Você confirma a exclusão?" icon="ui-icon-alert" />
+							</p:commandButton>
+
+							<p:commandButton value="Salvar"
+								rendered="#{reservaEquipamentosMB.reserva.status != 'D'}"
+								actionListener="#{reservaEquipamentosMB.salvarStatus()}"
+								icon="fa fa-check Fs16 white" ajax="false"
+								style="float:right;margin-left:20px;float:right;" />
+						</h:panelGrid>
+					</h:form>
+
+					<p:confirmDialog global="true" widgetVar="dlgExclui"
+						showEffect="fade" hideEffect="fade">
+						<p:commandButton value="Não" type="button"
+							styleClass="ui-confirmdialog-no"
+							icon="ui-icon-close fa fa-close Fs14 white" />
+						<p:commandButton value="Sim" type="button" ajax="false"
+							styleClass="ui-confirmdialog-yes"
+							icon="ui-icon-check fa fa-check Fs14 white" />
+					</p:confirmDialog>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

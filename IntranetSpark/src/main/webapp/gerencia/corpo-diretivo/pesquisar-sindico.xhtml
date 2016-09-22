@@ -1,0 +1,35 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<h:form id="frmPesqSindico">
+
+		<p:dialog id="plgPesqSindico" widgetVar="pesquisarSindico" modal="true" resizable="false">
+			<f:facet name="header">
+				Pesquisa Sindico Profissional
+			</f:facet>
+			<h:panelGrid columns="3">
+				<p:outputLabel value="Nome:"/>
+				<p:inputText value="#{cdMB.nomeSindico}" style="width: 250px !important;"/>
+				<p:commandButton action="#{cdMB.pesquisarSindicoProfissional}" update=":frmPesqSindico:dttSindicoProf" icon="fa fa-search Fs16 white"/>
+			</h:panelGrid>
+			<hr/>
+			<p:dataTable id="dttSindicoProf" var="p" value="#{cdMB.listaDeSindicoProfissional}" rows="5" rowKey="#{p.codigo}" paginator="true" 
+			selection="#{cdMB.clienteBEAN}" selectionMode="single" style="width: 500px !important;" emptyMessage="Nenhum registro encontrado!!!">
+			
+				<p:ajax event="rowSelect" listener="#{cdMB.updatePesquisaSindico}" update=":frmCD:plgTorUni3" oncomplete="PF('pesquisarSindico').hide();"/>
+				<p:column  headerText="Codigo:">
+					#{p.codigo}
+				</p:column>
+				<p:column headerText="Nome:">
+					#{p.nome}
+				</p:column>
+			</p:dataTable>
+		</p:dialog>
+
+	</h:form>
+
+</ui:composition>

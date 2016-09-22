@@ -1,0 +1,203 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<h:form id="frmProjecao">
+		<center>
+			<p:outputLabel value="Projetar Previsão Orçamentaria"/>
+		</center>
+<p:messages id="msg" showDetail="true" autoUpdate="false" closable="true" escape="true" showSummary="false"/>
+<hr/>		
+	<h:panelGrid columns="5" cellpadding="5">
+    
+     <p:outputLabel value="Gerente:" />
+     <p:selectOneMenu id="somGerentes" value="#{projetarMB.gerenteMB.codigo}" filter="true" filterMatchMode="contains">
+     	<f:selectItems value="#{projetarMB.listaDeGerentes}" var="item" itemLabel="#{item.nome}" itemValue="#{item.codigo}"/>
+     	<p:ajax  update="console"/>
+     </p:selectOneMenu>       
+	
+        <p:outputLabel for="console" value="Condomínio:" />
+        <p:selectOneMenu id="console" value="#{projetarMB.icBEAN.codigo}" style="width:90px;" filter="true" filterMatchMode="contains" > 
+        	<f:selectItem itemLabel="Selecione" itemValue="0"/>
+            <f:selectItems value="#{projetarMB.listaDeCondominio}" var="item" itemLabel="#{item.codigo}" itemValue="#{item.codigo}"/>
+            <p:ajax listener="#{projetarMB.retornaNomeCondominio()}" update=":frmProjecao:oplNomeCondo"/>
+            <p:ajax listener="#{projetarMB.carregarProjecao()}" update=":frmProjecao:acpPresisao:plgPrevisao0 :frmProjecao:acpPresisao:plgPrevisao1
+           		:frmProjecao:acpPresisao:plgPrevisao2
+           		:frmProjecao:acpPresisao:plgPrevisao3
+           		:frmProjecao:acpPresisao:plgPrevisao4
+           		:frmProjecao:acpPresisao:plgPrevisao5
+           		:frmProjecao:acpPresisao:plgPrevisao6
+           		:frmProjecao:acpPresisao:plgPrevisao7
+           		:frmProjecao:acpPresisao:plgPrevisao8"/>
+        </p:selectOneMenu>
+        	
+     <p:outputLabel id="oplNomeCondo" value="#{projetarMB.nomeCondo}"/>
+     </h:panelGrid>
+
+		<h:panelGrid id="plgMedia" columns="8">
+        <p:outputLabel value="Projetar apartir do mês: "/>
+		<p:calendar id="somMesProjecao" value="#{projetarMB.ipoBEAN.mesProjecao}"
+					showButtonPanel="true" pattern="MM/yyyy" locale="pt"
+					timeZone="America/Sao_Paulo"
+					converterMessage="O formato da data não confere, siga exemplo 01/01/1900!"
+					size="12" effect="slide" style="width:90px;font-size: 12px;"
+					navigator="true" yearRange="c-1:c+5" />
+	</h:panelGrid>
+	<h:panelGrid columns="4" id="plgReferencia" >
+			<p:outputLabel value="Usar média do (s) Último (s):"/>
+			  <h:selectOneRadio value="#{projetarMB.media}" disabled="#{projetarMB.reutilizarPrevisao eq true ? true : false}">
+            	<f:selectItem itemLabel="1 Mês" itemValue="1"/>
+            	<f:selectItem itemLabel="3 Meses" itemValue="3"/>
+            	<f:selectItem itemLabel="6 Meses" itemValue="6"/>
+            	<f:selectItem itemLabel="12 Meses" itemValue="12"/>
+           		<p:ajax listener="#{projetarMB.carregarProjecao()}" update=":frmProjecao:acpPresisao:plgPrevisao0 
+           		:frmProjecao:acpPresisao:plgPrevisao1
+           		:frmProjecao:acpPresisao:plgPrevisao2
+           		:frmProjecao:acpPresisao:plgPrevisao3
+           		:frmProjecao:acpPresisao:plgPrevisao4
+           		:frmProjecao:acpPresisao:plgPrevisao5
+           		:frmProjecao:acpPresisao:plgPrevisao6
+           		:frmProjecao:acpPresisao:plgPrevisao7
+           		:frmProjecao:acpPresisao:plgPrevisao8"/>
+        </h:selectOneRadio>
+        
+        <h:selectBooleanCheckbox value="#{projetarMB.adicionarItem}">
+			<p:ajax listener="#{projetarMB.adicionarItens}" update=":frmProjecao:acpPresisao:plgPrevisao0 :frmProjecao:acpPresisao:plgPrevisao1
+           		:frmProjecao:acpPresisao:plgPrevisao2
+           		:frmProjecao:acpPresisao:plgPrevisao3
+           		:frmProjecao:acpPresisao:plgPrevisao4
+           		:frmProjecao:acpPresisao:plgPrevisao5
+           		:frmProjecao:acpPresisao:plgPrevisao6
+           		:frmProjecao:acpPresisao:plgPrevisao7
+           		:frmProjecao:acpPresisao:plgPrevisao8"/>
+		</h:selectBooleanCheckbox>
+		<p:outputLabel value="Adicionar Novos Itens"/>
+		</h:panelGrid>
+
+			<p:accordionPanel id="acpPresisao">
+				
+				<p:tab title="#{projetarMB.ipoBEAN.capa0}">
+					<p:scrollPanel id="sclpPrevisao0" style="width: 700px; height: 250px; border: 0px;" mode="native">
+
+					<h:panelGrid columns="8">
+
+						<p:outputLabel id="olMesIndiceFunc" value="Mês / Reajuste"
+							style="margin-left: 20px;" />
+						<p:selectOneMenu id="somMesReajusteFunc"
+							value="#{projetarMB.ipoBEAN.mesReajFunc}">
+							<f:selectItem itemLabel="Selecione" />
+							<f:selectItem itemLabel="Jan" itemValue="1" />
+							<f:selectItem itemLabel="Fev" itemValue="2" />
+							<f:selectItem itemLabel="Mar" itemValue="3" />
+							<f:selectItem itemLabel="Abr" itemValue="4" />
+							<f:selectItem itemLabel="Mai" itemValue="5" />
+							<f:selectItem itemLabel="Jun" itemValue="6" />
+							<f:selectItem itemLabel="Jul" itemValue="7" />
+							<f:selectItem itemLabel="Ago" itemValue="8" />
+							<f:selectItem itemLabel="Set" itemValue="9" />
+							<f:selectItem itemLabel="Out" itemValue="10" />
+							<f:selectItem itemLabel="Nov" itemValue="11" />
+							<f:selectItem itemLabel="Dez" itemValue="12" />
+							<p:ajax update="itIndiceFunc" />
+						</p:selectOneMenu>
+
+						<p:outputLabel id="olIndiceFunc" value="Indice" />
+						<pe:inputNumber id="itIndiceFunc" symbolPosition="s" symbol="%" emptyValue="zero"
+							value="#{projetarMB.ipoBEAN.indiceReajFunc}" decimalPlaces="1" style="width: 30px !important;"
+							disabled="#{projetarMB.ipoBEAN.mesReajFunc eq null ? true : (projetarMB.ipoBEAN.mesReajFunc eq '' ? true : false)}" />
+					</h:panelGrid>
+<hr/>
+					<ui:include src="/gerencia/previsao-orcamentaria/capas/capaFuncionarios.xhtml"/>
+					</p:scrollPanel>
+				</p:tab>
+
+				<p:tab title="#{projetarMB.ipoBEAN.capa1}">
+					<p:scrollPanel id="sclpPrevisao1" style="width: 700px; height:250px; border: 0px;" mode="native">
+						<ui:include src="/gerencia/previsao-orcamentaria/capas/capaFuncionariosOutros.xhtml"/>
+					</p:scrollPanel>
+				</p:tab>
+
+				<p:tab title="#{projetarMB.ipoBEAN.capa2}">
+					<h:panelGrid columns="8">
+
+						<p:outputLabel id="olMesIndiceTerc" value="Mês / Reajuste"
+							style="margin-left: 20px;" />
+						<p:selectOneMenu id="somMesReajusteTerc"
+							value="#{projetarMB.ipoBEAN.mesReajTerc}">
+							<f:selectItem itemLabel="Selecione" />
+							<f:selectItem itemLabel="Jan" itemValue="1" />
+							<f:selectItem itemLabel="Fev" itemValue="2" />
+							<f:selectItem itemLabel="Mar" itemValue="3" />
+							<f:selectItem itemLabel="Abr" itemValue="4" />
+							<f:selectItem itemLabel="Mai" itemValue="5" />
+							<f:selectItem itemLabel="Jun" itemValue="6" />
+							<f:selectItem itemLabel="Jul" itemValue="7" />
+							<f:selectItem itemLabel="Ago" itemValue="8" />
+							<f:selectItem itemLabel="Set" itemValue="9" />
+							<f:selectItem itemLabel="Out" itemValue="10" />
+							<f:selectItem itemLabel="Nov" itemValue="11" />
+							<f:selectItem itemLabel="Dez" itemValue="12" />
+							<p:ajax update="itIndiceTerc" />
+						</p:selectOneMenu>
+
+						<p:outputLabel id="olIndiceTerc" value="Indice" />
+						<pe:inputNumber id="itIndiceTerc" symbolPosition="s" symbol="%" emptyValue="zero"
+							value="#{projetarMB.ipoBEAN.indiceReajTerc}" decimalPlaces="1" style="width: 30px !important;"
+							disabled="#{projetarMB.ipoBEAN.mesReajTerc eq null ? true : (projetarMB.ipoBEAN.mesReajTerc eq '' ? true : false)}" />
+				</h:panelGrid>
+					<p:scrollPanel id="sclpPrevisao2" style="width:600px; height:280px; border: 0px;">
+
+					<hr />
+					<ui:include src="/gerencia/previsao-orcamentaria/capas/capaTerceirizacao.xhtml"/>
+					</p:scrollPanel>
+				</p:tab>
+				
+				<p:tab title="#{projetarMB.ipoBEAN.capa3}">
+					<p:scrollPanel id="sclpPrevisao3" style="width:900px; height:250px; border: 0px;" mode="native">
+						<ui:include src="/gerencia/previsao-orcamentaria/capas/capaManutencao.xhtml"/>
+					</p:scrollPanel>
+				</p:tab>
+				
+				<p:tab title="#{projetarMB.ipoBEAN.capa4}">
+					<p:scrollPanel id="sclpPrevisao4" style="width:600px;height:90px; border: 0px;">
+						<ui:include src="/gerencia/previsao-orcamentaria/capas/capaConservacaoPredial.xhtml"/>
+					</p:scrollPanel>
+				</p:tab>
+				
+				<p:tab title="#{projetarMB.ipoBEAN.capa5}">
+					<p:scrollPanel id="sclpPrevisao5" style="width:750px;height:250px; border: 0px;">
+						<ui:include src="/gerencia/previsao-orcamentaria/capas/capaMaterialConsumo.xhtml"/>
+					</p:scrollPanel>
+				</p:tab>
+				
+				<p:tab title="#{projetarMB.ipoBEAN.capa6}">
+					<p:scrollPanel id="sclpPrevisao6" style="width:700px;height:250px; border: 0px;" mode="native">
+						<ui:include src="/gerencia/previsao-orcamentaria/capas/capaConsumo.xhtml"/>
+					</p:scrollPanel>
+				</p:tab>
+				
+				<p:tab title="#{projetarMB.ipoBEAN.capa7}">
+					<p:scrollPanel id="sclpPrevisao7" style="width:900px;height:280px; border: 0px;" mode="native">
+						<ui:include src="/gerencia/previsao-orcamentaria/capas/capaAdministrativo.xhtml"/>
+					</p:scrollPanel>
+				</p:tab>
+				
+				<p:tab title="#{projetarMB.ipoBEAN.capa8}">
+					<p:scrollPanel id="sclpPrevisao8" style="width:700px;height:250px; border: 0px;" mode="native">
+						<ui:include src="/gerencia/previsao-orcamentaria/capas/capaDespesasOperacionais.xhtml"/>
+					</p:scrollPanel>
+				</p:tab>
+				
+			</p:accordionPanel>
+			<br/>
+			<h:panelGrid columns="2">
+				<p:outputLabel value="OBS. Adicionar Inadiplência:" style="color: red;"/>
+				<h:selectBooleanCheckbox value="#{projetarMB.ipoBEAN.inadimplencia}"/>
+			</h:panelGrid>
+			<p:commandButton value="Gerar" action="#{projetarMB.salvarPrevisao()}" update="msg" style="float: right;margin-right: 25px;" icon="fa fa-save Fs16 white"/>
+		
+	</h:form>
+</ui:composition>

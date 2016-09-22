@@ -1,0 +1,102 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:silver="http://silver.com/facelets"
+	template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<style>
+.msg {
+	color: #FFF;
+	font-size: 20px;
+}
+
+#frmFiltro table td {
+	border: 0px !important;
+}
+
+.ui-selectoneradio tbody tr td {
+	border: 0px !important;
+}
+
+.gridFiltro tbody tr td {
+	border: 0px !important;
+}
+</style>
+		<div class="layout-portlets-box"
+			style="padding-top: 0px !important; padding-bottom: 0px !important;">
+			<p:breadCrumb>
+				<p:menuitem value="Home" url="/dashboard.xhtml" />
+				<p:menuitem value="Tabela de Procurações" url="/procuracao-juridico" />
+				<p:menuitem value="Cotas em Aberto"
+					url="/juridico/procuracoes/cotas-em-aberto" />
+			</p:breadCrumb>
+		</div>
+		<div class="layout-portlets-box">
+			<div class="Fleft">
+				<h2 class="black Fs24 FontRalewayMedium">Unidade</h2>
+			</div>
+			<div class="Seperator"></div>
+			<div class="Wid100" style="margin-top: 20px; margin-bottom: 20px;">
+				<h:form id="frmUnid"
+					rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysCobranca}">
+					<p:panelGrid styleClass="gridFiltro">
+						<h:panelGrid columns="3" cellpadding="5" id="somCondominio">
+							<p:outputLabel value="Condomínio:" for="condominio" />
+							<p:selectOneMenu id="condominio" value="#{prjMB.condominio}"
+								style="width:300px;" filter="true" filterMatchMode="contains">
+								<f:selectItem itemLabel="Selecione" itemValue="0" />
+								<f:selectItems value="#{SessaoMB.listaCondominios}" var="item"
+									itemLabel="#{item.cndCodNome}" itemValue="#{item.codigo}" />
+								<p:ajax
+									update="frmUnid:somBloco, frmUnid:somUnidade, :tbvEP:frmExtrato"
+									listener="#{prjMB.limpar()}" />
+								<p:ajax
+									update="frmUnid:somBloco, frmUnid:somUnidade,:tbvEP:frmExtrato"
+									listener="#{prjMB.retornaNomeCondominio}" />
+							</p:selectOneMenu>
+						</h:panelGrid>
+						<h:panelGrid columns="2" cellpadding="5" id="gridTorre">
+							<p:outputLabel value="Torre:" />
+							<p:selectOneMenu id="somBloco" value="#{prjMB.bloco}"
+								style="width:100px; text-align:center !important; margin-left:50px;">
+								<f:selectItem itemLabel="Bloco" itemValue="" />
+								<f:selectItems value="#{prjMB.listaDeBloco}" var="items"
+									itemValue="#{items.bloco}" itemLabel="#{items.bloco}" />
+								<p:ajax update="frmUnid:somUnidade, :tbvEP:frmExtrato" />
+							</p:selectOneMenu>
+						</h:panelGrid>
+						<h:panelGrid columns="3" cellpadding="5" id="gridUnidade">
+							<p:outputLabel value="Unidade:" />
+							<p:selectOneMenu id="somUnidade" value="#{prjMB.unidade}"
+								filter="true" filterMatchMode="contains"
+								style="width:100px; margin-left:25px;">
+								<f:selectItem itemLabel="Unidade" />
+								<f:selectItems value="#{prjMB.listaDeUnidade}" var="items"
+									itemValue="#{items.unidade}" itemLabel="#{items.unidade}" />
+								<p:ajax
+									update="frmUnid:ipNomeCliente, :tbvEP:frmExtrato, :tbvEP:frmExtrato:dtExtrato, :tbvEP:frmProntuarioJ"
+									listener="#{prjMB.nomeCliente}" />
+								<p:ajax
+									update="frmUnid:ipNomeCliente, :tbvEP:frmExtrato, :tbvEP:frmExtrato:dtExtrato, :tbvEP:frmProntuarioJ"
+									listener="#{prjMB.listarProntuario()}" />
+							</p:selectOneMenu>
+							<p:outputLabel id="ipNomeCliente" value="#{prjMB.clienteNome}" />
+						</h:panelGrid>
+					</p:panelGrid>
+				</h:form>
+				<p:tabView id="tbvEP">
+					<p:tab title="Extrato">
+						<ui:include src="/juridico/procuracoes/extrato-unidade.xhtml" />
+					</p:tab>
+					<p:tab title="Prontuário">
+						<ui:include src="/juridico/procuracoes/prontuario-juridico.xhtml" />
+					</p:tab>
+				</p:tabView>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

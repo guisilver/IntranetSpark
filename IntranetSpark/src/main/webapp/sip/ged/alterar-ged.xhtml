@@ -1,0 +1,64 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<h:form id="frmInserir"  rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysSipGEDChange}">
+			<div class="layout-portlets-box">
+				<div class="Fleft">
+					<h2 class="black Fs24 FontRalewayMedium">GED</h2>
+				</div>
+				<div class="Seperator"></div>
+				<div class="Wid100" style="margin-top: 20px; margin-bottom: 20px;">
+
+					<f:metadata>
+						<f:event listener="#{sipoMB.pesquisaIdImagem()}"
+							type="preRenderView" />
+					</f:metadata>
+					<p:panel style="margin-top:60px; width:40%;" header="Alterar GED">
+						<br />
+						<h:panelGrid id="gridDocs" border="0">
+							<p:commandButton value="Enviar arquivos"
+								icon="fa fa-plus Fs16 white" process="@this"
+								oncomplete="PF('dlgUploadImagem').show();" />
+							<p:column>
+								<p:dataTable id="tblImagem" var="item"
+									value="#{sipoMB.listaArquivos}"
+									emptyMessage="Nenhum resultado encontrado."
+									style="width:450px;" scrollable="true" scrollHeigth="150">
+									<p:column headerText="Etiqueta" style="width:130px;">
+										<p:outputLabel value="#{sipoMB.converte(item.id)}" />
+									</p:column>
+									<p:column headerText="Condomínio" style="width:150px;">
+										<p:outputLabel value="#{item.cdCnd}" />
+									</p:column>
+									<p:column style="width:45px;">
+										<p:commandButton
+											actionListener="#{sipoMB.downloadDocumento(sipoMB.listaArquivos.indexOf(item))}"
+											icon="fa fa-download Fs16 white" ajax="false">
+											<p:fileDownload value="#{sipoMB.arquivoDownload}" />
+										</p:commandButton>
+									</p:column>
+								</p:dataTable>
+							</p:column>
+						</h:panelGrid>
+						<hr />
+
+						<h:panelGrid columns="2">
+							<p:commandButton value="Voltar" process="@this"
+								action="/sipo/ged/tabela-ged?faces-redirect=true;"
+								icon="fa fa-arrow-left Fs16 white" />
+							<p:commandButton icon="fa fa-check Fs16 white" value="Salvar"
+								style="float:right;" action="#{sipoMB.alterarTabela()}"
+								update="frmInserir" />
+						</h:panelGrid>
+					</p:panel>
+				</div>
+			</div>
+		</h:form>
+			
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,44 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<style>
+.fontSize {
+	font-size: 12px !important;
+}
+</style>
+<h:form id="frmDlgLiberar">
+	<p:dialog id="dlgLiberar" widgetVar="liberarLancto" modal="true" resizable="false" closeOnEscape="true">
+		<p:outputLabel value="Deseja liberar esse lançamento?" style="color: green !important;"/>
+		<h:panelGrid columns="2">
+			<p:outputLabel value="Adicionar Obs:"/>
+			<p:inputTextarea value="#{ged.obsLancto}"/>
+		</h:panelGrid>
+		<p:separator />
+		<p:commandButton value="Não" oncomplete="PF('liberarLancto').hide();"/>
+		<p:commandButton value="Sim" onsuccess="PF('liberarLancto').hide();" style="float: right !important;" styleClass="fontSize"
+			 action="#{ged.suspenderLiberarLancamento(2, 2)}" update=":frmPreLancto :frmLancamento :frmImagem" />
+	</p:dialog>
+	
+</h:form>
+
+<h:form id="frmDlgLiberarContas">
+	<p:dialog id="dlgLiberar" widgetVar="liberarLanctoContas" modal="true" resizable="false" closeOnEscape="true">
+		<p:outputLabel value="Deseja liberar esse lançamento?" style="color: green !important;"/>
+		<h:panelGrid columns="2">
+			<p:outputLabel value="Adicionar Obs:"/>
+			<p:inputTextarea value="#{ged.obsLancto}"/>
+		</h:panelGrid>
+		<p:separator />
+		<p:commandButton value="Não" oncomplete="PF('liberarLanctoContas').hide();"/>
+		<p:commandButton value="Sim" onsuccess="PF('liberarLanctoContas').hide();" style="float: right !important;" styleClass="fontSize"
+			 action="#{ged.suspenderLiberarLancamento(2, 1)}" update=":frmPreLancto :frmLancamento" />
+	</p:dialog>
+	
+</h:form>
+	
+</ui:composition>

@@ -1,0 +1,41 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:form id="frmAlterarAtendimento" rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.verificaDepto('Comercial')}">
+		<p:dialog id="dlgAlterarAtendimento" widgetVar="dlgAlterarAtendimento"
+			resizable="false" modal="true" responsive="true" closeOnEscape="true"
+			header="Alteração de Atendimento" maximizable="true">
+			<p:growl autoUpdate="true" id="growl" widgetVar="growl" />
+			<p:messages id="msg" showDetail="true" autoUpdate="false"
+				closable="true" escape="true" showSummary="false" styleClass="msg" />
+			<h:panelGrid columns="2">
+				<p:outputLabel value="Condomínio:" />
+				<p:selectOneMenu value="#{cmcaMB.cptaBEAN.codigoCondominio}"
+					filter="true" filterMatchMode="contains" style="width:170px;">
+					<f:selectItem itemLabel="Selecione" itemValue="0" />
+					<f:selectItems value="#{cmcaMB.listaCondominios2}" var="id"
+						itemLabel="#{id.id} - #{id.nome}" itemValue="#{id.id}" />
+				</p:selectOneMenu>
+			</h:panelGrid>
+			<h:panelGrid columns="2">
+				<p:outputLabel value="Solucionado:" />
+				<p:selectBooleanCheckbox value="#{cmcaMB.cptaBEAN.solucionado}" />
+				<p:outputLabel value="Histórico:" />
+				<p:inputTextarea value="#{cmcaMB.cptaBEAN.historico}"
+					maxlength="300" />
+			</h:panelGrid>
+			<hr />
+			<h:panelGrid>
+				<p:commandButton value="Salvar" icon="fa fa-check Fs16 white"
+					oncomplete="PF('dlgAlterarAtendimento').hide()"
+					update=":frmAtendimento:tblAtendimento"
+					action="#{cmcaMB.salvarAtendimento()}" />
+			</h:panelGrid>
+
+		</p:dialog>
+	</h:form>
+</ui:composition>

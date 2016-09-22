@@ -1,0 +1,165 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+
+		<style>
+.msg {
+	color: #FFF;
+	font-size: 20px;
+}
+
+.direita {
+	float: right !important;
+}
+
+.esquerda {
+	float: left !important;
+}
+</style>
+		<div class="layout-portlets-box"
+			style="padding-top: 0px !important; padding-bottom: 0px !important;">
+			<p:breadCrumb>
+				<p:menuitem value="Home" url="/dashboard.xhtml" />
+				<p:menuitem value="Emissões" url="/emissao" />
+			</p:breadCrumb>
+		</div>
+		<div class="layout-portlets-box">
+			<div class="DispInlBlock TexAlLeft">
+				<div class="Fleft">
+					<h2 class="black Fs24 FontRalewayMedium">Nova Emissão</h2>
+				</div>
+			</div>
+			<div class="Seperator"></div>
+			<div class="Container100 Responsive100">
+				<div class="ContainerIndent">
+					<h:form id="frmNovaEmissao"
+						rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysSEM}">
+						<p:panel style="width:800px;" header="Emissão">
+							<p:messages id="msg" showDetail="true" autoUpdate="false"
+								closable="true" escape="true" showSummary="false"
+								styleClass="msg" />
+							<h:panelGrid columns="3" cellpadding="5" id="somCondominio">
+								<p:outputLabel value="Condomínio:" for="condominio" />
+								<p:selectOneMenu id="condominio" value="#{emMB.condominio}"
+									style="width:200px;margin-left:5px;" filter="true"
+									filterMatchMode="contains">
+									<f:selectItem itemLabel="Selecione" itemValue="0" />
+									<f:selectItems value="#{SessaoMB.listaCondominios}"
+										var="condominio" itemLabel="#{condominio.cndCodNome}"
+										itemValue="#{condominio.codigo}" />
+									<p:ajax update="tblNovaEmissao"
+										listener="#{emMB.retornaNomeCondominio}" />
+								</p:selectOneMenu>
+							</h:panelGrid>
+							<h:panelGrid columns="2">
+								<p:outputLabel value="Emissão:" />
+								<p:selectOneRadio value="#{emMB.regular}"
+									style="margin-left:43px;">
+									<f:selectItem itemLabel="Avulso" itemValue="0" />
+									<f:selectItem itemLabel="Ordinário" itemValue="1" />
+									<p:ajax update="gridVencimento" />
+								</p:selectOneRadio>
+							</h:panelGrid>
+							<h:panelGrid columns="3" id="gridVencimento" cellpadding="5">
+								<p:outputLabel value="Vencimento:" />
+								<p:selectOneRadio value="#{emMB.vencimento}"
+									rendered="#{emMB.regular == '1'}">
+									<f:selectItem itemLabel="Vencimento 01" itemValue="false" />
+									<f:selectItem itemLabel="Vencimento 02" itemValue="true" />
+									<p:ajax listener="#{emMB.retornarVencimento()}" update="teste" />
+								</p:selectOneRadio>
+								<p:calendar value="#{emMB.vencto}" pattern="dd/MM/yyyy"
+									locale="pt" timeZone="America/Sao_Paulo"
+									styleClass="calendario" yearRange="c-3:c+5"
+									rendered="#{emMB.regular == '1'}" id="teste" />
+								<!-- <p:selectOneMenu value="#{emMB.cpBEAN.vencimento}"
+									rendered="#{emMB.regular == '1'}"
+									style="margin-left:7px; width:200px;"
+									converter="omnifaces.SelectItemsConverter" filter="true"
+									filterMatchMode="contains">
+									<f:selectItem itemLabel="Selecione" itemValue="0" />
+									<f:selectItems value="#{emMB.listaVencimento}" var="vencto"
+										itemLabel="#{vencto.vencimento}"
+										itemValue="#{vencto.vencimento}" /> 
+								</p:selectOneMenu>-->
+								<p:calendar value="#{emMB.cpBEAN.vencimento}"
+									pattern="dd/MM/yyyy" locale="pt" timeZone="America/Sao_Paulo"
+									styleClass="calendario" style="margin-left:7px;"
+									yearRange="c-3:c+5" rendered="#{emMB.regular == '0'}" />
+							</h:panelGrid>
+							<h:panelGrid columns="2" cellpadding="5">
+								<p:outputLabel value="Observações:" />
+								<p:inputTextarea style="width:600px; margin-left:-7px;"
+									maxlength="700" value="#{emMB.observacao}" />
+								<p:outputLabel value="Possui Correio:" />
+								<p:selectOneRadio value="#{emMB.correio}">
+									<f:selectItem itemLabel="Não" itemValue="false" />
+									<f:selectItem itemLabel="Sim" itemValue="true" />
+								</p:selectOneRadio>
+							</h:panelGrid>
+							<h:panelGrid columns="2">
+								<p:commandButton value="Nova Verba"
+									oncomplete="PF('dlgAdicionar').show();"
+									icon="fa fa-plus Fs16 white" />
+								<p:commandButton value="Novo Consumo"
+									icon="fa fa-plus Fs16 white" ajax="false"
+									action="/emissao/gerencia/tabela-consumo?faces-redirect=true;"
+									style="margin-left:10px;" />
+							</h:panelGrid>
+						</p:panel>
+						<br />
+						<br />
+						<p:dataTable id="tblNovaEmissao" var="emissao"
+							value="#{emMB.listaRateios}"
+							selection="#{emMB.listaRateiosSelecionados}" rows="15"
+							rowKey="#{emissao}" paginator="true"
+							emptyMessage="Nenhum rateio para esse condomínio!"
+							style="font-size: 13px; text-align:center;heigth:600px;"
+							rowsPerPageTemplate="15,30,50">
+							<f:facet name="header">Rateios</f:facet>
+							<f:facet name="footer">
+								<hr />
+								<p:commandButton value="Salvar" icon="fa fa-check Fs16 white"
+									action="#{emMB.salvarEmissao()}"
+									update="frmNovaEmissao:tblNovaEmissao" ajax="false" />
+							</f:facet>
+							<p:column selectionMode="multiple"
+								style="width:16px;text-align:center;" />
+							<p:column headerText="Caixa">
+								<h:outputText value="#{emissao.conta}" />
+							</p:column>
+							<p:column headerText="Histórico">
+								<h:outputText value="#{emissao.historico}" />
+							</p:column>
+							<p:column headerText="Valor">
+								<h:outputText value="#{emissao.valorTotal}">
+									<f:convertNumber type="currency" currencySymbol="R$"
+										locale="pt" />
+								</h:outputText>
+							</p:column>
+							<p:column headerText="Tipo">
+								<h:outputText value="#{emissao.tipo}" />
+							</p:column>
+							<p:column headerText="Nº Rateio"
+								rendered="#{SessaoMB.igp.sysAdmin}">
+								<h:outputText value="#{emissao.nroRateio}" />
+							</p:column>
+							<p:column>
+								<p:commandButton title="Alterar" icon="fa fa-pencil Fs16 white"
+									update="frmNovaEmissao:tblNovaEmissao frmAltRateio"
+									action="#{emMB.carregarDialog(emissao)}"
+									oncomplete="PF('dlgAlterar').show();" styleClass="btnLittle" />
+							</p:column>
+						</p:dataTable>
+					</h:form>
+				</div>
+			</div>
+		</div>
+		<ui:include src="/emissao/gerencia/dialog-adicionar-rateio.xhtml" />
+		<ui:include src="/emissao/gerencia/dialog-alterar-rateio.xhtml" />
+	</ui:define>
+</ui:composition>

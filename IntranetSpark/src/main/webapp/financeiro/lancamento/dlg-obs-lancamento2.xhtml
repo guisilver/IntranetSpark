@@ -1,0 +1,38 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	
+	<p:dialog widgetVar="dlgObsLancto2" resizable="false" modal="true"
+		width="auto" header="Observação para o Lançamento"
+		hideEffect="explode">
+		<h:form id="frmObsLancto2">
+			<h:panelGrid>
+				<p:outputLabel value="Deseja adicionar uma observação?" />
+				<p:selectOneRadio id="oneRadioObs" value="#{ged.flagObs}">
+					<p:ajax event="change" update=":frmObsLancto2" />
+					<f:selectItem itemLabel="Não" itemValue="false" />
+					<f:selectItem itemLabel="Sim" itemValue="true" />
+				</p:selectOneRadio>
+			</h:panelGrid>
+			<h:panelGrid columns="2" rendered="#{ged.flagObs}">
+				<p:outputLabel value="Obs:" />
+				<p:inputTextarea autoResize="true"
+					value="#{ged.obsLancto}" maxlength="180"
+					style="width:400px;height:120px;" />
+			</h:panelGrid>
+			<p:messages id="msg7" showDetail="true" autoUpdate="false"	closable="true" escape="true" showSummary="false" />
+			<p:separator></p:separator>
+			<center>
+				<p:commandButton value="Cancelar"
+					oncomplete="PF('dlgObsLancto2').hide();" icon="fa fa-close Fs16 white" />
+				<p:spacer/>
+				<p:commandButton value="Salvar" update=":frmLancamento,:frmLancSucesso msg7"
+					action="#{ged.addLanctoOmaRateado}" icon="fa fa-check Fs16 white" />
+			</center>
+		</h:form>
+	</p:dialog>
+</ui:composition>

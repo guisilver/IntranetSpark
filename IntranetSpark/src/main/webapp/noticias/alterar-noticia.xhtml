@@ -1,0 +1,74 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<f:metadata>
+			<f:event listener="#{noticiasMktMB.pesquisaNoticiaSelecionada()}"
+				type="preRenderView" />
+		</f:metadata>
+		<div class="layout-portlets-box">
+			<div class="Fleft">
+				<h2 class="black Fs24 FontRalewayMedium">Alterar Notícia</h2>
+			</div>
+			<div class="Seperator"></div>
+			<div class="Container50 Responsive50">
+				<p:messages autoUpdate="true" />
+				<div class="ContainerIndent">
+					<h:form>
+						<h:panelGrid style="width:98%;margin-bottom:20px;">
+							<p:outputLabel value="Título" />
+							<p:inputText value="#{noticiasMktMB.noticiaSelecionada.titulo}"
+								required="true" requiredMessage="Insira o título!"
+								style="width:100%;" />
+						</h:panelGrid>
+
+						<p:outputLabel value="Coluna" />
+						<p:selectOneRadio
+							value="#{noticiasMktMB.noticiaSelecionada.coluna}"
+							required="true" requiredMessage="Insira a coluna!"
+							style="margin-bottom:20px;">
+							<f:selectItem itemLabel="Marketing" itemValue="1" />
+							<f:selectItem itemLabel="RH" itemValue="2" />
+						</p:selectOneRadio>
+
+						<ui:include src="editor.xhtml">
+							<ui:param name="requiredMessage" value="Insira a notícia!" />
+							<ui:param name="value"
+								value="#{noticiasMktMB.noticiaSelecionada.html}" />
+							<ui:param name="id" value="documentationId" />
+							<ui:param name="height" value="260" />
+						</ui:include>
+
+						<h:panelGrid columns="3" style="margin-top:20px;">
+							<p:commandButton value="Voltar para lista de Notícias"
+								action="/noticias.xhtml?faces-redirect=true;"
+								icon="fa fa-arrow-left Fs16 white" process="@this" />
+							<p:commandButton value="Excluir"
+								actionListener="#{noticiasMktMB.excluirNoticia()}"
+								icon="fa fa-trash Fs16 white" update="@form" title="Excluir">
+								<p:confirm header="Confirmação"
+									message="Você confirma a exclusão?"
+									icon="fa fa-alert Fs16 white" />
+							</p:commandButton>
+							<p:commandButton value="Salvar" icon="fa fa-check Fs16 white"
+								actionListener="#{noticiasMktMB.salvarAlteracoesNoticia()}"
+								ajax="false" />
+						</h:panelGrid>
+
+						<p:confirmDialog global="true" widgetVar="dlgExclui"
+							showEffect="fade" hideEffect="fade">
+							<p:commandButton value="Não" type="button"
+								styleClass="ui-confirmdialog-no"
+								icon="ui-icon-close fa fa-close Fs14 white" />
+							<p:commandButton value="Sim" type="button" ajax="false"
+								styleClass="ui-confirmdialog-yes"
+								icon="ui-icon-check fa fa-check Fs14 white" />
+						</p:confirmDialog>
+					</h:form>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

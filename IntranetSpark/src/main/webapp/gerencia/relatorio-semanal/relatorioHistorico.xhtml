@@ -1,0 +1,46 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+<style>
+#frmTableHistorico\:historico\:clCondo\:filter{
+width: 50px !important;
+}
+</style>
+	<h:form id="frmTableHistorico">
+		<p:dialog id="dlgHistorico" widgetVar="historico" responsive="true"
+			header="Histórico - Relatório Semanal" resizable="false" modal="true"
+			hideEffect="slide" showEffect="slide" closeOnEscape="true">
+			<p:dataTable id="historico" var="p" rowKey="#{p.codigo}"
+				value="#{rsMB.historicoRelatorioSemanal}" paginator="true" rows="2"
+				filteredValue="#{rsMB.filtro}" selection="#{rsMB.intraLogGeralBean}"
+				style="font-size:12px; width: 800px !important;">
+				
+				<p:ajax event="rowSelect" oncomplete="PF('dlgRelatorio').show();" update=":frmDlgHistorico"/>
+				
+				<p:column rendered="false" >
+					#{p.codigo}
+				</p:column>
+				<p:column id="clCondo" headerText="Cond." filterBy="#{p.condominio}"  style="text-align:center !important;">
+					<h:outputText value="#{p.condominio}" />
+				</p:column>
+				<p:column id="clFeitoPor" headerText="Feito por" style="width: 150px !important;" sortBy="#{p.feitoPor}">
+					<h:outputText value="#{p.feitoPor}" />
+				</p:column>
+				<p:column headerText="Data" style="text-align:center;" sortBy="#{p.dataFeito}">
+					<h:outputText value="#{p.dataFeito}">
+						<f:convertDateTime locale="pt_BR" pattern="dd/MM/yyyy" />
+					</h:outputText>
+				</p:column>
+				
+				<p:column id="clInfo" headerText="Info Anterior" filterBy="#{p.infoAnterior}" style="width: 403px !important;">
+					#{p.infoAnterior}
+				</p:column>
+				
+			</p:dataTable>
+		</p:dialog>
+	</h:form>
+
+</ui:composition>

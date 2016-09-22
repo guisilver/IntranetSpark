@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.2.0.final using JasperReports Library version 6.2.0  -->
+<!-- 2016-03-08T10:45:08 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="GraficoBarraSub" printOrder="Horizontal" pageWidth="230" pageHeight="150" orientation="Landscape" columnWidth="230" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="9a96525f-b5a1-44b5-8357-5dd91f04a02f">
+	<parameter name="nomeConta" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="mesAno" class="java.lang.String">
+		<fieldDescription><![CDATA[mesAno]]></fieldDescription>
+	</field>
+	<field name="valor" class="java.lang.Double">
+		<fieldDescription><![CDATA[valor]]></fieldDescription>
+	</field>
+	<field name="class" class="java.lang.Class">
+		<fieldDescription><![CDATA[class]]></fieldDescription>
+	</field>
+	<summary>
+		<band height="145">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<bar3DChart>
+				<chart isShowLegend="false" evaluationTime="Report" renderType="draw" theme="default">
+					<reportElement x="1" y="17" width="230" height="128" uuid="ef8c2439-28cb-428e-8786-7d614fbc8f9f">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<box>
+						<pen lineColor="rgba(28, 19, 19, 0.0)"/>
+						<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<chartTitle position="Top">
+						<font fontName="Arial" size="6"/>
+					</chartTitle>
+					<chartSubtitle>
+						<font fontName="Arial Black" size="6"/>
+					</chartSubtitle>
+					<chartLegend>
+						<font fontName="Arial" size="6"/>
+					</chartLegend>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{mesAno}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{mesAno}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{valor}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<bar3DPlot isShowLabels="false">
+					<plot backcolor="rgba(74, 48, 47, 0.0)" backgroundAlpha="1.0" foregroundAlpha="1.0" labelRotation="-40.0">
+						<seriesColor seriesOrder="0" color="#C4182F"/>
+						<seriesColor seriesOrder="1" color="#C4182F"/>
+					</plot>
+					<itemLabel color="#FF6600" backgroundColor="#33FF00"/>
+					<categoryAxisFormat labelRotation="-40.0">
+						<axisFormat>
+							<labelFont>
+								<font fontName="SansSerif" size="6"/>
+							</labelFont>
+							<tickLabelFont>
+								<font size="6"/>
+							</tickLabelFont>
+						</axisFormat>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat>
+							<labelFont>
+								<font fontName="Arial" size="6"/>
+							</labelFont>
+							<tickLabelFont>
+								<font size="6"/>
+							</tickLabelFont>
+						</axisFormat>
+					</valueAxisFormat>
+				</bar3DPlot>
+			</bar3DChart>
+			<textField>
+				<reportElement x="1" y="0" width="228" height="14" uuid="905c56a3-d187-4511-8ed9-19ff67f96469"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{nomeConta}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

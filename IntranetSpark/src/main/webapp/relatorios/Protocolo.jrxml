@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.2.0.final using JasperReports Library version 6.2.0  -->
+<!-- 2016-06-27T16:27:08 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Protocolo" pageWidth="595" pageHeight="842" columnWidth="483" leftMargin="56" rightMargin="56" topMargin="56" bottomMargin="56" uuid="5a7db05a-1017-4987-b067-dc6a0dc3a4e2">
+	<property name="ireport.zoom" value="2.1435888100000033"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="omaonline"/>
+	<parameter name="cd_cnd" class="java.lang.Integer"/>
+	<parameter name="nome_cnd" class="java.lang.String"/>
+	<parameter name="pCodigo" class="java.lang.Integer"/>
+	<parameter name="obs" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select a.codigo,a.empresa,a.idImagem,a.nf,a.situacao,a.valor,a.vencimento 
+from omaonline.dbo.protocolo_lancamentos as a 
+inner join omaonline.dbo.protocolo_protocolo_lancamentos as b on a.codigo = b.lancamentos_codigo 
+where protocolo_codigo = $P{pCodigo} 
+order by vencimento]]>
+	</queryString>
+	<field name="codigo" class="java.lang.Integer"/>
+	<field name="empresa" class="java.lang.String"/>
+	<field name="idImagem" class="java.lang.Long"/>
+	<field name="nf" class="java.lang.Long"/>
+	<field name="situacao" class="java.lang.Boolean"/>
+	<field name="valor" class="java.math.BigDecimal"/>
+	<field name="vencimento" class="java.sql.Timestamp"/>
+	<variable name="nf_1" class="java.lang.Long" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{nf}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="75" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="13" uuid="d1bbcbe4-cacc-4a6b-891e-f955c03fb0a7"/>
+				<textElement>
+					<font fontName="Verdana"/>
+				</textElement>
+				<text><![CDATA[CONDOMÍNIO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="16" width="100" height="13" uuid="7a5f55fb-d621-4c03-8d9a-0dc9e16709de"/>
+				<textElement>
+					<font fontName="Verdana"/>
+				</textElement>
+				<text><![CDATA[CÓD.: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="344" y="-1" width="100" height="14" uuid="d0fe5a0e-fcbb-4258-964c-963eca5791e9"/>
+				<textElement>
+					<font fontName="Verdana"/>
+				</textElement>
+				<text><![CDATA[DATA:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="32" width="100" height="15" uuid="9ec5857f-6fef-40d4-b879-98b9966e1ecb"/>
+				<textElement>
+					<font fontName="Verdana"/>
+				</textElement>
+				<text><![CDATA[Nº PROTOCOLO:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="381" y="-1" width="98" height="14" uuid="8cddf435-e0cc-44f9-8d06-c8669e575d62"/>
+				<textElement>
+					<font fontName="Verdana"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("dd/MM/yyyy").format(new Date())]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="90" y="16" width="217" height="13" uuid="04772658-8eaa-4fb9-9749-f9c36bf481b9"/>
+				<textElement>
+					<font fontName="Verdana"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cd_cnd}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="90" y="0" width="244" height="13" uuid="7793eb6a-05ac-42b5-b1da-a24ea9499675"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Verdana"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nome_cnd}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="90" y="32" width="100" height="15" uuid="6aec6899-8192-41ec-bc5b-bc5f49c55038"/>
+				<textElement>
+					<font fontName="Verdana"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{pCodigo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="50" width="100" height="13" uuid="46891f62-05f1-4208-b013-f30ecadfb427">
+					<printWhenExpression><![CDATA[($P{obs} != null && !$P{obs}.isEmpty())]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="Verdana"/>
+				</textElement>
+				<text><![CDATA[OBS:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement isPrintRepeatedValues="false" x="32" y="50" width="447" height="13" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="4e446eb5-5827-49fa-b0cf-205c78c81e8d"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Verdana"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{obs}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="19" splitType="Stretch">
+			<rectangle>
+				<reportElement positionType="FixRelativeToBottom" stretchType="RelativeToTallestObject" x="0" y="0" width="483" height="19" isPrintWhenDetailOverflows="true" forecolor="#666666" backcolor="#666666" uuid="46020f63-2a5f-4e2b-bc97-d7662851680d"/>
+			</rectangle>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="3" y="0" width="90" height="19" isPrintWhenDetailOverflows="true" forecolor="#FFFFFF" uuid="47972d8f-ebaf-4f2b-9015-dd5c79a63541"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ETIQUETA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="101" y="0" width="81" height="19" isPrintWhenDetailOverflows="true" forecolor="#FFFFFF" uuid="3f02116c-2495-415a-8ee1-4ad7497e3240"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VENCIMENTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="190" y="0" width="91" height="19" isPrintWhenDetailOverflows="true" forecolor="#FFFFFF" uuid="43f00976-53f9-4098-9d31-daa511af17f6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NF]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="289" y="0" width="100" height="19" isPrintWhenDetailOverflows="true" forecolor="#FFFFFF" uuid="f5fd6cf5-06a4-48c4-9a82-6d6e576fa5a0"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[EMPRESA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="398" y="0" width="85" height="19" isPrintWhenDetailOverflows="true" forecolor="#FFFFFF" uuid="e4cefec1-3a94-4aa2-bd95-026d3e5589ee"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VALOR]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="1" width="483" height="19" forecolor="#E2DFDF" backcolor="#E2DFDF" uuid="40162e03-e573-442d-a3cb-227181df7f1a">
+					<printWhenExpression><![CDATA[(($V{COLUMN_COUNT}.intValue() % 2) == 0)]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="101" y="0" width="81" height="20" isPrintWhenDetailOverflows="true" uuid="2aa84c13-82dc-45d6-b0e1-b5d7c7a7a0fe"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("dd/MM/yyyy").format($F{vencimento})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="3" y="0" width="90" height="20" isPrintWhenDetailOverflows="true" backcolor="#000000" uuid="21ddbe55-b30d-4ed7-8ec7-48ef02f8a039"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{idImagem}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="190" y="0" width="91" height="20" isPrintWhenDetailOverflows="true" uuid="71401df6-75a6-4964-a0b0-a352434f221c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nf}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="289" y="0" width="100" height="20" isPrintWhenDetailOverflows="true" uuid="94eb6305-ff52-47de-b534-5db85a8eeb03"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{empresa}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="398" y="0" width="85" height="20" isPrintWhenDetailOverflows="true" uuid="33470be7-5dcb-4083-b6df-d48736708d3f"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("R$ #,##0.00").format(Double.valueOf($F{valor}.toString()))]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<lastPageFooter>
+		<band height="50">
+			<staticText>
+				<reportElement x="3" y="28" width="106" height="18" uuid="6134af13-a684-4b39-811e-2e9dc615cfa5"/>
+				<textElement>
+					<font fontName="Verdana" size="10"/>
+				</textElement>
+				<text><![CDATA[Recebido por:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="77" y="37" width="196" height="1" uuid="e0f8d7b1-f3a8-4f0a-80d9-3d8c408bdc42"/>
+			</line>
+			<staticText>
+				<reportElement x="320" y="28" width="76" height="18" uuid="362081ff-617f-4d0d-bce9-a951141a2a5d"/>
+				<textElement>
+					<font fontName="Verdana" size="10"/>
+				</textElement>
+				<text><![CDATA[Data:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="351" y="25" width="132" height="18" uuid="39817d28-5e22-4767-823c-15855d8ba315"/>
+				<textElement>
+					<font fontName="Verdana" size="12"/>
+				</textElement>
+				<text><![CDATA[___/___/______]]></text>
+			</staticText>
+		</band>
+	</lastPageFooter>
+</jasperReport>

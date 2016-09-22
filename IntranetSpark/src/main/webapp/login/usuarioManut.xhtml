@@ -1,0 +1,141 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:panel id="plTableuser" header="Lista de Usuários" rendered="#{usuarioMB.trocaPagina == 0 ? true : false}">
+		<p:dataTable id="tblUsuarios" var="p"
+			filteredValue="#{usuarioMB.filtroUsuarios}"
+			value="#{usuarioMB.listaUsuarios}" selectionMode="single" rows="10"
+			paginator="true" rowsPerPageTemplate="10,25,50,100"
+			emptyMessage="Nenhum grupo encontrado..."
+			selection="#{usuarioMB.user}" rowKey="#{p.email}">
+
+			<p:ajax event="rowSelect" listener="#{usuarioMB.atualizaGrupos()}"
+				update=":frmManutUsuario" />
+			<p:column filterBy="#{p.nome}"  filterMatchMode="contains">
+				#{p.nome}
+			</p:column>
+			
+			<p:column filterBy="#{p.email}" filterMatchMode="contains">
+				#{p.email}
+			</p:column>
+			
+			<p:column sortBy="#{p.perfil}" filterBy="#{p.perfil eq 0 ? 'Nenhum' : p.perfil eq 1 ? 'Assistente' : p.perfil eq 2 ? 'Gerente' : p.perfil eq 3 ? 'Encarregado' : p.perfil eq 4 ? 'Diretoria' : p.perfil eq 5 ? 'Assistente Geral' : ''}"  filterMatchMode="contains" style="text-align: center;">
+				<h:outputLabel value="Nenhum" rendered="#{p.perfil eq 0}"/>
+				<h:outputLabel value="Assistente" rendered="#{p.perfil eq 1}"/>
+				<h:outputLabel value="Assistente Geral" rendered="#{p.perfil eq 5}"/>
+				<h:outputLabel value="Gerente" rendered="#{p.perfil eq 2}"/>
+				<h:outputLabel value="Encarregado" rendered="#{p.perfil eq 3}"/>
+				<h:outputLabel value="Diretoria" rendered="#{p.perfil eq 4}"/>
+			</p:column>
+
+		</p:dataTable>
+	</p:panel>
+
+	<p:panel header="Alterar / Exluir"
+		rendered="#{usuarioMB.trocaPagina == 1 ? true : false}">
+
+		<h:panelGrid id="pnlExcluirUsuario" columns="2">
+			<p:selectBooleanCheckbox value="#{usuarioMB.excluirUsuario}">
+				<p:ajax event="change" update=":frmManutUsuario" />
+			</p:selectBooleanCheckbox>
+			<p:outputLabel value="Selecione essa opção para Exclusão"
+				style="color:red" />
+			<p:column />
+			<br />
+			<p:outputLabel value="Nome:" />
+			<p:inputText value="#{usuarioMB.user.nome}" />
+		</h:panelGrid>
+
+		<h:panelGrid columns="2"
+			rendered="#{usuarioMB.excluirUsuario eq false ? true : false}">
+			<p:outputLabel value="Senha:" />
+			<p:password value="#{usuarioMB.novaSenha}" styleClass="Hei80 Wid40" />
+		</h:panelGrid>
+		<br />
+		<p:panel id="gridUserPerfil"
+			rendered="#{usuarioMB.excluirUsuario eq false ? true : false}"
+			style="border:0px !important; background:none;">
+			<f:facet name="header">
+					Perfil
+				</f:facet>
+			<p:selectOneMenu id="somAssistente" styleClass="Wid15"
+				value="#{usuarioMB.user.perfil}" layout="grid">
+				<f:selectItem itemLabel="Nenhum" itemValue="0" />
+				<f:selectItem itemLabel="Assistente" itemValue="1" />
+				<f:selectItem itemLabel="Assistente Geral" itemValue="5" />
+				<f:selectItem itemLabel="Gerente" itemValue="2" />
+				<f:selectItem itemLabel="Encarregado" itemValue="3" />
+				<f:selectItem itemLabel="Diretoria" itemValue="4" />
+			</p:selectOneMenu>
+			
+		</p:panel>
+		
+		<p:panel id="gridUserGerente"
+			rendered="#{usuarioMB.excluirUsuario eq false ? true : false}"
+			style="border:0px !important; background:none;">
+			<f:facet name="header">
+					Possue Gerente ?
+				</f:facet>
+			<p:selectOneMenu value="#{usuarioMB.user.gerente}" styleClass="Wid15" layout="grid">
+				<f:selectItem itemLabel="Não" itemValue="0"/>
+				<f:selectItems var="item" value="#{SessaoMB.listaDeGerente}" itemLabel="#{item.nome}" itemValue="#{item.codigo}"/>
+			</p:selectOneMenu>
+		</p:panel>
+
+		<p:panel id="gridUserGrupos"
+			rendered="#{usuarioMB.excluirUsuario eq false ? true : false}"
+			style="border:0px !important; background:none;">
+			<f:facet name="header">
+					Grupos
+				</f:facet>
+			<p:outputLabel id="oplAviso"
+				value="Essa ação irá excluir o usuário!!" style="color: red"
+				rendered="#{usuarioMB.excluirUsuario eq false ? false : true}" />
+
+			<p:selectCheckboxMenu id="scbmDepto" styleClass="Wid15"
+				value="#{usuarioMB.listaDeDepto}" layout="grid"
+				label="Departamentos" filter="true" filterMatchMode="contains">
+				<f:selectItems value="#{usuarioMB.gruposDepto}" var="g"
+					itemLabel="#{g.nome}" itemValue="#{g}" />
+			</p:selectCheckboxMenu>
+
+			<br />
+			<br />
+
+			<p:selectCheckboxMenu id="scbmGerente" styleClass="Wid15"
+				value="#{usuarioMB.listaDeGerente}" label="Gerentes" filter="true"
+				filterMatchMode="contains" layout="grid">
+				<f:selectItems value="#{usuarioMB.gruposGer}" var="g"
+					itemLabel="#{g.nome}" itemValue="#{g.codigo}" />
+			</p:selectCheckboxMenu>
+		</p:panel>
+
+		<p:panel id="gridAdicionarGrupoPerm"
+			rendered="#{usuarioMB.excluirUsuario eq false ? true : false}"
+			style="border:0px !important; background:none;">
+			<f:facet name="header">
+						Perrmissão
+					</f:facet>
+			<p:selectCheckboxMenu value="#{usuarioMB.listaDePermissao}"
+				layout="grid" label="Permissões" filter="true"
+				filterMatchMode="contains">
+				<f:selectItems value="#{usuarioMB.gruposPerm}" var="g"
+					itemLabel="#{g.nomeGrupo}" itemValue="#{g.nomeGrupo}" />
+			</p:selectCheckboxMenu>
+		</p:panel>
+
+		<hr />
+		<p:commandButton action="#{usuarioMB.voltar}" value="Voltar"
+			update=":frmManutUsuario" style="float: left;" />
+		<p:commandButton action="#{usuarioMB.excluirUsuario}" value="Salvar" rendered="#{usuarioMB.excluirUsuario eq false ? true : false}"
+			update=":frmManutUsuario" style="float: right;">
+		</p:commandButton>
+		<p:commandButton action="#{usuarioMB.excluirUsuario}" value="Excluir" rendered="#{usuarioMB.excluirUsuario eq false ? false : true}"
+			update=":frmManutUsuario" style="float: right;">
+		</p:commandButton>
+	</p:panel>
+
+</ui:composition>

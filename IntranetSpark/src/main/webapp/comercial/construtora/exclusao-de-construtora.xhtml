@@ -1,0 +1,25 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:form id="frmExcluirConstrutora"
+		rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.verificaDepto('Comercial')}">
+		<p:dialog id="dlgExcluirConstrutora" widgetVar="dlgExcluirConstrutora"
+			resizable="false" modal="true" responsive="true" closeOnEscape="true"
+			header="Exclusão de Construtora/ Incorporadora">
+			<h:panelGrid columns="2">
+				<p:outputLabel value="Você confirma a exclusão?" />
+				<p:column />
+				<p:commandButton value="Não"
+					oncomplete="PF('dlgExcluirConstrutora').hide();"
+					icon="fa fa-close Fs16 white" />
+				<p:commandButton value="Sim" icon="fa fa-check Fs16 white"
+					oncomplete="PF('dlgExcluirConstrutora').hide()"
+					update=":frmConstrutora:tblConstrutora" />
+			</h:panelGrid>
+		</p:dialog>
+	</h:form>
+</ui:composition>

@@ -1,0 +1,111 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<h:form id="frmHistorico"
+		rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysrequisicaoProtocolo}">
+		<p:growl autoUpdate="true" id="growl" widgetVar="growl" />
+		<p:dataTable id="dtHistorico" var="requisicao"
+			value="#{pcMB.listaProtocolosGerente}" rowKey="#{requisicao}"
+			rows="10" scrollable="true" rowsPerPageTemplate="5,10,15,50,100"
+			paginator="true" emptyMessage="Sem Registro"
+			selection="#{pcMB.listarProtocoloSelecionados}"
+			style="font-size:12px;text-align:center;">
+
+			<f:facet name="header">
+				<p:commandButton value="Imprimir" icon="fa fa-print Fs16 white"
+					action="#{pcMB.gerarRequisicao()}"
+					update=":frmHistorico:dtHistorico" ajax="false"
+					process="dtHistorico" />
+			</f:facet>
+			<f:facet name="footer">
+				<p:outputPanel>
+					<p:commandButton value="Imprimir" icon="fa fa-print Fs16 white"
+						action="#{pcMB.gerarRequisicao()}"
+						update=":frmHistorico:dtHistorico" ajax="false"
+						process="dtHistorico" />
+				</p:outputPanel>
+
+			</f:facet>
+
+			<p:column selectionMode="multiple"
+				style="width:16px;text-align:center;" />
+
+			<p:column headerText="Nº Protocolo" sortBy="#{requisicao.codigo}"
+				filterBy="#{requisicao.codigo}"> #{requisicao.codigo}
+			</p:column>
+			<p:column headerText="Condomínio" filterBy="#{requisicao.cond_cod}">#{requisicao.cond_cod} 
+			</p:column>
+			<p:column headerText="Aos Cuidados"
+				filterBy="#{requisicao.aosCuidados}">#{requisicao.aosCuidados}
+			</p:column>
+			<p:column headerText="Correio" filterBy="#{requisicao.correio}">#{requisicao.correio}
+			</p:column>
+			<p:column headerText="Malote">#{requisicao.diaMalote}
+			</p:column>
+			<p:column headerText="Endereço">#{requisicao.endereco}
+			</p:column>
+			<p:column headerText="Referência" filterBy="#{requisicao.referencia}">#{requisicao.referencia}
+			</p:column>
+			<p:column headerText="Data Enviado:" sortBy="#{requisicao.feitoem}">
+				<p:outputLabel value="#{requisicao.feitoem}">
+					<f:convertDateTime pattern="dd/MM/yyyy" locale="pt"
+						timeZone="America/Sao_Paulo" />
+				</p:outputLabel>
+			</p:column>
+			<p:column headerText="Situação:" sortBy="#{requisicao.impressao}">
+				<p:outputLabel
+					value="#{requisicao.impressao == 'Impresso' ? 'Impresso' : 'Pendente'}"
+					style="color:#{requisicao.impressao == 'Impresso'? 'blue' : 'red'}" />
+			</p:column>
+			<p:column headerText="Data Impressão:">
+				<p:outputLabel value="#{requisicao.dataConferido}">
+					<f:convertDateTime locale="pt" pattern="dd/MM/yyyy HH:mm"
+						timeZone="America/Sao_Paulo" />
+				</p:outputLabel>
+			</p:column>
+			<p:column>
+				<p:commandButton id="btnAlterar" title="Alterar" update=":frmAltReq"
+					ajax="false" action="#{pcMB.abreAlteraRequisicao()}"
+					icon="fa fa-pencil Fs16 white" styleClass="btnLittle">
+					<f:setPropertyActionListener value="#{requisicao}"
+						target="#{pcMB.codigoSelecionado}" />
+				</p:commandButton>
+				<p:commandButton id="btnDuplicar"
+					action="#{pcMB.abreDuplicaProtocolo()}" ajax="false"
+					title="Duplicar" styleClass="btnLittle"
+					icon="fa fa-copy Fs16 white" style="margin-left:10px !important;">
+					<f:setPropertyActionListener value="#{requisicao}"
+						target="#{pcMB.codigoSelecionado}" />
+				</p:commandButton>
+				<p:commandButton id="btnExcluir"
+					oncomplete="PF('dlgExclusao').show();"
+					style="margin-left:10px !important;" styleClass="btnLittle"
+					icon="fa fa-trash Fs16 white">
+					<f:setPropertyActionListener target="#{pcMB.codigoSelecionado}"
+						value="#{requisicao}" />
+				</p:commandButton>
+			</p:column>
+		</p:dataTable>
+	</h:form>
+
+
+	<p:dialog widgetVar="dlgExclusao" modal="true" resizable="false">
+		<h:form>
+			<h:panelGrid columns="2">
+				<p:outputLabel value="Você confirma a exclusão?"
+					style="font-size:14px;" />
+				<p:column />
+				<p:commandButton value="Não" oncomplete="PF('dlgExclusao').hide();"
+					icon="fa fa-close Fs16 white" />
+				<p:commandButton value="Sim" action="#{pcMB.excluir()}"
+					update="tbvRP:frmHistorico:dtHistorico"
+					icon="fa fa-check Fs16 white" />
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
+
+</ui:composition>

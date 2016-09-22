@@ -1,0 +1,124 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+
+		<div class="layout-portlets-box"
+			style="padding-top: 0px !important; padding-bottom: 0px !important;">
+			<p:breadCrumb>
+				<p:menuitem value="Home" url="/dashboard.xhtml" />
+				<p:menuitem value="Condomínio"
+					url="/comercial/condominio/tabela-de-condominios" />
+				<p:menuitem value="Construtora"
+					url="/comercial/construtora/tabela-de-construtoras" />
+			</p:breadCrumb>
+		</div>
+
+		<div class="layout-portlets-box">
+			<div class="DispInlBlock TexAlLeft">
+				<div class="Fleft">
+					<h2 class="black Fs24 FontRalewayMedium">Atendimento</h2>
+				</div>
+			</div>
+			<div class="Seperator"></div>
+			<div class="Container100 Responsive100">
+				<div class="ContainerIndent">
+					<h:form id="frmAtendimento"
+						rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.verificaDepto('Comercial')}">
+
+						<h:panelGrid>
+							<p:commandButton value="Novo Atendimento"
+								action="/comercial/atendimento/cadastro-de-atendimento"
+								icon="fa fa-plus Fs16 white" onstart="PF('dlgStatus').show();"
+								oncomplete="PF('dlgStatus').hide();" />
+						</h:panelGrid>
+						<br />
+						<p:dataTable id="tblAtendimento" var="atendimento"
+							value="#{cmcaMB.listaAtendimento}" rows="50" paginator="true"
+							rowsPerPageTemplate="50,100,200,500" rowKey="#{atendimento.id}"
+							style="font-size:12px; text-align:center;heigth:600px;">
+							<f:facet name="header">Atendimentos</f:facet>
+							<p:column headerText="Código">
+								<h:outputText value="#{atendimento.id}" />
+							</p:column>
+							<p:column headerText="Condomínio">
+								<h:outputText value="#{atendimento.codigoCondominio}" />
+							</p:column>
+							<p:column headerText="Data">
+								<h:outputText value="#{atendimento.data}">
+									<f:convertDateTime locale="pt" pattern="dd/MM/yyyy HH:mm"
+										timeZone="America/Sao_Paulo" />
+								</h:outputText>
+							</p:column>
+							<p:column headerText="Usuário">
+								<h:outputText value="#{atendimento.usuario}" />
+							</p:column>
+							<p:column headerText="Histórico">
+								<h:outputText value="#{atendimento.historico}" />
+							</p:column>
+							<p:column headerText="Solucionado">
+								<h:outputText value="Sim"
+									rendered="#{atendimento.solucionado eq true}"
+									style="color:blue" />
+								<h:outputText value="Não"
+									rendered="#{atendimento.solucionado eq false}"
+									style="color:red" />
+							</p:column>
+							<p:column>
+								<p:commandButton title="Alterar"
+									oncomplete="PF('dlgAlterarAtendimento').show();"
+									update=":frmAlterarAtendimento"
+									actionListener="#{cmcaMB.carregarDialogAtendimento(atendimento)}"
+									styleClass="btnLittle" icon="fa fa-pencil Fs16 white">
+								</p:commandButton>
+								<p:commandButton title="Consultar"
+									oncomplete="PF('dlgConsultaAtendimento').show();"
+									update=":frmConsultaAtendimento"
+									actionListener="#{cmcaMB.carregarDialogAtendimento(atendimento)}"
+									style="margin-left: 5px !important" styleClass="btnLittle"
+									icon="fa fa-search Fs16 white">
+								</p:commandButton>
+								<p:commandButton title="Excluir"
+									oncomplete="PF('dlgExcluirAtendimento').show();"
+									update=":frmExcluirAtendimento"
+									actionListener="#{cmcaMB.carregarDialogAtendimento(atendimento)}"
+									style="margin-left: 5px !important" styleClass="btnLittle"
+									icon="fa fa-trash Fs16 white"
+									rendered="#{SessaoMB.igp.sysAdmin}">
+								</p:commandButton>
+							</p:column>
+						</p:dataTable>
+
+						<p:dialog widgetVar="dlgStatus" id="dlgStatus" header="Status"
+							style="font-size:13px;" resizable="false" modal="true"
+							closable="false">	
+							Esta página pode levar alguns segundos.<br />
+							Carregando...<br />
+							<br />
+							<p:graphicImage library="imagens" name="loader.gif" />
+							<br />
+						</p:dialog>
+						<script type="text/javascript">
+							function start() {
+								PF('statusDialog').show();
+							}
+							function stop() {
+								PF('statusDialog').hide();
+								PF('relatorio').hide();
+							}
+						</script>
+
+					</h:form>
+				</div>
+			</div>
+		</div>
+		<ui:include
+			src="/comercial/atendimento/alteracao-de-atendimento.xhtml" />
+		<ui:include src="/comercial/atendimento/consulta-de-atendimento.xhtml" />
+		<ui:include src="/comercial/atendimento/exclusao-de-atendimento.xhtml" />
+	</ui:define>
+</ui:composition>

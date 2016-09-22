@@ -1,0 +1,439 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	<style>
+.ui-widget-content a {
+	color: #778D9B;
+}
+
+.ui-outputlabel, table tbody tr td {
+	font-size: 14px !important;
+}
+
+.possui {
+	color: red !important;
+}
+
+#frmTblConc\3a tblConc>table>tbody>tr>td.ui-datatable-frozenlayout-left
+	{
+	border-right: 3px solid;
+}
+
+#frmTblConc\3a tblConc_scrollableTbody>tr>td.colDoc {
+	border-right: 3px solid;
+}
+
+.ui-datatable-scrollable-header-box thead>tr {
+	height: 72px !important;
+}
+
+.L {
+	color: blue !important;
+}
+
+.P {
+	color: red !important;
+}
+
+.consumo {
+	font-size: 11px !important;
+}
+
+.ui-datatable-frozenlayout-left {
+	max-width: 520px !important;
+}
+
+.ui-paginator-pages {
+	font-family: Verdana;
+}
+
+#frmFiltro\3a pesquisarPor>tbody>tr>td {
+	border: 0px !important;
+}
+
+.headerColunaPequeno[role="columnheader"] input {
+	width: 30px !important;
+}
+
+.ui-frozen-column[role="columnheader"] {
+	text-align: center !important;
+}
+
+.tooltip {
+	font-size: 18px;
+	background: #404b52;
+	color: white;
+	border: 0px !important;
+	opacity: 1;
+	padding: 10px;
+}
+
+.ui-datatable-header {
+	width: 98.7% !important;
+}
+</style>
+	<div class="layout-portlets-box">
+		<div class="Container100 Responsive100">
+			<div class="ContainerIndent">
+				<p:messages autoUpdate="true" />
+				<h:form id="frmFiltro"
+					rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysSipGerencia}">
+					<p:panelGrid id="gridFiltro" columns="7"
+						style="margin-bottom:20px;">
+						<f:facet name="header">
+							<h:outputText value="Filtros" />
+						</f:facet>
+
+						<p:outputLabel value="Ano: " />
+						<p:selectOneMenu id="selectAno" filter="true"
+							filterMatchMode="contains" value="#{concessionariaMB.ano}"
+							converter="omnifaces.SelectItemsConverter" style="width:80px;">
+							<f:selectItem itemLabel="Nenhum" noSelectionOption="true" />
+							<f:selectItems var="ano" value="#{concessionariaMB.anos}"
+								itemLabel="#{ano}" itemValue="#{ano}" />
+						</p:selectOneMenu>
+
+						<p:outputLabel for="pesquisarPor" value="Pesquisar Por:" />
+						<p:selectOneRadio id="pesquisarPor"
+							value="#{concessionariaMB.pesquisarPor}">
+							<p:ajax listener="#{concessionariaMB.limparListas()}"
+								update=":frmFiltro:gridFiltro,:frmTblConc" />
+							<f:selectItem itemLabel="Condomínio" itemValue="Condominio" />
+							<f:selectItem itemLabel="Gerente" itemValue="Gerente" />
+						</p:selectOneRadio>
+
+						<p:selectOneMenu id="selectGerente" filter="true"
+							filterMatchMode="contains" value="#{concessionariaMB.gerente}"
+							converter="omnifaces.SelectItemsConverter" style="width:300px;"
+							rendered="#{concessionariaMB.pesquisarPor == 'Gerente'}">
+							<p:ajax process="@this"
+								listener="#{concessionariaMB.listarCondominiosGerente()}" />
+							<f:selectItem itemLabel="Nenhum" noSelectionOption="true" />
+							<f:selectItems var="gerente" value="#{SessaoMB.listaGerentes}"
+								itemLabel="#{gerente.nome}" itemValue="#{gerente}" />
+						</p:selectOneMenu>
+
+						<p:commandButton icon="fa fa-search Fs16 white"
+							actionListener="#{concessionariaMB.pesquisarConcessionarias()}"
+							update=":frmTblConc"
+							rendered="#{concessionariaMB.pesquisarPor == 'Gerente'}" />
+
+						<p:outputLabel value="Condomínio: "
+							rendered="#{concessionariaMB.pesquisarPor == 'Condominio'}" />
+						<p:selectOneMenu id="selectCnd" filter="true"
+							filterMatchMode="contains" value="#{concessionariaMB.condominio}"
+							converter="omnifaces.SelectItemsConverter" style="width:300px;"
+							rendered="#{concessionariaMB.pesquisarPor == 'Condominio'}">
+							<f:selectItem itemLabel="Nenhum" noSelectionOption="true" />
+							<f:selectItems var="cnd"
+								value="#{concessionariaMB.listaCondominios}"
+								itemLabel="#{cnd.cndCodNome}" itemValue="#{cnd}" />
+						</p:selectOneMenu>
+						<p:commandButton icon="fa fa-search Fs16 white"
+							actionListener="#{concessionariaMB.pesquisarConcessionariasCnd()}"
+							update=":frmTblConc"
+							rendered="#{concessionariaMB.pesquisarPor == 'Condominio'}" />
+					</p:panelGrid>
+
+					<h:panelGrid columns="6">
+						<div
+							style="background-color: red; border-radius: 10px; width: 20px; height: 20px;" />
+						<p:outputLabel value="À Pagar" />
+
+						<div
+							style="background-color: blue; border-radius: 10px; width: 20px; height: 20px;" />
+						<p:outputLabel value="Pagos" />
+						<p:graphicImage library="imagens" name="alrt.png" height="20"
+							alt="Vencimento em até 10 dias - Doc não chegou ou ainda não foi digitalizado."
+							title="Vencimento em até 10 dias - Doc não chegou ou ainda não foi digitalizado." />
+						<p:outputLabel
+							value="Vencimento em até 10 dias - Doc não chegou ou ainda não foi digitalizado." />
+					</h:panelGrid>
+				</h:form>
+			</div>
+		</div>
+		<div class="Container100 Responsive100">
+			<div class="ContainerIndent">
+				<h:form id="frmTblConc">
+					<p:dataTable id="tblConc"
+						value="#{concessionariaMB.listaConcessionaria}"
+						filteredValue="#{concessionariaMB.fltrConcessionaria}"
+						paginator="true" rows="15" var="conc"
+						style="text-align:center;width:100%;font-size:14px!important;"
+						scrollable="true" scrollWidth="600" frozenColumns="4"
+						rowsPerPageTemplate="15,30,50,100"
+						emptyMessage="Nenhum resultado encontrado!">
+						<f:facet name="header">Concessionárias</f:facet>
+						<p:column width="50" sortBy="#{conc.possuiPendencia}"
+							filterBy="#{conc.possuiPendencia}">
+							<p:graphicImage library="imagens" name="alrt.png" height="13"
+								alt="Vencimento em até 10 dias - Doc não chegou ou ainda não foi digitalizado."
+								title="Vencimento em até 10 dias - Doc não chegou ou ainda não foi digitalizado."
+								rendered="#{conc.possuiPendencia}" />
+						</p:column>
+						<p:column headerText="Cnd" width="60"
+							sortBy="#{conc.controle.codigoCondominio}"
+							filterBy="#{conc.controle.codigoCondominio}"
+							filterMatchMode="contains" styleClass="headerColunaPequeno">
+							<p:outputLabel value="#{conc.controle.codigoCondominio}" />
+						</p:column>
+						<p:column headerText="Id" width="130"
+							sortBy="#{conc.controle.codigoDebito}"
+							filterBy="#{conc.controle.codigoDebito}"
+							filterMatchMode="contains" style="text-align:left;">
+							<p:outputLabel id="codigoDebito"
+								value="#{conc.controle.codigoDebito}" />
+							<p:tooltip id="toolTipFade" for="codigoDebito"
+								value="#{conc.controle.obs}" position="top" styleClass="tooltip" />
+						</p:column>
+						<p:column headerText="Fornecedor" width="150"
+							sortBy="#{conc.controle.fornecedor}"
+							filterBy="#{conc.controle.fornecedor}" filterMatchMode="contains"
+							style="text-align:left;">
+							<p:outputLabel value="#{conc.controle.fornecedor}" />
+						</p:column>
+						<p:column headerText="JAN" width="100">
+							<p:outputLabel value="#{conc.valorJan}"
+								styleClass="#{conc.sitJan}" />
+						</p:column>
+						<p:column headerText="C" width="30">
+							<p:outputLabel value="#{conc.consumoJan}" styleClass="consumo" />
+						</p:column>
+						<p:column headerText="V" width="20">
+							<h:outputText value="#{conc.diaJan}" />
+						</p:column>
+						<p:column headerText="DOC" width="30" styleClass="colDoc">
+							<p:commandLink rendered="#{conc.possuiImgJan}">
+								<p:ajax oncomplete="clicaBtnDwld();" />
+								<f:setPropertyActionListener value="#{conc.imgJan}"
+									target="#{concessionariaMB.idImg}" />
+								<p:graphicImage library="imagens" name="pdf.gif" height="13" />
+							</p:commandLink>
+						</p:column>
+						<p:column headerText="FEV" width="100">
+							<p:outputLabel value="#{conc.valorFev}"
+								styleClass="#{conc.sitFev}" />
+						</p:column>
+						<p:column headerText="C" width="30">
+							<p:outputLabel value="#{conc.consumoFev}" styleClass="consumo" />
+						</p:column>
+						<p:column headerText="V" width="20">
+							<h:outputText value="#{conc.diaFev}" />
+						</p:column>
+						<p:column headerText="DOC" width="30" styleClass="colDoc">
+							<p:commandLink rendered="#{conc.possuiImgFev}">
+								<p:ajax oncomplete="clicaBtnDwld();" />
+								<f:setPropertyActionListener value="#{conc.imgFev}"
+									target="#{concessionariaMB.idImg}" />
+								<p:graphicImage library="imagens" name="pdf.gif" height="13" />
+							</p:commandLink>
+						</p:column>
+						<p:column headerText="MAR" width="100">
+							<p:outputLabel value="#{conc.valorMar}"
+								styleClass="#{conc.sitMar}" />
+						</p:column>
+						<p:column headerText="C" width="30">
+							<p:outputLabel value="#{conc.consumoMar}" styleClass="consumo" />
+						</p:column>
+						<p:column headerText="V" width="20">
+							<h:outputText value="#{conc.diaMar}" />
+						</p:column>
+						<p:column headerText="DOC" width="30" styleClass="colDoc">
+							<p:commandLink rendered="#{conc.possuiImgMar}">
+								<p:ajax oncomplete="clicaBtnDwld();" />
+								<f:setPropertyActionListener value="#{conc.imgMar}"
+									target="#{concessionariaMB.idImg}" />
+								<p:graphicImage library="imagens" name="pdf.gif" height="13" />
+							</p:commandLink>
+						</p:column>
+						<p:column headerText="ABR" width="100">
+							<p:outputLabel value="#{conc.valorAbr}"
+								styleClass="#{conc.sitAbr}" />
+						</p:column>
+						<p:column headerText="C" width="30">
+							<p:outputLabel value="#{conc.consumoAbr}" styleClass="consumo" />
+						</p:column>
+						<p:column headerText="V" width="20">
+							<h:outputText value="#{conc.diaAbr}" />
+						</p:column>
+						<p:column headerText="DOC" width="30" styleClass="colDoc">
+							<p:commandLink rendered="#{conc.possuiImgAbr}">
+								<p:ajax oncomplete="clicaBtnDwld();" />
+								<f:setPropertyActionListener value="#{conc.imgAbr}"
+									target="#{concessionariaMB.idImg}" />
+								<p:graphicImage library="imagens" name="pdf.gif" height="13" />
+							</p:commandLink>
+						</p:column>
+						<p:column headerText="MAI" width="100">
+							<p:outputLabel value="#{conc.valorMai}"
+								styleClass="#{conc.sitMai}" />
+						</p:column>
+						<p:column headerText="C" width="30">
+							<p:outputLabel value="#{conc.consumoMai}" styleClass="consumo" />
+						</p:column>
+						<p:column headerText="V" width="20">
+							<h:outputText value="#{conc.diaMai}" />
+						</p:column>
+						<p:column headerText="DOC" width="30" styleClass="colDoc">
+							<p:commandLink rendered="#{conc.possuiImgMai}">
+								<p:ajax oncomplete="clicaBtnDwld();" />
+								<f:setPropertyActionListener value="#{conc.imgMai}"
+									target="#{concessionariaMB.idImg}" />
+								<p:graphicImage library="imagens" name="pdf.gif" height="13" />
+							</p:commandLink>
+						</p:column>
+						<p:column headerText="JUN" width="100">
+							<p:outputLabel value="#{conc.valorJun}"
+								styleClass="#{conc.sitJun}" />
+						</p:column>
+						<p:column headerText="C" width="30">
+							<p:outputLabel value="#{conc.consumoJun}" styleClass="consumo" />
+						</p:column>
+						<p:column headerText="V" width="20">
+							<h:outputText value="#{conc.diaJun}" />
+						</p:column>
+						<p:column headerText="DOC" width="30" styleClass="colDoc">
+							<p:commandLink rendered="#{conc.possuiImgJun}">
+								<p:ajax oncomplete="clicaBtnDwld();" />
+								<f:setPropertyActionListener value="#{conc.imgJun}"
+									target="#{concessionariaMB.idImg}" />
+								<p:graphicImage library="imagens" name="pdf.gif" height="13" />
+							</p:commandLink>
+						</p:column>
+						<p:column headerText="JUL" width="100">
+							<p:outputLabel value="#{conc.valorJul}"
+								styleClass="#{conc.sitJul}" />
+						</p:column>
+						<p:column headerText="C" width="30">
+							<p:outputLabel value="#{conc.consumoJul}" styleClass="consumo" />
+						</p:column>
+						<p:column headerText="V" width="20">
+							<h:outputText value="#{conc.diaJul}" />
+						</p:column>
+						<p:column headerText="DOC" width="30" styleClass="colDoc">
+							<p:commandLink rendered="#{conc.possuiImgJul}">
+								<p:ajax oncomplete="clicaBtnDwld();" />
+								<f:setPropertyActionListener value="#{conc.imgJul}"
+									target="#{concessionariaMB.idImg}" />
+								<p:graphicImage library="imagens" name="pdf.gif" height="13" />
+							</p:commandLink>
+						</p:column>
+						<p:column headerText="AGO" width="100">
+							<p:outputLabel value="#{conc.valorAgo}"
+								styleClass="#{conc.sitAgo}" />
+						</p:column>
+						<p:column headerText="C" width="30">
+							<p:outputLabel value="#{conc.consumoAgo}" styleClass="consumo" />
+						</p:column>
+						<p:column headerText="V" width="20">
+							<h:outputText value="#{conc.diaAgo}" />
+						</p:column>
+						<p:column headerText="DOC" width="30" styleClass="colDoc">
+							<p:commandLink rendered="#{conc.possuiImgAgo}">
+								<p:ajax oncomplete="clicaBtnDwld();" />
+								<f:setPropertyActionListener value="#{conc.imgAgo}"
+									target="#{concessionariaMB.idImg}" />
+								<p:graphicImage library="imagens" name="pdf.gif" height="13" />
+							</p:commandLink>
+						</p:column>
+						<p:column headerText="SET" width="100">
+							<p:outputLabel value="#{conc.valorSet}"
+								styleClass="#{conc.sitSet}" />
+						</p:column>
+						<p:column headerText="C" width="30">
+							<p:outputLabel value="#{conc.consumoSet}" styleClass="consumo" />
+						</p:column>
+						<p:column headerText="V" width="20">
+							<h:outputText value="#{conc.diaSet}" />
+						</p:column>
+						<p:column headerText="DOC" width="30" styleClass="colDoc">
+							<p:commandLink rendered="#{conc.possuiImgSet}">
+								<p:ajax oncomplete="clicaBtnDwld();" />
+								<f:setPropertyActionListener value="#{conc.imgSet}"
+									target="#{concessionariaMB.idImg}" />
+								<p:graphicImage library="imagens" name="pdf.gif" height="13" />
+							</p:commandLink>
+						</p:column>
+						<p:column headerText="OUT" width="100">
+							<p:outputLabel value="#{conc.valorOut}"
+								styleClass="#{conc.sitOut}" />
+						</p:column>
+						<p:column headerText="C" width="30">
+							<p:outputLabel value="#{conc.consumoOut}" styleClass="consumo" />
+						</p:column>
+						<p:column headerText="V" width="20">
+							<h:outputText value="#{conc.diaOut}" />
+						</p:column>
+						<p:column headerText="DOC" width="30" styleClass="colDoc">
+							<p:commandLink rendered="#{conc.possuiImgOut}">
+								<p:ajax oncomplete="clicaBtnDwld();" />
+								<f:setPropertyActionListener value="#{conc.imgOut}"
+									target="#{concessionariaMB.idImg}" />
+								<p:graphicImage library="imagens" name="pdf.gif" height="13" />
+							</p:commandLink>
+						</p:column>
+						<p:column headerText="NOV" width="100">
+							<p:outputLabel value="#{conc.valorNov}"
+								styleClass="#{conc.sitNov}" />
+						</p:column>
+						<p:column headerText="C" width="30">
+							<p:outputLabel value="#{conc.consumoNov}" styleClass="consumo" />
+						</p:column>
+						<p:column headerText="V" width="20">
+							<h:outputText value="#{conc.diaNov}" />
+						</p:column>
+						<p:column headerText="DOC" width="30" styleClass="colDoc">
+							<p:commandLink rendered="#{conc.possuiImgNov}">
+								<p:ajax oncomplete="clicaBtnDwld();" />
+								<f:setPropertyActionListener value="#{conc.imgNov}"
+									target="#{concessionariaMB.idImg}" />
+								<p:graphicImage library="imagens" name="pdf.gif" height="13" />
+							</p:commandLink>
+						</p:column>
+						<p:column headerText="DEZ" width="100">
+							<p:outputLabel value="#{conc.valorDez}"
+								styleClass="#{conc.sitDez}" />
+						</p:column>
+						<p:column headerText="C" width="30">
+							<p:outputLabel value="#{conc.consumoDez}" styleClass="consumo" />
+						</p:column>
+						<p:column headerText="V" width="20">
+							<h:outputText value="#{conc.diaDez}" />
+						</p:column>
+						<p:column headerText="DOC" width="30" styleClass="colDoc">
+							<p:commandLink rendered="#{conc.possuiImgDez}">
+								<p:ajax oncomplete="clicaBtnDwld();" />
+								<f:setPropertyActionListener value="#{conc.imgDez}"
+									target="#{concessionariaMB.idImg}" />
+								<p:graphicImage library="imagens" name="pdf.gif" height="13" />
+							</p:commandLink>
+						</p:column>
+					</p:dataTable>
+				</h:form>
+			</div>
+		</div>
+	</div>
+	<h:form id="frmDwld" target="_blank"
+		rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysSipGerencia}">
+		<p:commandButton id="btnDwldImg"
+			actionListener="#{concessionariaMB.baixarImg()}" ajax="false"
+			style="visibility:hidden;top:-100px!important;position:absolute;" />
+	</h:form>
+	<script>
+		function clicaBtnDwld() {
+			$("[id='frmDwld:btnDwldImg']").click();
+		}
+	</script>
+	<p:ajaxStatus onstart="PF('statusDialog').show()"
+		onsuccess="PF('statusDialog').hide()" />
+	<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+		closable="false" resizable="false" showHeader="false">
+					Aguarde...<br />
+		<br />
+		<p:graphicImage library="imagens" name="loader.gif" />
+	</p:dialog>
+</ui:composition>

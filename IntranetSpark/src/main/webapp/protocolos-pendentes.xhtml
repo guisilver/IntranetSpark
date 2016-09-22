@@ -1,0 +1,77 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<style>
+.ui-state-error {
+	border-color: red !important;
+}
+</style>
+		<div class="layout-portlets-box">
+			<div class="DispInlBlock TexAlLeft">
+				<div class="Fleft">
+					<h2 class="black Fs24 FontRalewayMedium">Protocolos de
+						Assembleia</h2>
+				</div>
+			</div>
+			<div class="Seperator"></div>
+			<div class="Container100 Responsive100">
+				<div class="ContainerIndent">
+					<h:form id="frmTblProtocolos">
+						<p:commandButton value="Ir para Assembleias"
+							action="assembleias.xhtml?faces-redirect=true;"
+							icon="fa fa-arrow-right Fs16 white"
+							style="font-size:12px;float:left;" />
+						<br />
+						<br />
+						<p:messages autoUpdate="true" id="msg" />
+						<p:dataTable value="#{protocolosMB.lstAssembleias}" var="item"
+							emptyMessage="Não há registros." id="tblProtocolos" rows="15"
+							scrollable="true" rowsPerPageTemplate="5,10,15,50,100"
+							selection="#{protocolosMB.lstAssembleiasSelecionadas}"
+							rowKey="#{item.codigo}"
+							style="width:100%;font-size:12px;text-align:center;margin-top:20px;margin-bottom:10px;"
+							paginator="true">
+							<f:facet name="header">
+								Protocolos Pendentes de Assembleia
+							</f:facet>
+							<p:column rendered="false">
+								<p:outputLabel value="#{item.codigo}" />
+							</p:column>
+							<p:column headerText="Cod. CND:"
+								filterBy="#{item.condominio.codigo}"
+								sortBy="#{item.condominio.codigo}">
+								<h:outputText value="#{item.condominio.codigo}" />
+							</p:column>
+							<p:column headerText="Nome CND:"
+								filterBy="#{item.condominio.nome}"
+								sortBy="#{item.condominio.nome}">
+								<h:outputText value="#{item.condominio.nome}" />
+							</p:column>
+							<p:column headerText="Gerente:" filterBy="#{item.gerente.nome}"
+								sortBy="#{item.gerente.nome}">
+								<h:outputText value="#{item.gerente.nome}" />
+							</p:column>
+							<p:column headerText="Data Assembleia:"
+								sortBy="#{item.dataAssembleia}">
+								<h:outputText value="#{item.dataAssembleia}">
+									<f:convertDateTime pattern="dd/MM/yyyy"
+										timeZone="Amercia/Sao_Paulo" locale="pt" />
+								</h:outputText>
+							</p:column>
+							<p:column headerText="Protocolo Recebido:"
+								selectionMode="multiple" style="text-align:center" />
+						</p:dataTable>
+						<p:commandButton value="Salvar"
+							actionListener="#{protocolosMB.salvarProtocolos()}"
+							update="frmTblProtocolos" icon="fa fa-check Fs16 white"
+							rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.verificaDepto('Condominio')}"
+							style="font-size:12px;float:right;margin-top:20px;" />
+					</h:form>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

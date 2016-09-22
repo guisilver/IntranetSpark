@@ -1,0 +1,113 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<h:form id="frmDlgRelatorio">
+		<p:dialog id="dlgRelatorio" header="Relatório" closeOnEscape="true" responsive="true"
+			widgetVar="dlgGeraRelatorio" style="font-size:12px;" resizable="true"
+			modal="true" hideEffect="slide" showEffect="slide"
+			position="left top" height="500" width="800">
+			<p:media value="/relatorios/#{amMB.nomeArquivo}.pdf" player="pdf"
+				width="100%" height="100%;" />
+		</p:dialog>
+
+		<p:dialog modal="false" widgetVar="statusDialog" responsive="true"
+			header="Gerando Relatório" draggable="false" resizable="false"
+			closable="false">
+			<center>
+				<p:graphicImage name="loader.gif" library="imagens" width="200"
+					height="25" />
+			</center>
+		</p:dialog>
+
+		<p:dialog header="Protocolo" widgetVar="dlgProtocolo" id="dialogProt" modal="true"
+			width="800" height="500" closeOnEscape="true" responsive="true">
+			<p:media player="pdf" value="#{ImgServiceBean.protocolo}"
+				width="100%" height="100%;" rendered="#{amMB.codigo gt 0}"
+				cache="false">
+				<f:param name="codigo" value="#{amMB.codigo}" />
+			</p:media>
+		</p:dialog>
+
+		<p:dialog header="Adicionar protocolo" widgetVar="dialogAddProtocolo" modal="true"
+			resizable="false" style="font-size:14px;" closeOnEscape="true" responsive="true">
+			<h:panelGrid id="plgAddProt1">
+				<h:panelGrid columns="2"
+					rendered="#{amMB.amBEAN.condominio > 0 ? true : false}">
+					<p:outputLabel value="Condo.:" style="font-size:12px;" />
+					<p:outputLabel value="#{amMB.amBEAN.condominio}"
+						style="font-size:12px;" />
+					<p:outputLabel value="Tipo:" style="font-size:12px;" />
+					<p:outputLabel style="font-size:12px;"
+						value="#{amMB.amBEAN.valor eq null ? 'Advertência' : 'Multa'}" />
+				</h:panelGrid>
+			</h:panelGrid>
+			
+			<h:panelGrid id="plgAddProt2">
+				<h:panelGrid
+					rendered="#{amMB.amBEAN.condominio > 0 ? true : false}">
+					<p:fileUpload style="font-size:12px;"
+						fileUploadListener="#{amMB.handleFileUpload}"  
+						converterMessage="Insira somente arquivos pdf!"
+						invalidFileMessage="Este arquivo é muito grande!Insira somente arquivos pdf!"
+						invalidSizeMessage="O tamanho máximo é de 5MB!"
+						cancelLabel="Cancelar" uploadLabel="Inserir" label="Procurar"
+						mode="advanced" dragDropSupport="false" sizeLimit="5000000"
+						allowTypes="/(\.|\/)(pdf)$/" update=":tbvAdvMul:frmHistorico :frmAdvMul:msg"
+						oncomplete="PF('dialogAddProtocolo').hide();" />
+				</h:panelGrid>
+			</h:panelGrid>
+			
+			<h:panelGrid id="plgAddProt3">
+				<p:outputLabel value="Selecione um item no relatório!"
+					style="font-size:14px; color:red;"
+					rendered="#{amMB.amBEAN.condominio > 0 ? false : true}" />
+			</h:panelGrid>
+		</p:dialog>
+		
+		<p:dialog header="Exclsão" widgetVar="dlgExclusao" modal="true" showEffect="slide" hideEffect="slide"
+			resizable="false" style="font-size:14px;" id="dlgExcluirAdvMult" closeOnEscape="true" responsive="true">
+			<h:panelGrid id="plgExcl1">
+				<h:panelGrid columns="2"
+					rendered="#{amMB.amBEAN.codigo > 0 ? true : false}">
+					<p:outputLabel value="Condo.:" style="font-size:12px;" />
+					<p:outputLabel value="#{amMB.amBEAN.condominio}"
+						style="font-size:12px;" />
+					<p:outputLabel value="Tipo:" style="font-size:12px;" />
+					<p:outputLabel style="font-size:12px;"
+						value="#{amMB.amBEAN.valor eq null ? 'Advertência' : 'Multa'}" />
+				</h:panelGrid>
+			</h:panelGrid>
+			
+			<h:panelGrid id="plgExcl3">
+				<p:outputLabel value="Selecione um item para exclusão!"
+					style="font-size:14px; color:red;"
+					rendered="#{amMB.amBEAN.codigo > 0 ? false : true}" />
+			</h:panelGrid>
+			<hr rendered="#{amMB.amBEAN.codigo > 0 ? true : false}"/>
+			
+			<h:panelGrid id="plgExcl2">
+				<h:panelGrid
+					rendered="#{amMB.amBEAN.codigo > 0 ? true : false}">
+					<p:commandButton id="btnDel" icon="fa fa-close Fs16 white" value="Excluir" actionListener="#{amMB.deletarAdvm}" 
+					style="margin-left: 5px; float: right;" update=":tbvAdvMul:frmHistorico :frmAdvMul:msg" onsuccess="PF('dlgExclusao').hide();">
+					<p:confirm header="Confirmação" message="Confirma a exclusão?" icon="fa fa-alert Fs16 white" />
+				</p:commandButton>
+				</h:panelGrid>
+			</h:panelGrid>
+			
+			
+		<p:confirmDialog global="true" showEffect="slide" hideEffect="slide" closeOnEscape="true">
+			<p:commandButton value="Sim" type="button" style="float: right;"
+				styleClass="ui-confirmdialog-yes" icon="fa fa-check Fs16 white" />
+			<p:commandButton value="Não" type="button" 
+				styleClass="ui-confirmdialog-no" icon="fa fa-close Fs16 white" />
+		</p:confirmDialog>
+		</p:dialog>
+
+	</h:form>
+
+</ui:composition>

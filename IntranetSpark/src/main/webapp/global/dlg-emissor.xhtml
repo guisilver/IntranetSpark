@@ -1,0 +1,127 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<style>
+.ui-cell-editor-output {
+	word-wrap: break-word;
+	width: 140px;
+}
+</style>
+	<p:dialog widgetVar="dlgEmissor" id="dlgEmissor" header="Emissor"
+		style="font-size:13px;" resizable="false" modal="true">
+		<h:form id="frmEmissor">
+			<p:panelGrid columns="2">
+
+				<f:facet name="header">
+					<h:outputText value="Informações" />
+				</f:facet>
+
+				<h:outputText value="Cod. CND:" />
+				<h:outputText
+					value="#{impressaoBureauMB.loteSelecionado.emissor.codCondominio}"
+					style="color:red;" />
+
+				<h:outputText value="Nome CND:" />
+				<h:outputText
+					value="#{impressaoBureauMB.loteSelecionado.emissor.nomeCondominio}"
+					style="color:red;" />
+
+				<h:outputText value="Referência:" />
+				<h:outputText
+					value="#{impressaoBureauMB.loteSelecionado.emissor.referencia}" />
+
+				<h:outputText value="Data de Envio:" />
+				<h:outputText
+					value="#{impressaoBureauMB.loteSelecionado.emissor.dataEnviado}">
+					<f:convertDateTime locale="pt" pattern="dd/MM/yyyy HH:mm"
+						timeZone="America/Sao_Paulo" />
+				</h:outputText>
+			</p:panelGrid>
+			<p:panelGrid columns="2" style="margin:10px;">
+
+				<f:facet name="header">
+					<h:outputText value="Arquivos" />
+				</f:facet>
+
+				<h:outputText value="Destinatário:"
+					rendered="#{impressaoBureauMB.destinatario}" />
+				<p:commandButton ajax="false"
+					onclick="PrimeFaces.monitorDownload(start, stop);"
+					icon="fa fa-download Fs16 white" value="Download"
+					rendered="#{impressaoBureauMB.destinatario}">
+					<p:fileDownload value="#{impressaoBureauMB.dwnldDest}" />
+				</p:commandButton>
+
+				<h:outputText value="Emissor 1:"
+					rendered="#{impressaoBureauMB.emissor1}" />
+				<p:commandButton ajax="false"
+					onclick="PrimeFaces.monitorDownload(start, stop);"
+					icon="fa fa-download Fs16 white" value="Download"
+					rendered="#{impressaoBureauMB.emissor1}">
+					<p:fileDownload value="#{impressaoBureauMB.dwnldEmissor1}" />
+				</p:commandButton>
+
+				<h:outputText value="Emissor 2:"
+					rendered="#{impressaoBureauMB.emissor2}" />
+				<p:commandButton ajax="false"
+					onclick="PrimeFaces.monitorDownload(start, stop);"
+					icon="fa fa-download Fs16 white" value="Download"
+					rendered="#{impressaoBureauMB.emissor2}">
+					<p:fileDownload value="#{impressaoBureauMB.dwnldEmissor2}" />
+				</p:commandButton>
+
+			</p:panelGrid>
+
+			<p:panelGrid columns="2" style="margin-left:10px;">
+				<f:facet name="header">
+					<h:outputText value="Situação" />
+				</f:facet>
+
+				<h:outputText value="Situação" />
+				<h:outputText
+					value="#{impressaoBureauMB.loteSelecionado.emissor.situacao}"
+					styleClass="#{impressaoBureauMB.loteSelecionado.emissor.situacao}" />
+
+				<h:outputText value="Data de Conferência" />
+				<h:outputText
+					value="#{impressaoBureauMB.loteSelecionado.emissor.dataConferido}">
+					<f:convertDateTime locale="pt" pattern="dd/MM/yyyy HH:mm"
+						timeZone="America/Sao_Paulo" />
+				</h:outputText>
+
+				<h:outputText value="Recebido" />
+				<p:commandButton icon="fa fa-check Fs16 white"
+					actionListener="#{impressaoBureauMB.receberEmissor()}"
+					rendered="#{impressaoBureauMB.loteSelecionado.emissor.situacao != 'Recebido'}"
+					update="@form" />
+				<p:commandButton icon="fa fa-close Fs16 white"
+					actionListener="#{impressaoBureauMB.removerDataRecebimentoEmissor()}"
+					rendered="#{impressaoBureauMB.loteSelecionado.emissor.situacao == 'Recebido'}"
+					update="@form" />
+
+				<h:outputText value="Cancelar" />
+				<p:commandButton icon="fa fa-ban Fs16 white"
+					actionListener="#{impressaoBureauMB.cancelarArquivoEmissor()}"
+					rendered="#{impressaoBureauMB.loteSelecionado.emissor.situacao != 'Cancelado'}"
+					update="@form" />
+				<p:commandButton icon="fa fa-close Fs16 white"
+					actionListener="#{impressaoBureauMB.removerCancelarArquivoEmissor()}"
+					rendered="#{impressaoBureauMB.loteSelecionado.emissor.situacao == 'Cancelado'}"
+					update="@form" />
+			</p:panelGrid>
+
+			<h:panelGrid style="width:100%;margin-top:10px;">
+				<h:column>
+					<p:commandButton icon="fa fa-close Fs16 white" value="Cancelar"
+						oncomplete="PF('dlgEmissor').hide();" style="float:left;" />
+					<p:commandButton icon="fa fa-check Fs16 white" value="Salvar"
+						actionListener="#{impressaoBureauMB.salvar()}"
+						oncomplete="PF('dlgEmissor').hide();" style="float:right;"
+						update=":frmArquivos, :frmTblLote:tblLotes" />
+				</h:column>
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
+</ui:composition>

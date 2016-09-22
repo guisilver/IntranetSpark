@@ -1,0 +1,1103 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<style>
+body {
+	font-size: 12px;
+}
+
+#frmEscalaDeFolga\3a gridPeriodo>tbody>tr>td:nth-child(1)>table>tbody>tr>td
+	{
+	border: 0px !important;
+}
+
+.SAB[role="columnheader"] {
+	background: grey;
+	color: white !important;
+}
+
+.DOM[role="columnheader"] {
+	background: grey;
+	color: white !important;
+}
+
+.FER[role="columnheader"] {
+	background: #dc143c;
+	color: white !important;
+}
+
+.SAB label, .DOM label, .FER label {
+	color: white !important;
+}
+
+.ui-outputlabel {
+	color: #778D9B !important;
+	font-size: 8px;
+}
+
+.gridAcoes tbody td {
+	border: 0px !important;
+	border-color: white;
+}
+
+.ui-editable-column {
+	padding: 0px !important;
+	width: 40px;
+}
+
+.ui-cell-editor-output {
+	text-align: center;
+}
+
+.divCelula {
+	width: 49px;
+	height: 36px;
+	padding: 0px;
+	background: #7289A1;
+	color: white;
+	text-align: center;
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.ui-datatable table {
+	border-collapse: separate !important;
+	border-spacing: 1px !important;
+}
+
+div.scroll {
+	background-color: #F5F5F5;
+	height: 400px;
+	overflow: scroll;
+}
+
+.ui-datatable table tbody td {
+	padding: 0px !important;
+	font-size: 12px !important;
+}
+
+.ui-panel {
+	background-color: transparent !important;
+}
+
+.ui-inputNum input {
+	width: 30px !important;
+}
+
+.colunaDia {
+	width: 15px !important;
+}
+
+#frmTblFolgas\3a tbl_data>tr {
+	height: 40px !important;
+}
+
+.ui-datatable table thead tr th {
+	padding: 5px !important;
+}
+
+.ui-datatable .ui-inputfield {
+	width: 20px !important;
+	height: 30px !important;
+	padding: 0px !important;
+	font-size: 12px !important;
+}
+</style>
+		<div class="layout-portlets-box">
+			<i class="fa fa-calendar Fs40 blue Fleft MarRight10"></i>
+			<div class="Fleft">
+				<h2 class="black Fs24 FontRalewayMedium">Escala de Folga</h2>
+			</div>
+			<div class="Seperator"></div>
+			<div class="Container100 TexAlCenter">
+				<div class="Wid100 Fleft">
+					<h:form id="frmEscalaDeFolga">
+						<p:panelGrid id="gridPeriodo" columns="1" style="margin-top:20px;">
+							<f:facet name="header">
+								Período
+							</f:facet>
+							<h:panelGrid columns="2">
+								<h:outputText value="Condomínio:" />
+								<p:selectOneMenu value="#{escalaDeFolgaMB.condominio}"
+									id="selectCondominio" filter="true" filterMatchMode="contains"
+									converter="omnifaces.SelectItemsConverter" style="width:400px;"
+									required="true" requiredMessage="Selecione um condomínio!"
+									tabindex="1">
+									<p:ajax listener="#{escalaDeFolgaMB.selecionaCondominio()}"
+										update="@form,:frmTblFolgas:tbl"
+										onstart="PF('statusDialog').show()"
+										onsuccess="PF('statusDialog').hide()" />
+									<f:selectItem itemLabel="Nenhum" noSelectionOption="true" />
+									<f:selectItems var="items"
+										value="#{escalaDeFolgaMB.listaCondominio}"
+										itemLabel="#{items.nome}" itemValue="#{items}" />
+								</p:selectOneMenu>
+							</h:panelGrid>
+							<h:panelGrid id="gridDatas" columns="4">
+								<pe:inputNumber value="#{escalaDeFolgaMB.diaInicio}"
+									minValue="1" maxValue="31" style="width:30px!important;"
+									rendered="#{escalaDeFolgaMB.tipoEscala == 'Personalizado'}">
+									<p:ajax event="blur"
+										listener="#{escalaDeFolgaMB.setCookieDiaInicio()}"
+										update=":frmTblFolgas:tbl" onstart="PF('statusDialog').show()"
+										onsuccess="PF('statusDialog').hide()" />
+								</pe:inputNumber>
+
+								<p:selectOneMenu value="#{escalaDeFolgaMB.mesInicio}"
+									style="width:100px;" tabindex="2">
+									<p:ajax event="change"
+										listener="#{escalaDeFolgaMB.geraEscalaDeFolgas()}"
+										update=":frmTblFolgas:tbl" onstart="PF('statusDialog').show()"
+										onsuccess="PF('statusDialog').hide()" />
+									<f:selectItem itemLabel="Janeiro" itemValue="1" />
+									<f:selectItem itemLabel="Fevereiro" itemValue="2" />
+									<f:selectItem itemLabel="Março" itemValue="3" />
+									<f:selectItem itemLabel="Abril" itemValue="4" />
+									<f:selectItem itemLabel="Maio" itemValue="5" />
+									<f:selectItem itemLabel="Junho" itemValue="6" />
+									<f:selectItem itemLabel="Julho" itemValue="7" />
+									<f:selectItem itemLabel="Agosto" itemValue="8" />
+									<f:selectItem itemLabel="Setembro" itemValue="9" />
+									<f:selectItem itemLabel="Outubro" itemValue="10" />
+									<f:selectItem itemLabel="Novembro" itemValue="11" />
+									<f:selectItem itemLabel="Dezembro" itemValue="12" />
+								</p:selectOneMenu>
+
+								<p:selectOneMenu value="#{escalaDeFolgaMB.anoInicio}"
+									style="width:60px;">
+									<p:ajax event="change"
+										listener="#{escalaDeFolgaMB.geraEscalaDeFolgas()}"
+										update=":frmTblFolgas:tbl" onstart="PF('statusDialog').show()"
+										onsuccess="PF('statusDialog').hide()" />
+									<f:selectItems var="ano" value="#{escalaDeFolgaMB.listaAnos}"
+										itemLabel="#{ano}" itemValue="#{ano}" />
+								</p:selectOneMenu>
+
+								<p:column>
+									<p:commandButton value="Abrir em PDF"
+										action="#{escalaDeFolgaMB.geraRelatorio()}"
+										onstart="PF('statusDialog').show()"
+										onsuccess="PF('statusDialog').hide()"
+										update=":dialogRelatorio2" />
+									<p:commandButton value="Alterar Obs"
+										oncomplete="PF('dlgEscalaParam').show();"
+										update=":frmEscalaParam" />
+								</p:column>
+							</h:panelGrid>
+						</p:panelGrid>
+					</h:form>
+				</div>
+			</div>
+			<div class="Container100 TexAlCenter">
+				<div class="Wid100 Fleft">
+					<p:growl id="msgs" showDetail="false" />
+					<h:form id="frmTblFolgas">
+						<p:dataTable value="#{escalaDeFolgaMB.listaFolgas}" var="folga"
+							id="tbl" editable="true" editMode="cell"
+							style="font-size:8px!important;margin-top:20px;">
+							<p:ajax event="cellEdit" listener="#{escalaDeFolgaMB.onCellEdit}" />
+							<f:facet name="header">
+								<p:outputLabel value="#{escalaDeFolgaMB.periodo}"
+									style="font-size:14px;color:white!important;" />
+							</f:facet>
+							<p:column style="width:80px;text-align:center;">
+								<h:panelGrid styleClass="gridAcoes" columns="3" border="0"
+									style="margin-left:auto;margin-right:auto;width:auto;">
+									<p:commandButton icon="fa fa-pencil Fs16 white" id="btnAlterar"
+										actionListener="#{escalaDeFolgaMB.abrirDlgAlteraFuncionario(folga)}"
+										update=":frmAltrFuncionario"
+										onstart="PF('statusDialog').show()"
+										oncomplete="PF('statusDialog').hide()" />
+									<p:commandButton icon="fa fa-file Fs16 white" id="btnLimpar"
+										actionListener="#{escalaDeFolgaMB.limparFolgasMes(folga)}"
+										update=":frmTblFolgas:tbl" onstart="PF('statusDialog').show()"
+										oncomplete="PF('statusDialog').hide()" />
+									<p:tooltip for="btnAlterar" value="Alterar Folgas"
+										trackMouse="true" />
+									<p:tooltip for="btnLimpar" value="Limpar folgas do período"
+										trackMouse="true" />
+								</h:panelGrid>
+							</p:column>
+							<p:column headerText="Código" rendered="false">
+								<h:outputText value="#{folga.codigo}" />
+							</p:column>
+							<p:column headerText="Nome"
+								style="width:200px!important;text-align:left;">
+								<h:outputText value="#{folga.nome}" style="margin-left:5px;" />
+							</p:column>
+							<p:column headerText="Função" style="width:120px;">
+								<h:outputText value="#{folga.funcao}" />
+							</p:column>
+							<p:column headerText="1º Horário" style="width:60px;">
+								<h:outputText value="#{folga.entr_prim}" /> - <h:outputText
+									value="#{folga.saida_prim}" />
+							</p:column>
+							<p:column headerText="2º Horário" style="width:60px;">
+								<h:outputText value="#{folga.entr_seg}" /> - <h:outputText
+									value="#{folga.saida_seg}" />
+							</p:column>
+							<p:column headerText="Férias" style="width:100px;">
+								<p:panel rendered="#{!folga.afastado}"
+									style="border:0px!important;">
+									<h:outputText value="#{folga.inicio_gozo}"
+										style="font-size:12px;">
+										<f:convertDateTime pattern="dd/MM/yyyy" locale="pt"
+											timeZone="America/Sao_Paulo" />
+									</h:outputText>
+									<h:outputText value=" à "
+										rendered="#{folga.inicio_gozo!= null and folga.final_gozo != null}"
+										style="font-size:12px;" />
+									<h:outputText value="#{folga.final_gozo}"
+										style="font-size:12px;">
+										<f:convertDateTime pattern="dd/MM/yyyy" locale="pt"
+											timeZone="America/Sao_Paulo" />
+									</h:outputText>
+								</p:panel>
+								<p:panel rendered="#{folga.afastado}"
+									style="border:0px!important;">
+								AFASTADO
+							</p:panel>
+							</p:column>
+							<p:column style="font-weight: bold;"
+								styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h1)} colunaDia"
+								headerText="#{escalaDeFolgaMB.folgaHeader.h1.dayOfMonth}">
+								<f:facet name="header">
+									<p:outputLabel
+										value="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h1)}"
+										styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h1)}" />
+									<br />
+									<h:outputText
+										value="#{escalaDeFolgaMB.folgaHeader.h1.dayOfMonth}" />
+								</f:facet>
+								<p:cellEditor>
+									<f:facet name="output">
+										<div
+											class="#{folga.f1fer == true or folga.afastado == true or fn:containsIgnoreCase(folga.f1,'X') ? 'divCelula': null}">
+											<h:outputText value="#{escalaDeFolgaMB.removeX(folga.f1)}"
+												style="margin-top:50%;" />
+										</div>
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{folga.f1}" maxlength="3"
+											style="width:5px;" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+							<p:column style="font-weight: bold;"
+								styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h2)} colunaDia"
+								headerText="#{escalaDeFolgaMB.folgaHeader.h2.dayOfMonth}">
+								<f:facet name="header">
+									<p:outputLabel
+										value="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h2)}"
+										styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h2)}" />
+									<br />
+									<h:outputText
+										value="#{escalaDeFolgaMB.folgaHeader.h2.dayOfMonth}" />
+								</f:facet>
+								<p:cellEditor>
+									<f:facet name="output">
+										<div
+											class="#{folga.f2fer == true or folga.afastado == true or fn:containsIgnoreCase(folga.f2,'X') ? 'divCelula': null}">
+											<h:outputText value="#{escalaDeFolgaMB.removeX(folga.f2)}"
+												style="margin-top:50%;" />
+										</div>
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{folga.f2}" maxlength="3"
+											style="width:5px;" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+
+							<p:column style="font-weight: bold;"
+								styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h3)} colunaDia"
+								headerText="#{escalaDeFolgaMB.folgaHeader.h3.dayOfMonth}">
+								<f:facet name="header">
+									<p:outputLabel
+										value="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h3)}"
+										styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h3)}" />
+									<br />
+									<h:outputText
+										value="#{escalaDeFolgaMB.folgaHeader.h3.dayOfMonth}" />
+								</f:facet>
+								<p:cellEditor>
+									<f:facet name="output">
+										<div
+											class="#{folga.f3fer == true or folga.afastado == true or fn:containsIgnoreCase(folga.f3,'X') ? 'divCelula': null}">
+											<h:outputText value="#{escalaDeFolgaMB.removeX(folga.f3)}"
+												style="margin-top:50%;" />
+										</div>
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{folga.f3}" maxlength="3"
+											style="width:5px;" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+
+							<p:column style="font-weight: bold;"
+								styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h4)} colunaDia"
+								headerText="#{escalaDeFolgaMB.folgaHeader.h4.dayOfMonth}">
+								<f:facet name="header">
+									<p:outputLabel
+										value="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h4)}"
+										styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h4)}" />
+									<br />
+									<h:outputText
+										value="#{escalaDeFolgaMB.folgaHeader.h4.dayOfMonth}" />
+								</f:facet>
+								<p:cellEditor>
+									<f:facet name="output">
+										<div
+											class="#{folga.f4fer == true or folga.afastado == true  or fn:containsIgnoreCase(folga.f4,'X') ? 'divCelula': null}">
+											<h:outputText value="#{escalaDeFolgaMB.removeX(folga.f4)}"
+												style="margin-top:50%;" />
+										</div>
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{folga.f4}" maxlength="3"
+											style="width:5px;" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+
+							<p:column style="font-weight: bold;"
+								styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h5)} colunaDia"
+								headerText="#{escalaDeFolgaMB.folgaHeader.h5.dayOfMonth}">
+								<f:facet name="header">
+									<p:outputLabel
+										value="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h5)}"
+										styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h5)}" />
+									<br />
+									<h:outputText
+										value="#{escalaDeFolgaMB.folgaHeader.h5.dayOfMonth}" />
+								</f:facet>
+								<p:cellEditor>
+									<f:facet name="output">
+										<div
+											class="#{folga.f5fer == true or folga.afastado == true or fn:containsIgnoreCase(folga.f5,'X') ? 'divCelula': null}">
+											<h:outputText value="#{escalaDeFolgaMB.removeX(folga.f5)}"
+												style="margin-top:50%;" />
+										</div>
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{folga.f5}" maxlength="3"
+											style="width:5px;" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+
+							<p:column style="font-weight: bold;"
+								styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h6)} colunaDia"
+								headerText="#{escalaDeFolgaMB.folgaHeader.h6.dayOfMonth}">
+								<f:facet name="header">
+									<p:outputLabel
+										value="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h6)}"
+										styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h6)}" />
+									<br />
+									<h:outputText
+										value="#{escalaDeFolgaMB.folgaHeader.h6.dayOfMonth}" />
+								</f:facet>
+								<p:cellEditor>
+									<f:facet name="output">
+										<div
+											class="#{folga.f6fer == true or folga.afastado == true  or fn:containsIgnoreCase(folga.f6,'X') ? 'divCelula': null}">
+											<h:outputText value="#{escalaDeFolgaMB.removeX(folga.f6)}"
+												style="margin-top:50%;" />
+										</div>
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{folga.f6}" maxlength="3"
+											style="width:5px;" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+
+							<p:column style="font-weight: bold;"
+								styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h7)} colunaDia"
+								headerText="#{escalaDeFolgaMB.folgaHeader.h7.dayOfMonth}">
+								<f:facet name="header">
+									<p:outputLabel
+										value="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h7)}"
+										styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h7)}" />
+									<br />
+									<h:outputText
+										value="#{escalaDeFolgaMB.folgaHeader.h7.dayOfMonth}" />
+								</f:facet>
+								<p:cellEditor>
+									<f:facet name="output">
+										<div
+											class="#{folga.f7fer == true or folga.afastado == true  or fn:containsIgnoreCase(folga.f7,'X') ? 'divCelula': null}">
+											<h:outputText value="#{escalaDeFolgaMB.removeX(folga.f7)}"
+												style="margin-top:50%;" />
+										</div>
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{folga.f7}" maxlength="3"
+											style="width:5px;" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+
+							<p:column style="font-weight: bold;"
+								styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h8)} colunaDia"
+								headerText="#{escalaDeFolgaMB.folgaHeader.h8.dayOfMonth}">
+								<f:facet name="header">
+									<p:outputLabel
+										value="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h8)}"
+										styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h8)}" />
+									<br />
+									<h:outputText
+										value="#{escalaDeFolgaMB.folgaHeader.h8.dayOfMonth}" />
+								</f:facet>
+								<p:cellEditor>
+									<f:facet name="output">
+										<div
+											class="#{folga.f8fer == true or folga.afastado == true  or fn:containsIgnoreCase(folga.f8,'X') ? 'divCelula': null}">
+											<h:outputText value="#{escalaDeFolgaMB.removeX(folga.f8)}"
+												style="margin-top:50%;" />
+										</div>
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{folga.f8}" maxlength="3"
+											style="width:5px;" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+
+							<p:column style="font-weight: bold;"
+								styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h9)} colunaDia"
+								headerText="#{escalaDeFolgaMB.folgaHeader.h9.dayOfMonth}">
+								<f:facet name="header">
+									<p:outputLabel
+										value="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h9)}"
+										styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h9)}" />
+									<br />
+									<h:outputText
+										value="#{escalaDeFolgaMB.folgaHeader.h9.dayOfMonth}" />
+								</f:facet>
+								<p:cellEditor>
+									<f:facet name="output">
+										<div
+											class="#{folga.f9fer == true or folga.afastado == true  or fn:containsIgnoreCase(folga.f9,'X') ? 'divCelula': null}">
+											<h:outputText value="#{escalaDeFolgaMB.removeX(folga.f9)}"
+												style="margin-top:50%;" />
+										</div>
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{folga.f9}" maxlength="3"
+											style="width:5px;" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+
+							<p:column style="font-weight: bold;"
+								styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h10)} colunaDia"
+								headerText="#{escalaDeFolgaMB.folgaHeader.h10.dayOfMonth}">
+								<f:facet name="header">
+									<p:outputLabel
+										value="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h10)}"
+										styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h10)}" />
+									<br />
+									<h:outputText
+										value="#{escalaDeFolgaMB.folgaHeader.h10.dayOfMonth}" />
+								</f:facet>
+								<p:cellEditor>
+									<f:facet name="output">
+										<div
+											class="#{folga.f10fer == true or folga.afastado == true  or fn:containsIgnoreCase(folga.f10,'X') ? 'divCelula': null}">
+											<h:outputText value="#{escalaDeFolgaMB.removeX(folga.f10)}"
+												style="margin-top:50%;" />
+										</div>
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{folga.f10}" maxlength="3"
+											style="width:5px;" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+
+							<p:column style="font-weight: bold;"
+								styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h11)} colunaDia"
+								headerText="#{escalaDeFolgaMB.folgaHeader.h11.dayOfMonth}">
+								<f:facet name="header">
+									<p:outputLabel
+										value="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h11)}"
+										styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h11)}" />
+									<br />
+									<h:outputText
+										value="#{escalaDeFolgaMB.folgaHeader.h11.dayOfMonth}" />
+								</f:facet>
+								<p:cellEditor>
+									<f:facet name="output">
+										<div
+											class="#{folga.f11fer == true or folga.afastado == true  or fn:containsIgnoreCase(folga.f11,'X') ? 'divCelula': null}">
+											<h:outputText value="#{escalaDeFolgaMB.removeX(folga.f11)}"
+												style="margin-top:50%;" />
+										</div>
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{folga.f11}" maxlength="3"
+											style="width:5px;" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+
+							<p:column style="font-weight: bold;"
+								styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h12)} colunaDia"
+								headerText="#{escalaDeFolgaMB.folgaHeader.h12.dayOfMonth}">
+								<f:facet name="header">
+									<p:outputLabel
+										value="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h12)}"
+										styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h12)}" />
+									<br />
+									<h:outputText
+										value="#{escalaDeFolgaMB.folgaHeader.h12.dayOfMonth}" />
+								</f:facet>
+								<p:cellEditor>
+									<f:facet name="output">
+										<div
+											class="#{folga.f12fer == true or folga.afastado == true  or fn:containsIgnoreCase(folga.f12,'X') ? 'divCelula': null}">
+											<h:outputText value="#{escalaDeFolgaMB.removeX(folga.f12)}"
+												style="margin-top:50%;" />
+										</div>
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{folga.f12}" maxlength="3"
+											style="width:5px;" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+
+							<p:column style="font-weight: bold;"
+								styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h13)} colunaDia"
+								headerText="#{escalaDeFolgaMB.folgaHeader.h13.dayOfMonth}">
+								<f:facet name="header">
+									<p:outputLabel
+										value="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h13)}"
+										styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h13)}" />
+									<br />
+									<h:outputText
+										value="#{escalaDeFolgaMB.folgaHeader.h13.dayOfMonth}" />
+								</f:facet>
+								<p:cellEditor>
+									<f:facet name="output">
+										<div
+											class="#{folga.f13fer == true or folga.afastado == true  or fn:containsIgnoreCase(folga.f13,'X') ? 'divCelula': null}">
+											<h:outputText value="#{escalaDeFolgaMB.removeX(folga.f13)}"
+												style="margin-top:50%;" />
+										</div>
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{folga.f13}" maxlength="3"
+											style="width:5px;" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+
+							<p:column style="font-weight: bold;"
+								styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h14)} colunaDia"
+								headerText="#{escalaDeFolgaMB.folgaHeader.h14.dayOfMonth}">
+								<f:facet name="header">
+									<p:outputLabel
+										value="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h14)}"
+										styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h14)}" />
+									<br />
+									<h:outputText
+										value="#{escalaDeFolgaMB.folgaHeader.h14.dayOfMonth}" />
+								</f:facet>
+								<p:cellEditor>
+									<f:facet name="output">
+										<div
+											class="#{folga.f14fer == true or folga.afastado == true  or fn:containsIgnoreCase(folga.f14,'X') ? 'divCelula': null}">
+											<h:outputText value="#{escalaDeFolgaMB.removeX(folga.f14)}"
+												style="margin-top:50%;" />
+										</div>
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{folga.f14}" maxlength="3"
+											style="width:5px;" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+
+							<p:column style="font-weight: bold;"
+								styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h15)} colunaDia"
+								headerText="#{escalaDeFolgaMB.folgaHeader.h15.dayOfMonth}">
+								<f:facet name="header">
+									<p:outputLabel
+										value="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h15)}"
+										styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h15)}" />
+									<br />
+									<h:outputText
+										value="#{escalaDeFolgaMB.folgaHeader.h15.dayOfMonth}" />
+								</f:facet>
+								<p:cellEditor>
+									<f:facet name="output">
+										<div
+											class="#{folga.f15fer == true or folga.afastado == true  or fn:containsIgnoreCase(folga.f15,'X') ? 'divCelula': null}">
+											<h:outputText value="#{escalaDeFolgaMB.removeX(folga.f15)}"
+												style="margin-top:50%;" />
+										</div>
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{folga.f15}" maxlength="3"
+											style="width:5px;" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+
+							<p:column style="font-weight: bold;"
+								styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h16)} colunaDia"
+								headerText="#{escalaDeFolgaMB.folgaHeader.h16.dayOfMonth}">
+								<f:facet name="header">
+									<p:outputLabel
+										value="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h16)}"
+										styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h16)}" />
+									<br />
+									<h:outputText
+										value="#{escalaDeFolgaMB.folgaHeader.h16.dayOfMonth}" />
+								</f:facet>
+								<p:cellEditor>
+									<f:facet name="output">
+										<div
+											class="#{folga.f16fer == true or folga.afastado == true or fn:containsIgnoreCase(folga.f16,'X') ? 'divCelula': null}">
+											<h:outputText value="#{escalaDeFolgaMB.removeX(folga.f16)}"
+												style="margin-top:50%;" />
+										</div>
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{folga.f16}" maxlength="3"
+											style="width:5px;" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+
+							<p:column style="font-weight: bold;"
+								styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h17)} colunaDia"
+								headerText="#{escalaDeFolgaMB.folgaHeader.h17.dayOfMonth}">
+								<f:facet name="header">
+									<p:outputLabel
+										value="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h17)}"
+										styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h17)}" />
+									<br />
+									<h:outputText
+										value="#{escalaDeFolgaMB.folgaHeader.h17.dayOfMonth}" />
+								</f:facet>
+								<p:cellEditor>
+									<f:facet name="output">
+										<div
+											class="#{folga.f17fer == true or folga.afastado == true  or fn:containsIgnoreCase(folga.f17,'X') ? 'divCelula': null}">
+											<h:outputText value="#{escalaDeFolgaMB.removeX(folga.f17)}"
+												style="margin-top:50%;" />
+										</div>
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{folga.f17}" maxlength="3"
+											style="width:5px;" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+
+							<p:column style="font-weight: bold;"
+								styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h18)} colunaDia"
+								headerText="#{escalaDeFolgaMB.folgaHeader.h18.dayOfMonth}">
+								<f:facet name="header">
+									<p:outputLabel
+										value="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h18)}"
+										styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h18)}" />
+									<br />
+									<h:outputText
+										value="#{escalaDeFolgaMB.folgaHeader.h18.dayOfMonth}" />
+								</f:facet>
+								<p:cellEditor>
+									<f:facet name="output">
+										<div
+											class="#{folga.f18fer == true or folga.afastado == true  or fn:containsIgnoreCase(folga.f18,'X') ? 'divCelula': null}">
+											<h:outputText value="#{escalaDeFolgaMB.removeX(folga.f18)}"
+												style="margin-top:50%;" />
+										</div>
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{folga.f18}" maxlength="3"
+											style="width:5px;" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+
+							<p:column style="font-weight: bold;"
+								styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h19)} colunaDia"
+								headerText="#{escalaDeFolgaMB.folgaHeader.h19.dayOfMonth}">
+								<f:facet name="header">
+									<p:outputLabel
+										value="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h19)}"
+										styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h19)}" />
+									<br />
+									<h:outputText
+										value="#{escalaDeFolgaMB.folgaHeader.h19.dayOfMonth}" />
+								</f:facet>
+								<p:cellEditor>
+									<f:facet name="output">
+										<div
+											class="#{folga.f19fer == true or folga.afastado == true  or fn:containsIgnoreCase(folga.f19,'X') ? 'divCelula': null}">
+											<h:outputText value="#{escalaDeFolgaMB.removeX(folga.f19)}"
+												style="margin-top:50%;" />
+										</div>
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{folga.f19}" maxlength="3"
+											style="width:5px;" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+
+							<p:column style="font-weight: bold;"
+								styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h20)} colunaDia"
+								headerText="#{escalaDeFolgaMB.folgaHeader.h20.dayOfMonth}">
+								<f:facet name="header">
+									<p:outputLabel
+										value="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h20)}"
+										styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h20)}" />
+									<br />
+									<h:outputText
+										value="#{escalaDeFolgaMB.folgaHeader.h20.dayOfMonth}" />
+								</f:facet>
+								<p:cellEditor>
+									<f:facet name="output">
+										<div
+											class="#{folga.f20fer == true or folga.afastado == true  or fn:containsIgnoreCase(folga.f20,'X') ? 'divCelula': null}">
+											<h:outputText value="#{escalaDeFolgaMB.removeX(folga.f20)}"
+												style="margin-top:50%;" />
+										</div>
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{folga.f20}" maxlength="3"
+											style="width:5px;" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+
+							<p:column style="font-weight: bold;"
+								styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h21)} colunaDia"
+								headerText="#{escalaDeFolgaMB.folgaHeader.h21.dayOfMonth}">
+								<f:facet name="header">
+									<p:outputLabel
+										value="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h21)}"
+										styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h21)}" />
+									<br />
+									<h:outputText
+										value="#{escalaDeFolgaMB.folgaHeader.h21.dayOfMonth}" />
+								</f:facet>
+								<p:cellEditor>
+									<f:facet name="output">
+										<div
+											class="#{folga.f21fer == true or folga.afastado == true  or fn:containsIgnoreCase(folga.f21,'X') ? 'divCelula': null}">
+											<h:outputText value="#{escalaDeFolgaMB.removeX(folga.f21)}"
+												style="margin-top:50%;" />
+										</div>
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{folga.f21}" maxlength="3"
+											style="width:5px;" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+
+							<p:column style="font-weight: bold;"
+								styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h22)} colunaDia"
+								headerText="#{escalaDeFolgaMB.folgaHeader.h22.dayOfMonth}">
+								<f:facet name="header">
+									<p:outputLabel
+										value="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h22)}"
+										styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h22)}" />
+									<br />
+									<h:outputText
+										value="#{escalaDeFolgaMB.folgaHeader.h22.dayOfMonth}" />
+								</f:facet>
+								<p:cellEditor>
+									<f:facet name="output">
+										<div
+											class="#{folga.f22fer == true or folga.afastado == true  or fn:containsIgnoreCase(folga.f22,'X') ? 'divCelula': null}">
+											<h:outputText value="#{escalaDeFolgaMB.removeX(folga.f22)}"
+												style="margin-top:50%;" />
+										</div>
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{folga.f22}" maxlength="3"
+											style="width:5px;" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+
+							<p:column style="font-weight: bold;"
+								styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h23)} colunaDia"
+								headerText="#{escalaDeFolgaMB.folgaHeader.h23.dayOfMonth}">
+								<f:facet name="header">
+									<p:outputLabel
+										value="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h23)}"
+										styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h23)}" />
+									<br />
+									<h:outputText
+										value="#{escalaDeFolgaMB.folgaHeader.h23.dayOfMonth}" />
+								</f:facet>
+								<p:cellEditor>
+									<f:facet name="output">
+										<div
+											class="#{folga.f23fer == true or folga.afastado == true  or fn:containsIgnoreCase(folga.f23,'X') ? 'divCelula': null}">
+											<h:outputText value="#{escalaDeFolgaMB.removeX(folga.f23)}"
+												style="margin-top:50%;" />
+										</div>
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{folga.f23}" maxlength="3"
+											style="width:5px;" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+
+							<p:column style="font-weight: bold;"
+								styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h24)} colunaDia"
+								headerText="#{escalaDeFolgaMB.folgaHeader.h24.dayOfMonth}">
+								<f:facet name="header">
+									<p:outputLabel
+										value="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h24)}"
+										styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h24)}" />
+									<br />
+									<h:outputText
+										value="#{escalaDeFolgaMB.folgaHeader.h24.dayOfMonth}" />
+								</f:facet>
+								<p:cellEditor>
+									<f:facet name="output">
+										<div
+											class="#{folga.f24fer == true or folga.afastado == true  or fn:containsIgnoreCase(folga.f24,'X') ? 'divCelula': null}">
+											<h:outputText value="#{escalaDeFolgaMB.removeX(folga.f24)}"
+												style="margin-top:50%;" />
+										</div>
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{folga.f24}" maxlength="3"
+											style="width:5px;" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+
+							<p:column style="font-weight: bold;"
+								styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h25)} colunaDia"
+								headerText="#{escalaDeFolgaMB.folgaHeader.h25.dayOfMonth}">
+								<f:facet name="header">
+									<p:outputLabel
+										value="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h25)}"
+										styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h25)}" />
+									<br />
+									<h:outputText
+										value="#{escalaDeFolgaMB.folgaHeader.h25.dayOfMonth}" />
+								</f:facet>
+								<p:cellEditor>
+									<f:facet name="output">
+										<div
+											class="#{folga.f25fer == true or folga.afastado == true  or fn:containsIgnoreCase(folga.f25,'X') ? 'divCelula': null}">
+											<h:outputText value="#{escalaDeFolgaMB.removeX(folga.f25)}"
+												style="margin-top:50%;" />
+										</div>
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{folga.f25}" maxlength="3"
+											style="width:5px;" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+
+							<p:column style="font-weight: bold;"
+								styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h26)} colunaDia"
+								headerText="#{escalaDeFolgaMB.folgaHeader.h26.dayOfMonth}">
+								<f:facet name="header">
+									<p:outputLabel
+										value="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h26)}"
+										styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h26)}" />
+									<br />
+									<h:outputText
+										value="#{escalaDeFolgaMB.folgaHeader.h26.dayOfMonth}" />
+								</f:facet>
+								<p:cellEditor>
+									<f:facet name="output">
+										<div
+											class="#{folga.f26fer == true or folga.afastado == true  or fn:containsIgnoreCase(folga.f26,'X') ? 'divCelula': null}">
+											<h:outputText value="#{escalaDeFolgaMB.removeX(folga.f26)}"
+												style="margin-top:50%;" />
+										</div>
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{folga.f26}" maxlength="3"
+											style="width:5px;" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+
+							<p:column style="font-weight: bold;"
+								styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h27)} colunaDia"
+								headerText="#{escalaDeFolgaMB.folgaHeader.h27.dayOfMonth}">
+								<f:facet name="header">
+									<p:outputLabel
+										value="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h27)}"
+										styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h27)}" />
+									<br />
+									<h:outputText
+										value="#{escalaDeFolgaMB.folgaHeader.h27.dayOfMonth}" />
+								</f:facet>
+								<p:cellEditor>
+									<f:facet name="output">
+										<div
+											class="#{folga.f27fer == true or folga.afastado == true  or fn:containsIgnoreCase(folga.f27,'X') ? 'divCelula': null}">
+											<h:outputText value="#{escalaDeFolgaMB.removeX(folga.f27)}"
+												style="margin-top:50%;" />
+										</div>
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{folga.f27}" maxlength="3"
+											style="width:5px;" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+
+							<p:column style="font-weight: bold;"
+								styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h28)} colunaDia"
+								headerText="#{escalaDeFolgaMB.folgaHeader.h28.dayOfMonth}">
+								<f:facet name="header">
+									<p:outputLabel
+										value="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h28)}"
+										styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h28)}" />
+									<br />
+									<h:outputText
+										value="#{escalaDeFolgaMB.folgaHeader.h28.dayOfMonth}" />
+								</f:facet>
+								<p:cellEditor>
+									<f:facet name="output">
+										<div
+											class="#{folga.f28fer == true or folga.afastado == true or fn:containsIgnoreCase(folga.f28,'X') ? 'divCelula': null}">
+											<h:outputText value="#{escalaDeFolgaMB.removeX(folga.f28)}"
+												style="margin-top:50%;" />
+										</div>
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{folga.f28}" maxlength="3"
+											style="width:5px;" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+
+							<p:column style="font-weight: bold;"
+								styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h29)} colunaDia"
+								rendered="#{escalaDeFolgaMB.folgaHeader.h29 != null}"
+								headerText="#{escalaDeFolgaMB.folgaHeader.h29.dayOfMonth}">
+								<f:facet name="header">
+									<p:outputLabel
+										value="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h29)}"
+										styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h29)}" />
+									<br />
+									<h:outputText
+										value="#{escalaDeFolgaMB.folgaHeader.h29.dayOfMonth}" />
+								</f:facet>
+								<p:cellEditor>
+									<f:facet name="output">
+										<div
+											class="#{folga.f29fer == true or folga.afastado == true or fn:containsIgnoreCase(folga.f29,'X') ? 'divCelula': null}">
+											<h:outputText value="#{escalaDeFolgaMB.removeX(folga.f29)}"
+												style="margin-top:50%;" />
+										</div>
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{folga.f29}" maxlength="3"
+											style="width:5px;" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+
+							<p:column style="font-weight: bold;"
+								styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h30)} colunaDia"
+								rendered="#{escalaDeFolgaMB.folgaHeader.h30 != null}"
+								headerText="#{escalaDeFolgaMB.folgaHeader.h30.dayOfMonth}">
+								<f:facet name="header">
+									<p:outputLabel
+										value="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h30)}"
+										styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h30)}" />
+									<br />
+									<h:outputText
+										value="#{escalaDeFolgaMB.folgaHeader.h30.dayOfMonth}" />
+								</f:facet>
+								<p:cellEditor>
+									<f:facet name="output">
+										<div
+											class="#{folga.f30fer == true or folga.afastado == true or fn:containsIgnoreCase(folga.f30,'X') ? 'divCelula': null}">
+											<h:outputText value="#{escalaDeFolgaMB.removeX(folga.f30)}"
+												style="margin-top:50%;" />
+										</div>
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{folga.f30}" maxlength="3"
+											style="width:5px;" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+
+							<p:column style="font-weight: bold;"
+								styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h31)} colunaDia"
+								rendered="#{escalaDeFolgaMB.folgaHeader.h31 != null}"
+								headerText="#{escalaDeFolgaMB.folgaHeader.h31.dayOfMonth}">
+								<f:facet name="header">
+									<p:outputLabel
+										value="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h31)}"
+										styleClass="#{escalaDeFolgaMB.sabDomFeriado(escalaDeFolgaMB.folgaHeader.h31)}" />
+									<br />
+									<h:outputText
+										value="#{escalaDeFolgaMB.folgaHeader.h31.dayOfMonth}" />
+								</f:facet>
+								<p:cellEditor>
+									<f:facet name="output">
+										<div
+											class="#{folga.f31fer == true or folga.afastado == true  or fn:containsIgnoreCase(folga.f31,'X') ? 'divCelula': null}">
+											<h:outputText value="#{escalaDeFolgaMB.removeX(folga.f31)}"
+												style="margin-top:50%;" />
+										</div>
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{folga.f31}" maxlength="3"
+											style="width:5px;" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+							<p:column headerText="Nome"
+								style="width:200px!important;text-align:left;">
+								<h:outputText value="#{folga.nome}" style="margin-left:5px;" />
+							</p:column>
+						</p:dataTable>
+					</h:form>
+				</div>
+			</div>
+		</div>
+
+		<p:dialog header="Relatório" id="dialogRelatorio2"
+			widgetVar="dialogRelatorio2" resizable="true" modal="true"
+			hideEffect="explode" height="600" width="1000" closeOnEscape="true"
+			maximizable="false" position="left top">
+			<p:media player="pdf"
+				value="/relatorios/#{escalaDeFolgaMB.nomeRelatorio}.pdf"
+				width="100%" height="98%" cache="false" />
+		</p:dialog>
+
+		<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+			closable="false" resizable="false" showHeader="false">
+				Aguarde...<br />
+			<br />
+			<p:graphicImage library="imagens" name="loader.gif" />
+		</p:dialog>
+
+		<ui:include src="escala-de-folga/dlg-altr-funcionario.xhtml" />
+		<ui:include src="escala-de-folga/dlg-escala-param.xhtml" />
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,22 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	<p:dialog widgetVar="dlgExclui" resizable="false" modal="true" responsive="true"
+		hideEffect="slide" showEffect="slide">
+		<h:form id="frmExclui">
+			<p:outputLabel value="Confirma a exclusão?" />
+			<hr />
+			<center>
+				<p:commandButton value="Não"
+					oncomplete="PF('dlgExclui').hide();" icon="fa fa-close Fs16 white" />
+				<p:spacer/>
+				<p:commandButton value="Sim" icon="fa fa-check Fs16 white"
+					actionListener="#{ProtGEDMB.excluirProtocolo()}" update=":frmTblProtocolo:tblProtocolos :frmCondominio:msg" />
+			</center>
+		</h:form>
+	</p:dialog>
+</ui:composition>

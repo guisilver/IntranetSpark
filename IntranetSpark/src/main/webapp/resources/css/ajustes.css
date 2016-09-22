@@ -1,0 +1,123 @@
+.ui-selectoneradio.ui-widget td, .ui-selectmanycheckbox.ui-widget td {
+	border: 0px !important;
+}
+
+.btnLittle {
+	margin: 0px !important;
+}
+
+.btnLittle>span.ui-button-text.ui-c {
+	padding: 0px !important;
+	font-size: 10px !important;
+}
+
+.btnLittle>span.ui-button-icon-left.ui-icon.ui-c.fa.fa-search.Fs16.white
+	{
+	height: auto !important;
+	top: 61% !important;
+}
+
+.btnLittle>.ui-icon {
+	font-size: 10px !important;
+	height: auto !important;
+	top: 61% !important;
+}
+
+.foco:hover td:first-child {
+	box-shadow: inset 0px 11px 8px -10px blue, inset 0px -11px 8px -10px
+		blue, inset 11px 0px 8px -10px blue;
+}
+
+.foco:hover td {
+	box-shadow: inset 0px 11px 8px -10px blue, inset 0px -11px 8px -10px
+		blue;
+}
+
+.foco:hover td:last-child {
+	box-shadow: inset 0px 11px 8px -10px blue, inset 0px -11px 8px -10px
+		blue, inset -11px 0px 8px -10px blue;
+}
+
+.calendar input,.calendario input {
+	width: 90px;
+}
+
+.col80 input {
+	width: 80px !important;
+}
+
+.col60 input {
+	width: 60px !important;
+}
+
+.col40 input {
+	width: 40px !important;
+}
+
+.col30 input {
+	width: 30px !important;
+}
+
+.col20 input {
+	width: 20px !important;
+}
+
+.col10 input {
+	width: 10px !important;
+}
+
+.col5 input {
+	width: 5px !important;
+}
+
+@media only screen and (min-width: 1051px) {
+	#layout-menu li ul li {
+		height: 33px !important;
+	}
+	#layout-topbar {
+		height: 30px !important;
+	}
+	.trilha {
+		height: 40px !important;
+	}
+	.ui-breadcrumb {
+		padding: 8px 16px 6px 16px !important;
+	}
+	#logo {
+		height: 30px !important;
+		width: 80px !important;
+		margin-top: 10px !important;
+	}
+	#layout-menu {
+		min-height: 40px !important;
+	}
+	#layout-menu>li {
+		margin-top: 10px !important;
+	}
+	#layout-menu>li ul li a i {
+		font-size: 12px !important;
+		line-height: 12px !important;
+	}
+	#layout-menu .menu-separator {
+		margin-top: 10px !important;
+	}
+	#layout-topbar {
+		min-height: 30px !important;
+	}
+	#layout-topbar-menu {
+		margin-top: 8px;
+	}
+	#layout-menu>li a {
+		display: initial;
+	}
+	#layout-topbar-menu {
+		margin-top: 8px !important;
+	}
+	.layout-portlets-box {
+		margin: 2px auto !important;
+	}
+}
+
+.tblAcoes tbody>tr>td {
+	border: 0px !important;
+}

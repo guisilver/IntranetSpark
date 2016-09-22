@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+<ui:composition>
+	<p:dialog widgetVar="dlgAp2" resizable="false" modal="true" responsive="true" closeOnEscape="true"
+		width="auto" header="Aprovação de Lançamento" hideEffect="slide" showEffect="slide">
+		<h:form id="frmAprovacao2">
+
+			<c:if test="#{ged.cndpagar.aguardandoCompletarResumido}">
+				<ui:include src="grid-completar-lancto.xhtml" />
+			</c:if>
+
+			<h:panelGrid>
+				<p:outputLabel value="Deseja adicionar uma observação?" />
+				<p:selectOneRadio id="oneRadioObs" value="#{ged.flagObs}">
+					<p:ajax event="change" update=":frmAprovacao2" />
+					<f:selectItem itemLabel="Não" itemValue="false" />
+					<f:selectItem itemLabel="Sim" itemValue="true" />
+				</p:selectOneRadio>
+			</h:panelGrid>
+			<h:panelGrid columns="2" id="gridObs"
+				rendered="#{ged.flagObs}">
+				<p:outputLabel value="Obs:" />
+				<p:inputTextarea autoResize="true"
+					value="#{financeiroBean.obsLancto}"
+					style="width:400px;height:120px;" />
+			</h:panelGrid>
+			<hr />
+			<center>
+				<p:commandButton value="Cancelar"
+					oncomplete="PF('dlgAp2').hide();" icon="fa fa-close Fs16 white" />
+				<p:commandButton value="Aprovar" icon="fa fa-check Fs16 white"
+					oncomplete="PF('imagemView').hide();PF('dlgAp2').hide();PF('statusDialog1').hide();PF('detalhesLancto').hide();"
+					onstart="PF('statusDialog1').show();"
+					actionListener="#{ged.adicionarLancamentoSiga()}"
+					update=":frmGed :frmFinanceiroGed :frmMsg:msg"/>
+			</center>
+		</h:form>
+	</p:dialog>
+</ui:composition>
+</html>

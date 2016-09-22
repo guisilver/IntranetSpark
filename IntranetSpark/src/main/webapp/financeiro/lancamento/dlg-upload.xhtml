@@ -1,0 +1,46 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+	<p:dialog widgetVar="dlgUploadArquivo" resizable="false" modal="true" closeOnEscape="true"
+		width="400" header="Enviar arquivos" hideEffect="slide" showEffect="slide">
+		<h:form id="frmUploadArquivo">
+			<h:panelGrid>
+				<h:panelGrid columns="2">
+					<p:outputLabel value="Etiqueta:"
+						for=":frmUploadArquivo:txtIdArquivo" />
+					<p:inputText id="txtIdArquivo" value="#{ged.idImagem}"
+						style="width:250px;" maxlength="14" onkeypress="validate(event);">
+						<p:ajax event="blur" listener="#{ged.pesquisaImagem()}" />
+					</p:inputText>
+				</h:panelGrid>
+				<h:panelGrid columns="2">
+					<p:fileUpload widgetVar="upDocs" id="upDocs"
+						style="border-width:0px;" styleClass="upload_doc"
+						dragDropSupport="false"
+						invalidSizeMessage="O arquivo enviado é muito grande!O máximo são 10MB"
+						sizeLimit="10000000" allowTypes="/(\.|\/)(pdf|jpg)$/"
+						invalidFileMessage="Somente são aceitos arquivos do tipo pdf"
+						fileUploadListener="#{ged.upDocs}" mode="advanced"
+						multiple="true" label="Arquivo" update=":frmUploadArquivo"
+						auto="true" disabled="#{not empty ged.nomeArquivo}">
+					</p:fileUpload>
+					<p:outputLabel id="lblNomeArquivo"
+						value="#{ged.nomeArquivo}" style="color:red;" />
+				</h:panelGrid>
+			</h:panelGrid>
+			<hr/>
+			<p:commandButton value="Cancelar" icon="fa fa-close Fs16 white"
+				actionListener="#{ged.cancelarArquivo()}"
+				update=":frmUploadArquivo" style="float:left;" />
+			<p:commandButton value="Adicionar" icon="fa fa-plus Fs16 white"
+				actionListener="#{ged.adicionarArquivo()}"
+				update=":frmUploadArquivo,:frmLancamento:tblArquivos"
+				style="float:right;" />
+		</h:form>
+	</p:dialog>
+</ui:composition>

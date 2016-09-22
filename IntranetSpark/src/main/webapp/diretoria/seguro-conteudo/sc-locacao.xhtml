@@ -1,0 +1,170 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+	<style>
+#frmFiltro4 table td {
+	border: 0px !important;
+}
+
+.ui-selectoneradio tbody tr td {
+	border: 0px !important;
+}
+
+.gridFiltro4 tbody tr td {
+	border: 0px !important;
+}
+</style>
+	<h:form id="frmFiltro4"
+		rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysDiretoria}">
+		<p:growl autoUpdate="true" />
+		<p:panelGrid id="gridFiltro4" columns="1" styleClass="gridFiltro4">
+			<f:facet name="header">
+				<h:outputText value="Filtros" />
+			</f:facet>
+			<h:panelGrid columns="3">
+				<h:panelGrid columns="2">
+					<p:selectOneMenu value="#{scMB.mes}" style="width:100px;">
+						<f:selectItem itemLabel="Janeiro" itemValue="1" />
+						<f:selectItem itemLabel="Fevereiro" itemValue="2" />
+						<f:selectItem itemLabel="Março" itemValue="3" />
+						<f:selectItem itemLabel="Abril" itemValue="4" />
+						<f:selectItem itemLabel="Maio" itemValue="5" />
+						<f:selectItem itemLabel="Junho" itemValue="6" />
+						<f:selectItem itemLabel="Julho" itemValue="7" />
+						<f:selectItem itemLabel="Agosto" itemValue="8" />
+						<f:selectItem itemLabel="Setembro" itemValue="9" />
+						<f:selectItem itemLabel="Outubro" itemValue="10" />
+						<f:selectItem itemLabel="Novembro" itemValue="11" />
+						<f:selectItem itemLabel="Dezembro" itemValue="12" />
+					</p:selectOneMenu>
+					<p:selectOneMenu value="#{scMB.ano}" style="width:80px;">
+						<f:selectItem itemLabel="2015" itemValue="2015" />
+						<f:selectItem itemLabel="2016" itemValue="2016" />
+					</p:selectOneMenu>
+				</h:panelGrid>
+				<h:panelGrid width="100%" style="text-align:right;">
+					<p:commandButton value="Filtrar"
+						action="#{scMB.pesquisarSeguroConteudoLocacao()}"
+						update="tbvSC:frmTblLote4:dtHistorico4"
+						onstart="PF('dlgStatus').show();"
+						oncomplete="PF('dlgStatus').hide();"
+						icon="fa fa-search Fs16 white" />
+				</h:panelGrid>
+			</h:panelGrid>
+		</p:panelGrid>
+	</h:form>
+<br/>
+	<h:form id="frmTblLote4" target="_blank"
+		rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysDiretoria}">
+		<p:dataTable id="dtHistorico4" var="seguro"
+			value="#{scMB.listaSeguro}"
+			filteredValue="#{impressaoBureauMB.fltrLotes}" rows="15"
+			paginator="true" emptyMessage="Nenhum resultado encontrado!"
+			style="font-size: 12px;text-align:center;"
+			rowsPerPageTemplate="15,30,50,100">
+			<f:facet name="header">
+				<p:commandButton value="Exportar Excel"
+					icon="fa fa-file-excel-o Fs16 white" ajax="false">
+					<p:dataExporter type="xls" target="tbvSC:frmTblLote4:dtHistorico4"
+						fileName="locacao" pageOnly="false"
+						postProcessor="#{exportarBean.postProcessXLS}" />
+				</p:commandButton>
+				<p:commandButton value="Exportar CSV"
+					icon="fa fa-file-code-o Fs16 white" ajax="false"
+					style="margin-left:50px;">
+					<p:dataExporter type="csv" target=":tbvSC:frmTblLote4:dtHistorico4"
+						fileName="locacao" pageOnly="false" />
+				</p:commandButton>
+			</f:facet>
+			<p:column>
+				<f:facet name="header"> Codigo Identificador</f:facet>
+				<h:outputText value=" " />
+			</p:column>
+			<p:column>
+				<f:facet name="header"> Proprietario</f:facet>
+				<h:outputText value="#{seguro.locador}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header"> Locador</f:facet>
+				<h:outputText value="#{seguro.inquilino}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header"> Produto</f:facet>
+				<h:outputText value="R" />
+			</p:column>
+			<p:column>
+				<f:facet name="header"> Logradouro</f:facet>
+				<h:outputText value="#{seguro.logradouroLoc}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header"> Endereco</f:facet>
+				<h:outputText value="#{seguro.enderecoLoc}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header"> Numero</f:facet>
+				<h:outputText value="#{seguro.nro_endLoc}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header"> Complemento</f:facet>
+				<h:outputText value="#{seguro.complementoLoc}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header"> Bairro</f:facet>
+				<h:outputText value="#{seguro.bairroLoc}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header"> CEP</f:facet>
+				<h:outputText value="#{seguro.cepLoc}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header"> Cidade</f:facet>
+				<h:outputText value="#{seguro.cidadeLoc}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header"> Estado</f:facet>
+				<h:outputText value="#{seguro.estadoLoc}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header"> Vigencia Inicial</f:facet>
+				<h:outputText value="#{scMB.dataInicial}">
+					<f:convertDateTime locale="pt" pattern="dd/MM/yyyy"
+						timeZone="America/Sao_Paulo" />
+				</h:outputText>
+			</p:column>
+			<p:column>
+				<f:facet name="header"> Vigencia Final</f:facet>
+				<h:outputText value="#{scMB.dataFinal}">
+					<f:convertDateTime locale="pt" pattern="dd/MM/yyyy"
+						timeZone="America/Sao_Paulo" />
+				</h:outputText>
+			</p:column>
+			<p:column>
+				<f:facet name="header"> E-mail Corretora</f:facet>
+				<h:outputText value="landia@sicura.com.br" />
+			</p:column>
+			<p:column>
+				<f:facet name="header"> Importancia Segurada</f:facet>
+				<h:outputText value=" " />
+			</p:column>
+			<p:column>
+				<f:facet name="header"> Premio</f:facet>
+				<h:outputText value=" " />
+			</p:column>
+			<p:column>
+				<f:facet name="header"> Cond/ Loc</f:facet>
+				<h:outputText value="l" />
+			</p:column>
+			<p:column>
+				<f:facet name="header"> Valor</f:facet>
+				<h:outputText value="15.9" />
+			</p:column>
+			<p:columnGroup type="footer">
+				<p:column footerText="Quantidade " />
+				<p:column footerText="#{scMB.tipoSeguro()}" />
+			</p:columnGroup>
+		</p:dataTable>
+	</h:form>
+</ui:composition>

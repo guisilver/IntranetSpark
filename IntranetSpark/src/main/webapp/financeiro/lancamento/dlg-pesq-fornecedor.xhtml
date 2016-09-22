@@ -1,0 +1,56 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+	<p:dialog widgetVar="dlgPesqFornecedor" resizable="false" modal="true"
+		width="300" header="Pesquisar Fornecedor" hideEffect="slide" showEffect="slide">
+		<h:form id="frmPesqFornecedor">
+			<h:panelGrid columns="2">
+				<p:outputLabel value="Nome:" />
+				<p:inputText value="#{ged.fornecedor}" />
+			</h:panelGrid>
+			<hr />
+			<p:commandButton value="Cancelar"
+				onclick="PF('dlgPesqFornecedor').hide();" icon="fa fa-close Fs16 white"
+				style="float:left;" />
+			<p:commandButton value="Pesquisar" icon="fa fa-search Fs16 white"
+				style="float:right;" oncomplete="PF('dlgPesqFornecedor').show();"
+				actionListener="#{ged.listarFornecedoresCNPJ()}"
+				update=":frmResultadoFornecedor" />
+		</h:form>
+	</p:dialog>
+
+	<p:dialog widgetVar="dlgResultadoFornecedor" resizable="false"
+		modal="true" width="500" header="Resultado de pesquisa"
+		hideEffect="slide" showEffect="slide">
+		<h:form id="frmResultadoFornecedor">
+			<p:dataTable id="tblResultadoFornecedor" var="item"
+				selection="#{ged.fornecedorSelecionado}"
+				selectionMode="single" value="#{ged.lstFornecedor}"
+				rowKey="#{item.usualcred}"
+				emptyMessage="Nenhum resultado encontrado." rows="5"
+				paginator="true">
+				<p:ajax event="rowSelect"
+					listener="#{ged.selecionarFornecedor()}"
+					update=":frmLancamento:txtFornecedor,:frmLancamento:txtNomeFornecedor" />
+				<p:column headerText="Usualcred" rendered="false">
+					<h:outputText value="#{item.usualcred}" />
+				</p:column>
+				<p:column headerText="Inscrição" sortBy="#{item.inscricao}" filterBy="#{item.inscricao}">
+					<h:outputText value="#{item.inscricao}" />
+				</p:column>
+				<p:column headerText="Nome" sortBy="#{item.nome}" filterBy="#{item.nome}" filterMatchMode="contains">
+					<h:outputText value="#{item.nome}" />
+				</p:column>
+			</p:dataTable>
+			<p:commandButton value="Fechar"
+				onclick="PF('dlgResultadoFornecedor').hide();" icon="fa fa-close Fs16 white"
+				style="float:left;margin-top:15px;" />
+		</h:form>
+	</p:dialog>
+
+</ui:composition>

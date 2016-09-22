@@ -1,0 +1,445 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<f:param name="alteracao" value="1" />
+		<div class="layout-portlets-box trilha"
+			style="padding-top: 0px !important; padding-bottom: 0px !important;">
+			<p:breadCrumb>
+				<p:menuitem value="Home" url="/dashboard.xhtml" />
+				<p:menuitem value="Pré-lancamentos"
+					url="/sip/pre-lancamento/pre-lancamentos.xhtml" />
+				<p:menuitem value="Imagens" url="/sip/ged/tabela-ged.xhtml" />
+				<p:menuitem value="Concessionárias"
+					url="/sip/pre-lancamento/concessionaria/controle-concessionarias.xhtml" />
+			</p:breadCrumb>
+		</div>
+		<div class="layout-portlets-box">
+			<div class="DispInlBlock TexAlLeft">
+				<div class="Fleft">
+					<h2 class="black Fs24 FontRalewayMedium">Alterar
+						Pré-Lançamento</h2>
+				</div>
+			</div>
+			<div class="Seperator"></div>
+			<div class="Container100 Responsive100">
+				<h:form id="frmNovoLancamento"
+					rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysSipPreLancamento}">
+					<p:messages id="msgSubmit" autoUpdate="true" />
+					<h:panelGrid columns="2">
+						<p:outputLabel value="Etiqueta:" />
+						<p:inputText id="etiqueta" value="#{lancamentoMB.lv.etiqueta}"
+							styleClass="inputPrevent" style="width:300px;margin-left: 30px;"
+							onblur="pImgEtiq();" onkeydown="pesquisaImgEtiqueta(event);">
+							<pe:keyFilter regEx="/[0123456789]/i" />
+						</p:inputText>
+						<p:outputLabel value="Imagem:" />
+						<p:column>
+							<h:panelGrid id="colImagem" columns="3">
+								<p:outputLabel value="#{lancamentoMB.lv.imagem.nome_arquivo}"
+									style="margin-left: 30px;" />
+								<p:commandButton icon="fa fa-trash Fs16 white"
+									actionListener="#{lancamentoMB.excluirImagem()}"
+									update=":frmNovoLancamento:colImagem, :frmNovoLancamento:selectCnd"
+									rendered="#{lancamentoMB.lv.imagem != null}"
+									style="margin-left:15px;" />
+								<p:commandButton icon="fa fa-search Fs16 white"
+									rendered="#{lancamentoMB.lv.imagem != null}"
+									oncomplete="PF('dlgImagem').show();" />
+							</h:panelGrid>
+						</p:column>
+					</h:panelGrid>
+					<h:panelGrid columns="3">
+						<p:outputLabel value="Condomínio:" />
+						<p:selectOneMenu id="selectCnd"
+							value="#{lancamentoMB.lv.condominio}" filter="true"
+							filterMatchMode="contains"
+							converter="omnifaces.SelectItemsConverter" style="width:300px;">
+							<p:ajax process="@this" />
+							<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+							<f:selectItems value="#{lancamentoMB.lv.listaCondominios}"
+								var="condominio" itemLabel="#{condominio.cndCodNome}"
+								itemValue="#{condominio}" />
+						</p:selectOneMenu>
+						<p:commandButton value="Pendências"
+							oncomplete="PF('pendencias').show();"
+							action="#{lancamentoMB.listarPendencias()}"
+							update=":frmPendencias" />
+					</h:panelGrid>
+
+					<div class="Seperator" />
+					<h:panelGrid>
+						<p:outputLabel value="Tipo de lançamento" />
+						<p:selectOneRadio value="#{lancamentoMB.lv.tipoLancamento}">
+							<f:selectItem itemLabel="Completo" itemValue="1" />
+							<f:selectItem itemLabel="Apenas Boleto" itemValue="2" />
+							<f:selectItem itemLabel="Apenas NF." itemValue="3" />
+							<f:selectItem itemLabel="Deposito / Recibo" itemValue="4" />
+							<p:ajax
+								update="gridLinhaInicial gridLeitorOptico gridLeitorOptico gridUtilizarLeitor gridInfLancto" />
+						</p:selectOneRadio>
+					</h:panelGrid>
+
+					<h:panelGrid id="gridLinhaInicial" columns="2"
+						styleClass="gridLinhaInicial"
+						rendered="#{!lancamentoMB.lv.leitorOptico}">
+						<p:outputLabel value="Código de barras:"
+							rendered="#{lancamentoMB.lv.tipoLancamento lt 3}" />
+						<p:inputText id="ldInicial" maxlength="11"
+							value="#{lancamentoMB.lv.ldInicial}"
+							onkeydown="validaLdInicial(event);" style="width:700px;">
+							<pe:keyFilter regEx="/[0123456789]/i" />
+						</p:inputText>
+					</h:panelGrid>
+					<ui:include src="grid-tipo-pagamento.xhtml" />
+					<h:panelGrid id="gridLeitorOptico" columns="2"
+						rendered="#{lancamentoMB.lv.leitorOptico}">
+						<p:outputLabel value="Código de barras:"
+							rendered="#{lancamentoMB.lv.tipoLancamento lt 3}" />
+						<p:inputText id="cdBarrasTxt" style="width:700px;"
+							value="#{lancamentoMB.lv.codigoBarras}"
+							rendered="#{lancamentoMB.lv.tipoLancamento lt 3}"
+							onkeydown="validaBarras(event);">
+							<p:ajax event="blur"
+								listener="#{lancamentoMB.listarLinhaDigitavel()}"
+								update=":frmNovoLancamento:gridLeitorOptico,:frmDA :frmNovoLancamento:group"
+								onstart="PF('statusDialog').show();"
+								oncomplete="PF('statusDialog').hide();" />
+							<pe:keyFilter regEx="/[0123456789]/i" />
+						</p:inputText>
+						<p:outputLabel value="Linha Digitável:"
+							rendered="#{not empty lancamentoMB.lv.codigoBarras}" />
+						<h:panelGrid id="gridLblLDBol" columns="5"
+							rendered="#{not empty lancamentoMB.lv.codigoBarras and lancamentoMB.lv.tipoPagamento == '8'}">
+							<p:outputLabel value="#{lancamentoMB.lv.ldCampo1}" />
+							<p:outputLabel value="#{lancamentoMB.lv.ldCampo2}" />
+							<p:outputLabel value="#{lancamentoMB.lv.ldCampo3}" />
+							<p:outputLabel value="#{lancamentoMB.lv.ldDac}" />
+							<p:outputLabel value="#{lancamentoMB.lv.ldValor}" />
+						</h:panelGrid>
+						<h:panelGrid id="gridLblLDConc" columns="5"
+							rendered="#{not empty lancamentoMB.lv.codigoBarras and lancamentoMB.lv.tipoPagamento != '8'}">
+							<p:outputLabel value="#{lancamentoMB.lv.concSegbarra1}" />
+							<p:outputLabel value="#{lancamentoMB.lv.concSegbarra2}" />
+							<p:outputLabel value="#{lancamentoMB.lv.concSegbarra3}" />
+							<p:outputLabel value="#{lancamentoMB.lv.concSegbarra4}" />
+						</h:panelGrid>
+					</h:panelGrid>
+					<h:panelGrid id="gridUtilizarLeitor" columns="2">
+						<p:outputLabel value="Utilizar leitor óptico:"
+							rendered="#{lancamentoMB.lv.tipoLancamento lt 3}" />
+						<p:selectBooleanCheckbox value="#{lancamentoMB.lv.leitorOptico}"
+							rendered="#{lancamentoMB.lv.tipoLancamento lt 3}">
+							<p:ajax listener="#{lancamentoMB.limparCBLD()}" update="@form" />
+						</p:selectBooleanCheckbox>
+					</h:panelGrid>
+					<div class="Seperator" />
+
+					<h:panelGroup id="group">
+
+						<h:panelGrid id="gridInfLancto">
+							<h:panelGrid columns="2"
+								rendered="#{lancamentoMB.lv.debitoAutomatico == null}">
+								<p:outputLabel value="Vencimento:" />
+								<p:calendar value="#{lancamentoMB.lv.vencimento}" mask="true"
+									locale="pt" timeZone="America/Sao_Paulo" pattern="dd/MM/yy"
+									styleClass="calendario">
+								</p:calendar>
+
+								<p:outputLabel value="CPF/CNPJ:" />
+								<p:inputText value="#{lancamentoMB.lv.cnpj}" maxlength="14"
+									styleClass="inputPrevent" style="width:300px;"
+									onkeydown="validaLDEnter(event);">
+									<pe:keyFilter regEx="/[0123456789]/i" />
+									<p:ajax event="blur" process="@this"
+										listener="#{lancamentoMB.pesquisarFornecedor()}"
+										update=":frmFornecedor, :frmNovoLancamento:colFornecedor"
+										onstart="PF('statusDialog').show();"
+										oncomplete="PF('statusDialog').hide();" />
+								</p:inputText>
+								<p:outputLabel value="Fonecedor:" />
+								<p:column>
+									<h:panelGrid id="colFornecedor" columns="3">
+										<p:outputLabel value="#{lancamentoMB.lv.fornecedor.nome}"
+											rendered="#{lancamentoMB.lv.fornecedor != null}" />
+										<p:commandButton icon="fa fa-trash Fs16 white"
+											actionListener="#{lancamentoMB.excluirFornecedor()}"
+											update=":frmNovoLancamento:colFornecedor"
+											rendered="#{lancamentoMB.lv.fornecedor != null and not empty lancamentoMB.lv.fornecedor.nome}"
+											style="margin-left:15px;" />
+									</h:panelGrid>
+								</p:column>
+
+								<p:outputLabel value="#{lancamentoMB.lv.tipoDocumento}:"
+									id="lblTipoDoc" />
+								<p:inputText id="txtNF"
+									value="#{lancamentoMB.lv.numeroNotaFiscal}" maxlength="9"
+									onkeydown="validaLDEnter(event);" style="width:300px;">
+									<pe:keyFilter regEx="/[0123456789]/i" />
+								</p:inputText>
+
+								<p:outputLabel value="Emissão N.F:" />
+								<p:calendar id="dtEmissaoNF" mask="true" locale="pt"
+									timeZone="America/Sao_Paulo" pattern="dd/MM/yy"
+									value="#{lancamentoMB.lv.dataEmissaoNF}"
+									styleClass="calendario" onkeydown="validaLDEnter(event);" />
+
+								<p:outputLabel value="Valor:"
+									rendered="#{lancamentoMB.lv.tipoLancamento == 1 or lancamentoMB.lv.tipoLancamento == 3}" />
+								<p:inputText name="txtValor" id="txtValor" onfocus="mascarar();"
+									onkeydown="validaLDEnter(event);"
+									rendered="#{lancamentoMB.lv.tipoLancamento == 1 or lancamentoMB.lv.tipoLancamento == 3}"
+									value="#{lancamentoMB.lv.valor}" />
+
+								<p:outputLabel value="Parcelado" />
+								<h:panelGrid id="plg29" columns="8">
+									<p:selectOneRadio id="sorParcelado"
+										value="#{lancamentoMB.lv.parcelamento}">
+										<f:selectItem itemLabel="S" itemValue="S" />
+										<f:selectItem itemLabel="N" itemValue="N" />
+										<p:ajax update=":frmNovoLancamento:plg29" />
+										<p:ajax listener="#{lancamentoMB.limparParcelado()}" />
+									</p:selectOneRadio>
+									<p:outputLabel id="oplParcelado" value="Parc.:"
+										rendered="#{lancamentoMB.lv.parcelamento == 'S'}"
+										required="#{lancamentoMB.lv.parcelamento == 'S'}"
+										style="float:right;" />
+									<p:inputText id="iptParcelado" value="#{lancamentoMB.lv.pci}"
+										style="width:40px;" onkeypress="validate(event)" maxlength="3"
+										required="#{lancamentoMB.lv.parcelamento == 'S'}"
+										rendered="#{lancamentoMB.lv.parcelamento == 'S'}"
+										requiredMessage="Preencha 1º parcela!">
+									</p:inputText>
+									<p:outputLabel id="optParcelamento" value=" de "
+										rendered="#{lancamentoMB.lv.parcelamento == 'S'}" />
+									<p:inputText id="iptHist" value="#{lancamentoMB.lv.pcf}"
+										style="width:45px;" onkeypress="validate(event)" maxlength="4"
+										rendered="#{lancamentoMB.lv.parcelamento == 'S'}"
+										required="#{lancamentoMB.lv.parcelamento == 'S'}"
+										requiredMessage="Preencha 2º parcela!">
+									</p:inputText>
+								</h:panelGrid>
+
+							</h:panelGrid>
+						</h:panelGrid>
+
+						<h:panelGrid id="gridInfDA">
+							<p:commandButton icon="fa fa-trash Fs16 white"
+								value="Limpar Débito Automático"
+								actionListener="#{lancamentoMB.limparDA()}" update="@form:group"
+								rendered="#{lancamentoMB.lv.debitoAutomatico != null}" />
+							<h:panelGrid columns="2"
+								rendered="#{lancamentoMB.lv.debitoAutomatico != null}">
+								<p:outputLabel value="Mês/Ano:" />
+								<h:panelGrid columns="3">
+									<p:inputText id="txtDAMes"
+										value="#{lancamentoMB.lv.debitoAutomatico.mes}"
+										onkeydown="validaLDEnter(event);" maxlength="2"
+										style="width:20px;">
+										<p:ajax event="keyup" process="@this"
+											update="@form:historicoDA" />
+										<pe:keyFilter regEx="/[0123456789]/i" preventPaste="false" />
+									</p:inputText> /
+								<p:inputText id="txtDAAno"
+										value="#{lancamentoMB.lv.debitoAutomatico.ano}"
+										onkeydown="validaLDEnter(event);" style="width:40px;">
+										<p:ajax event="keyup" process="@this"
+											update="@form:historicoDA" />
+										<pe:keyFilter regEx="/[0123456789]/i" preventPaste="false" />
+									</p:inputText>
+								</h:panelGrid>
+
+								<p:outputLabel value="Consumo:" />
+								<p:inputText value="#{lancamentoMB.lv.debitoAutomatico.consumo}"
+									onkeydown="validaLDEnter(event);">
+									<p:ajax event="keyup" process="@this"
+										update="@form:historicoDA" />
+									<pe:keyFilter regEx="/[0123456789.,]/i" preventPaste="false" />
+								</p:inputText>
+								<p:outputLabel value="Identificação:" />
+								<p:outputLabel
+									value="#{lancamentoMB.lv.debitoAutomatico.nro_identificacao}" />
+								<p:outputLabel value="Vencimento:" />
+								<p:outputLabel
+									value="#{lancamentoMB.lv.debitoAutomatico.vencimento}">
+									<f:convertDateTime pattern="dd/MM/yy"
+										timeZone="America/Sao_Paulo" locale="pt" />
+								</p:outputLabel>
+								<p:outputLabel value="Credor:" />
+								<p:outputLabel
+									value="#{lancamentoMB.lv.debitoAutomatico.credor}" />
+								<p:outputLabel value="Histórico:" />
+								<p:inputTextarea id="historicoDA"
+									value="#{lancamentoMB.historico}">
+									<p:ajax process="@this" />
+								</p:inputTextarea>
+								<p:outputLabel value="Valor:" />
+								<p:outputLabel value="#{lancamentoMB.lv.debitoAutomatico.valor}">
+									<f:convertNumber currencySymbol="R$" minFractionDigits="2" />
+								</p:outputLabel>
+							</h:panelGrid>
+						</h:panelGrid>
+					</h:panelGroup>
+
+					<h:panelGrid id="gridBtnSalvar" columns="2"
+						style="margin-top:20px;">
+						<p:commandButton value="Voltar" ajax="false"
+							action="/sip/pre-lancamento/pre-lancamentos.xhtml?faces-redirect=true;"
+							icon="fa fa-arrow-left Fs16 white" />
+						<p:commandButton value="Salvar"
+							actionListener="#{lancamentoMB.salvarAlteracoesLancamento()}"
+							icon="fa fa-check Fs16 white" style="float:right;" />
+					</h:panelGrid>
+					<p:remoteCommand name="pImgEtiq"
+						actionListener="#{lancamentoMB.pesquisarImagemPorEtiqueta()}"
+						onstart="PF('statusDialog').show();"
+						oncomplete="PF('statusDialog').hide();"
+						update=":frmNovoLancamento,:frmImagem" />
+					<p:remoteCommand name="pAceitaImagem"
+						update=":frmNovoLancamento:colImagem,:frmNovoLancamento:selectCnd"
+						oncomplete="PF('dlgImagem').hide();" />
+					<p:remoteCommand name="updateCamposLD"
+						actionListener="#{lancamentoMB.updateCamposLD()}" />
+				</h:form>
+			</div>
+		</div>
+		<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+			closable="false" resizable="false" showHeader="false">
+					Aguarde...<br />
+			<br />
+			<p:graphicImage library="imagens" name="loader.gif" />
+		</p:dialog>
+		<ui:include src="dlg-imagem.xhtml" />
+		<ui:include src="dlg-fornecedor.xhtml" />
+		<ui:include src="dlg-pesq-favorecido.xhtml" />
+		<ui:include src="dlg-pesq-banco.xhtml" />
+		<ui:include src="dlg-debito-automatico.xhtml" />
+		<ui:include src="dlg-duplicidade.xhtml" />
+		<ui:include src="dlg-pendencias.xhtml" />
+		<h:outputScript library="javascript/maskMoney"
+			name="jquery.maskMoney.js" />
+		<script>
+			$(document).ready(function() {
+				mascarar();
+			});
+
+			$(document).keydown(function(e) {
+				if (e.keyCode == 32) {
+					$("[id='btnAceitaImagem']").click();
+					$("[id='frmNovoLancamento:cdBarrasTxt']").focus();
+				}
+			});
+
+			function aceitaImagem(evt) {
+				var theEvent = evt || window.event;
+				var key = theEvent.keyCode || theEvent.which;
+				if (key == 13) {
+					evt.preventDefault();
+					pAceitaImagem();
+					$("[id='frmNovoLancamento:cdBarrasTxt']").focus();
+				}
+			}
+
+			function mascarar() {
+				$(PrimeFaces.escapeClientId('frmNovoLancamento:txtValor'))
+						.maskMoney({
+							prefix : 'R$ ',
+							thousands : '.',
+							decimal : ',',
+							affixesStay : true
+						});
+			}
+
+			function validaLdInicial(evt) {
+				var theEvent = evt || window.event;
+				var key = theEvent.keyCode || theEvent.which;
+				if (key == 13) {
+					evt.preventDefault();
+				}
+				var vInicial = $("[id='frmNovoLancamento:ldInicial']").val();
+				var vConc = $("[id='frmNovoLancamento:ldConc1']").val();
+				var vBol = $("[id='frmNovoLancamento:ldComp1']").val();
+				vInicial = vInicial.replace(/\_/g, '');
+				vConc = vConc.replace(/\_/g, '');
+				vBol = vBol.replace(/\_/g, '');
+				if (vInicial.length > 0) {
+					var res = vInicial.substring(0, 1);
+					if (res == 8) {
+						$(".gridConcessionaria").css("display", "block");
+						$("[id='frmNovoLancamento:ldConc1']").focus();
+						var input = $("[id='frmNovoLancamento:ldConc1']");
+						input.focus();
+						var tmpStr = input.val() + '' + vInicial;
+						input.val('');
+						input.val(tmpStr);
+
+						$("[id='frmNovoLancamento:ldComp1']").val('');
+						$("[id='frmNovoLancamento:ldComp2']").val('');
+						$("[id='frmNovoLancamento:ldComp3']").val('');
+						$("[id='frmNovoLancamento:ldComp4']").val('');
+						$("[id='frmNovoLancamento:ldComp5']").val('');
+						$(".gridBoleto").css("display", "none");
+						$(".gridLinhaInicial").css("display", "none");
+					} else {
+						$(".gridBoleto").css("display", "block");
+						var input = $("[id='frmNovoLancamento:ldComp1']");
+						input.focus();
+						var tmpStr = input.val() + '' + vInicial;
+						input.val('');
+						input.val(tmpStr);
+
+						$("[id='frmNovoLancamento:ldConc1']").val('');
+						$("[id='frmNovoLancamento:ldConc2']").val('');
+						$("[id='frmNovoLancamento:ldConc3']").val('');
+						$("[id='frmNovoLancamento:ldConc4']").val('');
+						$(".gridLinhaInicial").css("display", "none");
+						$(".gridConcessionaria").css("display", "none");
+					}
+					updateCamposLD();
+				} else {
+					$(".gridLinhaInicial").css("display", "block");
+
+					$("[id='frmNovoLancamento:ldComp1']").val('');
+					$("[id='frmNovoLancamento:ldComp2']").val('');
+					$("[id='frmNovoLancamento:ldComp3']").val('');
+					$("[id='frmNovoLancamento:ldComp4']").val('');
+					$("[id='frmNovoLancamento:ldComp5']").val('');
+
+					$("[id='frmNovoLancamento:ldConc1']").val('');
+					$("[id='frmNovoLancamento:ldConc2']").val('');
+					$("[id='frmNovoLancamento:ldConc3']").val('');
+					$("[id='frmNovoLancamento:ldConc4']").val('');
+					updateCamposLD();
+				}
+			}
+
+			(function($) {
+				$.fn.setCursorToTextEnd = function() {
+					var $initialVal = this.val();
+					this.val($initialVal);
+				};
+			})(jQuery);
+
+			$('.inputPrevent').keydown(function(e) {
+				if (e.keyCode == 13) {
+					e.preventDefault();
+					return false;
+				}
+			});
+
+			function pesquisaImgEtiqueta(evt) {
+				var theEvent = evt || window.event;
+				var key = theEvent.keyCode || theEvent.which;
+				if (key == 13) {
+					evt.preventDefault();
+					$(evt.target).blur();
+				}
+			}
+		</script>
+	</ui:define>
+</ui:composition>

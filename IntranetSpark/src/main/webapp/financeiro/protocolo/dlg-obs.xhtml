@@ -1,0 +1,23 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	<p:dialog header="Observação Padrão" widgetVar="dlgObs" id="dlgObs" responsive="true"
+		hideEffect="slide" showEffect="slide" modal="true" width="auto" resizable="false">
+		<h:form id="frmObs">
+			<h:panelGrid columns="2">
+				<p:outputLabel value="Obs" />
+				<p:inputTextarea value="#{ProtGEDMB.obs.obs}"  style="width:500px;"/>
+			</h:panelGrid>
+			<hr />
+			<p:commandButton value="Cancelar" icon="fa fa-close Fs16 white"
+				onclick="PF('dlgObs').hide();" style="float:left;" />
+			<p:commandButton value="Salvar" icon="fa fa-print Fs16 white"
+				actionListener="#{ProtGEDMB.salvarObs()}" update=":frmObs :frmCondominio:msg"
+				style="float:right;" />
+		</h:form>
+	</p:dialog>
+</ui:composition>

@@ -1,0 +1,32 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+	
+	<h:form id="frmDlgSalvar">
+		<p:dialog id="dlgSalvar" modal="true" widgetVar="salvar" responsive="true" 
+			header="Salvando informações, aguarde..." draggable="false"
+			resizable="false" closable="false">
+			<center>
+				<p:graphicImage name="loader.gif" library="imagens" width="250"
+					height="25" />
+			</center>
+		</p:dialog>
+		
+		<p:dialog id="dlgPaperProc"  widgetVar="processamento" header="Processamento SIGA" modal="true" responsive="true" resizable="false">
+			<h:panelGrid>
+				<p:outputLabel value="Informe a data para o Processamento:"/>
+				<p:calendar value="#{servicos.dataProcessamento}" pattern="dd/MM/yyyy" locale="pt" />
+				
+			</h:panelGrid>
+		<p:messages id="msg" showDetail="true" autoUpdate="false"
+					closable="true" escape="true" showSummary="false" />
+			<p:separator/>
+			<p:commandButton value="Salvar" action="#{servicos.salvar()}" onstart="PF('salvar').show();" update="msg" style="float: right;" />
+		</p:dialog>
+	</h:form>
+	
+	</ui:composition>
+	

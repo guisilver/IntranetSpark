@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</h:head>
+<ui:composition>
+	<p:dialog widgetVar="dlgEscalaParam" header="Alterar Obs" modal="true"
+		resizable="false" style="width:500px!important;">
+		<h:form id="frmEscalaParam">
+			<div class="scroll">
+				<h:panelGrid>
+					<h:outputText value="Manhã:" />
+					<p:inputText value="#{escalaDeFolgaMB.escala_param.manha}"
+						maxlength="50" style="width:300px;" />
+					<h:outputText value="Tarde:" />
+					<p:inputText value="#{escalaDeFolgaMB.escala_param.tarde}"
+						maxlength="50" style="width:300px;" />
+					<h:outputText value="Noite:" />
+					<p:inputText value="#{escalaDeFolgaMB.escala_param.noite}"
+						maxlength="50" style="width:300px;" />
+					<h:outputText value="Obs 1:" />
+					<p:inputTextarea value="#{escalaDeFolgaMB.escala_param.obs1}"
+						style="width:300px;" />
+					<h:outputText value="Obs 2:" />
+					<p:inputTextarea value="#{escalaDeFolgaMB.escala_param.obs2}"
+						style="width:300px;" />
+					<h:outputText value="Obs 3:" />
+					<p:inputTextarea value="#{escalaDeFolgaMB.escala_param.obs3}"
+						style="width:300px;" />
+					<h:outputText value="Obs 4:" />
+					<p:inputTextarea value="#{escalaDeFolgaMB.escala_param.obs4}"
+						style="width:300px;" />
+					<h:outputText value="Obs 5:" />
+					<p:inputTextarea value="#{escalaDeFolgaMB.escala_param.obs5}"
+						style="width:300px;" />
+					<h:outputText value="Obs 6:" />
+					<p:inputTextarea value="#{escalaDeFolgaMB.escala_param.obs6}"
+						style="width:300px;" />
+				</h:panelGrid>
+			</div>
+			<h:panelGrid style="width:100%;margin-top:20px;" columns="2">
+				<p:commandButton value="Cancelar" icon="fa fa-close Fs16 white"
+					onclick="PF('dlgEscalaParam').hide();" />
+				<p:commandButton value="Salvar" icon="fa fa-check Fs16 white"
+					process="@form"
+					actionListener="#{escalaDeFolgaMB.salvarEscalaParam()}"
+					ajax="false" style="float:right;" />
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
+</ui:composition>
+</html>

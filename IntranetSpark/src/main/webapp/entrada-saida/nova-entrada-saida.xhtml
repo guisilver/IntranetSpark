@@ -1,0 +1,220 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<f:metadata>
+			<f:event listener="#{movimentoCaixaMB.duplicarMovimento()}"
+				type="preRenderView" />
+		</f:metadata>
+
+		<div class="layout-portlets-box">
+			<div class="DispInlBlock TexAlLeft">
+				<div class="Fleft">
+					<h2 class="black Fs24 FontRalewayMedium">Nova Entrada / Saída</h2>
+				</div>
+			</div>
+			<div class="Seperator"></div>
+
+			<div class="Container100 Responsive100">
+				<div class="ContainerIndent">
+					<p:messages autoUpdate="true" closable="true" escape="true"
+						showDetail="false" />
+					<h:form id="frmMovimentoCaixa"
+						rendered="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.igp.sysES}">
+						<h:panelGrid>
+							<h:panelGrid id="gridGerCond" columns="2" cellpadding="5">
+								<p:outputLabel for="selectCnd" value="Condomínio:" />
+								<p:selectOneMenu id="selectCnd"
+									value="#{movimentoCaixaMB.condominio}" style="width:200px"
+									filter="true" filterMatchMode="contains"
+									converter="omnifaces.SelectItemsConverter" required="true"
+									requiredMessage="Insira o condomínio!">
+									<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+									<f:selectItems value="#{SessaoMB.listaCondominios}" var="item"
+										itemLabel="#{item.cndCodNome}" itemValue="#{item}" />
+								</p:selectOneMenu>
+
+								<p:outputLabel value="Tipo" />
+								<p:selectOneRadio
+									value="#{movimentoCaixaMB.movimentoCaixa.tipo}" filter="true"
+									filterMatchMode="contains" style="width:200px;">
+									<p:ajax update=":frmMovimentoCaixa:plg3" />
+									<f:selectItem itemLabel="Saída" itemValue="0" />
+									<f:selectItem itemLabel="Entrada" itemValue="1" />
+								</p:selectOneRadio>
+							</h:panelGrid>
+
+							<h:panelGrid id="plg1" columns="2" cellpadding="5">
+								<p:outputLabel value="Vencimento:" for="vencimento" />
+								<p:calendar id="vencimento"
+									value="#{movimentoCaixaMB.movimentoCaixa.vencimento}"
+									required="true" requiredMessage="Insira o vencimento!"
+									showButtonPanel="true" pattern="dd/MM/yyyy" locale="pt"
+									timeZone="America/Sao_Paulo" />
+							</h:panelGrid>
+
+							<h:panelGrid id="plg2" columns="3" cellpadding="5">
+								<p:outputLabel value="Conta:" />
+								<p:inputText
+									value="#{movimentoCaixaMB.movimentoCaixa.codLancamento}"
+									type="number" style="margin-left:45px !important; width:90px;"
+									styleClass="txtConta" />
+								<p:commandButton icon="fa fa-search Fs16 white"
+									oncomplete="PF('planoContasSaida').show();" process="@this"
+									style="font-size:15px;" />
+							</h:panelGrid>
+
+							<h:panelGrid id="plg3" columns="2" cellpadding="5">
+								<p:outputLabel id="lblNf" value="NF:"
+									rendered="#{movimentoCaixaMB.movimentoCaixa.tipo == 0}" />
+								<p:inputText id="txtNf"
+									value="#{movimentoCaixaMB.movimentoCaixa.nf}"
+									style="margin-left: 8px !important; width: 465px;"
+									rendered="#{movimentoCaixaMB.movimentoCaixa.tipo == 0}" />
+
+								<p:outputLabel value="Referencia:" />
+								<p:inputText
+									value="#{movimentoCaixaMB.movimentoCaixa.referencia}"
+									style="margin-left: 8px !important; width: 465px;" />
+							</h:panelGrid>
+
+							<h:panelGrid id="plg4" columns="3" cellpadding="5">
+								<p:outputLabel value="Favorecido:" />
+								<p:inputText id="txtFavorecido"
+									value="#{movimentoCaixaMB.movimentoCaixa.favorecido}"
+									maxlength="50" style="margin-left:8px !important; width:465px;" />
+								<p:commandButton icon="fa fa-search Fs16 white" process="@this"
+									onclick="PF('pesqFavSaida').show();" style="font-size:15px;" />
+							</h:panelGrid>
+
+							<h:panelGrid id="plg5" columns="4" cellpadding="5">
+								<p:outputLabel value="CPF/CNPJ:" />
+								<p:inputText value="#{movimentoCaixaMB.movimentoCaixa.cpfCnpj}"
+									style="margin-left:8px !important; width:250px;" />
+								<p:commandButton icon="fa fa-search Fs16 white" value="CPF"
+									onclick="window.open('http://www.receita.fazenda.gov.br/aplicacoes/atcta/cpf/consultapublica.asp')" />
+								<p:commandButton icon="fa fa-search Fs16 white" value="CNPJ"
+									onclick="window.open('http://www.receita.fazenda.gov.br/pessoajuridica/cnpj/cnpjreva/cnpjreva_solicitacao.asp')" />
+							</h:panelGrid>
+
+							<h:panelGrid id="plg6" columns="2" cellpadding="5">
+								<p:outputLabel value="Banco:" />
+								<p:inputText value="#{movimentoCaixaMB.movimentoCaixa.banco}"
+									style="margin-left: 40px !important; width:250px;" />
+							</h:panelGrid>
+
+							<h:panelGrid id="plg7" columns="5" cellpadding="5">
+								<p:outputLabel value="Ag.:" />
+								<p:inputText value="#{movimentoCaixaMB.movimentoCaixa.agencia}"
+									style="width: 120px !important; margin-left:63px;" />
+								<p:outputLabel value="Dig.:" />
+								<p:inputText value="#{movimentoCaixaMB.movimentoCaixa.digAg}"
+									style="width: 15px !important;" maxlength="2" />
+								<p:commandButton id="btnDigAg" icon="fa fa-search Fs16 white"
+									onclick="window.open('http://institucional.bradesco.com.br/netredeatendimento/site/conteudo/home/default.aspx?')">
+									<p:tooltip for="btnDigAg"
+										value="Pesquisa de Digito para Agência Bradesco!"
+										showEffect="clip" hideEffect="explode"
+										style="font-size:14px;font-weight:bold;" />
+								</p:commandButton>
+							</h:panelGrid>
+
+							<h:panelGrid id="plg8" columns="4" cellpadding="5">
+								<p:outputLabel value="Conta:" />
+								<p:inputText value="#{movimentoCaixaMB.movimentoCaixa.conta}"
+									style="width: 120px !important; margin-left:43px;" />
+								<p:outputLabel value="Dig.:" />
+								<p:inputText value="#{movimentoCaixaMB.movimentoCaixa.digConta}"
+									style="width: 15px !important;" maxlength="2" />
+							</h:panelGrid>
+
+							<h:panelGrid id="plg9" columns="2" cellpadding="5">
+								<p:outputLabel value="Tipo de Conta:" />
+								<p:selectOneRadio
+									value="#{movimentoCaixaMB.movimentoCaixa.tipoConta}">
+									<f:selectItem itemLabel="Corrente" itemValue="Corrente" />
+									<f:selectItem itemLabel="Poupança" itemValue="Poupança" />
+								</p:selectOneRadio>
+							</h:panelGrid>
+
+							<h:panelGrid id="plg10" columns="2" cellpadding="5">
+								<p:outputLabel value="Obs.:" />
+								<p:inputTextarea value="#{movimentoCaixaMB.movimentoCaixa.obs}"
+									rows="3" cols="40" />
+							</h:panelGrid>
+
+							<h:panelGrid id="plg11" columns="2" cellpadding="5">
+								<p:outputLabel value="Valor R$" style="font-size:14px;" />
+								<pe:inputNumber id="ipnValor" style="font-size: 14px;"
+									decimalPlaces="2" value="#{movimentoCaixaMB.valorBD}"
+									thousandSeparator="." minValue="-999999999"
+									maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+							</h:panelGrid>
+						</h:panelGrid>
+
+						<h:panelGrid columns="3" style="margin-top:15px;">
+							<p:commandButton value="Voltar para Lista de Entrada / Saída"
+								process="@this" action="/entrada-saida?faces-redirect=true;"
+								icon="fa fa-arrow-left Fs16 white" style="float:left;" />
+
+							<p:commandButton id="btnSalvar"
+								action="#{movimentoCaixaMB.salvarNovoMovimento()}"
+								update="@form" value="Salvar e Gerar PDF"
+								icon="fa fa-check Fs16 white" />
+
+							<p:commandButton id="btnSalvar2"
+								action="#{movimentoCaixaMB.salvarNovoMovimentoEVoltar()}"
+								update="@form" value="Salvar e Voltar para Lista"
+								icon="fa fa-check Fs16 white" />
+						</h:panelGrid>
+
+						<p:dialog modal="false" widgetVar="statusDialog2"
+							responsive="true" header="Gerando" draggable="false"
+							resizable="false" closable="false">
+							<center>
+								<p:graphicImage name="loader.gif" library="imagens" width="200"
+									height="25" />
+							</center>
+						</p:dialog>
+						<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+							closable="false" resizable="false" showHeader="false">
+							<p:graphicImage library="imagens" name="loader.gif" />
+						</p:dialog>
+						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+							<p:commandButton value="Sim" type="button" style="float: right;"
+								styleClass="ui-confirmdialog-yes" icon="fa fa-check Fs16 white" />
+							<p:commandButton value="Não" type="button"
+								styleClass="ui-confirmdialog-no" icon="fa fa-close Fs16 white" />
+						</p:confirmDialog>
+
+						<script>
+							function clicaBotaoDownload() {
+								$("[id='frmDownload:btnDownload']").click();
+							}
+
+							$(document).ready(function() {
+								$(".txtConta").attr({
+									"min" : 0
+								// values (or variables) here
+								});
+							});
+						</script>
+					</h:form>
+					<h:form id="frmDownload">
+						<h:commandLink id="btnDownload"
+							action="#{movimentoCaixaMB.downloadPDF(movimentoCaixaMB.retorno)}"
+							target="_blank" style="visibility:hidden;" />
+
+					</h:form>
+					<ui:include src="dialogPesqFavSaida.xhtml" />
+					<ui:include src="dialogPesqPlanoContaSaida.xhtml" />
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

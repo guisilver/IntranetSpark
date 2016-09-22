@@ -1,0 +1,76 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<div class="layout-portlets-box">
+			<div class="DispInlBlock TexAlLeft">
+				<div class="Fleft">
+					<h2 class="black Fs24 FontRalewayMedium">Recadastramento</h2>
+				</div>
+			</div>
+			<div class="Seperator"></div>
+			<div class="Container100 Responsive100">
+				<div class="ContainerIndent">
+					<p:messages autoUpdate="true" />
+					<h:form>
+
+						<p:panelGrid columns="2">
+							<p:outputLabel value="Aprovados:" />
+							<p:outputLabel value="#{recadastramentoMB.aprovados}"
+								style="color:green;" />
+
+							<p:outputLabel value="Reprovados:" />
+							<p:outputLabel value="#{recadastramentoMB.reprovados}"
+								style="color:red;" />
+						</p:panelGrid>
+						<br />
+
+						<p:dataTable value="#{recadastramentoMB.listaClientes}"
+							filteredValue="#{recadastramentoMB.filtro}" var="cliente"
+							emptyMessage="Nenhum cadastro encontrado!" rows="15"
+							rowKey="#{cliente.codigo}" paginator="true"
+							rowsPerPageTemplate="5,10,15" style="width:100%;">
+
+							<p:column headerText="Nome" filterBy="#{cliente.nome}"
+								filterMatchMode="contains">
+								<p:outputLabel value="#{cliente.nome}" />
+							</p:column>
+
+							<p:column headerText="Cód. Condomínio"
+								filterBy="#{cliente.unidade.codigo_cnd}"
+								style="text-align:center;">
+								<p:outputLabel value="#{cliente.unidade.codigo_cnd}" />
+							</p:column>
+
+							<p:column headerText="Bloco" filterBy="#{cliente.unidade.bloco}"
+								style="text-align:center;">
+								<p:outputLabel value="#{cliente.unidade.bloco}" />
+							</p:column>
+
+							<p:column headerText="Unidade"
+								filterBy="#{cliente.unidade.unidade}" style="text-align:center;">
+								<p:outputLabel value="#{cliente.unidade.unidade}" />
+							</p:column>
+
+							<p:column style="text-align:center;">
+								<p:commandButton
+									action="#{recadastramentoMB.abrirAprovacaoCadastro()}"
+									icon="fa fa-search Fs16 white" ajax="false">
+									<f:setPropertyActionListener value="#{cliente}"
+										target="#{recadastramentoMB.clienteSelecionado}" />
+								</p:commandButton>
+							</p:column>
+
+						</p:dataTable>
+
+					</h:form>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

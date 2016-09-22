@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorioentrada" pageWidth="595" pageHeight="842" columnWidth="545" leftMargin="30" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="51547723-6a5a-439d-88da-e737c805bbc4">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="codigo" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="condominio" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="nomeGerente" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select * from omacorp.dbo.intra_bd_es ibs
+where ibs.codigo = $P{codigo} and condominio = $P{condominio} and tipo = 1
+order by id]]>
+	</queryString>
+	<field name="id" class="java.lang.Long"/>
+	<field name="agencia" class="java.lang.String"/>
+	<field name="banco" class="java.lang.String"/>
+	<field name="cod_gerente" class="java.lang.Integer"/>
+	<field name="cod_lancamento" class="java.lang.String"/>
+	<field name="codigo" class="java.lang.Integer"/>
+	<field name="condominio" class="java.lang.Short"/>
+	<field name="conta" class="java.lang.String"/>
+	<field name="cpf_cnpj" class="java.lang.String"/>
+	<field name="data" class="java.sql.Timestamp"/>
+	<field name="dig_ag" class="java.lang.String"/>
+	<field name="dig_conta" class="java.lang.String"/>
+	<field name="email" class="java.lang.String"/>
+	<field name="favorecido" class="java.lang.String"/>
+	<field name="nf" class="java.lang.String"/>
+	<field name="nome_cedente" class="java.lang.String"/>
+	<field name="nome_condo" class="java.lang.String"/>
+	<field name="nome_gerente" class="java.lang.String"/>
+	<field name="obs" class="java.lang.String"/>
+	<field name="referencia" class="java.lang.String"/>
+	<field name="tipo" class="java.lang.Short"/>
+	<field name="tipo_conta" class="java.lang.String"/>
+	<field name="valor" class="java.lang.String"/>
+	<field name="vencimento" class="java.sql.Timestamp"/>
+	<variable name="Texto" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="135" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="113" width="545" height="22" uuid="39c1790c-ee86-46d6-86ee-abac98c1b419"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="Verdana" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[OMA - ADMINISTRAÇÃO DE IMÓVEIS E CORRETAGEM LTDA]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="66" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="27" width="545" height="18" uuid="4c6bf378-ff58-4003-9b06-d10036a058aa"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="14"/>
+				</textElement>
+				<text><![CDATA[MOVIMENTO DE CAIXA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="45" width="545" height="20" uuid="aa9a4628-9298-436e-b28a-8482a10c3630"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="14"/>
+				</textElement>
+				<text><![CDATA[ENTRADA]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="544" splitType="Stretch">
+			<staticText>
+				<reportElement x="19" y="49" width="90" height="21" uuid="ab363104-1024-47e0-b944-0e36478c3a99"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana" size="12"/>
+				</textElement>
+				<text><![CDATA[COND. EDIF.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="421" y="49" width="67" height="21" uuid="a5a40eed-b27c-438c-b2e8-4dbf5169578d"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana" size="12"/>
+				</textElement>
+				<text><![CDATA[CÓDIGO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="19" y="442" width="90" height="20" uuid="12742c9c-a4dd-46bc-96d7-27f2db512c10"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana" size="13"/>
+				</textElement>
+				<text><![CDATA[Gerência]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="109" y="49" width="312" height="21" isRemoveLineWhenBlank="true" uuid="789ef2db-2524-4ba7-a643-1d15d02dc2d3"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nome_condo}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="488" y="49" width="43" height="21" isRemoveLineWhenBlank="true" uuid="15528d1d-044b-4c2e-9bcc-b30671567be0"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{condominio}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="89" width="545" height="20" isRemoveLineWhenBlank="true" uuid="aad0fe8f-496f-4e3a-b407-3064c45d21d8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cod_lancamento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" mode="Opaque" x="356" y="294" width="175" height="25" backcolor="#CCCCCC" uuid="ec640f75-0f15-4a8c-9ce8-e2b277d013f2"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Valor R$ " + ($F{valor} == null ? "" : $F{valor})]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement positionType="Float" x="19" y="369" width="231" height="20" uuid="f32fa2bb-71f5-4e4c-b6ad-feda5f04ca2a"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("dd 'de' MMMM 'de' yyyy", new Locale("pt","BR")).format(new Date())]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="19" y="24" width="90" height="21" uuid="55fadff3-4735-4719-800f-0703cb426eda"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana" size="12"/>
+				</textElement>
+				<text><![CDATA[VENCIMENTO:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="109" y="24" width="100" height="21" uuid="9e8e9132-3ddb-445c-af4a-8dfc20f72f64"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{vencimento} == null ? "" : $F{vencimento}]]></textFieldExpression>
+			</textField>
+			<elementGroup>
+				<elementGroup>
+					<textField>
+						<reportElement positionType="Float" x="217" y="193" width="109" height="28" isRemoveLineWhenBlank="true" uuid="a3ead3bd-a596-45ca-87d5-cfed504d0d79"/>
+						<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+						<textElement verticalAlignment="Middle">
+							<font fontName="Verdana" size="12"/>
+						</textElement>
+						<textFieldExpression><![CDATA[($F{agencia} == null || $F{agencia}.equals("") ? "" : "Ag. "+ $F{agencia}) + ($F{dig_ag} == null || $F{dig_ag}.equals("")  ? "" : " - " +  $F{dig_ag})]]></textFieldExpression>
+					</textField>
+					<textField isStretchWithOverflow="true">
+						<reportElement positionType="Float" x="19" y="220" width="512" height="27" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="2749e501-80be-4232-889e-74acbaccd905"/>
+						<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+							<pen lineWidth="0.0"/>
+							<topPen lineWidth="0.0"/>
+							<leftPen lineWidth="1.0"/>
+							<bottomPen lineWidth="1.0"/>
+							<rightPen lineWidth="1.0"/>
+						</box>
+						<textElement verticalAlignment="Top">
+							<font fontName="Verdana" size="12"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{obs} == null ? "" : $F{obs}]]></textFieldExpression>
+					</textField>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement positionType="Float" x="326" y="193" width="205" height="28" isRemoveLineWhenBlank="true" uuid="fc2d358f-ab9b-4bb7-bc25-7728325d6f7e"/>
+						<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+							<pen lineWidth="1.0"/>
+							<topPen lineWidth="0.0"/>
+							<leftPen lineWidth="0.0"/>
+							<bottomPen lineWidth="0.0"/>
+							<rightPen lineWidth="0.0"/>
+						</box>
+						<textElement verticalAlignment="Middle">
+							<font fontName="Verdana" size="12"/>
+						</textElement>
+						<textFieldExpression><![CDATA[($F{conta} == null || $F{conta}.equals("") ? "" : "C/"+ $F{tipo_conta})+($F{conta} == null || $F{conta}.equals("") ? "" : ": "+ $F{conta})+($F{dig_conta} == null || $F{dig_conta}.equals("") ? "" : " - "+$F{dig_conta})]]></textFieldExpression>
+					</textField>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement positionType="Float" x="19" y="112" width="512" height="27" uuid="8bf55c24-1618-4edd-9069-477ce0d3566c"/>
+						<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+							<pen lineWidth="0.0"/>
+							<topPen lineWidth="1.0"/>
+							<leftPen lineWidth="1.0"/>
+							<bottomPen lineWidth="1.0"/>
+							<rightPen lineWidth="1.0"/>
+						</box>
+						<textElement verticalAlignment="Middle">
+							<font fontName="Verdana" size="12"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{referencia} == null ? "" : $F{referencia}]]></textFieldExpression>
+					</textField>
+					<textField>
+						<reportElement positionType="Float" x="19" y="192" width="512" height="28" isRemoveLineWhenBlank="true" uuid="e87146e7-87ec-42cd-abf8-bb1562d7c1ac"/>
+						<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+							<leftPen lineWidth="1.0"/>
+							<bottomPen lineWidth="1.0"/>
+							<rightPen lineWidth="1.0"/>
+						</box>
+						<textElement verticalAlignment="Middle">
+							<font fontName="Verdana" size="12"/>
+						</textElement>
+						<textFieldExpression><![CDATA[($F{banco} == null || $F{banco}.equals("") ? "" : "Banco: "+ $F{banco})]]></textFieldExpression>
+					</textField>
+				</elementGroup>
+				<textField>
+					<reportElement positionType="Float" x="19" y="166" width="512" height="27" uuid="531a1a18-9c58-4201-b2c1-6da75be83731"/>
+					<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Verdana" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($F{cpf_cnpj} == null || $F{cpf_cnpj}.equals("") ? "" : "CPF/CNPJ: " + $F{cpf_cnpj})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement positionType="Float" x="19" y="139" width="512" height="27" isRemoveLineWhenBlank="true" uuid="9904cb11-d8c0-41e2-8831-f269584a3f94"/>
+					<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Verdana" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{favorecido} == null || $F{favorecido}.equals("") ? "" : "Favorecido: " +$F{favorecido}]]></textFieldExpression>
+				</textField>
+			</elementGroup>
+			<staticText>
+				<reportElement x="19" y="523" width="70" height="9" uuid="2b993ef8-6bba-480a-b3cb-d3f9ad3bae9d"/>
+				<textElement rotation="None">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[OMA INTRANET]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="19" y="422" width="278" height="20" uuid="e94e96a6-64bd-4a6f-9ff1-cdd26dc183a3"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nomeGerente}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,51 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	<div class="Container100 Responsive100">
+		<div class="ContainerIndent">
+			<h:form id="frmVideos">
+				<h:panelGrid columns="2">
+					<p:selectOneMenu value="#{videosOmaMB.videoSelecionado}"
+						converter="omnifaces.SelectItemsConverter" style="width:300px;"
+						filter="true" filterMatchMode="contains">
+						<p:ajax update="@form" />
+						<f:selectItem itemLabel="Selecionar" noSelectionOption="true" />
+						<f:selectItems value="#{videosOmaMB.videos}" var="video"
+							itemLabel="#{video.titulo}" itemValue="#{video}" />
+					</p:selectOneMenu>
+					<p:commandButton value="Excluir Vídeo"
+						icon="fa fa-trash Fs16 white" onclick="PF('dlgExcVideo').show();"
+						rendered="#{(videosOmaMB.videoSelecionado != null and SessaoMB.igp.sysAdmin) or (videosOmaMB.videoSelecionado != null and SessaoMB.verificaDepto('Marketing'))}" />
+				</h:panelGrid>
+				<br />
+				<h:panelGrid
+					style="width: 100%; text-align: center; margin-top: 30px;"
+					rendered="#{videosOmaMB.videoSelecionado != null}">
+					<video width="1024" height="600" controls="true">
+						<source
+							src="#{videosOmaMB.enderecoPasta}/#{videosOmaMB.videoSelecionado.nome}"
+							type="video/mp4" />
+						does not support HTML5 video.
+					</video>
+				</h:panelGrid>
+			</h:form>
+		</div>
+	</div>
+	<p:dialog widgetVar="dlgExcVideo" modal="true" resizable="false"
+		header="Confirmar Exclusão">
+		<h:form id="frmExcVideo">
+			<p:outputLabel value="Você confirma a exclusão deste vídeo?"
+				style="color:red!important;" />
+			<h:panelGrid columns="2" style="width:100%;margin-top:20px;">
+				<p:commandButton value="Não" onclick="PF('dlgExcVideo').hide();"
+					icon="fa fa-close Fs16 white" />
+				<p:commandButton value="Sim"
+					actionListener="#{videosOmaMB.excluirVideo()}" update="frmVideos"
+					icon="fa fa-check Fs16 white" style="float:right;" />
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
+</ui:composition>

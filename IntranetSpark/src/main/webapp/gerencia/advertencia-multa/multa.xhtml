@@ -1,0 +1,204 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:pe="http://primefaces.org/ui/extensions">
+
+		<Style>
+#tbvAdvMul\:frmMulta\:somBloco_label {
+	width: 70px !important;
+	text-align: center !important;
+}
+
+#tbvAdvMul\:frmMulta\:somUnidade_label {
+	width: 70px !important;
+	text-align: center !important;
+}
+</Style>
+		<h:form id="frmMulta" rendered="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.igp.sysAdvertMult}">
+
+			<h:panelGrid columns="2">
+				<p:outputLabel value="Torre:" style="font-size:14px;color: red;" />
+				<p:selectOneMenu id="somBloco" value="#{amMB.bloco}"
+					style="width:100px; text-align:center !important;">
+					<f:selectItem itemLabel="Bloco" itemValue="" />
+					<f:selectItems value="#{amMB.listaDeBloco}" var="items"
+						itemValue="#{items.bloco}" itemLabel="#{items.bloco}" />
+					<p:ajax update=":tbvAdvMul:frmMulta:somUnidade" />
+				</p:selectOneMenu>
+
+				<p:outputLabel value="Unidade:" style="font-size:14px;color: red;" />
+
+				<p:selectOneMenu id="somUnidade"
+					value="#{amMB.unidade}" filter="true"
+					filterMatchMode="contains" style="width:100px;">
+					<f:selectItem itemLabel="Unidade" itemValue="" />
+					<f:selectItems value="#{amMB.listaDeUnidade}" var="items"
+						itemValue="#{items.unidade}" itemLabel="#{items.unidade}" />
+					<p:ajax update=":tbvAdvMul:frmMulta:ipNomeCliente"
+						listener="#{amMB.nomeCliente}" />
+				</p:selectOneMenu>
+			</h:panelGrid>
+
+			<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+				<p:outputLabel value="Sexo:" style="font-size:14px;" />
+				<p:selectOneRadio id="console" value="#{amMB.amBEAN.sexo}"
+					style="font-size:14px;">
+					<f:selectItem itemLabel="F" itemValue="F" />
+					<f:selectItem itemLabel="M" itemValue="M" />
+					<p:ajax update=":tbvAdvMul:frmMulta:oplSexo" />
+				</p:selectOneRadio>
+			</h:panelGrid>
+
+			<h:panelGrid columns="2">
+				<p:outputLabel id="oplSexo"
+					value="#{amMB.amBEAN.sexo eq 'M' ? 'Sr.' : 'Sra.'}"
+					style="font-size:18px; font-weigth: bold;" />
+				<p:inputText id="ipNomeCliente" value="#{amMB.amBEAN.nome}"
+					style="font-size:14px;width:403px;margin-left:30px;" />
+			</h:panelGrid>
+
+			<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+				<p:outputLabel value="De acordo com:" style="font-size:14px;" />
+				<p:selectOneRadio id="sorRegCov" value="#{amMB.amBEAN.tipoRegCov}"
+					style="font-size:14px;">
+					<f:selectItem itemLabel="Regto. Interno" itemValue="R" />
+					<f:selectItem itemLabel="Convenção" itemValue="C" />
+					<f:selectItem itemLabel="Outros" itemValue="O" />
+					<p:ajax
+						update=":tbvAdvMul:frmMulta:plgCampo1 :tbvAdvMul:frmMulta:plgCampo2" />
+				</p:selectOneRadio>
+			</h:panelGrid>
+
+			<h:panelGrid id="plgCampo1">
+				<h:panelGrid columns="8"
+					rendered="#{amMB.amBEAN.tipoRegCov eq 'O' ? false : true}">
+					<p:selectBooleanCheckbox value="#{amMB.amBEAN.itemClausula}"
+						style="margin-left:2px;">
+						<p:ajax event="change"
+							update=":tbvAdvMul:frmMulta:plgCampo1" />
+					</p:selectBooleanCheckbox>
+
+					<p:outputLabel
+						value="#{amMB.amBEAN.itemClausula eq true ? 'Claúsula:' : 'Sem Claúsula'}"
+						style="font-size:14px;margin-left:4px;" />
+					<p:inputText value="#{amMB.amBEAN.clausula}"
+						rendered="#{amMB.amBEAN.itemClausula eq true ? true : false}"
+						style="width:30px;">
+					</p:inputText>
+				</h:panelGrid>
+			</h:panelGrid>
+
+			<h:panelGrid id="plgCampo2">
+				<h:panelGrid columns="6"
+					rendered="#{amMB.amBEAN.tipoRegCov eq 'O' ? false : true}">
+					<p:outputLabel value="Artigo:" style="margin-left:25px;" />
+					<p:inputText value="#{amMB.amBEAN.artigo}"
+						style="width:30px;margin-left:19px;">
+					</p:inputText>
+					<p:outputLabel value=":" />
+					<p:inputText value="#{amMB.amBEAN.frase}" style="width:310px;">
+					</p:inputText>
+				</h:panelGrid>
+			</h:panelGrid>
+
+			<h:panelGrid columns="3">
+				<p:outputLabel value="Ocorrido:" style="margin-left:28px;" />
+				<p:inputMask value="#{amMB.amBEAN.dataOcorrido}" mask="99/99/9999"
+					style="width:100px;">
+				</p:inputMask>
+
+			</h:panelGrid>
+			<h:panelGrid columns="3">
+				<p:outputLabel value="Motivo:" style="margin-left:28px;" />
+				<p:inputText value="#{amMB.amBEAN.motivo}"
+					style="width:370px;margin-left:15px;">
+				</p:inputText>
+			</h:panelGrid>
+
+			<h:panelGrid columns="4" id="plgCampo3">
+
+				<p:outputLabel value="Valor R$"
+					style="font-size:14px;margin-left:25px;" />
+				<pe:inputNumber style="font-size: 14px;width:50px !important; margin-left:16px;"
+					id="valor1" decimalPlaces="2" value="#{amMB.valor1}"
+					thousandSeparator="." minValue="-999999999" maxValue="999999999"
+					decimalSeparator="," emptyValue="0,00">
+					<p:ajax event="blur" 
+						listener="#{amMB.converteValor}" />
+				</pe:inputNumber>
+
+				<p:outputLabel value="Extenso:" style="font-size: 14px;width:80px;" />
+				<p:inputText id="iptValorExtenso" value="#{amMB.amBEAN.valorExtenso}" style="font-size: 14px;">
+					<p:ajax event="blur" />
+				</p:inputText>
+
+			</h:panelGrid>
+			<h:panelGrid columns="2" id="plgCampo4">
+				<p:outputLabel value="Venc.:"
+					style="font-size: 14px;width:80px;margin-left:25px;" />
+				<p:inputMask value="#{amMB.amBEAN.vencimento}" mask="99/99/9999"
+					style="font-size:14px;width:100px;margin-left:33px;">
+					<p:ajax event="blur"  />
+				</p:inputMask>
+			</h:panelGrid>
+			<br />
+<!-- 			<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="3">
+				<p:outputLabel
+					value="Texto padrão &#34;somente quando a Convenção for omissa&#34;."
+					style="color:red;" />
+				<p:column />
+				<p:selectOneRadio id="console1" value="#{amMB.amBEAN.validaTexto}">
+					<f:selectItem itemLabel="Sim" itemValue="S" />
+					<f:selectItem itemLabel="Não" itemValue="N" />
+					<p:ajax update=":tbvAdvMul:frmMulta:plgTexto" />
+				</p:selectOneRadio>
+			</h:panelGrid> -->
+
+			<h:panelGrid id="plgTexto" style="margin-bottom:10px" columns="1"
+				cellpadding="5">
+				<p:outputLabel value="Texto (RECURSO DE MULTA) " style="font-size:14px;color: red;margin-left: 10px !important;"/>
+				<p:inputTextarea value="#{amMB.amBEAN.texto}" required="true" requiredMessage="Obrigatório campo Texto padrão Multa!"
+					maxlength="500"
+					style="margin-left:8px;width:400px;">
+				</p:inputTextarea>
+			</h:panelGrid>
+
+			<hr />
+				
+			<p:commandButton id="btnPrintMulta" icon="fa fa-print Fs16 white"
+			style="margin-left:10px;" value="Imprimir" rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.advertMultConsult}"
+			oncomplete="PF('dlgTipoEdital2').show();" />
+				
+			<p:commandButton value="Salvar" icon="fa fa-save Fs16 white" rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.advertMultAdd}"
+				action="#{amMB.salvarMulta()}" style="margin-left: 40px !important;"
+				update=":tbvAdvMul:frmMulta :frmAdvMul:msg :tbvAdvMul:frmHistorico" />
+		</h:form>
+		
+			<h:form id="frmWord2">
+		<p:dialog widgetVar="dlgTipoEdital2" resizable="false" modal="true"
+			hideEffect="slide" showEffect="slide" header="Abrir">
+			<h:panelGrid columns="2">
+				<p:commandButton value="WORD" ajax="false">
+					<p:fileDownload value="#{amMB.geraRelWord()}" />
+				</p:commandButton>
+				<p:commandButton id="btnImp" icon="fa fa-print Fs16 white"
+					style="margin-left:10px;" value="PDF"
+					update=":tbvAdvMul:frmDlgPrintMulta:dlgRelatorio2"
+					action="#{amMB.geraRel2()}" onstart="PF('statusDialog2').show();"
+			oncomplete="PF('statusDialog2').hide(); PF('dlgGeraRelatorio2').show();" />
+			</h:panelGrid>
+		</p:dialog>
+	</h:form>
+		
+	</ui:composition>
+
+</ui:composition>

@@ -1,0 +1,43 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+	
+	<h:form id="frmUpdateSistemas">
+		<p:outputLabel value="Atualizações que serão feitas:"/>
+		<br/><br/>
+		<p:messages showDetail="true" autoUpdate="true" closable="true"
+								escape="true" showSummary="false" />
+		<p:panel style="width: 600px !important;">
+		<h:panelGrid columns="2">
+			<p:outputLabel value="Tabela de Condomínios"/>
+			<p:outputLabel value="-> Codígo, Nome e E-mail do Gerente"/>
+			<p:outputLabel value="Tabela de Assembléias"/>
+			<p:outputLabel value=" -> Codígo do Gerente"/>
+			<p:outputLabel value="Tabela de Controle de Contas"/>
+			<p:outputLabel value="-> Codígo e Nome do Gerente"/>
+			<p:outputLabel value="Tabela de Entranda e Saída"/>
+			<p:outputLabel value="-> Codígo, Nome e E-mail do Gerente"/>
+			<p:outputLabel value="Tabela de Relat. Semanal"/>
+			<p:outputLabel value="-> Codígo e Nome do Gerente"/>
+			<p:outputLabel value="Tabela de Relat. Semanal - Histórico"/>
+			<p:outputLabel value="-> Codígo e Nome do Gerente"/>
+		</h:panelGrid>
+								</p:panel>
+		<br/>
+		<h:panelGrid columns="2">
+			<h:panelGrid columns="3" cellpadding="5">
+				<p:outputLabel value="Condomínio:" />
+				<p:selectOneMenu id="somGerentes" value="#{usuarioMB.updateGerenCodigo}"
+					filter="true" filterMatchMode="contains" style="width: 200px !important;">
+					<f:selectItems value="#{SessaoMB.listaDeCondominios}" var="item"
+						itemLabel="#{item.codigo} - #{item.nome} " itemValue="#{item.codigo}" />
+				</p:selectOneMenu>
+			</h:panelGrid>
+			<p:commandButton value="Alterar" action="#{usuarioMB.atualizarSistemas()}" icon="fa fa-plus FS16 white" update="frmUpdateSistemas"/>
+		</h:panelGrid>
+		
+	</h:form>
+</ui:composition>

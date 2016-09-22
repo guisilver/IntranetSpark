@@ -1,0 +1,24 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<p:dialog widgetVar="dlgNovoVideo" header="Novo Vídeo"
+		maximizable="false" height="auto" width="600" modal="true"
+		resizable="false" responsive="true">
+		<h:form id="frmUpload">
+			<h:panelGrid columns="2" style="width:80%;margin-bottom:20px;">
+				<p:outputLabel value="Título: " />
+				<p:inputText value="#{videosOmaMB.video.titulo}" style="width:100%;">
+					<p:ajax event="keyup" process="@this" />
+				</p:inputText>
+			</h:panelGrid>
+			<p:fileUpload mode="advanced" dragDropSupport="false"
+				fileUploadListener="#{videosOmaMB.handleFileUpload}"
+				sizeLimit="100000000" allowTypes="/(\.|\/)(mp4)$/"
+				label="Selecionar Vídeo" uploadLabel="Salvar" cancelLabel="Cancelar"
+				update=":@all" />
+			<p:growl autoUpdate="true" showDetail="true" />
+		</h:form>
+	</p:dialog>
+</ui:composition>

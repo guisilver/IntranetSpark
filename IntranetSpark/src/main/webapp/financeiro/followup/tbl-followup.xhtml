@@ -1,0 +1,103 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	<style>
+.Aprovado {
+	color: green;
+}
+
+.Reprovado {
+	color: red;
+}
+
+.Adicionado {
+	color: blue;
+}
+
+.Excluído {
+	color: black;
+}
+
+.Alterado {
+	color: orange;
+}
+</style>
+	<h:form id="frmTblFollowUp">
+		<center>
+			<p:outputLabel value="Follow-up Geral"
+				style="font-size:16px;color:red;font-weight:bold;" />
+		</center>
+
+		<h:panelGrid columns="5"
+			style="margin-bottom:15px;margin-top:20px;margin-left:auto;margin-right:auto;">
+			<p:outputLabel value="Período:" />
+			<p:calendar value="#{ged.dtInicioFollowup}"
+				id="dataInicio" locale="pt" timeZone="America/Sao_Paulo"
+				pattern="dd/MM/yyyy" mask="true" size="10" required="true"
+				requiredMessage="Insira a data de início para efetuar a pesquisa!"
+				navigator="true" />
+			<p:calendar value="#{ged.dtFimFollowup}" locale="pt"
+				id="dataFim" timeZone="America/Sao_Paulo" pattern="dd/MM/yyyy"
+				mask="true" size="10" required="true"
+				requiredMessage="Insira a data de fim para efetuar a pesquisa!"
+				navigator="true" />
+			<p:commandButton value="Filtrar" icon="ui-icon-search"
+				update=":frmTblFollowUp:tblFollowup"
+				actionListener="#{ged.listarFollowup()}" />
+		</h:panelGrid>
+
+		<p:dataTable var="item" emptyMessage="Não há registros."
+			rowKey="#{item.codigo}" value="#{ged.lstFollowUpTbl}"
+			filteredValue="#{ged.fltrFollowUp}" id="tblFollowup"
+			rows="10" widgetVar="tblFollowup"
+			style="font-size:12px;text-align:center;width:1000px;margin-left:20px;margin-left:auto;margin-right:auto;"
+			rowsPerPageTemplate="5,10,15,20,25,30,50,100" paginator="true">
+
+			<p:column headerText="Código" rendered="false">
+				<h:outputText value="#{item.codigo}" />
+			</p:column>
+
+			<p:column headerText="Nº Lançamento" style="width:150px;"
+				filterBy="#{item.nrolancto}" sortBy="#{item.nrolancto}">
+				<h:outputText value="#{item.nrolancto}" />
+			</p:column>
+
+			<p:column headerText="Ação" filterBy="#{item.acao}"
+				filterMatchMode="exact" style="width:150px;">
+				<f:facet name="filter">
+					<p:selectOneMenu onchange="PF('tblFollowup').filter()">
+						<f:selectItem itemLabel="Todos" itemValue="#{null}"
+							noSelectionOption="true" />
+						<f:selectItems value="#{ged.acoes}" />
+					</p:selectOneMenu>
+				</f:facet>
+				<h:outputText value="#{item.acao}" styleClass="#{item.acao}" />
+			</p:column>
+
+			<p:column headerText="Feito Por" filterBy="#{item.feitoPor}"
+				filterMatchMode="contains" sortBy="#{item.feitoPor}"
+				style="width:300px;text-align:left;">
+				<h:outputText value="#{item.feitoPor}" style="word-wrap:break-word;" />
+			</p:column>
+
+			<p:column headerText="Obs" filterBy="#{item.obs}"
+				filterMatchMode="contains"
+				style="width:auto;text-align:left;width:200px;">
+				<h:outputText value="#{item.obs}" style="word-wrap:break-word;" />
+			</p:column>
+
+			<p:column headerText="Data" sortBy="#{item.data}"
+				style="width:150px;">
+				<h:outputText value="#{item.data}">
+					<f:convertDateTime pattern="dd/MM/yyyy HH:mm" locale="pt"
+						timeZone="America/Sao_Paulo" />
+				</h:outputText>
+			</p:column>
+
+		</p:dataTable>
+	</h:form>
+</ui:composition>

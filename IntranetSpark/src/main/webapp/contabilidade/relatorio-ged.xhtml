@@ -1,0 +1,71 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+
+	<h:form id="frmRelatorioGed">
+
+		<p:tabView id="tbvEtiqueta">
+			<p:tab title="Baixar" rendered="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.igp.imagemRecebidaAdd}">
+				<p:panel header="Baixar Imagems Recebidas"
+					style="width: 400px !important;">
+					<p:focus for="iptEtiqueta" />
+
+					<h:panelGrid id="plgEtiqueta" columns="3">
+						<p:outputLabel value="Informe a Etiqueta:" />
+						<p:inputText id="iptEtiqueta" value="#{contabilBean.valor}" maxlength="12" autocomplete="off" >
+							<p:ajax
+								update="frmDlgBaixar:plImagem frmRelatorioGed:tbvEtiqueta:msg" listener="#{contabilBean.calcula()}"/>
+						</p:inputText>
+					</h:panelGrid>
+					<p:messages id="msg" showDetail="true" autoUpdate="true"
+						closable="true" escape="true" showSummary="false" />
+				</p:panel>
+
+			</p:tab>
+			<p:tab title="Historico" rendered="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.igp.imagemRecebidaConsult}">
+
+				<p:dataTable id="dtHistorico" var="etiqueta"
+					value="#{sipoMB.listaImagem}" rowKey="#{etiqueta}" rows="10"
+					rowsPerPageTemplate="5,10,20,40,60,80,100" paginator="true"
+					emptyMessage="Sem Arquivos!"
+					style="font-size:12px; text-align:center;">
+					<f:facet name="header">GED</f:facet>
+					<p:column headerText="Condomínio" filterBy="#{etiqueta.cdCnd}"> #{etiqueta.cdCnd}
+							</p:column>
+					<p:column headerText="Etiqueta" filterMatchMode="contains" filterBy="#{sipoMB.converte(etiqueta.id)}"> 
+						#{sipoMB.converte(etiqueta.id)}
+					</p:column>
+					<p:column headerText="Data" sortBy="#{etiqueta.dataVinculoArq}">
+						<h:outputText value="#{etiqueta.dataVinculoArq}">
+							<f:convertDateTime pattern="dd/MM/yyyy - HH:mm" locale="pt"
+								timeZone="America/Sao_Paulo" />
+						</h:outputText>
+					</p:column>
+					<p:column headerText="Recebido Contab.">
+								#{etiqueta.recebidoContabilidade == 'S' ? 'Sim' : 'Não'}
+							</p:column>
+					<p:column headerText="Data Rec. Contab." sortBy="#{etiqueta.dataRecebidoContabilidade}">
+						<p:outputLabel value="#{etiqueta.dataRecebidoContabilidade}">
+							<f:convertDateTime pattern="dd/MM/yyyy HH:mm" locale="pt" />
+						</p:outputLabel>
+					</p:column>
+				</p:dataTable>
+
+			</p:tab>
+		</p:tabView>
+
+		<p:dialog id="dlgListar" modal="true" widgetVar="listar"
+			responsive="true" header="Salvando informações, aguarde..."
+			draggable="false" resizable="false" closable="false">
+			<center>
+				<p:graphicImage name="loader.gif" library="imagens" width="250"
+					height="25" />
+			</center>
+		</p:dialog>
+	</h:form>
+
+</ui:composition>

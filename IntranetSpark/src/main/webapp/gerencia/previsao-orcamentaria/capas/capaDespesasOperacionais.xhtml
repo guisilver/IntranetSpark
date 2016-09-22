@@ -1,0 +1,548 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<h:panelGrid id="plgPrevisao8" columns="4">
+
+		<h:selectBooleanCheckbox id="sbcConta81"
+			value="#{projetarMB.ipoBEAN.conta81}">
+			<p:ajax update="itConta81" />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta81" value="#{projetarMB.ipoBEAN.nomeConta81}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor81" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta81" value="#{projetarMB.ipoBEAN.valorConta81}"
+			disabled="#{projetarMB.ipoBEAN.conta81 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<h:selectBooleanCheckbox id="sbcConta82"
+			value="#{projetarMB.ipoBEAN.conta82}">
+			<p:ajax update="itConta82" />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta82" value="#{projetarMB.ipoBEAN.nomeConta82}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor82" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta82" value="#{projetarMB.ipoBEAN.valorConta82}"
+			disabled="#{projetarMB.ipoBEAN.conta82 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<h:selectBooleanCheckbox id="sbcConta83"
+			value="#{projetarMB.ipoBEAN.conta83}">
+			<p:ajax update="itConta83" />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta83" value="#{projetarMB.ipoBEAN.nomeConta83}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor83" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta83" value="#{projetarMB.ipoBEAN.valorConta83}"
+			disabled="#{projetarMB.ipoBEAN.conta83 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<h:selectBooleanCheckbox id="sbcConta84"
+			value="#{projetarMB.ipoBEAN.conta84}">
+			<p:ajax update="itConta84" />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta84" value="#{projetarMB.ipoBEAN.nomeConta84}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor84" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta84" value="#{projetarMB.ipoBEAN.valorConta84}"
+			disabled="#{projetarMB.ipoBEAN.conta84 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<h:selectBooleanCheckbox id="sbcConta85"
+			value="#{projetarMB.ipoBEAN.conta85}">
+			<p:ajax update="itConta85" />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta85" value="#{projetarMB.ipoBEAN.nomeConta85}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor85" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta85" value="#{projetarMB.ipoBEAN.valorConta85}"
+			disabled="#{projetarMB.ipoBEAN.conta85 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<h:selectBooleanCheckbox id="sbcConta86"
+			value="#{projetarMB.ipoBEAN.conta86}">
+			<p:ajax update="itConta86" />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta86" value="#{projetarMB.ipoBEAN.nomeConta86}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor86" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta86" value="#{projetarMB.ipoBEAN.valorConta86}"
+			disabled="#{projetarMB.ipoBEAN.conta86 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+			
+				<h:selectBooleanCheckbox id="sbcConta87"
+			value="#{projetarMB.ipoBEAN.conta87}">
+			<p:ajax update="itConta87" />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta87" value="#{projetarMB.ipoBEAN.nomeConta87}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor87" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta87" value="#{projetarMB.ipoBEAN.valorConta87}"
+			disabled="#{projetarMB.ipoBEAN.conta87 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<h:selectBooleanCheckbox id="sbcConta88"
+			value="#{projetarMB.ipoBEAN.conta88}">
+			<p:ajax update="itConta88" />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta88" value="#{projetarMB.ipoBEAN.nomeConta88}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor88" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta88" value="#{projetarMB.ipoBEAN.valorConta88}"
+			disabled="#{projetarMB.ipoBEAN.conta88 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<h:selectBooleanCheckbox id="sbcConta89"
+			value="#{projetarMB.ipoBEAN.conta89}">
+			<p:ajax update="itConta89" />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta89" value="#{projetarMB.ipoBEAN.nomeConta89}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor89" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta89" value="#{projetarMB.ipoBEAN.valorConta89}"
+			disabled="#{projetarMB.ipoBEAN.conta89 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<h:selectBooleanCheckbox id="sbcConta810"
+			value="#{projetarMB.ipoBEAN.conta810}">
+			<p:ajax update="itConta810" />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta810"
+			value="#{projetarMB.ipoBEAN.nomeConta810}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor810" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta810"
+			value="#{projetarMB.ipoBEAN.valorConta810}"
+			disabled="#{projetarMB.ipoBEAN.conta810 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<h:selectBooleanCheckbox id="sbcConta811"
+			value="#{projetarMB.ipoBEAN.conta811}">
+			<p:ajax update="itConta811" />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta811"
+			value="#{projetarMB.ipoBEAN.nomeConta811}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor811" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta811"
+			value="#{projetarMB.ipoBEAN.valorConta811}"
+			disabled="#{projetarMB.ipoBEAN.conta811 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<h:selectBooleanCheckbox id="sbcConta812"
+			value="#{projetarMB.ipoBEAN.conta812}">
+			<p:ajax update="itConta812" />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta812"
+			value="#{projetarMB.ipoBEAN.nomeConta812}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor812" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta812"
+			value="#{projetarMB.ipoBEAN.valorConta812}"
+			disabled="#{projetarMB.ipoBEAN.conta812 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<h:selectBooleanCheckbox id="sbcConta813"
+			value="#{projetarMB.ipoBEAN.conta813}">
+			<p:ajax update="itConta813" />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta813"
+			value="#{projetarMB.ipoBEAN.nomeConta813}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor813" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta813"
+			value="#{projetarMB.ipoBEAN.valorConta813}"
+			disabled="#{projetarMB.ipoBEAN.conta813 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<h:selectBooleanCheckbox id="sbcConta814"
+			value="#{projetarMB.ipoBEAN.conta814}">
+			<p:ajax update="itConta814" />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta814"
+			value="#{projetarMB.ipoBEAN.nomeConta814}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor814" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta814"
+			value="#{projetarMB.ipoBEAN.valorConta814}"
+			disabled="#{projetarMB.ipoBEAN.conta814 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<h:selectBooleanCheckbox id="sbcConta815"
+			value="#{projetarMB.ipoBEAN.conta815}">
+			<p:ajax update="itConta815" />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta815"
+			value="#{projetarMB.ipoBEAN.nomeConta815}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor815" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta815"
+			value="#{projetarMB.ipoBEAN.valorConta815}"
+			disabled="#{projetarMB.ipoBEAN.conta815 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<h:selectBooleanCheckbox id="sbcConta816"
+			value="#{projetarMB.ipoBEAN.conta816}">
+			<p:ajax update="itConta816" />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta816"
+			value="#{projetarMB.ipoBEAN.nomeConta816}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor816" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta816"
+			value="#{projetarMB.ipoBEAN.valorConta816}"
+			disabled="#{projetarMB.ipoBEAN.conta816 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<h:selectBooleanCheckbox id="sbcConta817"
+			value="#{projetarMB.ipoBEAN.conta817}">
+			<p:ajax update="itConta817" />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta817"
+			value="#{projetarMB.ipoBEAN.nomeConta817}" style="font-size: 12px !important;" />
+
+		<p:outputLabel id="olValor817" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta817"
+			value="#{projetarMB.ipoBEAN.valorConta817}"
+			disabled="#{projetarMB.ipoBEAN.conta817 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<h:selectBooleanCheckbox id="sbcConta818"
+			value="#{projetarMB.ipoBEAN.conta818}">
+			<p:ajax update="itConta818" />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta818"
+			value="#{projetarMB.ipoBEAN.nomeConta818}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor818" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta818"
+			value="#{projetarMB.ipoBEAN.valorConta818}"
+			disabled="#{projetarMB.ipoBEAN.conta818 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<h:selectBooleanCheckbox id="sbcConta819"
+			value="#{projetarMB.ipoBEAN.conta819}">
+			<p:ajax update="itConta819" />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta819"
+			value="#{projetarMB.ipoBEAN.nomeConta819}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor819" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta819"
+			value="#{projetarMB.ipoBEAN.valorConta819}"
+			disabled="#{projetarMB.ipoBEAN.conta819 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<h:selectBooleanCheckbox id="sbcConta820"
+			value="#{projetarMB.ipoBEAN.conta820}">
+			<p:ajax update="itConta820 " />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta820"
+			value="#{projetarMB.ipoBEAN.nomeConta820}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor820" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta820"
+			value="#{projetarMB.ipoBEAN.valorConta820}"
+			disabled="#{projetarMB.ipoBEAN.conta820 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<h:selectBooleanCheckbox id="sbcConta821"
+			value="#{projetarMB.ipoBEAN.conta821}">
+			<p:ajax update="itConta821 " />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta821"
+			value="#{projetarMB.ipoBEAN.nomeConta821}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor821" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta821"
+			value="#{projetarMB.ipoBEAN.valorConta821}"
+			disabled="#{projetarMB.ipoBEAN.conta821 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<h:selectBooleanCheckbox id="sbcConta822"
+			value="#{projetarMB.ipoBEAN.conta822}">
+			<p:ajax update="itConta822 " />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta822"
+			value="#{projetarMB.ipoBEAN.nomeConta822}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor822" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta822"
+			value="#{projetarMB.ipoBEAN.valorConta822}"
+			disabled="#{projetarMB.ipoBEAN.conta822 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<h:selectBooleanCheckbox id="sbcConta823"
+			value="#{projetarMB.ipoBEAN.conta823}">
+			<p:ajax update="itConta823 " />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta823"
+			value="#{projetarMB.ipoBEAN.nomeConta823}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor823" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta823"
+			value="#{projetarMB.ipoBEAN.valorConta823}"
+			disabled="#{projetarMB.ipoBEAN.conta823 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<h:selectBooleanCheckbox id="sbcConta824"
+			value="#{projetarMB.ipoBEAN.conta824}">
+			<p:ajax update="itConta824 " />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta824"
+			value="#{projetarMB.ipoBEAN.nomeConta824}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor824" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta824"
+			value="#{projetarMB.ipoBEAN.valorConta824}"
+			disabled="#{projetarMB.ipoBEAN.conta824 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<h:selectBooleanCheckbox id="sbcConta825"
+			value="#{projetarMB.ipoBEAN.conta825}">
+			<p:ajax update="itConta825 " />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta825"
+			value="#{projetarMB.ipoBEAN.nomeConta825}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor825" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta825"
+			value="#{projetarMB.ipoBEAN.valorConta825}"
+			disabled="#{projetarMB.ipoBEAN.conta825 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<h:selectBooleanCheckbox id="sbcConta826"
+			value="#{projetarMB.ipoBEAN.conta826}">
+			<p:ajax update="itConta826 " />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta826"
+			value="#{projetarMB.ipoBEAN.nomeConta826}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor826" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta826"
+			value="#{projetarMB.ipoBEAN.valorConta826}"
+			disabled="#{projetarMB.ipoBEAN.conta826 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<h:selectBooleanCheckbox id="sbcConta827"
+			value="#{projetarMB.ipoBEAN.conta827}">
+			<p:ajax update="itConta827 " />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta827"
+			value="#{projetarMB.ipoBEAN.nomeConta827}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor827" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta827"
+			value="#{projetarMB.ipoBEAN.valorConta827}"
+			disabled="#{projetarMB.ipoBEAN.conta827 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<h:selectBooleanCheckbox id="sbcConta828"
+			value="#{projetarMB.ipoBEAN.conta828}">
+			<p:ajax update="itConta828 " />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta828"
+			value="#{projetarMB.ipoBEAN.nomeConta828}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor828" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta828"
+			value="#{projetarMB.ipoBEAN.valorConta828}"
+			disabled="#{projetarMB.ipoBEAN.conta828 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<h:selectBooleanCheckbox id="sbcConta829"
+			value="#{projetarMB.ipoBEAN.conta829}">
+			<p:ajax update="itConta829 " />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta829"
+			value="#{projetarMB.ipoBEAN.nomeConta829}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor829" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta829"
+			value="#{projetarMB.ipoBEAN.valorConta829}"
+			disabled="#{projetarMB.ipoBEAN.conta829 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<h:selectBooleanCheckbox id="sbcConta830"
+			value="#{projetarMB.ipoBEAN.conta830}">
+			<p:ajax update="itConta830 " />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta830"
+			value="#{projetarMB.ipoBEAN.nomeConta830}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor830" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta830"
+			value="#{projetarMB.ipoBEAN.valorConta830}"
+			disabled="#{projetarMB.ipoBEAN.conta830 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<h:selectBooleanCheckbox id="sbcConta831"
+			value="#{projetarMB.ipoBEAN.conta831}">
+			<p:ajax update="itConta831 " />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta831"
+			value="#{projetarMB.ipoBEAN.nomeConta831}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor831" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta831"
+			value="#{projetarMB.ipoBEAN.valorConta831}"
+			disabled="#{projetarMB.ipoBEAN.conta831 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<h:selectBooleanCheckbox id="sbcConta832"
+			value="#{projetarMB.ipoBEAN.conta832}">
+			<p:ajax update="itConta832 " />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta832"
+			value="#{projetarMB.ipoBEAN.nomeConta832}" />
+
+		<p:outputLabel id="olValor832" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta832"
+			value="#{projetarMB.ipoBEAN.valorConta832}"
+			disabled="#{projetarMB.ipoBEAN.conta832 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<h:selectBooleanCheckbox id="sbcConta833"
+			value="#{projetarMB.ipoBEAN.conta833}">
+			<p:ajax update="itConta833 " />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta833"
+			value="#{projetarMB.ipoBEAN.nomeConta833}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor833" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta833"
+			value="#{projetarMB.ipoBEAN.valorConta833}"
+			disabled="#{projetarMB.ipoBEAN.conta833 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<h:selectBooleanCheckbox id="sbcConta834"
+			value="#{projetarMB.ipoBEAN.conta834}">
+			<p:ajax update="itConta834 " />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta834"
+			value="#{projetarMB.ipoBEAN.nomeConta834}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor834" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta834"
+			value="#{projetarMB.ipoBEAN.valorConta834}"
+			disabled="#{projetarMB.ipoBEAN.conta834 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<h:selectBooleanCheckbox id="sbcConta835"
+			value="#{projetarMB.ipoBEAN.conta835}">
+			<p:ajax update="itConta835 " />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta835"
+			value="#{projetarMB.ipoBEAN.nomeConta835}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor835" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta835"
+			value="#{projetarMB.ipoBEAN.valorConta835}"
+			disabled="#{projetarMB.ipoBEAN.conta835 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<h:selectBooleanCheckbox id="sbcConta836"
+			value="#{projetarMB.ipoBEAN.conta836}">
+			<p:ajax update="itConta836 " />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta836"
+			value="#{projetarMB.ipoBEAN.nomeConta836}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor836" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta836"
+			value="#{projetarMB.ipoBEAN.valorConta836}"
+			disabled="#{projetarMB.ipoBEAN.conta836 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<h:selectBooleanCheckbox id="sbcConta837"
+			value="#{projetarMB.ipoBEAN.conta837}">
+			<p:ajax update="itConta837 " />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta837"
+			value="#{projetarMB.ipoBEAN.nomeConta837}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor837" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta837"
+			value="#{projetarMB.ipoBEAN.valorConta837}"
+			disabled="#{projetarMB.ipoBEAN.conta837 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />	
+
+	</h:panelGrid>
+</ui:composition>

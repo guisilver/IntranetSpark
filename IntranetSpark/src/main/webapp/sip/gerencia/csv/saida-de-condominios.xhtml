@@ -1,0 +1,109 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<style>
+.tblSaidaCnd table tbody tr td .ui-outputlabel {
+	font-size: 14px !important;
+}
+
+.ui-dialog .ui-dialog-footer {
+	text-align: center !important;
+}
+</style>
+		<div class="layout-portlets-box trilha"
+			style="padding-top: 0px !important; padding-bottom: 0px !important;">
+			<p:breadCrumb>
+				<p:menuitem value="Home" url="/dashboard.xhtml" />
+				<p:menuitem value="Lançamentos Futuros"
+					url="/sip/gerencia/csv/baixa-lancamentos-futuros" />
+			</p:breadCrumb>
+		</div>
+		<div class="layout-portlets-box">
+			<div class="DispInlBlock TexAlLeft">
+				<div class="Fleft">
+					<h2 class="black Fs24 FontRalewayMedium">Saída de Condomínios</h2>
+				</div>
+			</div>
+			<div class="Seperator"></div>
+			<div class="Container100 Responsive100">
+				<p:messages autoUpdate="true" />
+				<h:form id="frmSaidaCnd"
+					rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysSipGerencia}">
+					<p:panelGrid columns="5">
+						<p:outputLabel value="Cnd:" />
+						<p:selectOneMenu id="selectCondominio" filter="true"
+							filterMatchMode="contains" required="true"
+							requiredMessage="Selecione um condomínio!"
+							value="#{saidaDeCondominiosMB.cndSelecionado}"
+							converter="omnifaces.SelectItemsConverter" style="width:250px;">
+							<f:selectItem itemLabel="Nenhum" noSelectionOption="true" />
+							<f:selectItems var="condominio"
+								value="#{saidaDeCondominiosMB.listaCnd}"
+								itemLabel="#{condominio.cndCodNome}" itemValue="#{condominio}" />
+						</p:selectOneMenu>
+						<p:outputLabel value="Saída:" />
+						<p:calendar pattern="dd/MM/yyyy" locale="pt" yearRange="c-5:c+5"
+							navigator="true" value="#{saidaDeCondominiosMB.dataSaida}"
+							timeZone="America/Sao_Paulo" mask="true" styleClass="calendar"
+							required="true"
+							requiredMessage="A data de saída deve ser informada!" />
+						<p:commandButton icon="fa fa-plus Fs16 white"
+							actionListener="#{saidaDeCondominiosMB.salvarSaidaCnd()}"
+							update="@form" />
+					</p:panelGrid>
+					<p:dataTable id="tblSaidaCnd" styleClass="tblSaidaCnd"
+						value="#{saidaDeCondominiosMB.listaCndSaida}" var="saida"
+						rows="50" paginator="true" style="margin-top:20px;">
+						<p:column headerText="Cnd" filterBy="#{saida.cndCodNome}"
+							sortBy="#{saida.cndCodNome}">
+							<p:outputLabel value="#{saida.cndCodNome}" />
+						</p:column>
+						<p:column headerText="Gerente" filterBy="#{saida.nomeGerente}"
+							sortBy="#{saida.nomeGerente}">
+							<p:outputLabel value="#{saida.nomeGerente}" />
+						</p:column>
+						<p:column width="100" headerText="Saída"
+							style="text-align:center;" filterBy="#{saida.dataSaida}"
+							sortBy="#{saida.dataSaida}" styleClass="col60">
+							<p:outputLabel value="#{saida.dataSaida}">
+								<f:convertDateTime pattern="dd/MM/yyyy" locale="pt"
+									timeZone="America/Sao_Paulo" />
+							</p:outputLabel>
+						</p:column>
+						<p:column width="40" style="text-align:center;">
+							<p:commandButton icon="fa fa-trash Fs16 white"
+								actionListener="#{saidaDeCondominiosMB.excluirSaidaCnd(saida)}"
+								process="@this" update="@form" styleClass="btnLittle"
+								title="Excluir">
+								<p:confirm header="Confirmação"
+									message="Você confirma a exclusão?" icon="ui-icon-alert" />
+							</p:commandButton>
+						</p:column>
+					</p:dataTable>
+					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+						<p:commandButton value="Não" type="button"
+							styleClass="ui-confirmdialog-no"
+							icon="ui-icon-close fa fa-close Fs14 white" />
+						<p:commandButton value="Sim" type="button"
+							styleClass="ui-confirmdialog-yes"
+							icon="ui-icon-check fa fa-check Fs14 white" />
+					</p:confirmDialog>
+				</h:form>
+			</div>
+		</div>
+		<p:ajaxStatus onstart="PF('statusDialog').show()"
+			onsuccess="PF('statusDialog').hide()" />
+		<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+			closable="false" resizable="false" showHeader="false">
+					Aguarde...<br />
+			<br />
+			<p:graphicImage library="imagens" name="loader.gif" />
+		</p:dialog>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,418 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+	<style>
+#frmPrevisao\:tblPrevisao\:clMes1 {
+	width: 200px !important;
+}
+#frmPrevisao\:tbvPrevisao\:tblRateioPrevisao\:clNecessario > span:nth-child(1){
+		align: center !important;
+}
+#frmPrevisao\:tbvPrevisao\:oplTipoRateio{
+	font-size: 14px !important;
+}
+</style>
+
+	<h:form id="frmPrevisao">
+		<center>Previsão Orçamentaria para os próximos 12 meses</center>
+
+		<h:panelGrid columns="5" cellpadding="5">
+			<p:outputLabel value="Gerente:" />
+			<p:selectOneMenu id="somGerentes"
+				value="#{previsaoMB.gerenteMB.codigo}" filter="true"
+				filterMatchMode="contains">
+				<f:selectItems value="#{previsaoMB.listaDeGerentes}" var="item"
+					itemLabel="#{item.nome}" itemValue="#{item.codigo}" />
+				<p:ajax update="console" />
+			</p:selectOneMenu>
+
+			<p:outputLabel for="console" value="Condomínio:" />
+			<p:selectOneMenu id="console" value="#{previsaoMB.icBEAN.codigo}"
+				style="width:90px;" filter="true" filterMatchMode="contains">
+				<f:selectItem itemLabel="Selecione" itemValue="0" />
+				<f:selectItems value="#{previsaoMB.listaDeCondominio}" var="item"
+					itemLabel="#{item.codigo}" itemValue="#{item.codigo}" />
+				<p:ajax listener="#{previsaoMB.retornaNomeCondominio()}"
+					update=":frmPrevisao:oplNomeCondo :frmPrevisao:tbvPrevisao:tblPrevisao :frmPrevisao:tbvPrevisao:tblRateioPrevisao" />
+			</p:selectOneMenu>
+
+			<p:outputLabel id="oplNomeCondo" value="#{previsaoMB.nomeCondo}" />
+		</h:panelGrid>
+		<p:messages id="msg" showDetail="true" autoUpdate="false" closable="true" escape="true" showSummary="false"/>
+		<p:tabView id="tbvPrevisao">
+			<p:tab title="Previsão">
+
+				<p:dataTable id="tblPrevisao" var="team" selection="#{previsaoMB.ipoBEAN}"
+					value="#{previsaoMB.teams2}" emptyMessage="Sem Registro" >
+					<f:facet name="header">
+						<p:commandButton id="btnAlter" icon="fa fa-save Fs16 white"
+							value="Alterar Previsão" oncomplete="PF('prevTblAlter').show();"
+							update=":frmDlgTblAlter:dlgTblAlter"/>
+						<p:commandButton id="btnPrint" icon="fa fa-print Fs16 white"
+							value="Imprimir Previsão" action="#{previsaoMB.imprimir}" update=":frmPrevisaoPrint:dlgRelatorio3 :frmPrevisaoPrint:dlgRelatorio2 :frmPrevisaoPrint:dlgRelatorio1"
+							onstart="PF('statusDialog1').show();" style="margin-right:1200px;"
+							oncomplete="PF('statusDialog1').hide(); PF('dlgGeraRelatorio3').show(); PF('dlgGeraRelatorio2').show(); PF('dlgGeraRelatorio1').show();"/>
+						<p:commandButton value="Voltar Projetar" action="#{previsaoMB.voltar()}"/>
+					</f:facet>
+					
+					<p:columnGroup type="header">
+						<p:row>
+							<p:column rowspan="2" headerText="Desepesas" width="250px;"
+								style="font-size:14px;color:black;" />
+							<p:column colspan="14" headerText="Previsão" width="1250px;"
+								style="font-size:14px;color:black;" />
+						</p:row>
+						<p:row>
+							<p:column headerText="#{previsaoMB.mes1}"
+								style="font-size:12px;color:black;" />
+							<p:column headerText="#{previsaoMB.mes2}"
+								style="font-size:12px;color:black;" />
+							<p:column headerText="#{previsaoMB.mes3}"
+								style="font-size:12px;color:black;" />
+							<p:column headerText="#{previsaoMB.mes4}"
+								style="font-size:12px;color:black;" />
+							<p:column headerText="#{previsaoMB.mes5}"
+								style="font-size:12px;color:black;" />
+							<p:column headerText="#{previsaoMB.mes6}"
+								style="font-size:12px;color:black;" />
+							<p:column headerText="#{previsaoMB.mes7}"
+								style="font-size:12px;color:black;" />
+							<p:column headerText="#{previsaoMB.mes8}"
+								style="font-size:12px;color:black;" />
+							<p:column headerText="#{previsaoMB.mes9}"
+								style="font-size:12px;color:black;" />
+							<p:column headerText="#{previsaoMB.mes10}"
+								style="font-size:12px;color:black;" />
+							<p:column headerText="#{previsaoMB.mes11}"
+								style="font-size:12px;color:black;" />
+							<p:column headerText="#{previsaoMB.mes12}"
+								style="font-size:12px;color:black;" />
+							<p:column headerText="Media" style="font-size:12px;color:black;" />
+							<p:column headerText="Percentual"
+								style="font-size:12px;color:black;" />
+						</p:row>
+					</p:columnGroup>
+
+					<p:subTable var="status" value="#{team.lista}">
+						<f:facet name="header">
+							<h:outputText value="#{team.nomeCapa}" />
+						</f:facet>
+						<p:column>
+							<h:outputText value="#{status.despesas}" />
+						</p:column>
+						<p:column style="text-align: right;">
+							<h:outputText value="#{status.mesJaneiro}">
+								<f:convertNumber currencySymbol="R$" pattern="#,###,##0.00"
+									type="currency" />
+							</h:outputText>
+						</p:column>
+						<p:column style="text-align: right;">
+							<h:outputText value="#{status.mesFevereiro}">
+								<f:convertNumber currencySymbol="R$" pattern="#,###,##0.00" />
+							</h:outputText>
+						</p:column>
+						<p:column style="text-align: right;">
+							<h:outputText value="#{status.mesMarco}">
+								<f:convertNumber currencySymbol="R$" pattern="#,###,##0.00" />
+							</h:outputText>
+						</p:column>
+						<p:column style="text-align: right;">
+							<h:outputText value="#{status.mesAbril}">
+								<f:convertNumber currencySymbol="R$" pattern="#,###,##0.00" />
+							</h:outputText>
+						</p:column>
+						<p:column style="text-align: right;">
+							<h:outputText value="#{status.mesMaio}">
+								<f:convertNumber currencySymbol="R$" pattern="#,###,##0.00" />
+							</h:outputText>
+						</p:column>
+						<p:column style="text-align: right;">
+							<h:outputText value="#{status.mesJunho}">
+								<f:convertNumber currencySymbol="R$" pattern="#,###,##0.00" />
+							</h:outputText>
+						</p:column>
+						<p:column style="text-align: right;">
+							<h:outputText value="#{status.mesJulho}">
+								<f:convertNumber currencySymbol="R$" pattern="#,###,##0.00" />
+							</h:outputText>
+						</p:column>
+						<p:column style="text-align: right;">
+							<h:outputText value="#{status.mesAgosto}">
+								<f:convertNumber currencySymbol="R$" pattern="#,###,##0.00" />
+							</h:outputText>
+						</p:column>
+						<p:column style="text-align: right;">
+							<h:outputText value="#{status.mesSetembro}">
+								<f:convertNumber currencySymbol="R$" pattern="#,###,##0.00" />
+							</h:outputText>
+						</p:column>
+						<p:column style="text-align: right;">
+							<h:outputText value="#{status.mesOutubro}">
+								<f:convertNumber currencySymbol="R$" pattern="#,###,##0.00" />
+							</h:outputText>
+						</p:column>
+						<p:column style="text-align: right;">
+							<h:outputText value="#{status.mesNovembro}">
+								<f:convertNumber currencySymbol="R$" pattern="#,###,##0.00" />
+							</h:outputText>
+						</p:column>
+						<p:column style="text-align: right;">
+							<h:outputText value="#{status.mesDezembro}">
+								<f:convertNumber pattern="#,###,##0.00" />
+							</h:outputText>
+						</p:column>
+						<p:column style="text-align: right;">
+							<h:outputText value="#{status.media}">
+								<f:convertNumber pattern="#,###,##0.00" />
+							</h:outputText>
+
+						</p:column>
+
+						<p:columnGroup type="footer">
+							<p:row>
+								<p:column footerText="#{team.nomeCapa}: "
+									style="text-align:right;" />
+								<p:column footerText="#{team.allJaneiro}"
+									style="text-align:right;" />
+								<p:column footerText="#{team.allFevereiro}"
+									style="text-align:right;" />
+								<p:column footerText="#{team.allMarco}"
+									style="text-align:right;" />
+								<p:column footerText="#{team.allAbril}"
+									style="text-align:right;" />
+								<p:column footerText="#{team.allMaio}" 
+									style="text-align:right;" />
+								<p:column footerText="#{team.allJunho}"
+									style="text-align:right;" />
+								<p:column footerText="#{team.allJulho}"
+									style="text-align:right;" />
+								<p:column footerText="#{team.allAgosto}"
+									style="text-align:right;" />
+								<p:column footerText="#{team.allSetembro}"
+									style="text-align:right;" />
+								<p:column footerText="#{team.allOutubro}"
+									style="text-align:right;" />
+								<p:column footerText="#{team.allNovembro}"
+									style="text-align:right;" />
+								<p:column footerText="#{team.allDezembro}"
+									style="text-align:right;" />
+								<p:column footerText="#{team.allMedia}"
+									style="text-align:right;" />
+								<p:column
+									footerText="#{team.getAllPercentual(previsaoMB.icBEAN.codigo)} %"
+									style="text-align:center;" />
+							</p:row>
+						</p:columnGroup>
+					</p:subTable>
+					<p:columnGroup type="footer">
+					<p:row>
+						<p:column footerText="Total Despesas Ordinárias :" exportable="true"
+							style="text-align:right; color: black; font-weight:bold;" />
+						<p:column footerText="#{previsaoMB.periodo1}" exportable="true"
+							style="text-align:right; color: black;font-weight:bold;" />
+						<p:column footerText="#{previsaoMB.periodo2}" exportable="true"
+							style="text-align:right; color: black;font-weight:bold;" />
+						<p:column footerText="#{previsaoMB.periodo3}" exportable="true"
+							style="text-align:right; color: black;font-weight:bold;" />
+						<p:column footerText="#{previsaoMB.periodo4}" exportable="true"
+							style="text-align:right; color: black;font-weight:bold;" />
+						<p:column footerText="#{previsaoMB.periodo5}" exportable="true"
+							style="text-align:right; color: black;font-weight:bold;" />
+						<p:column footerText="#{previsaoMB.periodo6}" exportable="true"
+							style="text-align:right; color: black;font-weight:bold;" />
+						<p:column footerText="#{previsaoMB.periodo7}" exportable="true"
+							style="text-align:right; color: black;font-weight:bold;" />
+						<p:column footerText="#{previsaoMB.periodo8}" exportable="true"
+							style="text-align:right; color: black;font-weight:bold;" />
+						<p:column footerText="#{previsaoMB.periodo9}" exportable="true"
+							style="text-align:right; color: black;font-weight:bold;" />
+						<p:column footerText="#{previsaoMB.periodo10}" exportable="true"
+							style="text-align:right; color: black;font-weight:bold;" />
+						<p:column footerText="#{previsaoMB.periodo11}" exportable="true"
+							style="text-align:right; color: black;font-weight:bold;" />
+						<p:column footerText="#{previsaoMB.periodo12}" exportable="true"
+							style="text-align:right; color: black;font-weight:bold;" />
+						<p:column footerText="#{previsaoMB.mediaGeral}" exportable="true"
+							style="text-align:right; color: black;font-weight:bold;" />
+						<p:column footerText="#{previsaoMB.percentualGeral}" exportable="true"
+							style="text-align:center;color:black;font-weight:bold;" />
+					</p:row>
+						
+						<p:row rendered="#{previsaoMB.inadi}">
+						
+						<p:column footerText="Inadimplência :" exportable="true"
+							style="text-align:right; color: black; font-weight:bold;" />
+						<p:column footerText="#{previsaoMB.inadimplecia1}" exportable="true"
+							style="text-align:right; color: black;font-weight:bold;" />
+						<p:column footerText="#{previsaoMB.inadimplecia2}" exportable="true"
+							style="text-align:right; color: black;font-weight:bold;" />
+						<p:column footerText="#{previsaoMB.inadimplecia3}" exportable="true"
+							style="text-align:right; color: black;font-weight:bold;" />
+						<p:column footerText="#{previsaoMB.inadimplecia4}" exportable="true"
+							style="text-align:right; color: black;font-weight:bold;" />
+						<p:column footerText="#{previsaoMB.inadimplecia5}" exportable="true"
+							style="text-align:right; color: black;font-weight:bold;" />
+						<p:column footerText="#{previsaoMB.inadimplecia6}" exportable="true"
+							style="text-align:right; color: black;font-weight:bold;" />
+						<p:column footerText="#{previsaoMB.inadimplecia7}" exportable="true"
+							style="text-align:right; color: black;font-weight:bold;" />
+						<p:column footerText="#{previsaoMB.inadimplecia8}" exportable="true"
+							style="text-align:right; color: black;font-weight:bold;" />
+						<p:column footerText="#{previsaoMB.inadimplecia9}" exportable="true"
+							style="text-align:right; color: black;font-weight:bold;" />
+						<p:column footerText="#{previsaoMB.inadimplecia10}" exportable="true"
+							style="text-align:right; color: black;font-weight:bold;" />
+						<p:column footerText="#{previsaoMB.inadimplecia11}" exportable="true"
+							style="text-align:right; color: black;font-weight:bold;" />
+						<p:column footerText="#{previsaoMB.inadimplecia12}" exportable="true"
+							style="text-align:right; color: black;font-weight:bold;" />
+						<p:column footerText="#{previsaoMB.inadimplecia13}" exportable="true"
+							style="text-align:right; color: black;font-weight:bold;" />
+						</p:row>
+						
+						<p:row>
+						
+						<p:column footerText="Total Necessário para Rateio :" exportable="true"
+							style="text-align:right; color: black; font-weight:bold;" />
+						<p:column footerText="#{previsaoMB.totalNeceRat1}" exportable="true"
+							style="text-align:right; color: black;font-weight:bold;" />
+						<p:column footerText="#{previsaoMB.totalNeceRat2}" exportable="true"
+							style="text-align:right; color: black;font-weight:bold;" />
+						<p:column footerText="#{previsaoMB.totalNeceRat3}" exportable="true"
+							style="text-align:right; color: black;font-weight:bold;" />
+						<p:column footerText="#{previsaoMB.totalNeceRat4}" exportable="true"
+							style="text-align:right; color: black;font-weight:bold;" />
+						<p:column footerText="#{previsaoMB.totalNeceRat5}" exportable="true"
+							style="text-align:right; color: black;font-weight:bold;" />
+						<p:column footerText="#{previsaoMB.totalNeceRat6}" exportable="true"
+							style="text-align:right; color: black;font-weight:bold;" />
+						<p:column footerText="#{previsaoMB.totalNeceRat7}" exportable="true"
+							style="text-align:right; color: black;font-weight:bold;" />
+						<p:column footerText="#{previsaoMB.totalNeceRat8}" exportable="true"
+							style="text-align:right; color: black;font-weight:bold;" />
+						<p:column footerText="#{previsaoMB.totalNeceRat9}" exportable="true"
+							style="text-align:right; color: black;font-weight:bold;" />
+						<p:column footerText="#{previsaoMB.totalNeceRat10}" exportable="true"
+							style="text-align:right; color: black;font-weight:bold;" />
+						<p:column footerText="#{previsaoMB.totalNeceRat11}" exportable="true"
+							style="text-align:right; color: black;font-weight:bold;" />
+						<p:column footerText="#{previsaoMB.totalNeceRat12}" exportable="true"
+							style="text-align:right; color: black;font-weight:bold;" />
+						<p:column footerText="#{previsaoMB.totalNeceRat13}" exportable="true"
+							style="text-align:right; color: black;font-weight:bold;" />
+						</p:row>
+							
+					</p:columnGroup>
+				</p:dataTable>
+				
+			</p:tab>
+			<p:tab title="Resumo da Previsão">
+				
+			</p:tab>
+			<p:tab title="Qdr. Rateio" rendered="false">
+			<hr/>
+			<p:outputLabel value="Pagina em construção..." style="color:red;"/>
+			<hr/>
+			<p:panel header="Verba" style="width: 550px !important;">
+			<h:panelGrid columns="2">
+				<p:outputLabel value="Caixa / Conta" />
+				<p:inputText value="#{previsaoMB.iprBEAN.emissaoMensal}" size="40"/>
+				<p:outputLabel value="Emissão Atual"/>
+				<p:inputText value="#{previsaoMB.iprBEAN.emissaoAtual}"/>
+				<p:outputLabel value="Emissão Necessária"/>
+				<p:inputText value="#{previsaoMB.iprBEAN.emissaoNecessaria}"/>
+			</h:panelGrid>
+			<h:panelGrid columns="3">
+				<p:outputLabel value="Tipo do Rateio"/>
+				<p:selectOneMenu value="#{previsaoMB.tipoDeRateio}" style="width: 70px !important; margin-left:40px !important;">
+					<f:selectItem itemLabel="Tipo" noSelectionOption="true"/>
+					<f:selectItem itemLabel="A" itemValue="A" itemDescription="Apartamento"/>
+					<f:selectItem itemLabel="B" itemValue="B" itemDescription="Apartamento + Garagem" />
+					<f:selectItem itemLabel="C" itemValue="C" itemDescription="Apartamento + Conjunto" />
+					<f:selectItem itemLabel="D" itemValue="D" itemDescription="Apartamento + Conjunto + Garagem" />
+					<f:selectItem itemLabel="E" itemValue="E" itemDescription="Apartamento + Loja"/>
+					<f:selectItem itemLabel="F" itemValue="F" itemDescription="Apartamento + Loja + Garagem"/>
+					<f:selectItem itemLabel="G" itemValue="G" itemDescription="Apartamento + Conjunto + Loja" />
+					<f:selectItem itemLabel="H" itemValue="H" itemDescription="Apartamento + Conjunto + Loja + Garagem" />
+					<f:selectItem itemLabel="I" itemValue="I" itemDescription="Por Unidade"/>
+					<f:selectItem itemLabel="J" itemValue="J" itemDescription="Conjunto + Garagem"/>
+					<f:selectItem itemLabel="K" itemValue="K" itemDescription="Conjunto + Loja"/>
+					<f:selectItem itemLabel="L" itemValue="L" itemDescription="Conjunto + Loja + Garagem"/>
+					<f:selectItem itemLabel="M" itemValue="M" itemDescription="Loja"/>
+					<f:selectItem itemLabel="N" itemValue="N" itemDescription="Loja + Garagem"/>
+					<f:selectItem itemLabel="O" itemValue="O" itemDescription="Outros/Extras"/>
+					<f:selectItem itemLabel="P" itemValue="P" itemDescription="Garagem"/>
+					<f:selectItem itemLabel="Q" itemValue="Q" itemDescription="Conjunto"/>
+					<f:selectItem itemLabel="R" itemValue="R" itemDescription="Unidade ( - ) VGE*"/>
+					<f:selectItem itemLabel="S" itemValue="S" itemDescription="Apartamentos"/>
+					<f:selectItem itemLabel="T" itemValue="T" itemDescription="Conjuntos"/>
+					<f:selectItem itemLabel="U" itemValue="U" itemDescription="Lojas"/>
+					<f:selectItem itemLabel="V" itemValue="V" itemDescription="Garagem"/>
+					<f:selectItem itemLabel="W" itemValue="W" itemDescription="VGE (S)"/>
+					<f:selectItem itemLabel="X" itemValue="X" itemDescription="Correio"/>
+					<p:ajax update="oplTipoRateio" listener="#{previsaoMB.listarTipoRateio()}"/>
+				</p:selectOneMenu>
+				<p:outputLabel id="oplTipoRateio" value="#{previsaoMB.nomeTipoRateio}" />
+			
+			</h:panelGrid>
+			<hr/>
+			<p:commandButton value="Salvar" style="float:right;" icon="fa fa-save Fs16 white" disabled="true"/>
+			</p:panel>
+			
+			<hr/>
+
+				<p:dataTable id="tblRateioPrevisao" var="p"
+					value="#{previsaoMB.listaDeRateio}"
+					selection="#{previsaoMB.iprBEAN}" selectionMode="single"
+					rowKey="#{p.codigo}" style="width: 550px !important;"> 
+					<f:facet name="header">
+						Previsão para o Rateio
+					</f:facet>
+					<p:columnGroup type="header">
+					<p:row>
+						 <p:column headerText="Caixa / Conta" width="250"/>
+               			 <p:column headerText="Atual" />
+               			 <p:column headerText="Necessário" />
+               			 <p:column headerText="%" width="50" />
+					</p:row>
+					</p:columnGroup>
+					
+					<p:ajax event="rowSelect" oncomplete="PF('dlgAlterRateio').show();" update=":frmAlterRateio:plgAlterRateio"/>
+					
+					<p:column width="200">
+						#{p.emissaoMensal}
+					</p:column>
+					
+					<p:column style="text-align: right !important;">
+						<h:outputText  value="#{p.emissaoAtual}">
+							<f:convertNumber pattern="#,##0.00"/>
+						</h:outputText >
+					</p:column>
+					
+					<p:column style="text-align: right !important;">
+						<h:outputText  value="#{p.emissaoNecessaria}"  >
+							<f:convertNumber pattern="#,##0.00"/>
+						</h:outputText >
+					</p:column>
+					
+					<p:column style="text-align: center;">
+						<h:outputText value="#{(p.emissaoNecessaria / p.emissaoAtual)-1}" style="color: red !important;">
+							<f:convertNumber maxFractionDigits="2" type="percent"/>
+						</h:outputText>
+					</p:column>
+
+				</p:dataTable>
+				<hr/>
+				<br/>
+				<p:commandButton value="Gerar Rateio" icon="fa fa-print Fs16 white" disabled="true"/>
+				
+
+			</p:tab>
+			
+		</p:tabView>
+	</h:form>
+
+</ui:composition>

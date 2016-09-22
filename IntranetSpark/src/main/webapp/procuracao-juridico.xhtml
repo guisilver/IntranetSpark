@@ -1,0 +1,31 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:silver="http://silver.com/facelets"
+	template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<div class="layout-portlets-box"
+			style="padding-top: 0px !important; padding-bottom: 0px !important;">
+			<p:breadCrumb>
+				<p:menuitem value="Home" url="/dashboard.xhtml" />
+				<p:menuitem value="Cotas em Aberto"
+					url="/juridico/procuracoes/cotas-em-aberto" />
+				<p:menuitem value="Unidades"
+					url="/juridico/procuracoes/unidades" />
+			</p:breadCrumb>
+		</div>
+		<div class="layout-portlets-box">
+			<div class="Fleft">
+				<h2 class="black Fs24 FontRalewayMedium">Procurações</h2>
+			</div>
+			<div class="Seperator"></div>
+			<div class="Wid100" style="margin-top: 20px; margin-bottom: 20px;">
+				<ui:include src="juridico/procuracoes/historico-juridico.xhtml" />
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

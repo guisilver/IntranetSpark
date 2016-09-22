@@ -1,0 +1,115 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<h:outputStylesheet library="css" name="layout.css" />
+		<div class="layout-portlets-box">
+			<div class="DispInlBlock TexAlLeft">
+				<i class="fa fa-newspaper-o Fs40 gray Fleft MarRight10"></i>
+				<div class="Fleft">
+					<h2 class="black Fs24 FontRalewayMedium">Notícias</h2>
+				</div>
+			</div>
+			<div class="Seperator"></div>
+			<p:growl autoUpdate="true" life="3000" id="growl" />
+			<h:form>
+				<div class="section group">
+					<div class="col span_2_of_3">
+						<h:outputScript library="js" name="galleria.js" />
+						<p:galleria value="#{noticiasMktMB.listaSlider}" var="noticia"
+							panelHeight="500" showCaption="true"
+							rendered="#{noticiasMktMB.listaSlider != null and not empty noticiasMktMB.listaSlider}" transitionInterval="15000">
+							<p:commandLink action="#{noticiasMktMB.abreNoticia()}"
+								ajax="false">
+								<f:param name="codigo" value="#{noticia.codigo}" />
+								<img src="#{noticiasMktMB.getEnderecoImagemCapa(noticia.html)}"
+									title="#{noticia.titulo}" style="width: 100%; height: 100%;" />
+							</p:commandLink>
+							<img src="#{noticiasMktMB.getEnderecoImagemCapa(noticia.html)}" alt="#{noticiasMktMB.getPrimeiroParagrafo(noticia.html)}"
+								title="#{noticia.titulo}"
+								style="width: 100%; height: 100%; display: none;" />
+						</p:galleria>
+						<ul class="listaArtigos">
+							<c:forEach items="#{noticiasMktMB.listaColunaEsquerda}"
+								var="noticia" end="3">
+								<c:if test="#{not empty noticiasMktMB.listaColunaEsquerda}">
+									<li class="artigo" style="clear: right;">
+										<div style="float: left; width: 200px; margin-right: 15px;">
+											<img
+												src="#{noticiasMktMB.getEnderecoImagemCapa(noticia.html)}"
+												style="width: 100%; height: 200px; margin: 5px; border-radius: 3px;" />
+										</div>
+										<div style="word-wrap: break-word; margin: 10px;">
+											<p:outputLabel value="#{noticia.titulo}" styleClass="titulo" />
+											<div class="post_detail space"
+												style="width: 100%; margin-top: 10px; margin-bottom: 10px;">
+												<h:outputText value="#{noticia.dataInserido}"
+													style="margin-left:3px;font-size:12px;color:grey;">
+													<f:convertDateTime pattern="dd MMM yyyy"
+														timeZone="America/Sao_Paulo" locale="pt" />
+												</h:outputText>
+											</div>
+											<div class="resumo">
+												<p:outputLabel
+													value="#{noticiasMktMB.getPrimeiroParagrafo(noticia.html)}" />
+											</div>
+										</div> <p:commandButton value="Ver →" styleClass="readmore"
+											action="#{noticiasMktMB.abreNoticia()}" ajax="false">
+											<f:param name="codigo" value="#{noticia.codigo}" />
+										</p:commandButton>
+									</li>
+								</c:if>
+							</c:forEach>
+							<p:commandButton value="Ver mais notícias →"
+								action="mais-noticias.xhtml?faces-redirect=true;"
+								styleClass="readmore" ajax="false"
+								rendered="#{noticiasMktMB.listaColunaEsquerda != null and not empty noticiasMktMB.listaColunaEsquerda}" />
+						</ul>
+					</div>
+
+					<div class="col span_1_of_3">
+						<ul class="listaArtigos">
+							<c:forEach items="#{noticiasMktMB.listaColunaDireita}"
+								var="noticia" end="3">
+								<c:if test="#{not empty noticiasMktMB.listaColunaDireita}">
+									<li class="artigoLeft" style="clear: right; padding: 5px;">
+										<div style="float: left; width: 100px; margin-right: 10px;">
+											<img
+												src="#{noticiasMktMB.getEnderecoImagemCapa(noticia.html)}"
+												style="width: 100px; height: 100px;" />
+										</div>
+										<div
+											style="word-wrap: break-word; width: 90%; margin-left: 10px;">
+											<p:outputLabel value="#{noticia.titulo}" styleClass="titulo" />
+											<div class="post_detail space"
+												style="width: 100%; margin-top: 10px; margin-bottom: 10px;">
+												<h:outputText value="#{noticia.dataInserido}"
+													style="margin-left:3px;font-size:12px;color:grey;">
+													<f:convertDateTime pattern="dd MMM yyyy"
+														timeZone="America/Sao_Paulo" locale="pt" />
+												</h:outputText>
+											</div>
+											<div class="resumo">
+												<p:outputLabel
+													value="#{noticiasMktMB.getPrimeiroParagrafo(noticia.html)}" />
+											</div>
+										</div> <p:commandButton value="Ver →" styleClass="readmore"
+											action="#{noticiasMktMB.abreNoticia()}" ajax="false"
+											style="float:right;">
+											<f:param name="codigo" value="#{noticia.codigo}" />
+										</p:commandButton>
+									</li>
+								</c:if>
+							</c:forEach>
+						</ul>
+					</div>
+				</div>
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>

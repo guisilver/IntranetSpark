@@ -1,0 +1,33 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<style>
+#j_idt49\:j_idt50\:tblDepto{
+	border: 0px !important;
+}
+#frmGrupos\:tbvGrupos\:tblDepto\:j_idt56\:filter{
+	value = '';
+}
+</style>
+		<p:panelGrid id="gridNovoDepto" columns="1" layout="grid"
+			style="border:0px !important; background:none;" class="FormContent">
+			<p:outputLabel id="olNomeGrupo" value="Nome do Grupo: *" style="color:#CA220A;"/>
+			<p:inputText id="iptAdiconar" value="#{grupo.deptoBean.nome}" />
+		<p:commandButton id="btnSaveGrupo" value="Salvar" action="#{grupo.adicionarDepto}" update=":frmGrupos:tbvGrupos:gridNovoDepto frmGrupos:tbvGrupos:tblDepto" style="float:right;"/>
+		<hr/>
+		</p:panelGrid>
+		<p:dataTable id="tblDepto" var="p" value="#{grupo.listaDepto}" selection="#{grupo.deptoTblBean}"  filteredValue="#{grupo.filtroDepto}" 
+					 rows="5" paginator="true" rowsPerPageTemplate="10,15,30" emptyMessage="Nenhum grupo encontrado...">
+			<f:facet name="header">
+				Grupos já criados
+			</f:facet>
+			<p:ajax event="rowSelect" oncomplete="PF('excluirDepto').show();" />
+			<p:column filterBy="#{p.nome}">
+				#{p.nome}
+			</p:column>
+		</p:dataTable>
+
+</ui:composition>

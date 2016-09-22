@@ -1,0 +1,31 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+	
+	<h:form id="frmAlterRateio">
+	
+		<p:dialog id="dlgRateio" header="Alterar Verba" widgetVar="dlgAlterRateio">
+			
+			<h:panelGrid id="plgAlterRateio">
+				
+				<p:outputLabel value="Caixa / Conta"/>
+				<p:inputText value="#{previsaoMB.iprBEAN.emissaoMensal}" size="50"/>
+				
+				<p:outputLabel value="Emissão Atual"/>
+				<pe:inputNumber id="inAtual" value="#{previsaoMB.iprBEAN.emissaoAtual}" />
+				
+				<p:outputLabel value="Emissão Necessária"/>
+				<pe:inputNumber id="inNecessario" value="#{previsaoMB.iprBEAN.emissaoNecessaria}" style="width: 50px !important;"/>
+			
+			</h:panelGrid>
+			<hr/>
+			<p:commandButton value="Alterar" style="float: right;"/>
+		</p:dialog>
+		
+	
+	</h:form>
+	
+</ui:composition>

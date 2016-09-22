@@ -1,0 +1,279 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<style>
+.graficoTorta {
+	width: 100% !important;
+	height: 350px !important;
+}
+
+.jqplot-event-canvas {
+	cursor: pointer !important;
+}
+
+.gridRespostas>tbody>tr:nth-child(1)>td {
+	color: #33AFDE !important;
+	background-color: #eff3f5 !important;
+	border: solid 1px #C6D6DF !important;
+	text-align: center;
+}
+
+.Sempre {
+	background-image: url("#{resource['quiz/4.png']}");
+	background-size: 30px 30px;
+}
+
+.Frequentemente {
+	background-image: url("#{resource['quiz/3.png']}");
+	background-size: 30px 30px;
+}
+
+.Raramente {
+	background-image: url("#{resource['quiz/2.png']}");
+	background-size: 30px 30px;
+}
+
+.Nunca {
+	background-image: url("#{resource['quiz/1.png']}");
+	background-size: 30px 30px;
+}
+
+.NU {
+	background-image: url("#{resource['quiz/nu.png']}");
+	background-size: 30px 30px;
+}
+
+#frmRespostas\3a j_idt98>tbody>tr>td:nth-child(2) {
+	text-align: center;
+}
+
+.jqplot-table-legend {
+	display: none;
+}
+
+.ui-dialog-content {
+	overflow-y: scroll !important;
+	max-height: 600px !important;
+}
+</style>
+		<div class="layout-portlets-box">
+			<div class="DispInlBlock TexAlLeft">
+				<div class="Fleft">
+					<h2 class="black Fs24 FontRalewayMedium">Quiz - Relatório</h2>
+				</div>
+			</div>
+			<div class="Seperator"></div>
+			<div class="Container100 Responsive100">
+				<div class="ContainerIndent">
+					<h:form>
+						<p:panelGrid columns="2">
+							<p:outputLabel id="txtCarteira" for="selectCarteira"
+								value="Gerente:" />
+							<p:selectOneMenu id="selectCarteira"
+								value="#{SessaoMB.gerenteSelecionado}"
+								converter="omnifaces.SelectItemsConverter" style="width:250px;"
+								filter="true" filterMatchMode="contains">
+								<p:ajax listener="#{quizMB.constroiGrafico()}" process="@this"
+									update="@form" />
+								<f:selectItem itemLabel="Todos" noSelectionOption="true" />
+								<f:selectItems var="gerente" value="#{quizMB.listaGerentes}"
+									itemLabel="#{gerente.nome}" itemValue="#{gerente}" />
+							</p:selectOneMenu>
+
+							<p:outputLabel value="Envio de Quiz Nº" styleClass="lblFiltro" />
+							<p:selectOneMenu filter="true" filterMatchMode="contains"
+								value="#{quizMB.fase}" style="width:250px;"
+								converter="omnifaces.SelectItemsConverter">
+								<p:ajax listener="#{quizMB.constroiGrafico()}" process="@this"
+									update="@form" />
+								<f:selectItem itemLabel="Selecionar" noSelectionOption="true" />
+								<f:selectItems value="#{quizMB.listaFases}" var="fase"
+									itemLabel="#{fase.codigo}" itemValue="#{fase}" />
+							</p:selectOneMenu>
+						</p:panelGrid>
+
+						<h:panelGrid columns="2" style="margin-top:10px;">
+							<p:outputLabel value="Status:" />
+							<p:outputLabel value="#{quizMB.verificaStatusQuiz()}"
+								style="color:red;" />
+						</h:panelGrid>
+
+						<h:panelGrid id="gridQtd" columns="2" style="margin-top:10px;">
+							<p:outputLabel value="Qtd condomínios que responderam:" />
+							<p:outputLabel value="#{quizMB.qtdCndResp}" style="color:red;" />
+						</h:panelGrid>
+
+						<h:panelGrid id="gridLegenda" style="margin-top:10px;">
+							<div class="Sempre"
+								style="width: 30px; height: 30px; display: inline-block;"></div>
+							<div class="Frequentemente"
+								style="width: 30px; height: 30px; display: inline-block;"></div>
+							<div class="Raramente"
+								style="width: 30px; height: 30px; display: inline-block;"></div>
+							<div class="Nunca"
+								style="width: 30px; height: 30px; display: inline-block;"></div>
+							<div class="NU"
+								style="width: 30px; height: 30px; display: inline-block;"></div>
+						</h:panelGrid>
+
+						<p:commandButton icon="fa fa-search Fs16 white"
+							value="Respostas/Sugestões"
+							actionListener="#{quizMB.pesquisaSugestoes()}"
+							update=":frmSugestoes" style="margin-top:20px;"
+							rendered="#{quizMB.fase.codigo gt 0}" />
+
+						<p:panelGrid id="gridGrafico" layout="grid" columns="3"
+							style="margin-top:20px;" rendered="#{quizMB.fase.codigo gt 0}">
+							<p:chart id="grafico1" type="pie" model="#{quizMB.grafico1}"
+								styleClass="graficoTorta" responsive="true">
+								<p:ajax event="itemSelect" listener="#{quizMB.gerenciaSelect}"
+									update=":frmRespSelecionadas" />
+							</p:chart>
+
+							<p:chart id="grafico2" type="pie" model="#{quizMB.grafico2}"
+								styleClass="graficoTorta" responsive="true">
+								<p:ajax event="itemSelect"
+									listener="#{quizMB.assembleiasSelect}"
+									update=":frmRespSelecionadas" />
+							</p:chart>
+
+							<p:chart id="grafico3" type="pie" model="#{quizMB.grafico3}"
+								styleClass="graficoTorta" responsive="true">
+								<p:ajax event="itemSelect" listener="#{quizMB.omaSelect}"
+									update=":frmRespSelecionadas" />
+							</p:chart>
+						</p:panelGrid>
+
+						<p:panelGrid id="gridBarra" layout="grid" columns="1"
+							style="width:100%" rendered="#{quizMB.fase.codigo gt 0}">
+							<p:chart type="bar" responsive="true" model="#{quizMB.barra1}"
+								style="height:100%;">
+								<p:ajax event="itemSelect"
+									listener="#{quizMB.principaisServicosSelect}"
+									update=":frmRespSelecionadas" />
+							</p:chart>
+						</p:panelGrid>
+					</h:form>
+				</div>
+
+				<p:dialog widgetVar="dlgCndGrafico" modal="true" resizable="false"
+					style="max-width:800px;">
+					<h:form id="frmRespSelecionadas">
+						<h:panelGrid columns="2" style="margin-bottom:20px;">
+							<p:outputLabel value="Envio de Quiz Nº:" />
+							<p:outputLabel value="#{quizMB.fase.codigo}" style="color:red;" />
+
+							<p:outputLabel value="Quesito:" />
+							<p:outputLabel value="#{quizMB.exibePergunta}" style="color:red;" />
+
+							<p:outputLabel value="Nota:" />
+							<div class="#{quizMB.exibeResposta}"
+								style="width: 30px; height: 30px;" />
+						</h:panelGrid>
+						<p:panel>
+							<p:dataTable value="#{quizMB.listaRespostasSelecionadas}"
+								var="resposta" rows="10" paginator="true">
+								<p:column headerText="Condomínio">
+									<p:outputLabel
+										value="#{quizMB.retornaCodNomeCnd(resposta.condominio)}" />
+								</p:column>
+								<p:column headerText="Gerente">
+									<p:outputLabel
+										value="#{quizMB.retornaNomeGerente(resposta.condominio)}" />
+								</p:column>
+								<p:column headerText="Cnd" style="width:50px!important;">
+									<p:commandButton icon="fa fa-search Fs16 white"
+										actionListener="#{quizMB.showRespostas(resposta)}"
+										update=":frmRespostas" />
+								</p:column>
+							</p:dataTable>
+						</p:panel>
+					</h:form>
+				</p:dialog>
+
+				<p:dialog widgetVar="dlgRespostas" modal="true" resizable="false"
+					header="Todas as respostas deste Cnd" style="max-width:800px;">
+					<h:form id="frmRespostas">
+						<h:panelGrid columns="2" style="margin-bottom:20px;">
+							<p:outputLabel value="Envio de Quiz Nº:" />
+							<p:outputLabel value="#{quizMB.fase.codigo}" style="color:red;" />
+							<p:outputLabel value="Condomínio:" />
+							<p:outputLabel
+								value="#{quizMB.retornaCodNomeCnd(quizMB.respostas.condominio)}"
+								style="color:red;" />
+							<p:outputLabel value="Gerente" />
+							<p:outputLabel
+								value="#{quizMB.retornaNomeGerente(quizMB.respostas.condominio)}"
+								style="color:red;" />
+						</h:panelGrid>
+
+						<p:panelGrid columns="2" styleClass="gridRespostas">
+							<p:column styleClass="colunaHeader">
+								<p:outputLabel value="Pergunta" />
+							</p:column>
+							<p:column styleClass="colunaHeader">
+								<p:outputLabel value="Resposta" />
+							</p:column>
+
+							<p:outputLabel value="#{quizMB.respostas.pergunta1}" />
+							<div class="#{quizMB.respostas.resposta1}"
+								style="width: 30px; height: 30px; margin-left: auto; margin-right: auto;" />
+
+							<p:outputLabel value="#{quizMB.respostas.pergunta2}" />
+							<div class="#{quizMB.respostas.resposta2}"
+								style="width: 30px; height: 30px; margin-left: auto; margin-right: auto;" />
+
+							<p:outputLabel value="#{quizMB.respostas.pergunta9}" />
+							<div class="#{quizMB.respostas.resposta9}"
+								style="width: 30px; height: 30px; margin-left: auto; margin-right: auto;" />
+
+							<p:outputLabel value="#{quizMB.respostas.pergunta3}" />
+							<div class="#{quizMB.respostas.resposta3}"
+								style="width: 30px; height: 30px; margin-left: auto; margin-right: auto;" />
+
+							<p:outputLabel value="#{quizMB.respostas.pergunta4}" />
+							<div class="#{quizMB.respostas.resposta4}"
+								style="width: 30px; height: 30px; margin-left: auto; margin-right: auto;" />
+
+							<p:outputLabel value="#{quizMB.respostas.pergunta5}" />
+							<div class="#{quizMB.respostas.resposta5}"
+								style="width: 30px; height: 30px; margin-left: auto; margin-right: auto;" />
+
+							<p:outputLabel value="#{quizMB.respostas.pergunta6}" />
+							<div class="#{quizMB.respostas.resposta6}"
+								style="width: 30px; height: 30px; margin-left: auto; margin-right: auto;" />
+
+							<p:outputLabel value="#{quizMB.respostas.pergunta7}" />
+							<div class="#{quizMB.respostas.resposta7}"
+								style="width: 30px; height: 30px; margin-left: auto; margin-right: auto;" />
+
+							<p:outputLabel value="#{quizMB.respostas.pergunta8}" />
+							<div class="#{quizMB.respostas.resposta8}"
+								style="width: 30px; height: 30px; margin-left: auto; margin-right: auto;" />
+						</p:panelGrid>
+						<br />
+						<br />
+						<p:outputLabel value="Sugestões: " style="color:red;" />
+						<p:outputLabel value="#{quizMB.respostas.respostaObs}" />
+					</h:form>
+				</p:dialog>
+			</div>
+		</div>
+		<ui:include src="dlg-sugestoes.xhtml" />
+		<ui:include src="dlg-sugestao.xhtml" />
+		<p:ajaxStatus onstart="PF('statusDialog').show()"
+			onsuccess="PF('statusDialog').hide()" />
+		<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+			closable="false" resizable="false" showHeader="false">
+					Aguarde...<br />
+			<br />
+			<p:graphicImage library="imagens" name="loader.gif" />
+		</p:dialog>
+	</ui:define>
+</ui:composition>

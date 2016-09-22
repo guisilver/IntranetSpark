@@ -1,0 +1,50 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<div class="layout-portlets-box">
+			<div class="Fleft">
+				<h2 class="black Fs24 FontRalewayMedium">Manuais e Requisições</h2>
+			</div>
+			<div class="Container100 Responsive100">
+				<div class="ContainerIndent">
+					<div class="Seperator"></div>
+					<p:panelGrid columns="2">
+						<p:outputLabel value="Requisição de Pessoal" />
+						<h:outputLink
+							value="http://omaonline.com.br:42050/arquivos/intranet/requisica-de-pessoal.xlsx">
+							<p:graphicImage library="imagens" name="ExcelIcon.gif" width="36"
+								height="40" />
+						</h:outputLink>
+
+						<p:outputLabel value="Manual de Conduta Disciplinar e Ética" />
+						<h:outputLink
+							value="http://omaonline.com.br:42050/arquivos/intranet/manual-de-conduta.pdf"
+							target="_blank">
+							<p:graphicImage library="imagens" name="PdfIcon.png" width="40"
+								height="40" />
+						</h:outputLink>
+
+						<p:outputLabel value="Manual de Vestimenta Feminino" />
+						<h:outputLink
+							value="http://omaonline.com.br:42050/arquivos/intranet/manual-uniforme-mulheres.pdf"
+							target="_blank">
+							<p:graphicImage library="imagens" name="PdfIcon.png" width="40"
+								height="40" />
+						</h:outputLink>
+
+						<p:outputLabel value="Manual de Vestimenta Masculino" />
+						<h:outputLink
+							value="http://omaonline.com.br:42050/arquivos/intranet/manual-uniforme-homens.pdf"
+							target="_blank">
+							<p:graphicImage library="imagens" name="PdfIcon.png" width="40"
+								height="40" />
+						</h:outputLink>
+					</p:panelGrid>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

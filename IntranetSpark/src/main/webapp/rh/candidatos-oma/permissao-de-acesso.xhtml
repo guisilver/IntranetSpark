@@ -1,0 +1,66 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<style>
+.lblC {
+	font-weight: bold !important;
+}
+
+.ui-inputtext {
+	text-transform: uppercase;
+}
+</style>
+		<div class="layout-portlets-box">
+			<div class="DispInlBlock TexAlLeft">
+				<div class="Fleft">
+					<h2 class="black Fs24 FontRalewayMedium">Permissões de Acesso</h2>
+				</div>
+			</div>
+			<div class="Seperator"></div>
+			<div class="Container100 Responsive100">
+				<div class="ContainerIndent"></div>
+				<h:form>
+
+					<h:panelGrid columns="2" cellpadding="3">
+						<p:outputLabel value="Colaborador:" />
+						<p:inputText />
+						<p:outputLabel value="Departamento:" />
+						<p:inputText />
+						<p:outputLabel value="Função:" />
+						<p:inputText />
+						<p:outputLabel value="E-mail:" />
+						<p:inputText />
+					</h:panelGrid>
+
+					<!-- 1) Verificar um meio para fazer a criação no LD/AP (Acesso RH) -->
+
+					<h:panelGrid>
+						<p:outputLabel value="Permissões de Acesso para:" />
+						<p:selectManyCheckbox id="permissao">
+							<f:selectItem itemLabel="Windows" />
+							<f:selectItem itemLabel="Internet" />
+							<f:selectItem itemLabel="SIGADM" />
+							<f:selectItem itemLabel="CondoWeb" />
+							<f:selectItem itemLabel="FolhaWeb" />
+							<f:selectItem itemLabel="Site OMA" />
+							<f:selectItem itemLabel="CondoPlaza" />
+						</p:selectManyCheckbox>
+					</h:panelGrid>
+
+					<h:panelGrid>
+						<p:outputLabel value="Criar permissões com o perfil do usuário:" />
+						<p:inputText />
+					</h:panelGrid>
+					
+					<p:commandButton value="Salvar"/>
+				</h:form>
+			</div>
+		</div>
+
+	</ui:define>
+</ui:composition>

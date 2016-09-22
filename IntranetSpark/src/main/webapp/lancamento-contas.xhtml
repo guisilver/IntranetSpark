@@ -1,0 +1,42 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<div class="layout-portlets-box" >
+
+			<div class="DispInlBlock TexAlLeft">
+				<div class="Fleft">
+					<h2 class="black Fs18 FontRalewayMedium">Sistema SIP - Contas</h2>
+				</div>
+			</div>
+			<div class="Seperator"></div>
+
+			<div class="Container100">
+				<ui:include src="sip/lancamento/lancamento.xhtml" />
+				<ui:include src="sip/lancamento/dlg-obs-lancamento.xhtml" />
+				<ui:include src="sip/gerencia/lancamento/dlg-suspender.xhtml" />
+				<ui:include src="sip/gerencia/lancamento/dlg-liberar.xhtml" />
+				<ui:include src="sip/lancamento/dlg-rateio.xhtml" />
+				
+				<ui:include src="financeiro/lancamento/dlg-pesq-favorecido.xhtml" />
+				<ui:include src="financeiro/lancamento/dlg-pesq-banco.xhtml" />
+				<ui:include src="financeiro/lancamento/dlg-pesq-fornecedor.xhtml" />
+				<ui:include src="financeiro/lancamento/dlg-pesq-conta.xhtml" />
+				<ui:include src="financeiro/consulta/dlg-followup.xhtml" />
+				
+				<!-- <ui:include src="sip/lancamento/frm-lancamento-altr.xhtml" />
+					
+				<ui:include src="financeiro/consulta/detalhes-lancamento.xhtml" />
+				<ui:include src="financeiro/lancamento/dlg-upload.xhtml" />
+				<ui:include src="financeiro/consulta/dlg-obs-lancamento2.xhtml" />
+				<ui:include src="financeiro/consulta/dlg-pesq-conta2.xhtml" />
+				<ui:include src="financeiro/consulta/ged-style.xhtml" />
+
+				<ui:include src="financeiro/lancamento/dlg-valida-lancamento.xhtml" />
+ -->
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

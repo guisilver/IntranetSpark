@@ -1,0 +1,38 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	<p:dialog widgetVar="dlgUploadImagem" resizable="false" modal="true"
+		closeOnEscape="true" width="400" header="Enviar arquivos">
+		<h:form id="frmUploadImagem"
+			rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysSipGEDAdd}">
+			<h:panelGrid>
+				<h:panelGrid columns="2">
+					<p:outputLabel value="Etiqueta:" for=":frmUploadImagem:txtIdImagem" />
+					<p:inputText id="txtIdImagem" value="#{sipoMB.etiqueta}"
+						style="width:220px; margin-left:28px;" maxlength="14"
+						onkeypress="validate(event);">
+						<p:ajax event="blur" listener="#{sipoMB.pesquisarImagem()}" />
+					</p:inputText>
+				</h:panelGrid>
+				<hr />
+				<h:panelGrid columns="2">
+					<p:fileUpload widgetVar="upDocs" id="upDocs"
+						style="border-width:0px;" styleClass="upload_doc"
+						dragDropSupport="false"
+						invalidSizeMessage="O arquivo enviado é muito grande!O máximo são 10MB"
+						sizeLimit="10000000" allowTypes="/(\.|\/)(pdf|jpg)$/"
+						invalidFileMessage="Somente são aceitos arquivos do tipo pdf"
+						fileUploadListener="#{sipoMB.handleFileUpload}" mode="advanced"
+						multiple="true" label="Arquivo" update=":frmUploadImagem"
+						auto="true" disabled="#{not empty sipoMB.nomeImagem}">
+					</p:fileUpload>
+					<p:outputLabel id="lblNomeImagem" value="#{sipoMB.nomeImagem}" />
+				</h:panelGrid>
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
+</ui:composition>

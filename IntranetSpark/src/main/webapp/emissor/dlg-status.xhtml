@@ -1,0 +1,13 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+	<p:dialog widgetVar="dlgStatus" id="dlgStatus" header="Status"
+		style="font-size:13px;" resizable="false" modal="true">
+		Enviando...<br /> Não feche o sistema!<br />
+		<br />
+		<p:graphicImage library="imagens" name="loader.gif" />
+		<br />
+	</p:dialog>
+</ui:composition>

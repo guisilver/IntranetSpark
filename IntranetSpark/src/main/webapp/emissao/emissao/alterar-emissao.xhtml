@@ -1,0 +1,80 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<style>
+.msg {
+	color: #FFF;
+	font-size: 20px;
+}
+
+#frmFiltro table td {
+	border: 0px !important;
+}
+
+.ui-selectoneradio tbody tr td {
+	border: 0px !important;
+}
+
+.gridFiltro tbody tr td {
+	border: 0px !important;
+}
+</style>
+		<div class="layout-portlets-box">
+			<div class="DispInlBlock TexAlLeft">
+				<h:form id="frmAlterarEmissao" rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysSEM}">
+					<f:metadata>
+						<f:event listener="#{emMB.pesquisaIdEmissao()}"
+							type="preRenderView" />
+					</f:metadata>
+					<p:panelGrid columns="2" cellpadding="5" styleClass="gridFiltro">
+						<p:outputLabel value="Condomínio:" />
+						<p:outputLabel value="#{emMB.emcBEAN.nome_condominio}" />
+						<p:outputLabel value="Nº Emissão" />
+						<p:outputLabel value="#{emMB.emcBEAN.nroEmissao}" />
+					</p:panelGrid>
+					<br />
+					<p:panel header="Alterar">
+						<h:panelGrid columns="2" cellpadding="5">
+							<p:outputLabel value="Liberação do Gerente:" />
+							<p:calendar value="#{emMB.emcBEAN.liberacao_gerente}"
+								pattern="dd/MM/yyyy" locale="pt" timeZone="America/Sao_Paulo"
+								styleClass="calendario" style="margin-left:30px;" />
+							<p:outputLabel value="Data da Impressão:" />
+							<p:calendar value="#{emMB.emcBEAN.data_impressao}"
+								pattern="dd/MM/yyyy" locale="pt" timeZone="America/Sao_Paulo"
+								styleClass="calendario" style="margin-left:30px;" />
+							<p:outputLabel value="Tipo de Impressão:" />
+							<p:selectOneRadio value="#{emMB.emcBEAN.tipo_impressao}"
+								style="margin-left:30px;">
+								<f:selectItem itemLabel="Global" itemValue="Global" />
+								<f:selectItem itemLabel="OMA" itemValue="OMA" />
+							</p:selectOneRadio>
+						</h:panelGrid>
+						<h:panelGrid columns="2" cellpadding="5">
+							<p:outputLabel value="Liberação para Expedição:" />
+							<p:calendar value="#{emMB.emcBEAN.liberacao_expedicao}"
+								pattern="dd/MM/yyyy" locale="pt" timeZone="America/Sao_Paulo"
+								styleClass="calendario" />
+						</h:panelGrid>
+						<h:panelGrid columns="2" cellpadding="5">
+							<p:outputLabel value="Envio para o Prédio:" />
+							<p:calendar value="#{emMB.emcBEAN.envio_predio}"
+								pattern="dd/MM/yyyy" locale="pt" timeZone="America/Sao_Paulo"
+								styleClass="calendario" style="margin-left:50px;" />
+						</h:panelGrid>
+						<hr />
+						<h:panelGrid>
+							<p:commandButton icon="fa fa-check Fs16 white" value="Salvar"
+								action="#{emMB.alterarEmissao()}" style="margin-left:140px;" />
+						</h:panelGrid>
+					</p:panel>
+				</h:form>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,135 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<div class="layout-portlets-box">
+			<div class="DispInlBlock TexAlLeft">
+				<div class="Fleft">
+					<h2 class="black Fs24 FontRalewayMedium">Parâmetros - Fiscal</h2>
+				</div>
+			</div>
+			<div class="Seperator"></div>
+			<div class="Container100 Responsive100">
+				<p:messages autoUpdate="true" />
+				<h:form id="frmParamFiscal"
+					rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysSipFiscalAdd}">
+					<h:panelGrid>
+						<p:panelGrid columns="10">
+							<p:outputLabel value="PCC" style="color:red;" />
+							<p:outputLabel value="Dia:" />
+							<p:inputText value="#{parametrosFiscalMB.fiscalParam.diaPCC}" />
+							<p:outputLabel value="Mês:" />
+							<p:selectOneMenu value="#{parametrosFiscalMB.fiscalParam.mesPCC}"
+								style="width:100px;">
+								<f:selectItem itemLabel="Selecionar" noSelectionOption="true" />
+								<f:selectItem itemLabel="Atual" itemValue="1" />
+								<f:selectItem itemLabel="Próximo" itemValue="2" />
+							</p:selectOneMenu>
+							<p:outputLabel value="Parâmetro:" />
+							<p:selectOneMenu
+								value="#{parametrosFiscalMB.fiscalParam.paramPCC}"
+								style="width:120px;">
+								<f:selectItem itemLabel="Selecionar" noSelectionOption="true" />
+								<f:selectItem itemLabel="Vencimento" itemValue="1" />
+								<f:selectItem itemLabel="Emissão" itemValue="2" />
+							</p:selectOneMenu>
+							<p:outputLabel value="Antecedência:" />
+							<p:inputText
+								value="#{parametrosFiscalMB.fiscalParam.antecedenciaPCC}" />
+							<p:selectBooleanCheckbox
+								value="#{parametrosFiscalMB.fiscalParam.usarParamPCC}" />
+
+							<p:outputLabel value="INSS" style="color:red;" />
+							<p:outputLabel value="Dia:" />
+							<p:inputText value="#{parametrosFiscalMB.fiscalParam.diaINSS}" />
+							<p:outputLabel value="Mês:" />
+							<p:selectOneMenu
+								value="#{parametrosFiscalMB.fiscalParam.mesINSS}"
+								style="width:100px;">
+								<f:selectItem itemLabel="Selecionar" noSelectionOption="true" />
+								<f:selectItem itemLabel="Atual" itemValue="1" />
+								<f:selectItem itemLabel="Próximo" itemValue="2" />
+							</p:selectOneMenu>
+							<p:outputLabel value="Parâmetro:" />
+							<p:selectOneMenu
+								value="#{parametrosFiscalMB.fiscalParam.paramINSS}"
+								style="width:120px;">
+								<f:selectItem itemLabel="Selecionar" noSelectionOption="true" />
+								<f:selectItem itemLabel="Vencimento" itemValue="1" />
+								<f:selectItem itemLabel="Emissão" itemValue="2" />
+							</p:selectOneMenu>
+							<p:outputLabel value="Antecedência:" />
+							<p:inputText
+								value="#{parametrosFiscalMB.fiscalParam.antecedenciaINSS}" />
+							<p:selectBooleanCheckbox
+								value="#{parametrosFiscalMB.fiscalParam.usarParamINSS}" />
+
+							<p:outputLabel value="IRRF" style="color:red;" />
+							<p:outputLabel value="Dia:" />
+							<p:inputText value="#{parametrosFiscalMB.fiscalParam.diaIRRF}" />
+							<p:outputLabel value="Mês:" />
+							<p:selectOneMenu
+								value="#{parametrosFiscalMB.fiscalParam.mesIRRF}"
+								style="width:100px;">
+								<f:selectItem itemLabel="Selecionar" noSelectionOption="true" />
+								<f:selectItem itemLabel="Atual" itemValue="1" />
+								<f:selectItem itemLabel="Próximo" itemValue="2" />
+							</p:selectOneMenu>
+							<p:outputLabel value="Parâmetro:" />
+							<p:selectOneMenu
+								value="#{parametrosFiscalMB.fiscalParam.paramIRRF}"
+								style="width:120px;">
+								<f:selectItem itemLabel="Selecionar" noSelectionOption="true" />
+								<f:selectItem itemLabel="Vencimento" itemValue="1" />
+								<f:selectItem itemLabel="Emissão" itemValue="2" />
+							</p:selectOneMenu>
+							<p:outputLabel value="Antecedência:" />
+							<p:inputText
+								value="#{parametrosFiscalMB.fiscalParam.antecedenciaIRRF}" />
+							<p:selectBooleanCheckbox
+								value="#{parametrosFiscalMB.fiscalParam.usarParamIRRF}" />
+
+							<p:outputLabel value="ISS" style="color:red;" />
+							<p:outputLabel value="Dia:" />
+							<p:inputText value="#{parametrosFiscalMB.fiscalParam.diaISS}" />
+							<p:outputLabel value="Mês:" />
+							<p:selectOneMenu value="#{parametrosFiscalMB.fiscalParam.mesISS}"
+								style="width:100px;">
+								<f:selectItem itemLabel="Selecionar" noSelectionOption="true" />
+								<f:selectItem itemLabel="Atual" itemValue="1" />
+								<f:selectItem itemLabel="Próximo" itemValue="2" />
+							</p:selectOneMenu>
+							<p:outputLabel value="Parâmetro:" />
+							<p:selectOneMenu
+								value="#{parametrosFiscalMB.fiscalParam.paramISS}"
+								style="width:120px;">
+								<f:selectItem itemLabel="Selecionar" noSelectionOption="true" />
+								<f:selectItem itemLabel="Vencimento" itemValue="1" />
+								<f:selectItem itemLabel="Emissão" itemValue="2" />
+							</p:selectOneMenu>
+							<p:outputLabel value="Antecedência:" />
+							<p:inputText
+								value="#{parametrosFiscalMB.fiscalParam.antecedenciaISS}" />
+							<p:selectBooleanCheckbox
+								value="#{parametrosFiscalMB.fiscalParam.usarParamISS}" />
+						</p:panelGrid>
+						<p:commandButton value="Salvar"
+							actionListener="#{parametrosFiscalMB.salvarFiscalParam()}"
+							ajax="false" icon="fa fa-check Fs16 white"
+							style="float:right;margin-top:20px;" />
+					</h:panelGrid>
+				</h:form>
+			</div>
+		</div>
+		<script>
+		function goBack() {
+		    window.history.back();
+		}
+		</script>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,277 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="/WEB-INF/template.xhtml">
+
+	<ui:define name="content">
+		<style>
+#frmFiltro table td {
+	border: 0px !important;
+}
+
+.ui-selectoneradio tbody tr td {
+	border: 0px !important;
+}
+
+.gridFiltro tbody tr td {
+	border: 0px !important;
+}
+</style>
+		<div class="layout-portlets-box"
+			style="padding-top: 0px !important; padding-bottom: 0px !important;">
+			<p:breadCrumb>
+				<p:menuitem value="Home" url="/dashboard.xhtml" />
+				<p:menuitem value="Taxas Bancárias"
+					url="/diretoria/relatorios-mensais/taxas-bancarias" />
+			</p:breadCrumb>
+		</div>
+		<div class="layout-portlets-box">
+			<div class="DispInlBlock TexAlLeft">
+				<div class="Fleft">
+					<h2 class="black Fs24 FontRalewayMedium">Relatório Mensal</h2>
+				</div>
+			</div>
+			<div class="Seperator"></div>
+			<div class="Container100 Responsive100">
+				<div class="ContainerIndent">
+					<h:form id="frmFiltro"
+						rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysDiretoria}">
+						<p:growl autoUpdate="true" />
+						<p:panelGrid id="gridFiltro" columns="1" styleClass="gridFiltro">
+							<f:facet name="header">
+								<h:outputText value="Filtros" />
+							</f:facet>
+							<h:panelGrid columns="2">
+								<p:outputLabel for="pesquisarPor" value="Pesquisar Por:" />
+								<p:selectOneRadio id="pesquisarPor" value="#{rmMB.pesquisarPor}">
+									<p:ajax update=":frmFiltro:gridFiltro"
+										listener="#{rmMB.limparListas()}" />
+									<f:selectItem itemLabel="Condomínio" itemValue="Condominio" />
+									<f:selectItem itemLabel="Carteira" itemValue="Carteira" />
+									<f:selectItem itemLabel="Todos" itemValue="Todos" />
+								</p:selectOneRadio>
+
+								<p:outputLabel id="txtCarteira" for="selectCarteira"
+									value="Carteira:" rendered="#{rmMB.pesquisarPor eq 'Carteira'}" />
+								<p:selectOneMenu id="selectCarteira" value="#{rmMB.gerenteMB}"
+									rendered="#{rmMB.pesquisarPor eq 'Carteira'}"
+									converter="omnifaces.SelectItemsConverter" style="width:65%;"
+									filter="true" filterMatchMode="contains">
+									<f:selectItem itemLabel="Carteira" noSelectionOption="true" />
+									<f:selectItems var="gerente" value="#{rmMB.listaDeGerentes}"
+										itemLabel="#{gerente.nome}" itemValue="#{gerente}" />
+								</p:selectOneMenu>
+
+								<p:outputLabel id="txtGerente" for="selectGerente"
+									value="Gerente:" rendered="#{rmMB.renderizaMenuGerente}" />
+								<p:selectOneMenu id="selectGerente" value="#{rmMB.gerenteMB}"
+									rendered="#{rmMB.renderizaMenuGerente}"
+									converter="omnifaces.SelectItemsConverter" style="width:95%;">
+									<p:ajax listener="#{rmMB.listarCondominios}"
+										update=":frmFiltro" resetValues="true" />
+									<f:selectItem itemLabel="Gerente" noSelectionOption="true" />
+									<f:selectItems var="gerente" value="#{rmMB.listaDeGerentes}"
+										itemLabel="#{gerente.nome}" itemValue="#{gerente}" />
+								</p:selectOneMenu>
+
+								<p:outputLabel id="txtCondominio" for="selectCondominio"
+									value="Condomínio:"
+									rendered="#{rmMB.pesquisarPor eq 'Condominio'}" />
+								<p:selectOneMenu id="selectCondominio" value="#{rmMB.icBean}"
+									rendered="#{rmMB.pesquisarPor eq 'Condominio'}"
+									converter="omnifaces.SelectItemsConverter" filter="true"
+									filterMatchMode="contains" style="width:95%;">
+									<f:selectItem itemLabel="Condomínio" noSelectionOption="true" />
+									<f:selectItems var="cnd" value="#{rmMB.listaDeCondominio}"
+										itemLabel="#{cnd.codigo} - #{cnd.nome}" itemValue="#{cnd}" />
+								</p:selectOneMenu>
+							</h:panelGrid>
+							<h:panelGrid columns="3">
+								<p:outputLabel value="Período:" />
+								<p:calendar value="#{rmMB.dataInicio}" id="dataInicial"
+									pattern="dd/MM/yyyy" locale="pt" timeZone="America/Sao_Paulo"
+									styleClass="calendario" style="margin-left:45px;" />
+								<p:calendar value="#{rmMB.dataFim}" id="dataFinal"
+									pattern="dd/MM/yyyy" locale="pt" timeZone="America/Sao_Paulo"
+									styleClass="calendario" />
+							</h:panelGrid>
+							<h:panelGrid width="100%" style="text-align:right;">
+								<p:commandButton value="Filtrar"
+									action="#{rmMB.pesquisarRelatorioMensal()}"
+									update=":frmTblLote:dtHistorico"
+									onstart="PF('dlgStatus').show();"
+									oncomplete="PF('dlgStatus').hide();"
+									icon="fa fa-search Fs16 white" />
+							</h:panelGrid>
+						</p:panelGrid>
+					</h:form>
+				</div>
+			</div>
+
+			<div class="Container100 TexAlCenter">
+				<div class="ContainerIndent">
+					<h:form id="frmTblLote"
+						rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysDiretoria}">
+						<p:dataTable id="dtHistorico" var="relMen"
+							value="#{rmMB.listaRelMensal}"
+							filteredValue="#{impressaoBureauMB.fltrLotes}" rows="15"
+							paginator="true" emptyMessage="Nenhum resultado encontrado!"
+							style="font-size: 12px;text-align:center;"
+							rowsPerPageTemplate="15,30,50,100">
+							<f:facet name="header">
+							Taxas Administrativas
+							</f:facet>
+							<f:facet name="footer">
+								<p:outputLabel value="Gerar Arquivo:" />
+								<h:commandLink>
+									<p:graphicImage library="imagens" name="excel.png" />
+									<p:dataExporter type="xls" target=":frmTblLote:dtHistorico"
+										fileName="taxa" pageOnly="false" />
+								</h:commandLink>
+							</f:facet>
+							<p:column>
+								<f:facet name="header">Código</f:facet>
+								<h:outputText value="#{relMen.codigo}" />
+							</p:column>
+							<p:column>
+								<f:facet name="header">Condomínio</f:facet>
+								<h:outputText value="#{relMen.nomeCondominio}" />
+							</p:column>
+							<p:column>
+								<f:facet name="header">Gerente</f:facet>
+								<h:outputText value="#{relMen.nomeGerente}" />
+							</p:column>
+							<p:column>
+								<f:facet name="header">Qtde. Aptos</f:facet>
+								<h:outputText value="#{relMen.qtde_aptos}" />
+							</p:column>
+							<p:column>
+								<f:facet name="header">Qtde. Cjtos</f:facet>
+								<h:outputText value="#{relMen.qtde_cjtos}" />
+							</p:column>
+							<p:column>
+								<f:facet name="header">Qtde. Lojas</f:facet>
+								<h:outputText value="#{relMen.qtde_lojas}" />
+							</p:column>
+							<p:column>
+								<f:facet name="header">Taxa Adm.</f:facet>
+								<h:outputText value="#{relMen.taxaAdm}">
+									<f:convertNumber type="currency" currencySymbol="" locale="pt" />
+								</h:outputText>
+							</p:column>
+							<p:column>
+								<f:facet name="header">Início Adm.</f:facet>
+								<h:outputText value="#{relMen.inicioAdm}">
+									<f:convertDateTime locale="pt" pattern="dd/MM/yyyy"
+										timeZone="America/Sao_Paulo" />
+								</h:outputText>
+							</p:column>
+							<p:column>
+								<f:facet name="header">Arrecadação</f:facet>
+								<h:outputText value="#{relMen.totalCota}">
+									<f:convertNumber type="currency" currencySymbol="" locale="pt" />
+								</h:outputText>
+							</p:column>
+							<p:column>
+								<f:facet name="header">Conta Vinculada</f:facet>
+								<h:outputText value="#{relMen.contaVinculada}" />
+							</p:column>
+							<p:column>
+								<f:facet name="header">Endereço</f:facet>
+								<h:outputText
+									value="#{relMen.logradouro} #{relMen.endereco} #{relMen.nro_end}" />
+							</p:column>
+							<p:column>
+								<f:facet name="header">Bairro</f:facet>
+								<h:outputText value="#{relMen.bairro}/ #{relMen.estado}" />
+							</p:column>
+							<p:column>
+								<f:facet name="header">CEP</f:facet>
+								<h:outputText value="#{relMen.cep}" />
+							</p:column>
+							<p:column>
+								<f:facet name="header">Síndico</f:facet>
+								<h:outputText value="#{relMen.nomeSindico}" />
+							</p:column>
+							<p:column>
+								<f:facet name="header">Aniversário</f:facet>
+								<h:outputText
+									value="#{relMen.diaAniSind}/#{relMen.mesAniSind}/#{relMen.anoAniSind}" />
+							</p:column>
+							<p:column>
+								<f:facet name="header">Profissão</f:facet>
+								<h:outputText value="#{relMen.profissaoSind}" />
+							</p:column>
+							<p:column>
+								<f:facet name="header">Início Mandato</f:facet>
+								<h:outputText value="#{relMen.inicioMandSind}">
+									<f:convertDateTime locale="pt" pattern="dd/MM/yyyy"
+										timeZone="America/Sao_Paulo" />
+								</h:outputText>
+							</p:column>
+							<p:column>
+								<f:facet name="header">Baixado</f:facet>
+								<h:outputText value="#{relMen.baixado}" />
+							</p:column>
+							<p:column>
+								<f:facet name="header">Data Baixado</f:facet>
+								<h:outputText value="#{relMen.dataBaixa}">
+									<f:convertDateTime locale="pt" pattern="dd/MM/yyyy"
+										timeZone="America/Sao_Paulo" />
+								</h:outputText>
+							</p:column>
+							<p:columnGroup type="footer">
+								<p:row>
+									<p:column />
+									<p:column />
+									<p:column />
+									<p:column />
+									<p:column />
+									<p:column />
+									<p:column
+										footerText="Total: R$#{rmMB.taxaAdministrativa()}" />
+									<p:column />
+									<p:column />
+									<p:column />
+									<p:column />
+									<p:column />
+									<p:column />
+									<p:column />
+									<p:column />
+									<p:column />
+									<p:column />
+									<p:column />
+									<p:column />
+								</p:row>
+							</p:columnGroup>
+						</p:dataTable>
+
+						<p:dialog widgetVar="dlgStatus" id="dlgStatus" header="Status"
+							style="font-size:13px;" resizable="false" modal="true"
+							closable="false">	
+							Esta pesquisa pode levar alguns segundos.<br />
+							Carregando...<br />
+							<br />
+							<p:graphicImage library="imagens" name="loader.gif" />
+							<br />
+						</p:dialog>
+
+						<script type="text/javascript">
+							function start() {
+								PF('statusDialog').show();
+							}
+							function stop() {
+								PF('statusDialog').hide();
+								PF('relatorio').hide();
+							}
+						</script>
+
+					</h:form>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

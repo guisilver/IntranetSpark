@@ -1,0 +1,106 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<h:form id="frmDialogAlterar">
+		<h:panelGrid id="plgDados">
+			<p:dialog id="dlgAlterConta" widgetVar="alterConta" resizable="false" responsive="true"
+				showEffect="slide" hideEffect="slide" closeOnEscape="true"
+				modal="true">
+				<f:facet name="header">
+					<h:outputLabel value="Alterar Conta" style="font-size:14px;" />
+				</f:facet>
+
+				<h:panelGrid id="plgDados1" columns="2">
+					<p:outputLabel value="Despesa:" />
+					<p:inputText value="#{ccMB.iccBEAN.despesa}" size="50" />
+					<p:outputLabel value="Obs.:" />
+					<p:inputText value="#{ccMB.iccBEAN.obs}" size="50" />
+					<p:outputLabel value="Vencimento:" />
+					<p:inputText value="#{ccMB.iccBEAN.vencimento}" size="3" validatorMessage="Vencimento incorreto!">
+						<f:validateDoubleRange minimum="1" maximum="31" />
+					</p:inputText>
+					<p:outputLabel value="Condominio:" />
+					<p:inputText value="#{ccMB.iccBEAN.condominio}" maxlength="4" onkeypress="validate(event)" size="5" />
+				</h:panelGrid>
+
+				<h:panelGrid id="plgDados2" columns="3">
+					<p:outputLabel value="Conta:" />
+					<p:inputText value="#{ccMB.iccBEAN.tipo}" size="5"
+						style="margin-left:46px;" />
+					<p:commandButton icon="fa fa-search Fs16 white" style="font-size:10px;"
+						oncomplete="PF('planoContas').show()" />
+				</h:panelGrid>
+
+				<hr />
+				<h:panelGrid id="plgMeses">
+
+					<h:panelGrid columns="6">
+						<h:outputLabel value="Jan. R$:" />
+						<p:inputText value="#{ccMB.iccBEAN.mes1}" size="10" />
+
+						<h:outputLabel value="Fev. R$:" />
+						<p:inputText value="#{ccMB.iccBEAN.mes2}" size="10" />
+
+						<h:outputLabel value="Mar. R$:" />
+						<p:inputText value="#{ccMB.iccBEAN.mes3}" size="10" />
+
+						<h:outputLabel value="Abr. R$:" />
+						<p:inputText value="#{ccMB.iccBEAN.mes4}" size="10" />
+
+						<h:outputLabel value="Mai. R$:" />
+						<p:inputText value="#{ccMB.iccBEAN.mes5}" size="10" />
+
+						<h:outputLabel value="Jun. R$:" />
+						<p:inputText value="#{ccMB.iccBEAN.mes6}" size="10" />
+
+						<p:outputLabel value="Jul. R$:" />
+						<p:inputText value="#{ccMB.iccBEAN.mes7}" size="10" />
+
+						<h:outputLabel value="Ago. R$:" />
+						<p:inputText value="#{ccMB.iccBEAN.mes8}" size="10" />
+
+						<h:outputLabel value="Set. R$:" />
+						<p:inputText value="#{ccMB.iccBEAN.mes9}" size="10" />
+
+						<h:outputLabel value="Out. R$:" />
+						<p:inputText value="#{ccMB.iccBEAN.mes10}" size="10" />
+
+						<h:outputLabel value="Nov. R$:" />
+						<p:inputText value="#{ccMB.iccBEAN.mes11}" size="10" />
+
+						<h:outputLabel value="Dez. R$:" />
+						<p:inputText value="#{ccMB.iccBEAN.mes12}" size="10" />
+
+					</h:panelGrid>
+				</h:panelGrid>
+				<hr />
+				<p:commandButton id="saveAlter" value="Salvar"
+					action="#{ccMB.alterarConta()}" onstart="PF('statusDialog').show();"
+					oncomplete="PF('alterConta').hide();PF('statusDialog').hide();"
+					update=":frmLegenda :frmTabelaContas :frmTabelaContas msg" style="float:right;" />
+			</p:dialog>
+			<p:dialog widgetVar="dialogExclui" header="Confirma a exclusão?"
+				resizable="false" modal="true" hideEffect="slide" showEffect="slide"
+				style="font-size:14px;">
+				<h:panelGrid columns="2">
+					<p:commandButton value="Não"
+						oncomplete="PF('dialogExclui').hide();"
+						style="font-size:12px;margin-right:10px;" icon="fa fa-close Fs16 white" />
+					<p:commandButton value="Sim" action="#{ccMB.excluiConta()}" onstart="PF('statusDialog').show();"
+						update=":frmLegenda :frmTabelaContas msg"
+						oncomplete="PF('dialogExclui').hide(); PF('alterConta').hide();PF('statusDialog').hide();"
+						icon="fa fa-check Fs16 white" style="font-size:12px;" />
+				</h:panelGrid>
+			</p:dialog>
+		</h:panelGrid>
+		<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+					closable="false" resizable="false" showHeader="false">
+					<p:graphicImage library="imagens" name="loader.gif" />
+		</p:dialog>
+	</h:form>
+
+</ui:composition>

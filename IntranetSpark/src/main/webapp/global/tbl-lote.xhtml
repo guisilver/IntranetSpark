@@ -1,0 +1,141 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<style>
+.calendario input {
+	width: 80px !important;
+}
+
+#frmFiltro table td {
+	border: 0px !important;
+}
+
+.tblAcoes tbody>tr>td {
+	border: 0px !important;
+}
+
+.ui-datatable  table tbody td {
+	padding: 4px 10px !important;
+}
+
+.ui-datatable table tbody tr td{
+	font-size:12px!important;
+}
+</style>
+	<div class="Container100 Responsive100">
+		<div class="ContainerIndent">
+			<h:form id="frmFiltro">
+				<p:panelGrid id="gridFiltro" columns="1" style="margin-bottom:20px;">
+					<f:facet name="header">
+						<h:outputText value="Filtros" />
+					</f:facet>
+					<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+						<p:outputLabel for="console" value="Recebido:" />
+						<p:selectOneRadio id="console"
+							value="#{impressaoBureauMB.recebido}">
+							<p:ajax event="change"
+								listener="#{impressaoBureauMB.filtrarListaLotes()}"
+								process="@form"
+								update=":frmTblLote:tblLotes,:frmFiltro:txtNomeArquivo" />
+							<f:selectItem itemLabel="Não" itemValue="N" />
+							<f:selectItem itemLabel="Sim" itemValue="S" />
+							<f:selectItem itemLabel="Todos" itemValue="T" />
+						</p:selectOneRadio>
+					</h:panelGrid>
+					<h:panelGrid columns="3" border="0" id="gridPeriodo">
+						<p:outputLabel value="Período" />
+						<p:calendar value="#{impressaoBureauMB.dataInicio}"
+							id="dataInicio" pattern="dd/MM/yyyy" locale="pt"
+							timeZone="America/Sao_Paulo" styleClass="calendario" />
+						<p:calendar value="#{impressaoBureauMB.dataFim}" id="dataFim"
+							pattern="dd/MM/yyyy" locale="pt" timeZone="America/Sao_Paulo"
+							styleClass="calendario" />
+					</h:panelGrid>
+					<h:panelGrid columns="3" style="margin-bottom:10px" cellpadding="5">
+						<p:outputLabel for="console" value="Arquivo:" />
+						<p:inputText id="txtNomeArquivo"
+							value="#{impressaoBureauMB.nomeArquivo}" />
+						<h:panelGrid columns="2" style="float:right;">
+							<p:commandButton value="Pesquisar"
+								action="#{impressaoBureauMB.pesquisaLoteComNomeArquivo()}"
+								update=":frmTblLote:tblLotes" icon="fa fa-search Fs16 white" />
+						</h:panelGrid>
+					</h:panelGrid>
+				</p:panelGrid>
+			</h:form>
+		</div>
+	</div>
+	<div class="Container100 TexAlCenter">
+		<div class="ContainerIndent">
+			<h:form id="frmTblLote">
+				<p:dataTable id="tblLotes" var="lote"
+					value="#{impressaoBureauMB.listaLotes}" rowKey="#{lote.codigo}"
+					filteredValue="#{impressaoBureauMB.fltrLotes}" rows="20"
+					paginator="true" emptyMessage="Nenhum resultado encontrado!"
+					style="font-size: 13px;">
+					<f:facet name="header">
+						Lotes
+					</f:facet>
+					<p:column headerText="Nome" sortBy="#{lote.nomeLote}"
+						filterBy="#{lote.nomeLote}" width="200">
+						<h:outputText value="#{lote.nomeLote}" />
+					</p:column>
+					<p:column headerText="Nº" sortBy="#{lote.numeroLote}"
+						filterBy="#{lote.numeroLote}" styleClass="col60" width="80">
+						<h:outputText value="#{lote.numeroLote}" />
+					</p:column>
+					<p:column headerText="Serviço" sortBy="#{lote.servico}"
+						filterBy="#{lote.servico}">
+						<h:outputText value="#{lote.servico}" />
+					</p:column>
+					<p:column headerText="Data de Envio" sortBy="#{lote.dataEnviado}"
+						style="text-align:center;" width="120">
+						<h:outputText value="#{lote.dataEnviado}">
+							<f:convertDateTime pattern="dd/MM/yyyy HH:mm" locale="pt"
+								timeZone="America/Sao_Paulo" />
+						</h:outputText>
+					</p:column>
+					<p:column headerText="Todos Recebidos" style="text-align:center;"
+						width="70">
+						<h:outputText value="#{lote.conferido ? 'Sim' : 'Não'}"
+							style="color:#{lote.conferido ? 'green' : 'red'}" />
+					</p:column>
+
+					<p:column headerText="Ações" width="90">
+						<h:panelGrid styleClass="tblAcoes" border="0"
+							style="border:0px white;">
+							<p:column>
+								<p:commandButton icon="fa fa-search Fs16 white"
+									action="#{impressaoBureauMB.showDlgArquivos(lote.codigo)}"
+									update=":frmArquivos,:frmEmissor" styleClass="btnLittle" />
+								<p:commandButton icon="fa fa-trash Fs16 white"
+									onclick="PF('dlgExclusao').show();"
+									style="margin-left:5px!important;"
+									rendered="#{SessaoMB.igp.sysAdmin}" styleClass="btnLittle">
+									<f:setPropertyActionListener
+										target="#{impressaoBureauMB.loteSelecionado}" value="#{lote}" />
+								</p:commandButton>
+							</p:column>
+						</h:panelGrid>
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</div>
+	</div>
+
+	<p:dialog widgetVar="dlgExclusao" modal="true" resizable="false">
+		<h:form>
+			<h:panelGrid columns="2">
+				<p:outputLabel value="Você confirma a exclusão?"
+					style="font-size:14px;" />
+				<p:column />
+				<p:commandButton value="Não" oncomplete="PF('dlgExclusao').hide();"
+					icon="fa fa-close Fs16 white" />
+				<p:commandButton value="Sim" action="#{impressaoBureauMB.excluir()}"
+					update=":frmTblLote:tblLotes" icon="fa fa-check Fs16 white" />
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
+</ui:composition>

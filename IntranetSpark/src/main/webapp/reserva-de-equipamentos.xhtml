@@ -1,0 +1,71 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<style>
+.fc-day-grid-container .fc-scroller {
+	overflow: hidden !important;
+}
+
+#schedule_container>div.fc-view-container>div>table>tbody>tr>td>div {
+	overflow: hidden !important;
+	height: auto !important;
+}
+
+.fc-event-container {
+	cursor: pointer;
+}
+
+.fc-view-container .fc-event {
+	height: 20px !important;
+}
+
+.fc-content {
+	padding: 4px !important;
+}
+
+.P {
+	background: grey !important;
+	border: grey !important;
+	margin-bottom: 6px !important;
+}
+
+.E {
+	background: red !important;
+	border: red !important;
+	margin-bottom: 6px !important;
+}
+
+.D {
+	margin-bottom: 6px !important;
+}
+
+@media only screen and (min-width: 768px) {
+	.calendario {
+		width: 100%;
+	}
+	.fc-event-container {
+		font-size: 13px;
+	}
+}
+
+@media only screen and (max-width: 767px) {
+	.calendario {
+		width: auto;
+	}
+	.P {
+		margin-bottom: 10px !important;
+	}
+	.E {
+		margin-bottom: 10px !important;
+	}
+	.D {
+		margin-bottom: 10px !important;
+	}
+}
+</style>
+		<ui:include src="reserva-de-equipamentos/calendario-reservas.xhtml" />
+	</ui:define>
+</ui:composition>

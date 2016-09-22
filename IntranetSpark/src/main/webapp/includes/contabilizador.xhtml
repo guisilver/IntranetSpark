@@ -1,0 +1,84 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$(".divContabilizadorContent").css("display", "none");
+				$(".divContabilizadorHeader").click(function() {
+					$('.divContabilizadorContent').slideToggle(500);
+				});
+			});
+		</script>
+		<style>
+.divContabilizador {
+	bottom: 0;
+	right: 0;
+	position: fixed;
+	background: white;
+	border-left: 2px solid #CA220A;
+	border-top-left-radius: 3px;
+}
+
+.divContabilizadorHeader {
+	width: 400px;
+	height: 30px;
+	line-height: 30px;
+	background: #CA220A;
+	cursor: pointer;
+}
+
+.lblHC {
+	color: white;
+	font-weight: bold !important;
+	margin-left: 5px;
+}
+
+.divContabilizadorContent {
+	width: 400px;
+	background: white;
+}
+</style>
+		<div class="divContabilizador">
+			<div class="divContabilizadorHeader">
+				<p:outputLabel value="Contabilizador" styleClass="lblHC" />
+			</div>
+			<div class="divContabilizadorContent">
+				<h:form id="frmCont">
+					<p:messages autoUpdate="true" />
+					<p:panelGrid columns="2">
+						<p:outputLabel value="Condomínio: " />
+						<p:selectOneMenu id="selectCondominio" filter="true"
+							filterMatchMode="contains" required="true"
+							requiredMessage="Selecione um condomínio!"
+							value="#{ctMB.condominio}"
+							converter="omnifaces.SelectItemsConverter" style="width:250px;">
+							<f:selectItem itemLabel="Nenhum" noSelectionOption="true" />
+							<f:selectItems var="condominio"
+								value="#{SessaoMB.listaCondominios}"
+								itemLabel="#{condominio.cndCodNome}" itemValue="#{condominio}" />
+						</p:selectOneMenu>
+
+						<p:outputLabel value="Minutos" />
+						<p:inputText maxlength="3" required="true"
+							requiredMessage="Insira a quantidade de minutos gastos!"
+							value="#{ctMB.contabilizador.minutos}" style="width:250px;" />
+
+						<p:outputLabel value="Obs:" />
+						<p:inputTextarea maxlength="300"
+							value="#{ctMB.contabilizador.obs}"
+							style="width:250px;overflow-y:scroll;height:100px;" />
+
+					</p:panelGrid>
+					<p:commandButton value="Salvar" icon="fa fa-check Fs16 white"
+						actionListener="#{ctMB.salvarNovoContabilizador()}" update="@form"
+						style="float:right;margin-top:10px;" />
+				</h:form>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Taxa-Bancaria" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="b963a247-6df6-4092-8d51-8fc924c55186">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="dataInicio" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="dataFim" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select condominio, bloco, data, conta, sinal, valor, historico from sigadm.dbo.cndespes where data between $P{dataInicio} and $P{dataFim} and conta = 26864 order by condominio]]>
+	</queryString>
+	<field name="condominio" class="java.lang.Short"/>
+	<field name="bloco" class="java.lang.String"/>
+	<field name="data" class="java.sql.Timestamp"/>
+	<field name="conta" class="java.lang.Integer"/>
+	<field name="sinal" class="java.lang.String"/>
+	<field name="valor" class="java.math.BigDecimal"/>
+	<field name="historico" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="36" uuid="8acbb128-6724-4ac6-8c91-8dd1770355d2">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[OMA - Relatório Mensal]]></text>
+			</staticText>
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement x="0" y="0" width="100" height="79" uuid="b9f7dd80-2aa2-411b-9985-a79b7495f81f"/>
+				<imageExpression><![CDATA["http://10.1.1.20:8080//imagens//logo45pb.bmp"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="12" y="58" width="70" height="9" uuid="abfd2c70-e640-4ef1-9cc2-804d229743bf"/>
+				<textElement rotation="None">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[OMA INTRANET]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="32" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="30" backcolor="#1F497D" uuid="35a6a0fe-4b91-484a-b62d-64e74556ab6a">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<graphicElement fill="Solid">
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="4" y="5" width="63" height="20" uuid="0cadd203-26d4-4a6e-873c-f2548e3a2c96"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Condomínio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="71" y="5" width="39" height="20" uuid="29b11b4f-f948-4c78-ac0c-ae1ed8770216"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Bloco]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="114" y="5" width="86" height="20" uuid="df704b65-ee8b-4b05-b6b8-77db5dbd53ee"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="204" y="5" width="50" height="20" uuid="a5269ba4-f659-4d53-aced-80d0b6ab9b75"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Conta]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="258" y="5" width="53" height="20" uuid="987b6c40-d62e-47d7-8343-2143431c8f2e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sinal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="315" y="5" width="100" height="20" uuid="c23c1cb8-72d5-4b86-9fbc-b64cbd125911"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="419" y="5" width="136" height="20" uuid="2ef5edf6-5317-44e8-9e8d-69320ad1ad8f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Histórico]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="22" splitType="Stretch">
+			<textField>
+				<reportElement x="4" y="0" width="63" height="20" uuid="a15b09ac-bc83-48fd-80f3-985f904c4e1d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{condominio}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="114" y="0" width="86" height="20" uuid="591054de-103d-4734-b01a-f48430cf068e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{data}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="204" y="0" width="50" height="20" uuid="61ea6f39-896a-4e2d-9aad-e757f85b9675"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{conta}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="315" y="0" width="100" height="20" uuid="d6b66b54-5b7b-47ab-90ce-bbcf0d220695"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA["R$ " + $F{valor}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="258" y="0" width="53" height="20" uuid="7441e0f1-12b5-4467-9d56-0cd641f0b8a2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sinal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="71" y="0" width="39" height="20" uuid="13ce6727-d44c-48f1-a6d4-b17bf5269576"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{bloco}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="419" y="0" width="136" height="20" uuid="540147fd-9675-4d8c-8364-9b701fb8a5f0"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{historico}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+</jasperReport>

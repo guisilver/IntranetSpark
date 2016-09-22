@@ -1,0 +1,38 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	
+	<p:dialog widgetVar="dlgReprovacao" resizable="false" modal="true" closeOnEscape="true" responsive="true"
+		width="300" header="Reprovar Lançamento" hideEffect="slide" showEffect="slide">
+		<h:form id="frmReprovacao">
+			<h:panelGrid columns="2">
+				<p:outputLabel value="Motivo:" for=":frmReprovacao:motivoReprovacao" />
+				<p:inputTextarea id="motivoReprovacao"
+					value="#{ged.cndpagar.motivoReprovacao}" maxlength="350"
+					required="true"
+					requiredMessage="Insira um motivo para a reprovação deste lançamento!" />
+			</h:panelGrid>
+			<hr />
+			<p:commandButton value="Cancelar" process="@this"
+				onclick="PF('dlgReprovacao').hide();" icon="fa fa-close Fs16 white"
+				style="float:left;" />
+			<p:commandButton value="Reprovar" icon="fa fa-check Fs16"
+				style="float:right;" update=":frmDetalhesLancamento :frmGed :frmFinanceiroGed :frmMsg:msg"
+				onstart="PF('statusDialog1').show();" oncomplete="PF('statusDialog1').hide();"
+				actionListener="#{ged.reprovarLancamento()}"/>
+		</h:form>
+	</p:dialog>
+	<script>
+	$(document).on('keypress',function(event){
+		if (!$(event.target).is(":button")){
+			if(event.keyCode == 13){
+				event.preventDefault();
+			}
+		}
+	});
+	</script>
+</ui:composition>

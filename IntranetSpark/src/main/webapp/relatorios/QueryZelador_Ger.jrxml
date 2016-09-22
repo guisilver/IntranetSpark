@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.2.0.final using JasperReports Library version 6.2.0  -->
+<!-- 2016-08-08T16:34:32 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="QueryEmail" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="66b3ca34-ea03-4893-a420-fb8b5b71b35e">
+	<property name="ireport.zoom" value="2.1435888100000016"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="gerente" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="condominio" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[select f.empresa, f.funcionario, f.nome, f.email, gerente from sigadm.dbo.gsffunc f
+inner join sigadm.dbo.cndcondo c on f.empresa = c.codigo
+where c.codigo between 111 and 4241 and c.data_baixa is null and f.situacao = 1 and f.data_desligto is null and f.funcao = 1 and gerente = $P{gerente}
+order by f.empresa, f.funcionario]]>
+	</queryString>
+	<field name="empresa" class="java.lang.Short"/>
+	<field name="funcionario" class="java.lang.Integer"/>
+	<field name="nome" class="java.lang.String"/>
+	<field name="email" class="java.lang.String"/>
+	<field name="gerente" class="java.lang.Integer"/>
+	<variable name="nomeColumn" class="java.lang.Object"/>
+	<title>
+		<band height="23" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="556" height="23" uuid="2d57df1e-05ee-4885-bcb3-eb134613f6eb"/>
+				<textElement textAlignment="Center">
+					<font fontName="Verdana" size="18"/>
+				</textElement>
+				<text><![CDATA[E-mail Zelador]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="20">
+			<staticText>
+				<reportElement isPrintRepeatedValues="false" x="0" y="0" width="55" height="20" uuid="dc8f7abd-f4bc-42ea-bb94-97187f7d7df6">
+					<printWhenExpression><![CDATA[$V{COLUMN_NUMBER} == 1]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Empresa]]></text>
+			</staticText>
+			<staticText>
+				<reportElement isPrintRepeatedValues="false" x="55" y="0" width="68" height="20" uuid="501dfef6-bbcf-44c8-bc7b-add51dabc436">
+					<printWhenExpression><![CDATA[$V{COLUMN_NUMBER} == 1]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Funcionário]]></text>
+			</staticText>
+			<staticText>
+				<reportElement isPrintRepeatedValues="false" x="123" y="0" width="232" height="20" uuid="439bac0c-d0b1-4c20-9dcf-6506383daaa9">
+					<printWhenExpression><![CDATA[$V{COLUMN_NUMBER} == 1]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nome]]></text>
+			</staticText>
+			<staticText>
+				<reportElement isPrintRepeatedValues="false" x="355" y="0" width="200" height="20" uuid="92b6b495-74f6-417d-8064-a2beac15a4a1">
+					<printWhenExpression><![CDATA[$V{COLUMN_NUMBER} == 1]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[E-mail]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="123" y="0" width="232" height="20" uuid="583a2dd7-634d-4e00-ac5f-5b978f0dbc73"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="355" y="0" width="200" height="20" uuid="9dd70a95-515e-41f0-951a-247aef077244"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{email}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="55" y="0" width="68" height="20" uuid="4c73e895-947d-497c-9198-e2a8b75857db"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{funcionario}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="55" height="20" uuid="d2b60f0b-a08b-44d8-af46-aa7f1cb97ca2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{empresa}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="23"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,143 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+	
+		<h:form id="frmInserirJ"
+			rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysJuridico}">
+			<div class="layout-portlets-box">
+				<div class="Fleft">
+					<h2 class="black Fs24 FontRalewayMedium">Procurações</h2>
+				</div>
+				<div class="Seperator"></div>
+				<div class="Wid100" style="margin-top: 20px; margin-bottom: 20px;">
+
+					<f:metadata>
+						<f:event listener="#{prjMB.pesquisaIdTabela()}"
+							type="preRenderView" />
+					</f:metadata>
+					<p:panel style="margin-top:60px; width:40%;"
+						header="Departamento Jurídico">
+						<br />
+						<p:panelGrid columns="2" cellpadding="5" style="margin-left:80px;">
+							<p:outputLabel value="Gerente:" />
+							<p:outputLabel value="#{prjMB.pjcBEAN.nomeGerente}" />
+							<p:outputLabel value="Condomínio:" />
+							<p:outputLabel value="#{prjMB.pjcBEAN.nomeCondominio}" />
+							<p:outputLabel value="Bloco:" />
+							<p:outputLabel value="#{prjMB.pjcBEAN.bloco}" />
+							<p:outputLabel value="Unidade:" />
+							<p:outputLabel value="#{prjMB.pjcBEAN.unidade}" />
+							<p:outputLabel value="Pedido de Procuração:" />
+							<p:outputLabel value="#{prjMB.pjcBEAN.pedProcuracao}">
+								<f:convertDateTime pattern="dd/MM/yyyy" locale="pt"
+									timeZone="America/Sao_Paulo" />
+							</p:outputLabel>
+						</p:panelGrid>
+						<hr />
+						<h:panelGrid columns="2" cellpadding="5">
+							<p:outputLabel value="Advogada Responsável:" />
+							<p:inputText value="#{prjMB.pjcBEAN.nomeAdvogada}" />
+
+							<p:outputLabel value="Envio de Procuração: " />
+							<p:calendar value="#{prjMB.pjcBEAN.envProcuracao}" type="date"
+								pattern="dd/MM/yyyy" readonlyInput="true" locale="pt"
+								timeZone="America/Sao_Paulo" navigator="true" required="true" />
+
+							<p:outputLabel value="Retorno do Síndico: " />
+							<p:calendar value="#{prjMB.pjcBEAN.retornoSindico}" type="date"
+								pattern="dd/MM/yyyy" readonlyInput="true" locale="pt"
+								timeZone="America/Sao_Paulo" navigator="true" />
+
+							<p:outputLabel value="Status: " />
+							<p:inputText value="#{prjMB.pjcBEAN.status}" />
+
+							<p:outputLabel value="Observação: " />
+							<p:inputText value="#{prjMB.pjcBEAN.observacao}" />
+
+							<p:outputLabel value="Solicitação de CRI: " />
+							<p:calendar value="#{prjMB.pjcBEAN.solicitacaoCRI}" type="date"
+								pattern="dd/MM/yyyy" readonlyInput="true" locale="pt"
+								timeZone="America/Sao_Paulo" navigator="true" />
+
+							<p:outputLabel value="Retirada de CRI: " />
+							<p:calendar value="#{prjMB.pjcBEAN.retiradaCRI}" type="date"
+								pattern="dd/MM/yyyy" readonlyInput="true" locale="pt"
+								timeZone="America/Sao_Paulo" navigator="true" />
+
+							<p:outputLabel value="Compromisso/ Termo de Entrega: " />
+							<p:inputText value="#{prjMB.pjcBEAN.compraVenda}" />
+
+							<p:outputLabel value="Data Iniciais: " />
+							<p:calendar value="#{prjMB.pjcBEAN.dataIniciais}" type="date"
+								pattern="dd/MM/yyyy" readonlyInput="true" locale="pt"
+								timeZone="America/Sao_Paulo" navigator="true" />
+						</h:panelGrid>
+						<hr />
+						<h:panelGrid columns="2">
+							<p:commandButton value="Voltar para Tabela" process="@this"
+								action="/procuracao-juridico?faces-redirect=true;"
+								icon="fa fa-arrow-left Fs16 white" />
+							<p:commandButton icon="fa fa-check Fs16 white" value="Salvar"
+								style="float:right;" action="#{prjMB.alterarTabela()}"
+								update="frmInserirJ" />
+						</h:panelGrid>
+					</p:panel>
+				</div>
+			</div>
+		</h:form>
+
+		<h:form id="frmInserirC"
+			rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysCobranca}">
+			<div class="layout-portlets-box">
+				<div class="Fleft">
+					<h2 class="black Fs24 FontRalewayMedium">Procurações</h2>
+				</div>
+				<div class="Seperator"></div>
+				<div class="Wid100" style="margin-top: 20px; margin-bottom: 20px;">
+
+					<f:metadata>
+						<f:event listener="#{prjMB.pesquisaIdTabela()}"
+							type="preRenderView" />
+					</f:metadata>
+					<p:panel style="margin-top:60px; width:40%;"
+						header="Departamento Cobrança">
+						<br />
+						<p:panelGrid columns="2" cellpadding="5" style="margin-left:80px;">
+							<p:outputLabel value="Gerente:" />
+							<p:inputText value="#{prjMB.pjcBEAN.nomeGerente}" />
+							<p:outputLabel value="Código:" />
+							<p:inputText value="#{prjMB.pjcBEAN.codigoCondominio}" />
+							<p:outputLabel value="Condomínio:" />
+							<p:inputText value="#{prjMB.pjcBEAN.nomeCondominio}" />
+							<p:outputLabel value="Bloco:" />
+							<p:inputText value="#{prjMB.pjcBEAN.bloco}" />
+							<p:outputLabel value="Unidade:" />
+							<p:inputText value="#{prjMB.pjcBEAN.unidade}" />
+							<p:outputLabel value="Parcelas Atrasadas:" />
+							<p:inputText value="#{prjMB.pjcBEAN.parcelasAtrasadas}" />
+							<p:outputLabel value="Pedido de Procuração:" />
+							<p:calendar value="#{prjMB.pjcBEAN.pedProcuracao}">
+								<f:convertDateTime pattern="dd/MM/yyyy" locale="pt"
+									timeZone="America/Sao_Paulo" />
+							</p:calendar>
+						</p:panelGrid>
+						<hr />
+						<h:panelGrid columns="2">
+							<p:commandButton value="Voltar para Tabela" process="@this"
+								action="/procuracao-juridico?faces-redirect=true;"
+								icon="fa fa-arrow-left Fs16 white" />
+							<p:commandButton icon="fa fa-check Fs16 white" value="Salvar"
+								style="float:right;" action="#{prjMB.alterarTabela()}"
+								update="frmInserirC" />
+						</h:panelGrid>
+					</p:panel>
+				</div>
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>

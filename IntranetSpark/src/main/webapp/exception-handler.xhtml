@@ -1,0 +1,30 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<h:form>
+			<div class="layout-portlets-box">
+				<div class="DispInlBlock TexAlLeft">
+					<div class="Fleft">
+						<h2 class="black Fs24 FontRalewayMedium">Exception Tester</h2>
+					</div>
+				</div>
+				<div class="Seperator"></div>
+				<div class="Container100 Responsive100">
+					<p:commandButton
+						actionListener="#{exceptionHandler.throwException()}" ajax="false"
+						value="Throw NullPointerException!" />
+				</div>
+			</div>
+			<p:ajaxExceptionHandler type="java.lang.Exception"
+				update="exceptionDialog" onexception="re();" />
+			<p:remoteCommand name="re"
+				actionListener="#{exceptionHandler.redirectError()}" />
+		</h:form>
+	</ui:define>
+</ui:composition>

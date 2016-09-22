@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.2.0.final using JasperReports Library version 6.2.0  -->
+<!-- 2016-05-20T15:42:22 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Candidato_HistoricoProfissional" pageWidth="483" pageHeight="802" columnWidth="483" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="114e4871-1b54-4744-aee9-48e3277b091c">
+	<property name="ireport.zoom" value="1.771561000000001"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="candidato_codigo" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select * from intra_candidato_historico_profissional where candidato_codigo = $P{candidato_codigo} and imprimir = 1  order by dataAdimissao]]>
+	</queryString>
+	<field name="codigo" class="java.lang.Integer"/>
+	<field name="cargo" class="java.lang.String"/>
+	<field name="condominio" class="java.lang.String"/>
+	<field name="dataAdimissao" class="java.sql.Timestamp"/>
+	<field name="dataDemissao" class="java.sql.Timestamp"/>
+	<field name="endereco" class="java.lang.String"/>
+	<field name="gestor" class="java.lang.String"/>
+	<field name="motivo" class="java.lang.String"/>
+	<field name="salario" class="java.lang.String"/>
+	<field name="telefone" class="java.lang.String"/>
+	<field name="candidato_codigo" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="37" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="0" y="16" width="483" height="16" uuid="6d3408de-1fe5-497b-93c6-0e5b12305d85"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Verdana" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Empresa: " + $F{condominio} + "; Função: " + $F{cargo} + "; Saída: " + $F{motivo}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement x="0" y="0" width="483" height="16" forecolor="#000000" uuid="6432884b-f0df-4f6a-bf7e-90a4ef452261">
+					<printWhenExpression><![CDATA[$F{dataAdimissao} != null]]></printWhenExpression>
+				</reportElement>
+				<textElement rotation="None">
+					<font fontName="Verdana" size="12" isBold="true" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("MMMM/yyyy", new Locale("pt","BR")).format($F{dataAdimissao}) +
+ ($F{dataDemissao} != null ? " à " + new java.text.SimpleDateFormat( "MMMM/yyyy", new Locale("pt","BR")).format($F{dataDemissao}) : "")]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="483" height="16" uuid="09e237e8-64e6-48db-85ce-1e81ef9cb1c0">
+					<printWhenExpression><![CDATA[$F{dataAdimissao} == null]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="Verdana" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Período não informado]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

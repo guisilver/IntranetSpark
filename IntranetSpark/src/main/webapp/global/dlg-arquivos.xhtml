@@ -1,0 +1,106 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<style>
+.ui-cell-editor-output {
+	word-wrap: break-word;
+	width: 140px;
+}
+</style>
+	<p:dialog widgetVar="dlgArquivos" id="dlgArquivos" header="Arquivos"
+		style="font-size:13px;" resizable="false" modal="true"
+		maximizable="true" responsive="true">
+		<h:form id="frmArquivos">
+			<h:panelGrid columns="2">
+				<h:outputText value="Nome Lote:" />
+				<h:outputText value="#{impressaoBureauMB.loteSelecionado.nomeLote}"
+					style="color:red;" />
+				<h:outputText value="Nº Lote:" />
+				<h:outputText
+					value="#{impressaoBureauMB.loteSelecionado.numeroLote}"
+					style="color:red;" />
+				<h:outputText value="Qtd. Arquivos:" />
+				<h:outputText value="#{impressaoBureauMB.pesquisaQtdArquivos()}"
+					style="color:red;" />
+			</h:panelGrid>
+			<p:scrollPanel mode="native"
+				style="width:auto;max-height:350px;height:auto;padding:5px;">
+				<p:dataTable id="tblArquivos" var="arquivo"
+					value="#{impressaoBureauMB.loteSelecionado.arquivos}"
+					style="margin:20px;width:850px;" editable="true" editMode="cell">
+					<p:column headerText="Nome">
+						<h:outputText value="#{arquivo.nomeArquivo}" />
+					</p:column>
+					<p:column headerText="Data" style="text-align:center;">
+						<h:outputText value="#{arquivo.dataConferido}"
+							rendered="#{not empty arquivo.dataConferido}">
+							<f:convertDateTime pattern="dd/MM/yyyy HH:mm" locale="pt"
+								timeZone="America/Sao_Paulo" />
+						</h:outputText>
+					</p:column>
+					<p:column headerText="Situação" style="text-align:center;">
+						<h:outputText value="#{arquivo.situacao}"
+							styleClass="#{arquivo.situacao}" />
+					</p:column>
+					<p:column headerText="Obs"
+						style="width:140px;word-wrap:break-word;">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{arquivo.obs}"
+									rendered="#{not empty arquivo.obs}" />
+								<h:outputText value="(Clique para alterar)"
+									rendered="#{empty arquivo.obs}" style="color:grey;" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputTextarea value="#{arquivo.obs}" style="width:120px;" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column headerText="Recebido" style="text-align:center;">
+						<p:commandButton icon="fa fa-check Fs16 white"
+							actionListener="#{impressaoBureauMB.receberArquivo(arquivo)}"
+							rendered="#{arquivo.situacao != 'Recebido'}"
+							update=":frmArquivos:tblArquivos" styleClass="btnLittle" />
+						<p:commandButton icon="fa fa-close Fs16 white"
+							actionListener="#{impressaoBureauMB.removerDataRecebimento(arquivo)}"
+							rendered="#{arquivo.situacao == 'Recebido'}"
+							update=":frmArquivos:tblArquivos" styleClass="btnLittle" />
+					</p:column>
+					<p:column headerText="Cancelar" style="text-align:center;">
+						<p:commandButton icon="fa fa-ban Fs16 white"
+							actionListener="#{impressaoBureauMB.cancelarArquivo(arquivo)}"
+							rendered="#{arquivo.situacao != 'Cancelado'}"
+							update=":frmArquivos:tblArquivos" styleClass="btnLittle" />
+						<p:commandButton icon="fa fa-close Fs16 white"
+							actionListener="#{impressaoBureauMB.removerCancelarArquivo(arquivo)}"
+							rendered="#{arquivo.situacao == 'Cancelado'}"
+							update=":frmArquivos:tblArquivos" styleClass="btnLittle" />
+					</p:column>
+					<p:column style="text-align:center;"
+						rendered="#{impressaoBureauMB.loteSelecionado.servico != 'HOLERITE'}">
+						<p:commandButton ajax="false"
+							onclick="PrimeFaces.monitorDownload(start, stop);"
+							icon="fa fa-download Fs16 white" styleClass="btnLittle">
+							<f:setPropertyActionListener
+								target="#{impressaoBureauMB.arquivoCodigo}"
+								value="#{arquivo.codigo}" />
+							<p:fileDownload value="#{impressaoBureauMB.download}" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+			</p:scrollPanel>
+			<h:panelGrid style="width:100%;margin-top:20px;">
+				<h:column>
+					<p:commandButton icon="fa fa-close Fs16 white" value="Cancelar"
+						oncomplete="PF('dlgArquivos').hide();" style="float:left;" />
+					<p:commandButton icon="fa fa-check Fs16 white" value="Salvar"
+						actionListener="#{impressaoBureauMB.salvar()}"
+						oncomplete="PF('dlgArquivos').hide();" style="float:right;"
+						update=":frmArquivos, :frmTblLote:tblLotes" />
+				</h:column>
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
+</ui:composition>

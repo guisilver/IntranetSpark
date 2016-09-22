@@ -1,0 +1,26 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	<p:dialog widgetVar="dlgSugestao" modal="true" resizable="false"
+		header="Sugestão" style="max-width:800px;">
+		<h:form id="frmSugestao">
+			<h:panelGrid columns="2">
+				<p:outputLabel value="Cnd:" />
+				<p:outputLabel
+					value="#{quizMB.retornaCodNomeCnd(quizMB.sugestaoSelecionada.condominio)}" />
+				<p:outputLabel value="Gerente:" />
+				<p:outputLabel
+					value="#{quizMB.retornaNomeGerente(quizMB.sugestaoSelecionada.condominio)}" />
+				<p:outputLabel value="Síndico:" />
+				<p:outputLabel value="#{quizMB.sugestaoSelecionada.nomeSindico}" />
+				<p:outputLabel value="Sugestão" style="margin-top:20px;" />
+				<p:outputLabel value="#{quizMB.sugestaoSelecionada.respostaObs}"
+					style="color:red;" />
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
+</ui:composition>

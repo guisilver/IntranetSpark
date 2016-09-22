@@ -1,0 +1,191 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<style>
+.Publicado {
+	color: blue !important;
+}
+
+.tblAcoes td {
+	border: 0px !important;
+}
+
+.tblAcoes tbody td {
+	border: 0px;
+}
+
+.ui-panelgrid tbody tr td {
+	border: 0px !important;
+}
+
+.ui-datatable table tbody td {
+	padding: 5px !important;
+}
+
+.botaoFluxoAta>.ui-button-text {
+	padding: 5px !important;
+}
+</style>
+	<div class="layout-portlets-box">
+		<div class="DispInlBlock TexAlLeft">
+			<div class="Fleft">
+				<h2 class="black Fs24 FontRalewayMedium">Assembleias</h2>
+			</div>
+		</div>
+		<div class="Seperator"></div>
+
+		<div class="Container50 Responsive50">
+			<div class="ContainerIndent">
+				<h:form>
+					<h:panelGrid columns="2">
+						<p:commandButton value="Nova Assembleia"
+							icon="fa fa-plus Fs16 white" ajax="false"
+							rendered="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.igp.assembleiaAdd}"
+							action="assembleias/nova-assembleia?faces-redirect=true;" />
+						<p:commandButton value="Gerar Relatório" ajax="false"
+							icon=" fa fa-file-text-o Fs16 white"
+							action="gerar-relatorio?faces-redirect=true;"
+							rendered="#{SessaoMB.igp.assembleiaConsult or SessaoMB.igp.sysAdmin}" />
+					</h:panelGrid>
+				</h:form>
+			</div>
+		</div>
+
+		<div class="Container100 Responsive100">
+			<div class="ContainerIndent">
+				<h:form id="frmFiltroEmissor">
+					<p:panelGrid id="gridFiltro" columns="1"
+						style="margin-bottom:20px;">
+						<f:facet name="header">
+							<h:outputText value="Filtros" />
+						</f:facet>
+						<h:panelGrid columns="2" border="0" styleClass="tblAcoes"
+							style="border:0px white;">
+							<p:outputLabel value="À partir de:" />
+							<p:column>
+								<p:calendar mask="true" pattern="dd/MM/yyyy" locale="pt"
+									timeZone="America/Sao_Paulo" value="#{assembleiaMB.dataInicio}"
+									navigator="true" yearRange="c-5:c+1" styleClass="calendar">
+									<p:ajax event="dateSelect"
+										listener="#{assembleiaMB.listarAssembleiasGerente()}"
+										update=":frmAssembleia" />
+									<p:ajax event="change"
+										listener="#{assembleiaMB.listarAssembleiasGerente()}"
+										update=":frmAssembleia" />
+								</p:calendar>
+							</p:column>
+						</h:panelGrid>
+					</p:panelGrid>
+				</h:form>
+			</div>
+		</div>
+
+		<div class="Container100 TexAlCenter">
+			<div class="ContainerIndent">
+				<h:form id="frmAssembleia">
+					<p:messages />
+					<p:dataTable id="singleDT" var="assembleia"
+						value="#{assembleiaMB.listaAssembleias}"
+						rowKey="#{assembleia.codigo}" rows="20" paginator="true"
+						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15,20,30,50"
+						emptyMessage="Nenhum resultado encontrado!" reflow="true">
+						<p:ajax event="rowSelect" oncomplete="PF('carDialog').show()" />
+						<p:column headerText="Condomínio" footerText="Condomínio"
+							filterBy="#{assembleia.condominio.cndCodNome}"
+							sortBy="#{assembleia.condominio.cndCodNome}"
+							filterMatchMode="contains">
+							<h:outputText value="#{assembleia.condominio.cndCodNome}" />
+						</p:column>
+						<p:column headerText="Gerente" footerText="Gerente"
+							sortBy="#{assembleia.gerente.nome}"
+							filterBy="#{assembleia.gerente.nome}" filterMatchMode="contains"
+							width="180">
+							<h:outputText value="#{assembleia.gerente.nome}" />
+						</p:column>
+						<p:column headerText="Tipo" footerText="Tipo"
+							sortBy="#{assembleia.tipo}" width="80">
+							<h:outputText value="#{assembleia.tipo}" />
+						</p:column>
+						<p:column headerText="Data" footerText="Data da Assembleia"
+							sortBy="#{assembleia.dataAssembleia}" width="80">
+							<h:outputText value="#{assembleia.dataAssembleia}">
+								<f:convertDateTime locale="pt" pattern="dd/MM/yyyy"
+									timeZone="America/Sao_Paulo" />
+							</h:outputText>
+						</p:column>
+						<p:column headerText="Convocação" footerText="Convocação"
+							width="80">
+							<h:outputText
+								value="#{assembleiaMB.verificaStatusConvocacao(assembleia)}"
+								style="color:red;"
+								styleClass="#{assembleiaMB.verificaStatusConvocacao(assembleia)}" />
+						</p:column>
+						<p:column footerText="Ata" width="120">
+							<f:facet name="header">Ata <p:commandButton value="?"
+									title="Entenda o Fluxo" onclick="PF('dlgFluxoAta').show();"
+									style="font-size:12px;cursor:pointer;margin-left:10px;"
+									styleClass="botaoFluxoAta" />
+							</f:facet>
+							<h:outputText
+								value="#{assembleiaMB.verificaStatusAta(assembleia)}"
+								style="color:red;"
+								styleClass="#{assembleiaMB.verificaStatusAta(assembleia)}" />
+						</p:column>
+						<p:column width="130">
+							<h:panelGrid columns="3"
+								style="width:auto;margin-left:auto;margin-right:auto;"
+								styleClass="tblAcoes">
+								<p:commandButton icon="fa fa-pencil Fs16 white"
+									action="#{assembleiaMB.abreAlteraAssembleia()}" ajax="false"
+									title="Alterar"
+									rendered="#{SessaoMB.igp.assembleiaChange or SessaoMB.igp.sysAdmin}"
+									styleClass="btnLittle">
+									<f:setPropertyActionListener value="#{assembleia}"
+										target="#{assembleiaMB.assembleiaSelecionada}" />
+								</p:commandButton>
+								<p:commandButton icon="fa fa-file-text-o white"
+									oncomplete="PF('dlgTipoEdital').show();" title="Abrir Edital"
+									rendered="#{SessaoMB.igp.assembleiaConsult or SessaoMB.igp.sysAdmin}"
+									styleClass="btnLittle">
+									<f:setPropertyActionListener value="#{assembleia}"
+										target="#{assembleiaMB.assembleia}" />
+								</p:commandButton>
+								<p:commandButton
+									actionListener="#{assembleiaMB.excluirAssembleiaTbl(assembleia)}"
+									icon="fa fa-trash Fs16 white" update="@form" title="Excluir"
+									rendered="#{SessaoMB.igp.sysAdmin}" styleClass="btnLittle">
+									<p:confirm header="Confirmação"
+										message="Você confirma a exclusão?"
+										icon="fa fa-alert Fs16 white" />
+								</p:commandButton>
+							</h:panelGrid>
+						</p:column>
+					</p:dataTable>
+					<p:confirmDialog global="true" widgetVar="dlgExclui"
+						showEffect="fade" hideEffect="fade">
+						<p:commandButton value="Não" type="button"
+							styleClass="ui-confirmdialog-no"
+							icon="ui-icon-close fa fa-close Fs14 white" />
+						<p:commandButton value="Sim" type="button" ajax="false"
+							styleClass="ui-confirmdialog-yes"
+							icon="ui-icon-check fa fa-check Fs14 white" />
+					</p:confirmDialog>
+					<ui:include src="dlg-tipo-edital.xhtml" />
+				</h:form>
+			</div>
+		</div>
+	</div>
+	<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+	<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+					Aguarde...<br />
+		<br />
+		<p:graphicImage library="imagens" name="loader.gif" />
+	</p:dialog>
+	<p:dialog widgetVar="dlgFluxoAta" modal="true" resizable="false" responsive="true">
+		<p:graphicImage library="imagens" name="fluxoata.jpg"
+			style="height:150px;" />
+	</p:dialog>
+</ui:composition>

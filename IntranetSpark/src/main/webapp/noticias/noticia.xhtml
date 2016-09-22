@@ -1,0 +1,55 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<h:outputStylesheet library="css" name="layout.css" />
+		<style>
+.titulo {
+	font-size: 28px;
+}
+
+img {
+	max-width: 100% !important;
+}
+</style>
+		<f:metadata>
+			<f:event listener="#{noticiasMktMB.pesquisaNoticiaSelecionada()}"
+				type="preRenderView" />
+		</f:metadata>
+		<div class="layout-portlets-box">
+			<div class="Container100 Responsive100">
+				<div class="ContainerIndent">
+					<div style="display: block;" class="Container100 Responsive100">
+						<p:outputLabel value="#{noticiasMktMB.noticiaSelecionada.titulo}"
+							styleClass="titulo" />
+						<br /> <br />
+						<h:outputText
+							value="#{noticiasMktMB.noticiaSelecionada.dataInserido}"
+							style="color:grey;">
+							<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
+								timeZone="America/Sao_Paulo" locale="pt" />
+						</h:outputText>
+						<br /> <br />
+						<p:outputLabel value="#{noticiasMktMB.noticiaSelecionada.html}"
+							escape="false" />
+					</div>
+				</div>
+			</div>
+			<h:form>
+				<p:commandButton value="Voltar" onclick="goBack();"
+					icon="fa fa-arrow-left Fs16 white" process="@this"
+					style="margin-top:20px;float:left;" />
+			</h:form>
+		</div>
+		<script>
+		function goBack() {
+		    window.history.back();
+		}
+		</script>
+	</ui:define>
+</ui:composition>

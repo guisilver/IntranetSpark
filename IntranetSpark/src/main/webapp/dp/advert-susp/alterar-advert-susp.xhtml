@@ -1,0 +1,97 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:p="http://primefaces.org/ui">
+	<style>
+.msg {
+	color: #FFF;
+	font-size: 20px;
+}
+
+#frmFiltro table td {
+	border: 0px !important;
+}
+
+.ui-selectoneradio tbody tr td {
+	border: 0px !important;
+}
+
+.gridFiltro tbody tr td {
+	border: 0px !important;
+}
+</style>
+	<h:form id="frmAltAdvertSusp">
+		<p:dialog id="dlgAlterarAdvertSusp" widgetVar="dlgAlterarAdvertSusp"
+			resizable="false" modal="true" responsive="true" closeOnEscape="true"
+			header="Alterar Advertência/ Suspensão">
+			<p:growl autoUpdate="true" id="growl" widgetVar="growl" />
+			<p:messages id="msg" showDetail="true" autoUpdate="false"
+				closable="true" escape="true" showSummary="false" styleClass="msg" />
+			<h:panelGrid id="plgCondominio" columns="2">
+				<p:outputLabel for="console" value="Empresa:" />
+				<p:selectOneMenu id="console" value="#{asMB.asBEAN.empresa}"
+					filter="true" filterMatchMode="contains"
+					style="width:200px;margin-left:22px;">
+					<f:selectItem itemLabel="Selecione" itemValue="0" />
+					<f:selectItems value="#{SessaoMB.listaCondominios}" var="item"
+						itemLabel="#{item.cndCodNome}" itemValue="#{item.codigo}" />
+					<p:ajax
+						update="frmNovaAdvertSusp:funcionario, frmNovaAdvertSusp:setor" />
+				</p:selectOneMenu>
+			</h:panelGrid>
+			<h:panelGrid columns="2" id="plgFuncionario">
+				<p:outputLabel value="Funcionário:" />
+				<p:selectOneMenu id="funcionario" value="#{asMB.asBEAN.funcionario}"
+					filter="true" filterMatchMode="contains" style="width:200px;">
+					<f:selectItem itemLabel="Selecione" itemValue="0" />
+					<f:selectItems value="#{asMB.listaFuncionario}" var="item"
+						itemValue="#{item.funcionario}" itemLabel="#{item.nome}" />
+					<p:ajax listener="#{asMB.nomeFuncao()}"
+						update="frmNovaAdvertSusp:funcao" />
+				</p:selectOneMenu>
+			</h:panelGrid>
+			<h:panelGrid columns="2" id="funcao">
+				<p:outputLabel value="Função:" />
+				<p:inputText value="#{asMB.asBEAN.funcao}"
+					style="width:200px;margin-left:30px;" />
+			</h:panelGrid>
+			<h:panelGrid columns="1">
+				<p:selectOneRadio value="#{asMB.asBEAN.tipo}"
+					style="margin-left:80px;" disabled="true">
+					<f:selectItem itemLabel="Advertência" itemValue="false" />
+					<f:selectItem itemLabel="Suspensão" itemValue="true" />
+					<p:ajax update="frmNovaAdvertSusp:dados" />
+				</p:selectOneRadio>
+			</h:panelGrid>
+						<h:panelGrid columns="2" id="setor">
+				<p:outputLabel value="Setor:" rendered="#{asMB.asBEAN.empresa == 1}" />
+				<p:inputText value="#{asMB.asBEAN.setor}"
+					rendered="#{asMB.asBEAN.empresa == 1}" style="width:200px;margin-left:50px;"/>
+			</h:panelGrid>
+			<h:panelGrid columns="2" id="dados">
+				<p:outputLabel value="Dias de Suspensão:"
+					rendered="#{asMB.asBEAN.tipo eq true}" />
+				<p:inputText value="#{asMB.asBEAN.diaSusp}"
+					rendered="#{asMB.asBEAN.tipo eq true}" style="width:140px;" />
+				<p:outputLabel value="Retorno Suspensão:"
+					rendered="#{asMB.asBEAN.tipo eq true}" />
+				<p:calendar value="#{asMB.asBEAN.retSusp}" pattern="dd/MM/yyyy"
+					locale="pt" timeZone="America/Sao_Paulo" styleClass="calendar"
+					yearRange="c-3:c+5" rendered="#{asMB.asBEAN.tipo eq true}" />
+			</h:panelGrid>
+			<h:panelGrid columns="2">
+				<p:outputLabel value="Motivo:" />
+				<p:inputTextarea value="#{asMB.asBEAN.motSusp}" maxlength="200"
+					style="width:200px; margin-left:37px;" />
+			</h:panelGrid>
+			<hr />
+			<h:panelGrid>
+				<p:commandButton value="Salvar" icon="fa fa-check Fs16 white"
+					oncomplete="PF('dlgNovaAdvertSusp').hide()"
+					update=":frmAdvertSusp:tblAdvertSusp" action="#{asMB.salvar()}" />
+			</h:panelGrid>
+		</p:dialog>
+	</h:form>
+</ui:composition>

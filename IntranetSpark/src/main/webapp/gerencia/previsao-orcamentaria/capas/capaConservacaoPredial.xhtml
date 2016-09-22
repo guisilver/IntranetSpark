@@ -1,0 +1,37 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<h:panelGrid id="plgPrevisao4" columns="4">
+
+		<h:selectBooleanCheckbox id="sbcConta41"
+			value="#{projetarMB.ipoBEAN.conta41}">
+			<p:ajax update="itConta41 " />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta41" value="#{projetarMB.ipoBEAN.nomeConta41}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor41" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta41" value="#{projetarMB.ipoBEAN.valorConta41}"
+			disabled="#{projetarMB.ipoBEAN.conta41 eq true ? false : true}" 
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00"/>
+
+		<h:selectBooleanCheckbox id="sbcConta42"
+			value="#{projetarMB.ipoBEAN.conta42}">
+			<p:ajax update="itConta42 " />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta42" value="#{projetarMB.ipoBEAN.nomeConta42}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor42" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta42" value="#{projetarMB.ipoBEAN.valorConta42}"
+			disabled="#{projetarMB.ipoBEAN.conta42 eq true ? false : true}" 
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00"/>
+
+	</h:panelGrid>
+</ui:composition>

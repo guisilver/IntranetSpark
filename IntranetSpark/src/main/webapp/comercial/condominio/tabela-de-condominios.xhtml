@@ -1,0 +1,275 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<style>
+.msg {
+	color: #FFF;
+	font-size: 20px;
+}
+
+#frmFiltro table td {
+	border: 0px !important;
+}
+
+.ui-selectoneradio tbody tr td {
+	border: 0px !important;
+}
+
+.gridFiltro tbody tr td {
+	border: 0px !important;
+}
+</style>
+
+		<div class="layout-portlets-box"
+			style="padding-top: 0px !important; padding-bottom: 0px !important;">
+			<p:breadCrumb>
+				<p:menuitem value="Home" url="/dashboard.xhtml" />
+				<p:menuitem value="Atendimento"
+					url="/comercial/atendimento/tabela-de-atendimento " />
+				<p:menuitem value="Construtora"
+					url="/comercial/construtora/tabela-de-construtoras" />
+				<p:menuitem value="Imagens"
+					url="/comercial/condominio/tabela-de-imagens" />
+			</p:breadCrumb>
+		</div>
+
+		<div class="layout-portlets-box">
+			<div class="DispInlBlock TexAlLeft">
+				<div class="Fleft">
+					<h2 class="black Fs24 FontRalewayMedium">Condomínios</h2>
+				</div>
+			</div>
+			<div class="Seperator"></div>
+			<div class="Container100 Responsive100">
+				<div class="ContainerIndent">
+					<h:form id="frmCondominio"
+						rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.verificaDepto('Comercial')}">
+						<p:panelGrid columns="1" styleClass="gridFiltro">
+							<f:facet name="header">
+								<h:outputText value="Filtros" />
+							</f:facet>
+							<h:panelGrid columns="2">
+								<p:outputLabel for="pesquisarPor" value="Pesquisar Por:" />
+								<p:selectOneRadio id="pesquisarPor" value="#{cmcoMB.filtro}">
+									<p:ajax update="@form" />
+									<f:selectItem itemLabel="Todos" itemValue="Todos" />
+									<f:selectItem itemLabel="Tipo" itemValue="Tipo" />
+									<f:selectItem itemLabel="Região" itemValue="Região" />
+								</p:selectOneRadio>
+
+								<p:outputLabel for="selectTipo" value="Tipo:"
+									rendered="#{cmcoMB.filtro eq 'Tipo'}" />
+								<p:selectOneMenu id="selectTipo" value="#{cmcoMB.tipo}"
+									rendered="#{cmcoMB.filtro eq 'Tipo'}" filter="true"
+									filterMatchMode="contains"
+									converter="omnifaces.SelectItemsConverter"
+									style="width:50%; margin-top:10px;">
+									<f:selectItem itemLabel="Selecione" itemValue="" />
+									<f:selectItem itemLabel="Residencial" itemValue="Residencial" />
+									<f:selectItem itemLabel="Comercial" itemValue="Comercial" />
+									<f:selectItem itemLabel="Misto" itemValue="Misto" />
+								</p:selectOneMenu>
+
+								<p:outputLabel for="selectRegiao" value="Região:"
+									rendered="#{cmcoMB.filtro eq 'Região'}" />
+								<p:selectOneMenu id="selectRegiao" value="#{cmcoMB.regiao}"
+									rendered="#{cmcoMB.filtro eq 'Região'}" filter="true"
+									filterMatchMode="contains"
+									converter="omnifaces.SelectItemsConverter"
+									style="width:50%; margin-top:10px;">
+									<f:selectItem itemLabel="Selecione" itemValue="" />
+									<f:selectItem itemLabel="Centro" itemValue="Centro" />
+									<f:selectItem itemLabel="Norte" itemValue="Norte" />
+									<f:selectItem itemLabel="Sul" itemValue="Sul" />
+									<f:selectItem itemLabel="Leste" itemValue="Leste" />
+									<f:selectItem itemLabel="Oeste" itemValue="Oeste" />
+									<f:selectItem itemLabel="Osasco e Região"
+										itemValue="Osasco e Região" />
+									<f:selectItem itemLabel="Guarulhos e Região"
+										itemValue="Guarulhos e Região" />
+									<f:selectItem itemLabel="Mogi das Cruzes e Região"
+										itemValue="Mogi das Cruzes e Região" />
+									<f:selectItem itemLabel="Santo André e Região"
+										itemValue="Santo André e Região" />
+								</p:selectOneMenu>
+
+								<p:outputLabel for="selectCep" value="Cep:"
+									rendered="#{cmcoMB.filtro eq 'Cep1'}" />
+								<p:inputMask id="selectCep" value="#{cmcoMB.cep1}"
+									rendered="#{cmcoMB.filtro eq 'Cep1'}" mask="09999-999"
+									style="margin-top:10px;" />
+							</h:panelGrid>
+							<h:panelGrid width="100%" style="text-align:right">
+								<p:commandButton value="Filtrar"
+									action="#{cmcoMB.pesquisarCondominio()}"
+									update=":frmCondominio:tblCondominio"
+									onstart="PF('dlgStatus').show();"
+									oncomplete="PF('dlgStatus').hide();"
+									icon="fa fa-search Fs16 white" />
+							</h:panelGrid>
+						</p:panelGrid>
+						<br />
+						<p:panelGrid>
+							<p:commandButton value="Novo Condomínio"
+								icon="fa fa-plus Fs16 white" onclick="cadastro();" />
+						</p:panelGrid>
+						<br />
+						<p:dataTable id="tblCondominio" var="cond"
+							value="#{cmcoMB.listaCondominios}" rows="50" paginator="true"
+							rowsPerPageTemplate="50,100,200,500" rowKey="#{cond}"
+							style="font-size:12px; text-align:center;heigth:600px;"
+							reflow="true">
+							<f:facet name="header">Condomínios</f:facet>
+							<f:facet name="footer">
+								<p:outputLabel value="Exportar:" />
+								<h:commandLink>
+									<p:graphicImage library="imagens" name="excel.png" />
+									<pe:exporter type="xlsx" target=":frmCondominio:tblCondominio"
+										fileName="condominio" pageOnly="false" />
+								</h:commandLink>
+							</f:facet>
+							<p:column rendered="false">
+								<p:outputLabel value="#{cond.id}" />
+							</p:column>
+							<p:column headerText="Código">
+								<h:outputText value="#{cond.id}" />
+							</p:column>
+							<p:column headerText="Nome" width="170">
+								<h:outputText value="#{cond.nome}" />
+							</p:column>
+							<p:column headerText="Data Cadastro">
+								<h:outputText value="#{cond.dataCadastro}">
+									<f:convertDateTime locale="pt" pattern="dd/MM/yyyy"
+										timeZone="America/Sao_Paulo" />
+								</h:outputText>
+							</p:column>
+							<p:column headerText="Endereço">
+								<h:outputText value="#{cond.endereco}" />
+							</p:column>
+							<p:column headerText="Bairro">
+								<h:outputText value="#{cond.bairro}" />
+							</p:column>
+							<p:column headerText="Cidade">
+								<h:outputText value="#{cond.cidade}" />
+							</p:column>
+							<p:column headerText="Estado">
+								<h:outputText value="ACRE" rendered="#{cond.estado == 1}" />
+								<h:outputText value="ALAGOAS" rendered="#{cond.estado == 2}" />
+								<h:outputText value="AMAPÁ" rendered="#{cond.estado == 4}" />
+								<h:outputText value="AMAZONAS" rendered="#{cond.estado == 3}" />
+								<h:outputText value="BAHIA" rendered="#{cond.estado == 5}" />
+								<h:outputText value="CEARÁ" rendered="#{cond.estado == 6}" />
+								<h:outputText value="DISTRITO FEDERAL"
+									rendered="#{cond.estado == 7}" />
+								<h:outputText value="ESPÍRITO SANTO"
+									rendered="#{cond.estado == 8}" />
+								<h:outputText value="GOIÁS" rendered="#{cond.estado == 9}" />
+								<h:outputText value="MARANHÃO" rendered="#{cond.estado == 10}" />
+								<h:outputText value="MATO GROSSO"
+									rendered="#{cond.estado == 13}" />
+								<h:outputText value="MATO GROSSO DO SUL"
+									rendered="#{cond.estado == 12}" />
+								<h:outputText value="MINAS GERAIS"
+									rendered="#{cond.estado == 11}" />
+								<h:outputText value="PARÁ" rendered="#{cond.estado == 14}" />
+								<h:outputText value="PARAÍBA" rendered="#{cond.estado == 15}" />
+								<h:outputText value="PARANÁ" rendered="#{cond.estado == 18}" />
+								<h:outputText value="PERNAMBUCO" rendered="#{cond.estado == 16}" />
+								<h:outputText value="PIAUÍ" rendered="#{cond.estado == 17}" />
+								<h:outputText value="RIO DE JANEIRO"
+									rendered="#{cond.estado == 19}" />
+								<h:outputText value="RIO GRANDE DO NORTE"
+									rendered="#{cond.estado == 20}" />
+								<h:outputText value="RIO GRANDE DO SUL"
+									rendered="#{cond.estado == 23}" />
+								<h:outputText value="RONDÔNIA" rendered="#{cond.estado == 21}" />
+								<h:outputText value="RORAIMA" rendered="#{cond.estado == 22}" />
+								<h:outputText value="SANTA CATARINA"
+									rendered="#{cond.estado == 24}" />
+								<h:outputText value="SÃO PAULO" rendered="#{cond.estado == 26}" />
+								<h:outputText value="SERGIPE" rendered="#{cond.estado == 25}" />
+								<h:outputText value="TOCANTINS" rendered="#{cond.estado == 27}" />
+							</p:column>
+							<p:column headerText="Cep">
+								<h:outputText value="#{cond.cep}" />
+							</p:column>
+							<p:column headerText="Região">
+								<h:outputText value="#{cond.regiao}" />
+							</p:column>
+							<p:column headerText="Tipo">
+								<h:outputText value="#{cond.tipo}" />
+							</p:column>
+							<p:column exportable="false" width="150">
+								<p:commandButton title="Alterar"
+									action="#{cmcoMB.abreAlteraCondominio()}"
+									update=":frmAlterarCondominio" ajax="false"
+									styleClass="btnLittle" icon="fa fa-pencil Fs16 white"
+									style="margin-left: 5px !important">
+									<f:setPropertyActionListener value="#{cond}"
+										target="#{cmcoMB.condominioSelecionado}" />
+								</p:commandButton>
+								<p:commandButton title="Consultar"
+									action="#{cmcoMB.abreConsultaCondominio()}"
+									update=":frmConsultaCondominio" ajax="false"
+									styleClass="btnLittle" icon="fa fa-search Fs16 white"
+									style="margin-left: 5px !important">
+									<f:setPropertyActionListener value="#{cond}"
+										target="#{cmcoMB.condominioSelecionado}" />
+								</p:commandButton>
+								<p:commandButton title="Imprimir"
+									action="#{cmcoMB.gerarProposta()}"
+									update="frmCondominio:tblCondominio" ajax="false"
+									process="tblCondominio" styleClass="btnLittle"
+									icon="fa fa-print Fs16 white"
+									style="margin-left: 5px !important">
+									<f:setPropertyActionListener value="#{cond}"
+										target="#{cmcoMB.condominioSelecionado}" />
+								</p:commandButton>
+								<p:commandButton title="Atendimento"
+									oncomplete="PF('dlgConsultaAtendimentoC').show();"
+									update=":frmConsultaAtendimentoC:tblAtendimentoC"
+									styleClass="btnLittle" icon="fa fa-table Fs16 white"
+									style="margin-left: 5px !important">
+									<f:setPropertyActionListener value="#{cond}"
+										target="#{cmcaMB.condominioSelecionado}" />
+								</p:commandButton>
+							</p:column>
+						</p:dataTable>
+
+						<p:dialog widgetVar="dlgStatus" id="dlgStatus" header="Status"
+							style="font-size:13px;" resizable="false" modal="true"
+							closable="false">	
+							Esta página pode levar alguns segundos.<br />
+							Carregando...<br />
+							<br />
+							<p:graphicImage library="imagens" name="loader.gif" />
+							<br />
+						</p:dialog>
+						<script type="text/javascript">
+							function start() {
+								PF('statusDialog').show();
+							}
+							function stop() {
+								PF('statusDialog').hide();
+								PF('relatorio').hide();
+							}
+							function cadastro(){
+								if(screen.width >= 800){
+									window.location.href='/Intranet/comercial/condominio/cadastro-de-condominios.xhtml';
+								} else {
+									window.location.href='/Intranet/comercial/condominio/m-cadastro-de-condominios.xhtml';
+								}
+							}						
+						</script>
+					</h:form>
+				</div>
+			</div>
+		</div>
+		<ui:include src="/comercial/condominio/consulta-de-atendimento.xhtml" />
+	</ui:define>
+</ui:composition>

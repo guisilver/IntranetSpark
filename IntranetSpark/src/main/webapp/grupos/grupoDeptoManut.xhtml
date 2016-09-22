@@ -1,0 +1,27 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<style>
+#frmGrupoDepto\:tblDeptoManut {
+	border: 0px !important;
+}
+</style>
+
+	<p:dataTable id="tblDeptoManut" var="p" value="#{grupo.listaDepto}"
+		selection="#{grupo.deptoTblBean}" selectionMode="single"
+		rowKey="#{p.nome}" filteredValue="#{grupo.filtroDepto}" rows="5"
+		paginator="true" rowsPerPageTemplate="10,15,30"
+		emptyMessage="Nenhum grupo encontrado...">
+		<f:facet name="header">
+				Grupos já criados
+			</f:facet>
+		<p:ajax event="rowSelect" oncomplete="PF('excluirDepto').show();" update="frmGrupoDepto:pnlExcluirDepto"/>
+		<p:column filterBy="#{p.nome}">
+				#{p.nome}
+			</p:column>
+	</p:dataTable>
+
+</ui:composition>

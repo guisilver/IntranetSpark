@@ -1,0 +1,61 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+<style>
+	.fontSize{
+		font-size: 14px !important;
+	}
+	.fontSizeColor{
+		font-size: 14px !important;
+		color: red !important;
+	}
+</style>
+	<h:form id="frmValidalancamento">
+		<p:dialog widgetVar="dlgValLancto" header="Confirmação de Lançamento" resizable="false" modal="true">
+			<p:outputLabel value="Aviso!" styleClass="fontSizeColor"/>
+			<br/>
+			<p:outputLabel value="O lançamento que você está fazendo " styleClass="fontSizeColor"/>
+			<br/>
+			<p:outputLabel value="pode estar duplicado com o lançamento abaixo:" styleClass="fontSizeColor"/>
+			<hr/>
+			<h:panelGrid columns="2" id="pnelLacto">
+				<p:outputLabel value="Lançamento:" styleClass="fontSize"/>
+				<p:outputLabel value="#{ged.valCodLacto}" styleClass="fontSizeColor"/>
+				
+				<p:outputLabel value="Vencimento:" styleClass="fontSize"/>
+				<p:outputLabel value="#{ged.valDatVenc}" styleClass="fontSize">
+					<f:convertDateTime pattern="dd-MM-yyyy"/>
+				</p:outputLabel>
+				<c:if test="#{ged.valValida == true ? true : false}">
+					<p:outputLabel value="Código de Barras:" styleClass="fontSize"/>
+					<p:outputLabel value="#{ged.valCodBarras}" styleClass="fontSize"/>
+				</c:if>
+				<c:if test="#{ged.valValida == false ? true : false}">
+				<p:outputLabel value="Agência:" styleClass="fontSize"/>
+				<p:outputLabel value="#{ged.valCodAg}" styleClass="fontSize"/>
+				
+				<p:outputLabel value="Conta:" styleClass="fontSize"/>
+				<p:outputLabel value="#{ged.valCC}" styleClass="fontSize"/>
+				
+				<p:outputLabel value="Valor:" styleClass="fontSize"/>
+				<p:outputLabel value="#{ged.valValor}" styleClass="fontSize" >
+					<f:convertNumber type="currency" currencySymbol="R$ "/>
+				</p:outputLabel>
+				</c:if>
+				
+			</h:panelGrid>
+			<hr/>
+			<center>
+				<p:outputLabel value="Deseja continuar?" styleClass="fontSizeColor"/>
+			</center>
+			<hr/>
+   			 <p:commandButton value="Não"  icon="ui-icon-close" oncomplete="PF('dlgValLancto').hide();"/>
+			 <p:commandButton value="Sim" icon="ui-icon-check" style="float:right;" action="#{ged.adicionarLancamentoOma()}" 
+			 update="@all" oncomplete="PF('dlgValLancto').hide();"/>
+		</p:dialog>
+	</h:form>
+</ui:composition>

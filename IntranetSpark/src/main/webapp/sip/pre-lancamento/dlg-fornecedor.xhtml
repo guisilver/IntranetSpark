@@ -1,0 +1,47 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+	<p:dialog header="Fornecedor Encontrado" widgetVar="dlgFornecedor"
+		modal="true" resizable="false" draggable="false" closeOnEscape="true"
+		width="50%">
+		<h:form id="frmFornecedor">
+			<p:dataTable value="#{lancamentoMB.lv.listaXML}" var="nfe"
+				selection="#{lancamentoMB.lv.nfe}" rowKey="#{nfe.codigo}" rows="10"
+				selectionMode="single" paginator="true" style="margin-top:10px;">
+				<p:ajax event="rowSelect" listener="#{lancamentoMB.selecionarXML()}"
+					update=":frmNovoLancamento:colFornecedor,:frmNovoLancamento:gridInfLancto" />
+				<f:facet name="header">
+					<h:outputText value="Notas fiscais disponíveis para Pré-Lançamento" />
+				</f:facet>
+				<p:column headerText="CNPJ" filterBy="#{nfe.cnpjEmit}" sortBy="#{nfe.cnpjEmit}">
+					<h:outputText value="#{nfe.cnpjEmit}" />
+				</p:column>
+				<p:column headerText="Destinatário" sortBy="#{nfe.nomeDestinatario}"
+					filterBy="#{nfe.nomeDestinatario}">
+					<h:outputText value="#{nfe.nomeDestinatario}" />
+				</p:column>
+				<p:column headerText="Vencimento" style="text-align:center;" sortBy="#{nfe.dataVencimento}"
+					filterBy="#{nfe.dataVencimento}">
+					<h:outputText value="#{nfe.dataVencimento}">
+						<f:convertDateTime pattern="dd/MM/yyyy" locale="pt"
+							timeStyle="America/Sao_Paulo" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="Valor" style="text-align:center;" sortBy="#{nfe.valor}"
+					filterBy="#{nfe.valor}">
+					<h:outputText value="#{nfe.valor}">
+						<f:convertNumber minFractionDigits="2" currencySymbol="R$" />
+					</h:outputText>
+				</p:column>
+			</p:dataTable>
+			<h:panelGrid columns="2" width="100%"
+				style="width:100%;margin-top:10px;">
+				<p:commandButton icon="fa fa-close Fs16 white" value="Fechar"
+					onclick="PF('dlgFornecedor').hide();" style="float:left;" />
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
+</ui:composition>

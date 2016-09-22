@@ -1,0 +1,114 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<div class="layout-portlets-box"
+			style="padding-top: 0px !important; padding-bottom: 0px !important;">
+			<p:breadCrumb>
+				<p:menuitem value="Home" url="/dashboard.xhtml" />
+				<p:menuitem value="Nova Emissão"
+					url="/emissao/gerencia/nova-emissao" />
+			</p:breadCrumb>
+		</div>
+		<div class="layout-portlets-box">
+			<div class="Container100 Responsive100">
+				<div class="Fleft">
+					<h2 class="black Fs24 FontRalewayMedium">Novo Consumo</h2>
+				</div>
+				<div class="Seperator"></div>
+				<div class="ContainerIndent">
+					<h:form id="frmConsumo">
+						<p:growl autoUpdate="true" id="growl" widgerVar="growl" />
+						<p:panel style="width: 500px; text-align:center;"
+							header="Importar">
+							<h:panelGrid columns="3" cellpadding="5">
+								<p:outputLabel value="Condomínio:" for="condominio3" />
+								<p:selectOneMenu id="condominio3" value="#{emMB.condominio}"
+									filter="true" filterMatchMode="contains" style="width:200px;">
+									<f:selectItem itemLabel="Selecione" itemValue="0" />
+									<f:selectItems value="#{SessaoMB.listaCondominios}"
+										var="condominio" itemLabel="#{condominio.cndCodNome}"
+										itemValue="#{condominio.codigo}" />
+									<p:ajax update=":frmAddRateio2, oplNomeCondo"
+										listener="#{emMB.retornaNomeCondominio}" />
+								</p:selectOneMenu>
+								<p:outputLabel id="oplNomeCondo" value="#{emMB.nomeCondo}" />
+							</h:panelGrid>
+							<h:panelGrid columns="2" cellpadding="5">
+								<p:outputLabel value="Consumo:" for="consumo" />
+								<p:selectOneMenu id="consumo" value="#{emMB.leBEAN.tipo}"
+									filter="true" filterMatchMode="contains"
+									style="width:200px;margin-left:20px;">
+									<f:selectItem itemLabel="Selecione" itemValue="" />
+									<f:selectItems value="#{emMB.listaTarifas}" var="tarifas"
+										itemLabel="#{tarifas.descricao}" itemValue="#{tarifas.codigo}" />
+								</p:selectOneMenu>
+							</h:panelGrid>
+							<hr />
+							<h:panelGrid id="gridUpload" columns="2" cellpadding="5">
+								<f:facet name="header">
+									<p:outputLabel value="Importar lista do Excel"
+										style="color:red;" />
+								</f:facet>
+								<p:fileUpload label="Importar" cancelLabel="Cancelar"
+									uploadLabel="Inserir" mode="advanced" dragDropSupport="false"
+									invalidFileMessage="Arquivo Inválido!"
+									invalidSizeMessage="Arquivo muito grande!" sizeLimit="10000000"
+									fileLimit="3" allowTypes="/(\.|\/)(xls|xlsx)$/"
+									style="width:500px;word-wrap: break-word!important;"
+									fileUploadListener="#{emMB.handleFileUpload}"
+									update="tblConsumo" />
+								<p:column />
+							</h:panelGrid>
+							<p:panel columns="2" style="width:90px;" styleClass="gridFiltro">
+								<p:outputLabel value="Modelo:" />
+								<h:outputLink
+									value="http://omaonline.com.br:42050/arquivos/intranet/Modelo-Consumo.xlsx">
+									<p:graphicImage library="imagens" name="ExcelIcon.gif"
+										width="18" height="20" />
+								</h:outputLink>
+							</p:panel>
+						</p:panel>
+						<br />
+						<p:dataTable var="item" id="tblConsumo" rows="15"
+							style="font-size:12px;text-align:center;" paginator="true"
+							emptyMessage="Nenhum registro encontrado."
+							value="#{emMB.listaConsumo}">
+							<f:facet name="header"> Lista de Consumos </f:facet>
+							<p:column headerText="Bloco">
+								<h:outputText value="#{item.bloco}" />
+							</p:column>
+							<p:column headerText="Unidade">
+								<h:outputText value="#{item.unidade}" />
+							</p:column>
+							<p:column headerText="Leitura Anterior">
+								<h:outputText value="#{item.anterior}" />
+							</p:column>
+							<p:column headerText="Leitura Atual">
+								<h:outputText value="#{item.atual}" />
+							</p:column>
+							<p:column headerText="Consumo">
+								<h:outputText value="#{item.media}" />
+							</p:column>
+							<p:column headerText="Valor">
+								<h:outputText value="#{item.valor}" />
+							</p:column>
+							<f:facet name="footer">
+								<hr />
+								<p:commandButton value="Salvar" icon="fa fa-check Fs16 white"
+									action="#{emMB.salvarConsumo()}"
+									oncomplete="PF('dlgAdicionarC').show();" process="@form" />
+							</f:facet>
+						</p:dataTable>
+					</h:form>
+				</div>
+			</div>
+		</div>
+		<ui:include
+			src="/emissao/gerencia/dialog-adicionar-rateio-consumo.xhtml" />
+	</ui:define>
+</ui:composition>

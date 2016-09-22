@@ -1,0 +1,168 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+<ui:define name="content">
+		<style>
+.ui-selectoneradio tbody tr td {
+	border: 0px !important;
+}
+
+#frmCadastro\3a gridCadastro>tbody>tr>td, #frmCadastro\3a gridCpf>tbody>tr>td,
+	#frmCadastro\3a gridCargo>tbody>tr>td, #frmCadastro\3a gridEmpresa>tbody>tr>td
+	{
+	border: 0px !important;
+}
+
+#frmCadastro table {
+	border-spacing: 0px !important;
+}
+</style>
+		<h:form id="frmCadastro">
+			<div class="layout-portlets-box">
+
+				<div class="DispInlBlock TexAlLeft">
+					<div class="Fleft">
+						<h2 class="black Fs24 FontRalewayMedium">Cadastro de
+							Visitantes</h2>
+					</div>
+				</div>
+				<div class="Seperator"></div>
+				<div class="Container100 Responsive100">
+					<p:messages autoUpdate="true" id="msg" widgetVar="msg" />
+					<div class="ContainerIndent">
+						<p:outputLabel value="Foto" />
+						<h:panelGrid columns="3" layout="grid"
+							style="border:0px !important; background:none;"
+							class="FormContent">
+							<p:photoCam widgetVar="pc" forceFlash="true"
+								listener="#{candidatosMB.oncapture}" update="photo" />
+							<p:commandButton type="button" value="Capturar"
+								onclick="PF('pc').capture()" process="@this"
+								style="margin-top:10px;margin-left:auto;margin-right:auto;"
+								icon="fa fa-camera Fs16 white" />
+							<p:outputPanel id="photo">
+								<p:graphicImage library="#{candidatosMB.pastaImagem}"
+									name="#{candidatosMB.nomeImagem}.jpg"
+									rendered="#{not empty candidatosMB.nomeImagem}" />
+							</p:outputPanel>
+						</h:panelGrid>
+					</div>
+				</div>
+				<div class="Container75 Responsive75">
+					<div style="width: 300px; margin: 10px;">
+						<p:panelGrid columns="1" layout="grid"
+							style="border:0px !important; background:none;width:300px;"
+							class="FormContent">
+
+							<p:outputLabel value="RG" for="rg" />
+							<p:inputText styleClass="Wid100"
+								value="#{candidatosMB.cadastro.rg}" id="rg" required="true"
+								requiredMessage="O RG deve ser informado!" maxlength="15">
+								<p:ajax event="blur" process="@this"
+									update=":frmCadastro:gridCadastro, :frmCadastro:photo"
+									listener="#{candidatosMB.pesquisaCadastro()}" />
+							</p:inputText>
+
+							<p:outputLabel value="Tipo de Visita" />
+							<p:selectOneMenu id="console2"
+								value="#{candidatosMB.cadastro.tipoVisita}"
+								style="min-width:200px; width:100%!important;" filter="true"
+								filterMatchMode="contains">
+								<p:ajax process="@this"
+									update="@form:gridCargo,@form:gridCpf,@form:gridEmpresa" />
+								<f:selectItem itemLabel="Selecionar" noSelectionOption="true" />
+								<f:selectItem itemLabel="Candidato" itemValue="Candidato" />
+								<f:selectItem itemLabel="Convidado" itemValue="Convidado" />
+								<f:selectItem itemLabel="Corretor" itemValue="Corretor" />
+								<f:selectItem itemLabel="Funcionário" itemValue="Funcionario" />
+								<f:selectItem itemLabel="Locatário" itemValue="Locatario" />
+								<f:selectItem itemLabel="Morador" itemValue="Morador" />
+								<f:selectItem itemLabel="Prestador de Serviços"
+									itemValue="Prestador de Serviços" />
+								<f:selectItem itemLabel="Proprietário" itemValue="Proprietario" />
+								<f:selectItem itemLabel="Síndico" itemValue="Sindico" />
+								<f:selectItem itemLabel="Zelador" itemValue="Zelador" />
+								<f:selectItem itemLabel="Gerente Predial"
+									itemValue="Gerente Predial" />
+							</p:selectOneMenu>
+
+							<h:panelGrid id="gridCadastro" style="width:100%;">
+								<h:panelGrid id="gridCargo" style="width:100%;">
+									<p:outputLabel value="Cargo Pretendido" for="cargoPretendido"
+										rendered="#{candidatosMB.cadastro.tipoVisita == 'Candidato'}" />
+									<p:selectOneMenu id="cargoPretendido"
+										style="min-width:200px; width:100%!important;" filter="true"
+										filterMatchMode="contains"
+										value="#{candidatosMB.cadastro.cargoPretendido}"
+										rendered="#{candidatosMB.cadastro.tipoVisita == 'Candidato'}"
+										required="true" requiredMessage="Insira o cargo pretendido!">
+										<f:selectItem itemLabel="Selecionar" noSelectionOption="true" />
+										<f:selectItems value="#{candidatosMB.listaCargoPretendido}"
+											var="cargo" itemLabel="#{cargo}" itemValue="#{cargo}" />
+									</p:selectOneMenu>
+								</h:panelGrid>
+
+								<p:outputLabel value="Nome" for="nome" />
+								<p:inputText styleClass="Wid100"
+									value="#{candidatosMB.cadastro.nome}" id="nome" required="true"
+									maxlength="50" />
+
+								<h:panelGrid id="gridCpf" style="width:100%;">
+									<p:outputLabel value="CPF" for="cpf"
+										rendered="#{candidatosMB.cadastro.tipoVisita == 'Candidato'}" />
+									<p:inputText id="cpf" styleClass="Wid100"
+										value="#{candidatosMB.cadastro.cpf}" validator="ValidadorCPF"
+										maxlength="11"
+										rendered="#{candidatosMB.cadastro.tipoVisita == 'Candidato'}" />
+								</h:panelGrid>
+
+								<p:outputLabel value="Data de Nascimento" rendered="false" />
+								<p:calendar type="date" yearRange="1901:2016"
+									value="#{candidatosMB.cadastro.dataNascimento}"
+									pattern="dd-MM-yyyy" readonlyInput="true" effect="slide"
+									locale="pt" timeZone="America/Sao_Paulo" navigator="true"
+									id="nascimento" styleClass="Wid90 calendarResp" required="true"
+									requiredMessage="A data de nascimento deve ser informada!"
+									rendered="false" />
+
+								<h:panelGrid id="gridEmpresa" style="width:100%;">
+									<p:outputLabel value="Empresa"
+										rendered="#{candidatosMB.cadastro.tipoVisita != 'Candidato'}" />
+									<p:inputText styleClass="Wid100"
+										value="#{candidatosMB.cadastro.empresa}" maxlength="50"
+										rendered="#{candidatosMB.cadastro.tipoVisita != 'Candidato'}" />
+								</h:panelGrid>
+
+								<p:outputLabel value="Celular" />
+								<p:inputMask styleClass="Wid100"
+									value="#{candidatosMB.cadastro.celular}" mask="9999999999?9"
+									maxlength="15" />
+
+								<p:outputLabel value="Tel. Residencial" />
+								<p:inputMask styleClass="Wid100" mask="9999999999"
+									value="#{candidatosMB.cadastro.telResidencial}" maxlength="15" />
+
+								<p:outputLabel value="Obs." />
+								<p:inputTextarea value="#{candidatosMB.cadastro.obs}"
+									styleClass="Wid100" maxlength="500" />
+							</h:panelGrid>
+						</p:panelGrid>
+
+						<h:panelGrid columns="2">
+							<p:commandButton value="Limpar" process="@this"
+								actionListener="#{candidatosMB.limparFormCadastro()}"
+								icon="fa fa-file Fs16 white" update="@form" style="float:right;" />
+							<p:commandButton value="Salvar"
+								actionListener="#{candidatosMB.salvarCadastro()}"
+								icon="fa fa-check Fs16 white" ajax="false"
+								style="float:right;" />
+						</h:panelGrid>
+
+					</div>
+				</div>
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>

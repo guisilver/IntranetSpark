@@ -1,0 +1,81 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<style>
+.msg {
+	color: #FFF;
+	font-size: 20px;
+}
+
+#frmFiltro table td {
+	border: 0px !important;
+}
+
+.ui-selectoneradio tbody tr td {
+	border: 0px !important;
+}
+
+.gridFiltro tbody tr td {
+	border: 0px !important;
+}
+</style>
+	<h:form id="frmLP" target="_blank">
+		<p:messages showDetail="true" autoUpdate="false" closable="true"
+			escape="true" showSummary="false" />
+		<p:panelGrid styleClass="gridFiltro" columns="1">
+			<h:panelGrid columns="2">
+				<p:outputLabel for="console" value="Condomínio:" id="plgCondominio" />
+				<p:selectOneMenu id="console" value="#{lpMB.icBEAN.codigo}"
+					filter="true" filterMatchMode="contains" style="width:90%;">
+					<f:selectItem itemLabel="Selecione" itemValue="0" />
+					<f:selectItems value="#{SessaoMB.listaCondominios}" var="item"
+						itemLabel="#{item.cndCodNome}" itemValue="#{item.codigo}" />
+					<p:ajax listener="#{lpMB.retornaNomeCondominio()}"
+						update="frmLP:somBloco" />
+				</p:selectOneMenu>
+				<p:outputLabel value="Torre:" />
+				<p:selectOneMenu id="somBloco" value="#{lpMB.cndUnidaBEAN.bloco}"
+					filter="true" filterMatchMode="contains" style="width:90px;">
+					<f:selectItem itemLabel="Bloco" noSelectionOption="true" />
+					<f:selectItems value="#{lpMB.listaDeBloco}" var="item"
+						itemLabel="#{item.bloco}" itemValue="#{item.bloco}" />
+					<p:ajax update="frmLP:somBloco" />
+				</p:selectOneMenu>
+				<p:outputLabel value="Cabeçalho:" />
+				<p:inputText value="#{lpMB.cabecalho}" id="ipNomeCabecalho"
+					style="width:400px;" max-length="170"
+					counterTemplate="{0} caracteres restantes." />
+			</h:panelGrid>
+			<hr />
+			<h:panelGrid columns="3">
+				<p:commandButton value="Presenca" icon="fa fa-print Fs16 white"
+					action="#{lpMB.gerarPresenca()}" ajax="false"
+					style="margin-left:50px;" />
+				<p:commandButton value="Contatos" icon="fa fa-print Fs16 white"
+					action="#{lpMB.gerarContatos()}" ajax="false"
+					style="margin-left:15px;" />
+				<p:commandButton value="E-mail" icon="fa fa-print Fs16 white"
+					oncomplete="PF('relatorio').show();" update="frmLP:somBloco"
+					onclick="PrimeFaces.monitorDownload(start, stop);"
+					style="margin-left:15px;">
+					<p:fileDownload value="#{lpMB.stream}" />
+				</p:commandButton>
+
+			</h:panelGrid>
+		</p:panelGrid>
+		<script type="text/javascript">
+			function start() {
+				PF('statusDialog').show();
+			}
+			function stop() {
+				PF('statusDialog').hide();
+				PF('relatorio').hide();
+			}
+		</script>
+	</h:form>
+
+</ui:composition>

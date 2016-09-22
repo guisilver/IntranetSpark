@@ -1,0 +1,88 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<h:form id="frmHistorico"
+		rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysJuridico}">
+		<p:dataTable id="dtHistorico" var="requisicao"
+			value="#{pjMB.listaProtocolosGerente}" rowKey="#{requisicao}"
+			rows="10" scrollable="true" rowsPerPageTemplate="5,10,15,50,100"
+			paginator="true" emptyMessage="Sem Registro"
+			selection="#{pjMB.listarProtocoloSelecionados}"
+			style="font-size:12px;text-align:center;">
+
+			<f:facet name="header">
+				<p:commandButton value="Imprimir" icon="fa fa-print Fs16 white"
+					action="#{pjMB.gerarRequisicao()}"
+					update=":frmHistorico:dtHistorico" ajax="false"
+					process="dtHistorico" />
+			</f:facet>
+			<f:facet name="footer">
+				<p:outputPanel>
+					<p:commandButton value="Imprimir" icon="fa fa-print Fs16 white"
+						action="#{pjMB.gerarRequisicao()}"
+						update=":frmHistorico:dtHistorico" ajax="false"
+						process="dtHistorico" />
+				</p:outputPanel>
+
+			</f:facet>
+
+			<p:column selectionMode="multiple"
+				style="width:16px;text-align:center;" />
+
+			<p:column headerText="Nº Protocolo" sortBy="#{requisicao.codigo}"
+				filterBy="#{requisicao.codigo}"> #{requisicao.codigo}
+			</p:column>
+			<p:column headerText="Condomínio" filterBy="#{requisicao.cond_cod}">#{requisicao.cond_cod} 
+			</p:column>
+			<p:column headerText="Aos Cuidados" filterBy="#{requisicao.sindico}">#{requisicao.sindico}
+			</p:column>
+			<p:column headerText="Endereço">#{requisicao.endereco}
+			</p:column>
+			<p:column headerText="Referência" filterBy="#{requisicao.referencia}">#{requisicao.referencia}
+			</p:column>
+			<p:column headerText="Situação:" sortBy="#{requisicao.impressao}">
+				<p:outputLabel
+					value="#{requisicao.impressao == 'Impresso' ? 'Impresso' : 'Pendente'}"
+					style="color:#{requisicao.impressao == 'Impresso'? 'blue' : 'red'}" />
+			</p:column>
+			<p:column>
+				<p:commandButton id="btnAlterar" icon="fa fa-pencil Fs16 white"
+					title="Alterar" update=":frmAltReq" ajax="false"
+					action="#{pjMB.abreAlteraRequisicao()}">
+					<f:setPropertyActionListener value="#{requisicao}"
+						target="#{pjMB.codigoSelecionado}" />
+				</p:commandButton>
+
+				<p:commandButton oncomplete="PF('dlgExclusao').show();"
+					icon="fa fa-trash Fs16 white" style="margin-left:5px;"
+					rendered="#{SessaoMB.igp.sysAdmin}">
+					<f:setPropertyActionListener target="#{pjMB.codigoSelecionado}"
+						value="#{requisicao}" />
+				</p:commandButton>
+
+			</p:column>
+		</p:dataTable>
+
+	</h:form>
+
+
+	<p:dialog widgetVar="dlgExclusao" modal="true" resizable="false">
+		<h:form>
+			<h:panelGrid columns="2">
+				<p:outputLabel value="Você confirma a exclusão?"
+					style="font-size:14px;" />
+				<p:column />
+				<p:commandButton value="Não" oncomplete="PF('dlgExclusao').hide();"
+					icon="fa fa-close Fs16 white" />
+				<p:commandButton value="Sim" action="#{pjMB.excluir()}"
+					update="tbvRP:frmHistorico:dtHistorico"
+					icon="fa fa-check Fs16 white" />
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
+
+</ui:composition>

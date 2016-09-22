@@ -1,0 +1,29 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<div class="layout-portlets-box">
+		<center>
+		<p:outputLabel value="Previsão Orçamentaria"/>
+		</center>
+		<br/>
+			<div class="Container100 Responsive100">
+				<div class="ContainerIndent">
+					<p:tabView id="tbvPrevisao">
+						<div class="Container57 Responsive50">
+							<p:tab title="Projetar">
+								<ui:include src="/gerencia/previsao/previsao-orcamentaria.xhtml" />
+							</p:tab>
+						</div>
+							<p:tab title="Visualizar">
+							
+							</p:tab>
+					</p:tabView>
+				</div>
+			</div>
+		</div>
+
+	</ui:define>
+</ui:composition>

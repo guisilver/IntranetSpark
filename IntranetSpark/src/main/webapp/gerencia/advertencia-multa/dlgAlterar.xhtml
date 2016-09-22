@@ -1,0 +1,161 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<style>
+#tbvAdvMul\:frmAlter\:dlgAlter_title {
+	text-align: center !important;
+}
+.borda{
+	border: 0px !important;
+}
+</style>
+
+	<h:form id="frmAlter">
+		<p:dialog id="dlgAlter" header="Alterar Advertência / Multa" 
+			closeOnEscape="true" hideEffect="slide" showEffect="slide"
+			widgetVar="alterarAdvm" resizable="false" modal="true" responsive="true">
+		<p:scrollPanel style="width: 530px !important; height: 500px !important;" styleClass="borda" mode="native" >
+		
+			<h:panelGrid columns="4">
+				<p:outputLabel value="Torre:" style="color:red;" />
+				<p:outputLabel value="#{amMB.amBEAN.bloco}" style="color:red;" />
+
+				<p:outputLabel value="Unidade:" style="margin-left:20px;color:red;" />
+				<p:outputLabel value="#{amMB.amBEAN.unidade}" style="color:red;" />
+
+			</h:panelGrid>
+
+			<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+				<p:outputLabel value="Sexo:" style="font-size:14px;" />
+				<p:selectOneRadio id="console" value="#{amMB.amBEAN.sexo}"
+					style="font-size:14px;">
+					<f:selectItem itemLabel="F" itemValue="F" />
+					<f:selectItem itemLabel="M" itemValue="M" />
+					<p:ajax update=":tbvAdvMul:frmAlter:oplSexo" />
+				</p:selectOneRadio>
+			</h:panelGrid>
+
+			<h:panelGrid columns="2">
+				<p:outputLabel id="oplSexo"
+					value="#{amMB.amBEAN.sexo eq 'M' ? 'Sr.' : 'Sra.'}"
+					style="font-size:18px; font-weigth: bold;" />
+				<p:inputText id="nomeCli" value="#{amMB.amBEAN.nome}"
+					style="font-size:14px;width:403px;margin-left:19px;">
+				</p:inputText>
+			</h:panelGrid>
+
+			<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+				<p:outputLabel value="De acordo com:" style="font-size:14px;" />
+				<p:selectOneRadio id="sorRegCov" value="#{amMB.amBEAN.tipoRegCov}"
+					style="font-size:14px;">
+					<f:selectItem itemLabel="Regto. Interno" itemValue="R"
+						itemDisabled="#{amMB.amBEAN.tipoRegCov eq 'O' ? true : false}" />
+					<f:selectItem itemLabel="Convenção" itemValue="C"
+						itemDisabled="#{amMB.amBEAN.tipoRegCov eq 'O' ? true : false}" />
+					<f:selectItem itemLabel="Outros" itemValue="O"
+						itemDisabled="#{(amMB.amBEAN.tipoRegCov eq 'R' or amMB.amBEAN.tipoRegCov eq 'C') ? true : false}" />
+					<p:ajax
+						update=":tbvAdvMul:frmAlter:plgCampo1 :tbvAdvMul:frmAlter:plgCampo2" />
+				</p:selectOneRadio>
+			</h:panelGrid>
+
+			<h:panelGrid id="plgCampo1">
+				<h:panelGrid columns="8"
+					rendered="#{amMB.amBEAN.tipoRegCov eq 'O' ? false : true}">
+					<p:selectBooleanCheckbox value="#{amMB.amBEAN.itemClausula}"
+						style="margin-left:2px;">
+						<p:ajax event="change" update=":tbvAdvMul:frmAlter:plgCampo1" />
+					</p:selectBooleanCheckbox>
+
+					<p:outputLabel
+						value="#{amMB.amBEAN.itemClausula eq true ? 'Claúsula:' : 'Sem Claúsula'}"
+						style="font-size:14px;" />
+					<p:inputText value="#{amMB.amBEAN.clausula}"
+						rendered="#{amMB.amBEAN.itemClausula eq true ? true : false}"
+						style="font-size:14px;width:30px;">
+					</p:inputText>
+				</h:panelGrid>
+			</h:panelGrid>
+
+			<h:panelGrid id="plgCampo2">
+				<h:panelGrid columns="6"
+					rendered="#{amMB.amBEAN.tipoRegCov eq 'O' ? false : true}">
+					<p:outputLabel value="Artigo:"
+						style="font-size:14px;margin-left:28px;" />
+					<p:inputText value="#{amMB.amBEAN.artigo}"
+						style="font-size:14px;width:30px;margin-left:17px;">
+					</p:inputText>
+					<p:outputLabel value=":" />
+					<p:inputText value="#{amMB.amBEAN.frase}"
+						style="font-size:14px;width:312px;">
+					</p:inputText>
+				</h:panelGrid>
+			</h:panelGrid>
+
+			<h:panelGrid columns="3">
+				<p:outputLabel value="Ocorrido:"
+					style="font-size:14px;margin-left:30px;" />
+				<p:inputMask value="#{amMB.amBEAN.dataOcorrido}" mask="99/99/9999"
+					style="font-size:14px;width:100px;">
+				</p:inputMask>
+
+			</h:panelGrid>
+			<h:panelGrid columns="3">
+				<p:outputLabel value="Motivo:"
+					style="font-size:14px;margin-left:30px;" />
+				<p:inputTextarea value="#{amMB.amBEAN.motivo}"
+					style="font-size:14px;width:370px;margin-left:13px;"
+					autoResize="false" rows="3">
+				</p:inputTextarea>
+			</h:panelGrid>
+
+			<h:panelGrid id="panel11">
+				<h:panelGrid columns="4"
+					rendered="#{amMB.amBEAN.valor eq null ? false : amMB.amBEAN.valor eq '' ? false : true}">
+					<p:outputLabel value="Valor R$"
+						style="font-size:14px;margin-left:25px;" />
+					<p:inputText value="#{amMB.amBEAN.valor}"
+						style="font-size:14px;width:70px; margin-left: 5px;" />
+
+					<p:outputLabel value="Extenso:" style="font-size: 14px;width:80px;" />
+					<p:inputText value="#{amMB.amBEAN.valorExtenso}"
+						style="font-size: 14px;width:217px;">
+					</p:inputText>
+
+				</h:panelGrid>
+				<h:panelGrid columns="2" id="panel12"
+					rendered="#{amMB.amBEAN.valor eq null ? false : amMB.amBEAN.valor eq '' ? false : true}">
+					<p:outputLabel value="Venc.:"
+						style="font-size: 14px;width:80px;margin-left:25px;" />
+					<p:inputMask value="#{amMB.amBEAN.vencimento}" mask="99/99/9999"
+						style="font-size:14px;width:100px;margin-left:20px;">
+					</p:inputMask>
+				</h:panelGrid>
+			</h:panelGrid>
+
+			<h:panelGrid id="plgTexto" style="margin-bottom:10px" columns="2"
+				cellpadding="5">
+				<p:outputLabel value="Texto (RECURSO DE ADVERTÊNCIA)" rendered="#{amMB.amBEAN.tipo eq 1}" style="font-size:14px;margin-left: 25px !important;color:red;" />
+				<p:outputLabel value="Texto (RECURSO DE MULTA)" rendered="#{amMB.amBEAN.tipo eq 2}" style="font-size:14px;margin-left: 25px !important;color:red;" />
+				<p:column/>
+				<p:inputTextarea value="#{amMB.amBEAN.texto}" autoResize="false" rows="3" required="true" requiredMessage="Obrigatório preencher o campo Texto padrão !"
+					style="margin-left:85px;font-size:12px;width:370px;" maxlength="500">
+				</p:inputTextarea>
+			</h:panelGrid>
+			<h:panelGrid>
+				<h:panelGrid columns="2">
+					<p:commandButton value="Salvar" action="#{amMB.alterarAdvMul}"
+						style="font-size:14px;float:right;"
+						oncomplete="PF('alterarAdvm').hide();"
+						update=":tbvAdvMul:frmHistorico :frmAdvMul:msg" />
+				</h:panelGrid>
+			</h:panelGrid>
+			</p:scrollPanel>
+		</p:dialog>
+	</h:form>
+
+</ui:composition>

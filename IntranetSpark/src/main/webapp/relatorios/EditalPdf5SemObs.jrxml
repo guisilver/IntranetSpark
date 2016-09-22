@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.2.0.final using JasperReports Library version 6.2.0  -->
+<!-- 2016-07-26T15:32:23 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Edital" pageWidth="595" pageHeight="842" columnWidth="483" leftMargin="56" rightMargin="56" topMargin="33" bottomMargin="71" uuid="4c5c95ab-bd57-44c9-bcb0-6b02d3b69fa4">
+	<property name="ireport.zoom" value="1.4641000000000028"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<subDataset name="dataset1" uuid="3c19a7d1-416f-4564-ac46-d32d2d73c667"/>
+	<parameter name="codigo" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="nome_cnd" class="java.lang.String"/>
+	<parameter name="end_cnd" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select * from intra_assembleia, intra_info_padrao where codigo = $P{codigo}]]>
+	</queryString>
+	<field name="codigo" class="java.lang.Integer"/>
+	<field name="advogado" class="java.sql.Timestamp"/>
+	<field name="assinada" class="java.sql.Timestamp"/>
+	<field name="cartorio" class="java.sql.Timestamp"/>
+	<field name="contas" class="java.lang.String"/>
+	<field name="dataAssembleia" class="java.sql.Timestamp"/>
+	<field name="dataInserido" class="java.sql.Timestamp"/>
+	<field name="devolvido" class="java.sql.Timestamp"/>
+	<field name="digitacao" class="java.sql.Timestamp"/>
+	<field name="distribuicao" class="java.sql.Timestamp"/>
+	<field name="eleicaoSindico" class="java.lang.Boolean"/>
+	<field name="enderecoLocal" class="java.lang.String"/>
+	<field name="enviado" class="java.sql.Timestamp"/>
+	<field name="enviadoPresidente" class="java.lang.String"/>
+	<field name="enviadoTi" class="java.sql.Timestamp"/>
+	<field name="horario1" class="java.sql.Timestamp"/>
+	<field name="horario2" class="java.sql.Timestamp"/>
+	<field name="localAssembleia" class="java.lang.String"/>
+	<field name="naoReceberEmail" class="java.lang.Boolean"/>
+	<field name="numPautas" class="java.lang.Integer"/>
+	<field name="obs" class="java.lang.String"/>
+	<field name="obsHorario1" class="java.lang.String"/>
+	<field name="obsHorario2" class="java.lang.String"/>
+	<field name="ordem" class="java.lang.String"/>
+	<field name="protocolo" class="java.sql.Timestamp"/>
+	<field name="protocoloRecebido" class="java.lang.Boolean"/>
+	<field name="publicacaoAta" class="java.sql.Timestamp"/>
+	<field name="publicacaoConvocacao" class="java.sql.Timestamp"/>
+	<field name="risco" class="java.lang.Boolean"/>
+	<field name="riscoObs" class="java.lang.String"/>
+	<field name="sexo" class="java.lang.String"/>
+	<field name="tipo" class="java.lang.String"/>
+	<field name="condominio_codigo" class="java.lang.Short"/>
+	<field name="gerente_codigo" class="java.lang.Integer"/>
+	<field name="reserva_codigo" class="java.lang.Integer"/>
+	<field name="texto1" class="java.lang.String"/>
+	<field name="texto2" class="java.lang.String"/>
+	<field name="texto3" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="178" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="200" height="70" uuid="58acff3d-d616-4069-9838-0075d479786f">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<imageExpression><![CDATA["http://10.1.1.20:8080//imagens//logo45pb.bmp"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="0" y="160" width="347" height="14" uuid="95540c74-64dc-4789-8bc2-3d96000afbfa"/>
+				<textElement>
+					<font fontName="Verdana" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Data da Assembleia : "+new java.text.SimpleDateFormat("dd/MM/yyyy").format($F{dataAssembleia})+" - "+new java.text.SimpleDateFormat("EEEEEEEEE", new Locale("pt","BR")).format($F{dataAssembleia})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="122" width="473" height="14" uuid="9042994a-579a-4df4-ad1b-8f4cfd465149"/>
+				<textElement>
+					<font fontName="Verdana" size="10" isBold="true"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<text><![CDATA[Edital de Convocação]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="136" width="472" height="14" isRemoveLineWhenBlank="true" uuid="db3878fa-bc13-42b3-a593-2601bad9e04a"/>
+				<textElement>
+					<font fontName="Verdana" size="10" isBold="true"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{tipo}.equalsIgnoreCase("AGE") ? "Assembleia Geral Extraordinária" : null)]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="136" width="471" height="14" isRemoveLineWhenBlank="true" uuid="2812bf75-6b4c-4ed3-96d6-012618befe1a"/>
+				<textElement>
+					<font fontName="Verdana" size="10" isBold="true"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{tipo}.equalsIgnoreCase("AGO") ? "Assembleia Geral Ordinária" : null)]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="136" width="471" height="14" isRemoveLineWhenBlank="true" uuid="b796c555-fcc0-43a1-8fd5-493fcb6cb46f"/>
+				<textElement>
+					<font fontName="Verdana" size="10" isBold="true"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{tipo}.equalsIgnoreCase("Reunião de Conselho") ? "Reunião de Conselho" : null)]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="136" width="470" height="14" isRemoveLineWhenBlank="true" uuid="75678f83-6106-4650-8f0c-a7317f021e3c"/>
+				<textElement>
+					<font fontName="Verdana" size="10" isBold="true"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{tipo}.equalsIgnoreCase("AGI") ? "Assembleia Geral de Instalação" : null)]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="231" y="51" width="252" height="20" uuid="2c2e2168-0c41-40a2-b954-943c47f0c6dc"/>
+				<textElement textAlignment="Right">
+					<font fontName="Verdana" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("dd 'de' MMMM 'de' yyyy", new Locale("pt","BR")).format(new Date())]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="0" y="98" width="481" height="15" isRemoveLineWhenBlank="true" uuid="95180f1a-9108-438e-ac90-c48487b74882"/>
+				<textElement>
+					<font fontName="Verdana" size="10"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{end_cnd}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="83" width="481" height="15" uuid="747c3051-183b-4b50-b1f9-8e194cde4ab2"/>
+				<textElement>
+					<font fontName="Verdana" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Condomínio "+$P{nome_cnd}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="318" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="66" height="14" uuid="ede7b27f-651d-4c0f-a1d7-969c160643d5"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Verdana" size="10" isBold="true"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<text><![CDATA[Horário:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="52" y="0" width="105" height="14" uuid="4ba56314-0b61-4664-a277-bd9bc2cb22b1"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Verdana" size="10" isBold="true"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<text><![CDATA[1ª Convocação:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="53" y="14" width="105" height="14" uuid="61231aeb-39fd-4668-a2df-f8a289000b44">
+					<printWhenExpression><![CDATA[$F{horario2} != null]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Top">
+					<font fontName="Verdana" size="10" isBold="true"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<text><![CDATA[2ª Convocação:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="146" y="0" width="302" height="14" uuid="f58d6270-7c95-4dff-9baf-fa87b038232b"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Verdana" size="10"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("HH:mm").format($F{horario1})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="146" y="13" width="302" height="15" uuid="a882ba7b-8df2-447f-8d60-6495317621ab">
+					<printWhenExpression><![CDATA[$F{horario2} != null]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Top">
+					<font fontName="Verdana" size="10"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("HH:mm").format($F{horario2})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="47" width="65" height="14" uuid="42e14ba1-627c-4302-ac7e-98bfc9e61bbd">
+					<printWhenExpression><![CDATA[$F{localAssembleia}!=null && !$F{localAssembleia}.isEmpty()]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="Verdana" size="10" isBold="true"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<text><![CDATA[Local:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="42" y="47" width="417" height="14" isRemoveLineWhenBlank="true" uuid="b353ce33-3077-4205-b403-f6f8b616ff7d"/>
+				<textElement>
+					<font fontName="Verdana" size="10"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{localAssembleia}.equals("Predio") ? "Nas dependências do condomínio" : null)]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="90" width="483" height="14" uuid="9f12a972-fa4a-4a5e-8772-49b9bb4eb560">
+					<printWhenExpression><![CDATA[$F{ordem}!=null && !$F{ordem}.isEmpty()]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Top">
+					<font fontName="Verdana" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ordem do Dia:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="-11" y="116" width="494" height="15" isRemoveLineWhenBlank="true" uuid="7ba8b8e7-2dab-479e-8167-67bf7bd424a1"/>
+				<box leftPadding="25"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Verdana" size="10" isStrikeThrough="false" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Proportional" lineSpacingSize="1.3" firstLineIndent="-15" leftIndent="1"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ordem}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="42" y="47" width="417" height="14" isRemoveLineWhenBlank="true" uuid="e71e9a94-49b7-4421-a271-bf92c159e8c7"/>
+				<textElement>
+					<font fontName="Verdana" size="10"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{localAssembleia}.equals("Outro") ? $F{enderecoLocal} : null)]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="42" y="47" width="417" height="14" isRemoveLineWhenBlank="true" uuid="3c987e41-3fd2-4ce1-ba34-10e0578e7bce"/>
+				<textElement>
+					<font fontName="Verdana" size="10"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{localAssembleia}.equals("OMA") ? "Nas dependências da OMA" : null)]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="53" y="28" width="316" height="14" uuid="b912e773-cc6b-42ed-806d-d0b83943a64f"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Verdana" size="10"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<text><![CDATA[com qualquer número de condôminos presentes.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="302" width="90" height="16" uuid="dfef4c39-2381-4b6c-ae47-cc21c5c0b722">
+					<printWhenExpression><![CDATA[$F{sexo}.equals("M")]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="Verdana" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[P. Síndico]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="302" width="90" height="16" uuid="9816bd46-50fe-491b-813c-5fedaca1e8e0">
+					<printWhenExpression><![CDATA[$F{sexo}.equals("F")]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="Verdana" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[P. Síndica]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="272" width="483" height="16" uuid="f99305bd-2a3a-4c93-b482-286266d85af0"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Verdana" size="10"/>
+				</textElement>
+				<text><![CDATA[Atenciosamente,]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="42" y="61" width="417" height="18" isRemoveLineWhenBlank="true" uuid="46dc69a2-b9aa-4fa0-a525-987f01067552"/>
+				<textElement>
+					<font fontName="Verdana" size="10"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{localAssembleia}.equals("OMA") ? "Rua Cincinato Braga, 200 - Bela Vista - CEP 01333-010 - São Paulo - SP" : null)]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="FixRelativeToBottom" x="0" y="153" width="483" height="30" uuid="1c998af7-c8b2-48de-a001-6bc503fb7ac9"/>
+				<textElement textAlignment="Justified" markup="html">
+					<font fontName="Verdana" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{texto1}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="FixRelativeToBottom" x="0" y="206" width="483" height="28" uuid="947d9c7c-a005-4289-9cad-2916f9f108f1"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Verdana" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{texto3}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="187" y="14" width="296" height="14" isRemoveLineWhenBlank="true" uuid="4b53ac06-71d3-4310-870d-5415affaa4e7">
+					<printWhenExpression><![CDATA[$F{horario2} != null]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="Verdana" size="10" isBold="true"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{obsHorario2}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="187" y="0" width="296" height="14" isRemoveLineWhenBlank="true" uuid="573b7e8a-df2d-43a8-8b93-6cc787227b3d"/>
+				<textElement>
+					<font fontName="Verdana" size="10" isBold="true"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{obsHorario1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="38">
+			<image>
+				<reportElement positionType="FixRelativeToBottom" x="-4" y="0" width="128" height="36" uuid="db76c08f-e1fe-44e1-b600-3af5669848d4"/>
+				<imageExpression><![CDATA["http://10.1.1.20:8080//imagens//rodapepb.bmp"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="-4" y="29" width="84" height="9" uuid="86eb331c-54db-4b65-bf69-4374e708478c"/>
+				<textElement rotation="None">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[OMA INTRANET]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

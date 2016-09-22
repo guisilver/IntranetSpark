@@ -1,0 +1,376 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<style>
+.lblC {
+	font-weight: bold !important;
+}
+</style>
+		<div class="layout-portlets-box">
+			<div class="DispInlBlock TexAlLeft">
+				<div class="Fleft">
+					<h2 class="black Fs24 FontRalewayMedium">Detalhes do Candidato</h2>
+				</div>
+			</div>
+			<div class="Seperator"></div>
+			<div class="Container100 Responsive100">
+				<div class="ContainerIndent"></div>
+				<h:form id="frmDtlhCandidato">
+					<p:messages autoUpdate="true" id="msg" />
+					<h:panelGrid columns="1">
+
+						<p:panelGrid columns="1"
+							style="text-align:center;margin-bottom:20px;">
+							<p:graphicImage value="#{ImgServiceBean.fotoCandidato}"
+								cache="false" width="250" height="250">
+								<f:param name="id"
+									value="#{candidatosMB.candidatoSelecionado.codigo}" />
+							</p:graphicImage>
+							<p:commandButton value="Excluir Foto"
+								actionListener="#{candidatosMB.excluirFotoCandidato()}"
+								icon="fa fa-trash Fs16 white" update="@form"
+								rendered="#{candidatosMB.candidatoFoto != null and candidatosMB.candidatoFoto.codigo gt 0}" />
+							<p:commandButton value="Inserir Foto"
+								onclick="PF('dlgUpload').show();" icon="fa fa-camera Fs16 white"
+								rendered="#{candidatosMB.candidatoFoto == null or candidatosMB.candidatoFoto.codigo eq 0}" />
+						</p:panelGrid>
+					</h:panelGrid>
+					<p:accordionPanel multiple="false" id="accordion">
+						<p:tab title="Dados do Candidato">
+							<p:panelGrid columns="4">
+								<p:outputLabel value="Nome" styleClass="lblC" />
+								<p:outputLabel value="#{candidatosMB.candidatoSelecionado.nome}" />
+
+								<p:outputLabel value="Sexo" styleClass="lblC" />
+								<p:outputLabel value="#{candidatosMB.candidatoSelecionado.sexo}" />
+
+								<p:outputLabel value="Idade" styleClass="lblC" />
+								<p:outputLabel
+									value="#{candidatosMB.candidatoSelecionado.idade}" />
+
+								<p:outputLabel value="Estado Civil" styleClass="lblC" />
+								<p:outputLabel
+									value="#{candidatosMB.candidatoSelecionado.estadoCivil}" />
+
+								<p:outputLabel value="Cargo Pretendido" styleClass="lblC" />
+								<p:outputLabel
+									value="#{candidatosMB.candidatoSelecionado.cargoPretendido}" />
+
+								<p:outputLabel value="Pretensão Salarial" styleClass="lblC" />
+								<h:outputText
+									value="#{candidatosMB.candidatoSelecionado.pretensaoSalarial}">
+									<f:convertNumber currencySymbol="R$" minFractionDigits="2" />
+								</h:outputText>
+
+								<p:outputLabel value="Data de Nascimento" styleClass="lblC" />
+								<h:outputText
+									value="#{candidatosMB.candidatoSelecionado.dataNascimento}">
+									<f:convertDateTime pattern="dd/MM/yyyy" locale="pt"
+										timeZone="America/Sao_Paulo" />
+								</h:outputText>
+
+								<p:outputLabel value="Endereço" styleClass="lblC" />
+								<p:outputLabel
+									value="#{candidatosMB.candidatoSelecionado.endereco}" />
+
+								<p:outputLabel value="Nº" styleClass="lblC" />
+								<p:outputLabel
+									value="#{candidatosMB.candidatoSelecionado.numeroEndereco}" />
+
+								<p:outputLabel value="CEP" styleClass="lblC" />
+								<p:outputLabel value="#{candidatosMB.candidatoSelecionado.cep}" />
+
+								<p:outputLabel value="Bairro" styleClass="lblC" />
+								<p:outputLabel
+									value="#{candidatosMB.candidatoSelecionado.bairro}" />
+
+								<p:outputLabel value="Zona Bairro" styleClass="lblC" />
+								<p:outputLabel
+									value="#{candidatosMB.candidatoSelecionado.zonaBairro}" />
+
+								<p:outputLabel value="Cidade" styleClass="lblC" />
+								<p:outputLabel
+									value="#{candidatosMB.candidatoSelecionado.cidade}" />
+
+								<p:outputLabel value="Tel. Residencial" styleClass="lblC" />
+								<p:outputLabel
+									value="#{candidatosMB.candidatoSelecionado.telResidencial}" />
+
+								<p:outputLabel value="Celular" styleClass="lblC" />
+								<p:outputLabel
+									value="#{candidatosMB.candidatoSelecionado.telCelular}" />
+
+								<p:outputLabel value="E-mail" styleClass="lblC" />
+								<p:outputLabel
+									value="#{candidatosMB.candidatoSelecionado.email}" />
+
+								<p:outputLabel value="RG" styleClass="lblC" />
+								<h:outputText value="#{candidatosMB.candidatoSelecionado.rg}"
+									mask="99.999.999-9" />
+
+								<p:outputLabel value="Data de Expedição RG" styleClass="lblC" />
+								<h:outputText
+									value="#{candidatosMB.candidatoSelecionado.dataExpedicaoRG}">
+									<f:convertDateTime pattern="dd/MM/yyyy" locale="pt"
+										timeZone="America/Sao_Paulo" />
+								</h:outputText>
+
+								<p:outputLabel value="CPF" styleClass="lblC" />
+								<p:outputLabel value="#{candidatosMB.candidatoSelecionado.cpf}"
+									mask="999.999.999-99" />
+
+								<p:outputLabel value="Possui PIS" styleClass="lblC" />
+								<p:outputLabel
+									value="#{candidatosMB.candidatoSelecionado.possuiPis ? 'Sim' : 'Não' }" />
+
+								<p:outputLabel value="PIS" styleClass="lblC" />
+								<p:outputLabel
+									value="#{candidatosMB.candidatoSelecionado.numeroPis}" />
+
+								<p:outputLabel value="Nº CTPS / Série" styleClass="lblC" />
+								<p:outputLabel
+									value="#{candidatosMB.candidatoSelecionado.numeroCtps}" />
+
+								<p:outputLabel value="Data de Expedição CTPS" styleClass="lblC" />
+								<h:outputText
+									value="#{candidatosMB.candidatoSelecionado.dataExpedicaoCtps}">
+									<f:convertDateTime pattern="dd/MM/yyyy" locale="pt"
+										timeZone="America/Sao_Paulo" />
+								</h:outputText>
+
+								<p:outputLabel value="Possui Certificado Militar"
+									styleClass="lblC" />
+								<p:outputLabel
+									value="#{candidatosMB.candidatoSelecionado.possuiCertificadoMilitar ? 'Sim' : 'Não' }" />
+
+								<p:outputLabel value="Pretende Residir no Prédio"
+									styleClass="lblC" />
+								<p:outputLabel
+									value="#{candidatosMB.candidatoSelecionado.pretendeResidirNoPredio ? 'Sim' : 'Não' }" />
+
+								<p:outputLabel value="CNH" styleClass="lblC" />
+								<p:outputLabel value="#{candidatosMB.candidatoSelecionado.cnh}" />
+
+								<p:outputLabel value="Categoria CNH" styleClass="lblC" />
+								<p:outputLabel
+									value="#{candidatosMB.candidatoSelecionado.categoriaCnh}" />
+
+								<p:outputLabel value="Validade CNH" styleClass="lblC" />
+								<h:outputText
+									value="#{candidatosMB.candidatoSelecionado.dataValidadeCnh}">
+									<f:convertDateTime pattern="dd/MM/yyyy" locale="pt"
+										timeZone="America/Sao_Paulo" />
+								</h:outputText>
+
+								<p:outputLabel value="Possui Deficiência" styleClass="lblC" />
+								<p:outputLabel
+									value="#{candidatosMB.candidatoSelecionado.possuiDeficiencia ? 'Sim' : 'Não' }" />
+
+								<p:outputLabel value="Tipo Deficiência" styleClass="lblC" />
+								<p:outputLabel
+									value="#{candidatosMB.candidatoSelecionado.tipoDeficiencia}" />
+
+								<p:outputLabel value="Fumante" styleClass="lblC" />
+								<p:outputLabel
+									value="#{candidatosMB.candidatoSelecionado.fumante  ? 'Sim' : 'Não' }" />
+
+								<p:outputLabel value="Formação Escolar" styleClass="lblC" />
+								<p:outputLabel
+									value="#{candidatosMB.candidatoSelecionado.formacao}" />
+
+								<p:outputLabel value="Estuda Atualmente" styleClass="lblC" />
+								<p:outputLabel
+									value="#{candidatosMB.candidatoSelecionado.estudaAtualmente ? 'Sim' : 'Não'}" />
+
+								<p:outputLabel value="Possui Conhecimento em Informática"
+									styleClass="lblC" />
+								<p:outputLabel
+									value="#{candidatosMB.candidatoSelecionado.possuiConhecimentoInformatica ? 'Sim' : 'Não'}" />
+
+							</p:panelGrid>
+						</p:tab>
+						<p:tab title="Dados Bancários">
+							<p:panelGrid columns="4">
+								<p:outputLabel value="Possui conta no banco?" styleClass="lblC" />
+								<p:outputLabel
+									value="#{candidatosMB.candidatoSelecionado.possuiContaBancaria ? 'Sim' : 'Não'}" />
+
+								<p:outputLabel value="Nome do Banco" styleClass="lblC" />
+								<p:outputLabel
+									value="#{candidatosMB.candidatoSelecionado.nomeBanco}" />
+
+								<p:outputLabel value="Tipo de conta" styleClass="lblC" />
+								<p:outputLabel
+									value="#{candidatosMB.candidatoSelecionado.tipoConta}" />
+
+								<p:outputLabel value="Nº Agência" styleClass="lblC" />
+								<p:outputLabel
+									value="#{candidatosMB.candidatoSelecionado.numeroAgencia}" />
+
+								<p:outputLabel value="Nº Conta" styleClass="lblC" />
+								<p:outputLabel
+									value="#{candidatosMB.candidatoSelecionado.numeroConta}" />
+
+							</p:panelGrid>
+						</p:tab>
+						<p:tab title="Situação Familiar">
+							<p:panelGrid columns="4">
+
+								<p:outputLabel value="Nome da Mãe" styleClass="lblC" />
+								<p:outputLabel
+									value="#{candidatosMB.candidatoSelecionado.nomeMae}" />
+
+								<p:outputLabel value="Mãe Trabalha?" styleClass="lblC" />
+								<p:outputLabel
+									value="#{candidatosMB.candidatoSelecionado.maeTrabalha ? 'Sim' : 'Não'}" />
+
+								<p:outputLabel value="Profissão da Mãe" styleClass="lblC" />
+								<p:outputLabel
+									value="#{candidatosMB.candidatoSelecionado.profissaoMae}" />
+
+								<p:outputLabel value="Nome do Pai" styleClass="lblC" />
+								<p:outputLabel
+									value="#{candidatosMB.candidatoSelecionado.nomePai}" />
+
+								<p:outputLabel value="Pai Trabalha?" styleClass="lblC" />
+								<p:outputLabel
+									value="#{candidatosMB.candidatoSelecionado.paiTrabalha ? 'Sim' : 'Não'}" />
+
+								<p:outputLabel value="Profissão do Pai" styleClass="lblC" />
+								<p:outputLabel
+									value="#{candidatosMB.candidatoSelecionado.profissaoPai}" />
+
+								<p:outputLabel value="Nome da(o) Esposa(o)" styleClass="lblC" />
+								<p:outputLabel
+									value="#{candidatosMB.candidatoSelecionado.nomeConjuge}" />
+
+								<p:outputLabel value="Esposa(o) Trabalha?" styleClass="lblC" />
+								<p:outputLabel
+									value="#{candidatosMB.candidatoSelecionado.conjugeTrabalha ? 'Sim' : 'Não'}" />
+
+								<p:outputLabel value="Profissão da(o) Esposa(o)"
+									styleClass="lblC" />
+								<p:outputLabel
+									value="#{candidatosMB.candidatoSelecionado.profissaoConjuge}" />
+
+								<p:outputLabel value="Possui Filhos" styleClass="lblC" />
+								<p:outputLabel
+									value="#{candidatosMB.candidatoSelecionado.possuiFilhos ? 'Sim' : 'Não'}" />
+
+								<p:outputLabel value="Qtd Filhos" styleClass="lblC" />
+								<p:outputLabel
+									value="#{candidatosMB.candidatoSelecionado.qtdFilhos}" />
+							</p:panelGrid>
+
+							<p:dataTable
+								value="#{candidatosMB.candidatoSelecionado.dependente}"
+								id="tblDependentes" var="dependente"
+								rowKey="#{dependente.codigo}"
+								style="margin-top:10px;margin-bottom:10px;">
+								<f:facet name="header">
+									<p:outputLabel value="Dependentes" style="color:white;" />
+								</f:facet>
+								<p:column headerText="Nome">
+									<p:outputLabel value="#{dependente.nome}" />
+								</p:column>
+								<p:column headerText="Parentesco">
+									<p:outputLabel value="#{dependente.parentesco}" />
+								</p:column>
+								<p:column headerText="Data de Nascimento">
+									<h:outputText value="#{dependente.dataNascimento}">
+										<f:convertDateTime pattern="dd/MM/yyyy" locale="pt"
+											timeZone="America/Sao_Paulo" />
+									</h:outputText>
+								</p:column>
+								<p:column headerText="Imposto de Renda">
+									<p:outputLabel
+										value="#{dependente.impostoRenda ? 'Sim' : 'Não'}" />
+								</p:column>
+							</p:dataTable>
+						</p:tab>
+						<p:tab title="Histórico Profissional">
+							<p:dataTable
+								value="#{candidatosMB.candidatoSelecionado.historicoProfissional}"
+								id="tblHistorico" var="historico" rowKey="#{historico.codigo}"
+								scrollWidth="100%" scrollable="true"
+								style="min-width:1200px;margin-top:10px;margin-bottom:10px;">
+								<f:facet name="header">
+									<p:outputLabel value="Histórico Profissional"
+										style="color:white;" />
+								</f:facet>
+								<p:column headerText="Cnd.">
+									<p:outputLabel value="#{historico.condominio}" />
+								</p:column>
+								<p:column headerText="End.">
+									<p:outputLabel value="#{historico.endereco}" />
+								</p:column>
+								<p:column headerText="Tel.">
+									<p:outputLabel value="#{historico.telefone}" />
+								</p:column>
+								<p:column headerText="Gestor">
+									<p:outputLabel value="#{historico.condominio}" />
+								</p:column>
+								<p:column headerText="Cargo">
+									<p:outputLabel value="#{historico.cargo}" />
+								</p:column>
+								<p:column headerText="Salário">
+									<p:outputLabel value="#{historico.salario}" />
+								</p:column>
+								<p:column headerText="Admss.">
+									<p:outputLabel value="#{historico.dataAdimissao}">
+										<f:convertDateTime pattern="dd/MM/yyyy" locale="pt"
+											timeZone="America/Sao_Paulo" />
+									</p:outputLabel>
+								</p:column>
+								<p:column headerText="Demiss.">
+									<p:outputLabel value="#{historico.dataDemissao}">
+										<f:convertDateTime pattern="dd/MM/yyyy" locale="pt"
+											timeZone="America/Sao_Paulo" />
+									</p:outputLabel>
+								</p:column>
+								<p:column headerText="Motivo">
+									<p:outputLabel value="#{historico.motivo}" />
+								</p:column>
+							</p:dataTable>
+						</p:tab>
+					</p:accordionPanel>
+					<p:commandButton value="Voltar para Candidatos" process="@this"
+						action="/rh/candidatos?faces-redirect=true;"
+						icon="fa fa-arrow-left Fs16 white"
+						style="margin-top:20px;margin-bottom:20px;" />
+					<!--<p:commandButton value="Imprimir" ajax="false" style="float:right"
+						icon="fa fa-print Fs16 white"
+						action="#{candidatosMB.impressaoCandidato()}" /> -->
+				</h:form>
+			</div>
+		</div>
+
+		<p:dialog widgetVar="dlgUpload" header="Inserir Foto" modal="true"
+			resizable="false">
+			<h:form id="frmUpload">
+				<p:fileUpload fileUploadListener="#{candidatosMB.handleFileUpload}"
+					mode="advanced" dragDropSupport="true"
+					oncomplete="PF('dlgUpload').hide();" multiple="false"
+					invalidFileMessage="Arquivo inválido!" widgetVar="lol"
+					fileLimitMessage="Ultrapassou o limite de tamanho da foto!"
+					cancelLabel="Cancelar" label="Procurar" uploadLabel="Inserir"
+					update=":frmDtlhCandidato" sizeLimit="5000000"
+					allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+			</h:form>
+		</p:dialog>
+
+		<p:ajaxStatus onstart="PF('statusDialog').show()"
+			onsuccess="PF('statusDialog').hide()" />
+		<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+			closable="false" resizable="false" showHeader="false">
+					Aguarde...<br />
+			<br />
+			<p:graphicImage library="imagens" name="loader.gif" />
+		</p:dialog>
+	</ui:define>
+</ui:composition>

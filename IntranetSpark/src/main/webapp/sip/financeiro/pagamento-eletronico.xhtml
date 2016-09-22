@@ -1,0 +1,291 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<style>
+#j_idt44>table:nth-child(3)>tbody>tr>td {
+	vertical-align: top;
+}
+
+.col25 input {
+	width: 25px !important;
+}
+
+.col50 input {
+	width: 50px !important;
+}
+
+.ContaVinculada {
+	background-color: #06fbe1 !important;
+}
+</style>
+		<div class="layout-portlets-box">
+			<div class="DispInlBlock TexAlLeft">
+				<div class="Fleft">
+					<h2 class="black Fs24 FontRalewayMedium">Relação de Pagamento
+						Eletrônico</h2>
+				</div>
+			</div>
+			<div class="Seperator"></div>
+			<div class="Container100 Responsive100">
+				<p:messages id="msgs" />
+				<h:form>
+					<p:panelGrid id="gridFiltro" columns="8" style="margin-top:10px;">
+						<f:facet name="header">
+							<h:outputText value="Filtros" />
+						</f:facet>
+						<p:outputLabel value="Tipo" />
+						<p:column>
+							<p:selectOneRadio value="#{financeiroImgMB.tipoPesquisa}">
+								<p:ajax listener="#{financeiroImgMB.constroiContas()}"
+									process="@this"
+									update="@form:gridFiltro,@form:gridTbl,@form:gridTotal" />
+								<f:selectItem itemLabel="À enviar" itemValue="1" />
+								<f:selectItem itemLabel="Enviados" itemValue="2" />
+							</p:selectOneRadio>
+						</p:column>
+						<p:outputLabel value="Nº Remessa"
+							rendered="#{financeiroImgMB.tipoPesquisa == 2}" />
+						<p:inputText value="#{financeiroImgMB.nro_remessa}"
+							rendered="#{financeiroImgMB.tipoPesquisa == 2}">
+							<pe:keyFilter regEx="/[0123456789]/i" preventPaste="false" />
+						</p:inputText>
+						<p:outputLabel value="Conta"
+							rendered="#{financeiroImgMB.tipoPesquisa == 1}" />
+						<p:inputText value="#{financeiroImgMB.conta}"
+							rendered="#{financeiroImgMB.tipoPesquisa == 1}">
+							<pe:keyFilter regEx="/[0123456789]/i" />
+						</p:inputText>
+						<p:outputLabel value="Período:"
+							rendered="#{financeiroImgMB.tipoPesquisa == 1}" />
+						<p:column>
+							<p:calendar mask="true" pattern="dd/MM/yyyy" locale="pt"
+								timeZone="America/Sao_Paulo"
+								value="#{financeiroImgMB.dataInicio}" navigator="true"
+								yearRange="c-5:c+1" styleClass="calendar"
+								rendered="#{financeiroImgMB.tipoPesquisa == 1}">
+							</p:calendar>
+							<p:outputLabel value="à" style="margin-left:5px;"
+								rendered="#{financeiroImgMB.tipoPesquisa == 1}" />
+							<p:calendar mask="true" pattern="dd/MM/yyyy" locale="pt"
+								timeZone="America/Sao_Paulo" value="#{financeiroImgMB.dataFim}"
+								navigator="true" yearRange="c-5:c+1" style="margin-left:5px;"
+								styleClass="calendar"
+								rendered="#{financeiroImgMB.tipoPesquisa == 1}">
+							</p:calendar>
+							<p:commandButton icon="fa fa-search Fs16 white"
+								actionListener="#{financeiroImgMB.constroiContas()}"
+								update="@form:gridTbl,@form:gridTotal" style="margin-left:5px;" />
+						</p:column>
+						<p:outputLabel value="Fonte" />
+						<p:selectOneMenu value="#{financeiroImgMB.fonte}"
+							widgetVar="selectFonte" style="width:50px;"
+							onchange="changeFontSize();">
+							<p:ajax process="@this" />
+							<f:selectItem itemLabel="12" itemValue="12" />
+							<f:selectItem itemLabel="13" itemValue="13" />
+							<f:selectItem itemLabel="14" itemValue="14" />
+							<f:selectItem itemLabel="15" itemValue="15" />
+							<f:selectItem itemLabel="16" itemValue="16" />
+							<f:selectItem itemLabel="17" itemValue="17" />
+							<f:selectItem itemLabel="18" itemValue="18" />
+						</p:selectOneMenu>
+					</p:panelGrid>
+					<h:panelGrid id="gridTotal" columns="4" style="margin-top:20px;">
+						<p:outputLabel value="Qtd.: " style="font-size: 16px !important" />
+						<p:outputLabel value="#{financeiroImgMB.qtdTotal}"
+							style="font-size: 16px !important;color:red;" />
+						<p:outputLabel value="Valor Total:"
+							style="font-size: 16px !important;margin-left:10px;" />
+						<p:outputLabel value="#{financeiroImgMB.valorTotal}"
+							style="font-size: 16px !important;color:red;">
+							<f:convertNumber type="currency" currencySymbol="R$"
+								maxFractionDigits="2" />
+						</p:outputLabel>
+					</h:panelGrid>
+
+					<h:panelGrid columns="8" style="font-size:12px;margin-top:20px;">
+						<div
+							style="width: 15px; height: 15px; background: #06fbe1; border: 1px solid black;" />
+						<p:outputLabel value="Possui Conta Vinculada" />
+					</h:panelGrid>
+
+					<p:outputPanel id="gridTbl" style="width: 100%;">
+						<p:dataTable value="#{financeiroImgMB.contas}"
+							filteredValue="#{financeiroImgMB.fltrContas}" var="conta"
+							scrollable="true" scrollHeight="600"
+							rowStyleClass="#{conta.contaVinculada ? 'ContaVinculada' : ''}"
+							style="min-width:98%!important;float:left;width:60%!important;margin-top:20px;margin-right:20px;">
+							<p:column style="width:16px">
+								<p:rowToggler />
+							</p:column>
+							<p:column headerText="Conta" width="40"
+								filterBy="#{conta.contaBancaria}" styleClass="col25">
+								<h:outputText value="#{conta.contaBancaria}" />
+							</p:column>
+							<p:column headerText="Cnd" width="40"
+								filterBy="#{conta.condominio}" styleClass="col25">
+								<h:outputText value="#{conta.condominio}"
+									rendered="#{conta.condominio != null and conta.condominio gt 0}" />
+							</p:column>
+							<p:column headerText="Banco"
+								filterBy="#{conta.codBanco} - #{conta.nomeBanco}">
+								<h:outputText value="#{conta.codBanco} - #{conta.nomeBanco}" />
+							</p:column>
+							<p:column headerText="Agência"
+								filterBy="#{conta.codAgencia} - #{conta.nomeAgencia}">
+								<h:outputText value="#{conta.codAgencia} - #{conta.nomeAgencia}" />
+							</p:column>
+							<p:column headerText="C/C" width="100" filterBy="#{conta.CC}"
+								styleClass="col50">
+								<h:outputText value="#{conta.CC}" />
+							</p:column>
+							<p:column headerText="Total" width="130"
+								filterBy="#{conta.valorTotal}">
+								<h:outputText value="#{conta.valorTotal}">
+									<f:convertNumber maxFractionDigits="2" type="currency"
+										currencySymbol="R$" />
+								</h:outputText>
+							</p:column>
+							<p:column headerText="Qtd." width="30"
+								filterBy="#{conta.contador}">
+								<h:outputText value="#{conta.contador}" />
+							</p:column>
+							<p:rowExpansion>
+								<p:dataTable value="#{conta.tipoPagamento}"
+									filteredValue="#{financeiroImgMB.fltrTipoPagamento}"
+									rowStyleClass="#{tipo.contaVinculada ? 'ContaVinculada' : ''}"
+									var="tipo" style="margin-left:25px;">
+									<p:column style="width:16px;">
+										<p:rowToggler />
+									</p:column>
+									<p:column headerText="Tipo de Pagamento"
+										filterBy="#{tipo.tipoPagamento} - #{tipo.descricao}">
+										<h:outputText
+											value="#{tipo.tipoPagamento} - #{tipo.descricao}" />
+									</p:column>
+									<p:column headerText="Total" width="130"
+										filterBy="#{tipo.valorTotalTipo}">
+										<h:outputText value="#{tipo.valorTotalTipo}">
+											<f:convertNumber maxFractionDigits="2" type="currency"
+												currencySymbol="R$" />
+										</h:outputText>
+									</p:column>
+									<p:column headerText="Qtd." width="30"
+										filterBy="#{tipo.contador}">
+										<h:outputText value="#{tipo.contador}" />
+									</p:column>
+									<p:rowExpansion>
+										<p:dataTable value="#{tipo.lancamentos}"
+											filteredValue="#{financeiroImgMB.fltrLancamentos}"
+											rowStyleClass="#{lancamento.contaVinculada ? 'ContaVinculada' : ''} foco"
+											var="lancamento" style="margin-left:25px;">
+											<p:column headerText="Nº Lcto" width="60" rendered="false"
+												filterBy="#{lancamento.cndpagar.nrolancto}">
+												<h:outputText value="#{lancamento.cndpagar.nrolancto}" />
+											</p:column>
+											<p:column headerText="Vencimento" width="80"
+												filterBy="#{lancamento.cndpagar.vencimento}">
+												<h:outputText value="#{lancamento.cndpagar.vencimento}">
+													<f:convertDateTime pattern="dd/MM/yyyy" locale="pt"
+														timeZone="America/Sao_Paulo" />
+												</h:outputText>
+											</p:column>
+											<p:column headerText="Cnd" width="40"
+												filterBy="#{lancamento.cndpagar.condominio}"
+												styleClass="col25">
+												<h:outputText value="#{lancamento.cndpagar.condominio}" />
+											</p:column>
+											<p:column headerText="Conta" width="40"
+												filterBy="#{lancamento.cndpagar.conta}" styleClass="col25">
+												<h:outputText value="#{lancamento.cndpagar.conta}" />
+											</p:column>
+											<p:column headerText="Favorecido"
+												filterBy="#{lancamento.cndpagar.favorecido}">
+												<h:outputText value="#{lancamento.cndpagar.favorecido}" />
+											</p:column>
+											<p:column headerText="Histórico"
+												filterBy="#{lancamento.cndpagar.historico}"
+												filterMatchMode="contains">
+												<h:outputText value="#{lancamento.cndpagar.historico}" />
+											</p:column>
+											<p:column headerText="Valor" width="100"
+												filterBy="#{lancamento.cndpagar.valor}">
+												<h:outputText value="#{lancamento.cndpagar.valor}">
+													<f:convertNumber maxFractionDigits="2" type="currency"
+														currencySymbol="R$" />
+												</h:outputText>
+											</p:column>
+											<p:column width="20">
+												<p:commandLink rendered="#{lancamento.possuiImg}"
+													update=":frmImagem" oncomplete="PF('dlgImagem').show();">
+													<f:setPropertyActionListener value="#{lancamento.cndpagar}"
+														target="#{financeiroImgMB.lancamentoSelecionado}" />
+													<f:setPropertyActionListener
+														value="#{lancamento.cndpagar.nrolancto}"
+														target="#{financeiroImgMB.idImg}" />
+													<p:graphicImage library="imagens" name="pdf.gif"
+														height="13" />
+												</p:commandLink>
+											</p:column>
+										</p:dataTable>
+									</p:rowExpansion>
+								</p:dataTable>
+							</p:rowExpansion>
+						</p:dataTable>
+					</p:outputPanel>
+				</h:form>
+			</div>
+		</div>
+		<p:dialog widgetVar="dlgImagem" modal="true" width="850"
+			resizable="false" draggable="false">
+			<h:form id="frmImagem">
+				<p:panelGrid id="gridDtlhLancto" columns="2" rendered="false">
+					<p:outputLabel value="Vencimento:" />
+					<p:outputLabel
+						value="#{financeiroImgMB.lancamentoSelecionado.vencimento}">
+						<f:convertDateTime locale="pt" pattern="dd/MM/yyyy"
+							timeZone="America/Sao_Paulo" />
+					</p:outputLabel>
+					<p:outputLabel value="Cnd:" />
+					<p:outputLabel
+						value="#{financeiroImgMB.lancamentoSelecionado.condominio}" />
+					<p:outputLabel value="Conta:" />
+					<p:outputLabel
+						value="#{financeiroImgMB.lancamentoSelecionado.conta}" />
+					<p:outputLabel value="Favorecido:" />
+					<p:outputLabel
+						value="#{financeiroImgMB.lancamentoSelecionado.favorecido}" />
+					<p:outputLabel value="Histórico:" />
+					<p:outputLabel
+						value="#{financeiroImgMB.lancamentoSelecionado.historico}" />
+					<p:outputLabel value="Valor:" />
+					<p:outputLabel
+						value="#{financeiroImgMB.lancamentoSelecionado.valor}">
+						<f:convertNumber currencySymbol="R$" minFractionDigits="2"
+							locale="pt" type="currency" />
+					</p:outputLabel>
+				</p:panelGrid>
+				<h:panelGrid id="gridMedia" style="float:left;margin-top:20px;">
+					<p:media player="pdf" value="#{ImgServiceBean.pdfImgFinanceiro}"
+						width="800" height="600">
+						<f:param name="idImg" value="#{financeiroImgMB.idImg}" />
+					</p:media>
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+		<p:ajaxStatus onstart="PF('statusDialog').show();"
+			onsuccess="PF('statusDialog').hide();checkCookie();" />
+		<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+			closable="false" resizable="false" showHeader="false">
+			Aguarde...<br />
+			<br />
+			<p:graphicImage library="imagens" name="loader.gif" />
+		</p:dialog>
+		<ui:include src="/includes/fonte.xhtml" />
+	</ui:define>
+</ui:composition>

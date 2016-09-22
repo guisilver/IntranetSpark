@@ -1,0 +1,105 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<h:form id="frmAddRateio"
+		rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysSEM}">
+		<p:dialog id="dlgAdicionar" widgetVar="dlgAdicionar" resizable="false"
+			modal="true" responsive="true" closeOnEscape="true"
+			header="Nova Verba" maximizzable="true">
+			<p:growl autoUpdate="true" id="growl" widgetVar="growl" />
+			<p:messages id="msg" showDetail="true" autoUpdate="false"
+				closable="true" escape="true" showSummary="false" styleClass="msg" />
+			<h:panelGrid columns="2" cellpadding="5">
+				<p:outputLabel value="Condomínio:" for="condominio2" />
+				<p:selectOneMenu id="condominio2" value="#{emMB.condominio}"
+					style="width:240px;" filter="true" filterMatchMode="contains">
+					<f:selectItem itemLabel="Selecione" itemValue="0" />
+					<f:selectItems value="#{SessaoMB.listaCondominios}" var="condominio"
+						itemLabel="#{condominio.cndCodNome}"
+						itemValue="#{condominio.codigo}" />
+					<p:ajax
+						update="frmAddRateio:somBloco, frmAddRateio:somUnidade, frmAddRateio:somTipo" />
+				</p:selectOneMenu>
+			</h:panelGrid>
+			<h:panelGrid columns="2" cellpadding="5">
+				<p:outputLabel value="Tipo:" />
+				<p:selectOneMenu value="#{emMB.tipo}" id="somTipo"
+					style="margin-left:35px; width:170px;">
+					<f:selectItem itemLabel="Tipos de Rateio" itemValue="" />
+					<f:selectItems value="#{emMB.listaTipo2}" var="tipo"
+						itemValue="#{tipo.tipo}" itemLabel="Tipo #{tipo.tipo}" />
+					<p:ajax update="tipoFracao, tipoI, panelSalvar" />
+				</p:selectOneMenu>
+			</h:panelGrid>
+			<h:panelGrid id="tipoFracao">
+				<h:panelGrid columns="2" cellpadding="5"
+					rendered="#{emMB.tipo != 'I'}">
+					<p:outputLabel value="Conta:" />
+					<p:inputText value="#{emMB.conta}" />
+					<p:outputLabel value="Histórico:" />
+					<p:inputText value="#{emMB.historico}" maxlength="28"
+						style="width:230px;" />
+					<p:outputLabel value="Bloco:" />
+					<p:inputText value="#{emMB.bloco}" />
+					<p:outputLabel value="Valor:" />
+					<pe:inputNumber value="#{emMB.valor}" decimalSeparator=","
+						thousandSeparator="." />
+				</h:panelGrid>
+			</h:panelGrid>
+
+			<h:panelGrid id="tipoI">
+				<h:panelGrid columns="2" cellpadding="5"
+					rendered="#{emMB.tipo == 'I'}">
+					<p:outputLabel value="Torre:" />
+					<p:selectOneMenu id="somBloco" value="#{emMB.bloco}"
+						style="width:100px;text-align:center !important; margin-left:60px;">
+						<f:selectItem itemLabel="Bloco" itemValue="" />
+						<f:selectItems value="#{emMB.listaDeBloco}" var="bloco"
+							itemValue="#{bloco.bloco}" itemLabel="#{bloco.bloco}" />
+						<p:ajax update="frmAddRateio:somUnidade" />
+					</p:selectOneMenu>
+				</h:panelGrid>
+				<h:panelGrid columns="2" cellpadding="5"
+					rendered="#{emMB.tipo == 'I'}">
+					<p:outputLabel value="Unidade:" />
+					<p:selectCheckboxMenu id="somUnidade"
+						value="#{emMB.selectUnidades}" filter="true"
+						filterMatchMode="startsWith" label="Unidade"
+						style="width:100px; margin-left:35px;">
+						<f:selectItems value="#{emMB.listaDeUnidade}" var="unidade"
+							itemValue="#{unidade.unidade}" itemLabel="#{unidade.unidade}" />
+					</p:selectCheckboxMenu>
+				</h:panelGrid>
+				<h:panelGrid columns="2" cellpadding="5"
+					rendered="#{emMB.tipo == 'I'}">
+					<p:outputLabel value="Conta:" />
+					<p:inputText value="#{emMB.conta}" />
+					<p:outputLabel value="Histórico:" />
+					<p:inputText value="#{emMB.historico}" maxlength="28"
+						style="width:230px;" />
+					<p:outputLabel value="Valor Unitário:" />
+					<pe:inputNumber value="#{emMB.valorU}" decimalSeparator=","
+						thousandSeparator="." />
+					<p:outputLabel value="Valor Total:" />
+					<pe:inputNumber value="#{emMB.valor}" decimalSeparator=","
+						thousandSeparator="." />
+				</h:panelGrid>
+			</h:panelGrid>
+			<hr />
+			<h:panelGrid id="panelSalvar">
+				<p:commandButton value="Salvar" icon="fa fa-check Fs16 white"
+					action="#{emMB.adicionarRateio()}"
+					oncomplete="PF('dlgAdicionar').hide()"
+					rendered="#{emMB.tipo != 'I'}" />
+				<p:commandButton value="Salvar" icon="fa fa-check Fs16 white"
+					action="#{emMB.adicionarRateioTipoI()}"
+					oncomplete="PF('dlgAdicionar').hide()"
+					rendered="#{emMB.tipo == 'I'}" />
+			</h:panelGrid>
+		</p:dialog>
+	</h:form>
+</ui:composition>

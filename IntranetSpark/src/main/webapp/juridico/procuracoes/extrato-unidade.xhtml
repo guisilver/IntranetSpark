@@ -1,0 +1,74 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<style>
+.msg {
+	color: #FFF;
+	font-size: 20px;
+}
+</style>
+
+	<h:form id="frmExtrato"
+		rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysCobranca}">
+		<p:messages id="msg" showDetail="true" autoUpdate="false"
+			closable="true" escape="true" showSummary="false" styleClass="msg" />
+		<p:panel>
+			<p:dataTable id="dtExtrato" value="#{prjMB.listaExtrato}"
+				filteredValue="#{prjMB.fltrProcuracao}" selection="#{prjMB.pjBEAN}"
+				var="extrato" rows="15" paginator="true"
+				emptyMessage="Nenhuma cota em aberto!"
+				style="font-size:12px; text-align:center;"
+				rowsPerPageTemplate="15,30,50,100">
+				<f:facet name="header">Extrato</f:facet>
+				<p:column>
+					<f:facet name="header">Unidade</f:facet>
+					<h:outputText
+						value="Bl. #{extrato.bloco} - Unid. #{extrato.unidade}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">Emissão</f:facet>
+					<h:outputText value="#{extrato.emissao}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">Recibo</f:facet>
+					<h:outputText value="#{extrato.recibo}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">Vencimento</f:facet>
+					<h:outputText value="#{extrato.vencto}">
+						<f:convertDateTime locale="pt" pattern="dd/MM/yyyy"
+							timeZone="America/Sao_Paulo" />
+					</h:outputText>
+				</p:column>
+				<p:column>
+					<f:facet name="header">Valor</f:facet>
+					<h:outputText value="R$ #{extrato.valor_recibo}" />
+				</p:column>
+			</p:dataTable>
+		</p:panel>
+		<p:dialog widgetVar="dlgStatus" id="dlgStatus" header="Status"
+			style="font-size:13px;" resizable="false" modal="true"
+			closable="false">	
+					Esta pesquisa pode levar alguns segundos.<br />
+					Carregando...<br />
+			<br />
+			<p:graphicImage library="imagens" name="loader.gif" />
+			<br />
+		</p:dialog>
+
+		<script type="text/javascript">
+							function start() {
+								PF('statusDialog').show();
+							}
+							function stop() {
+								PF('statusDialog').hide();
+								PF('relatorio').hide();
+							}
+						</script>
+	</h:form>
+</ui:composition>
+

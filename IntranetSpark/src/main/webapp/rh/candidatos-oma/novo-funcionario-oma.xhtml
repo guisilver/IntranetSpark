@@ -1,0 +1,311 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<div class="layout-portlets-box">
+			<div class="DispInlBlock TexAlLeft">
+				<div class="Fleft">
+					<h2 class="black Fs24 FontRalewayMedium">Novo Funcionário</h2>
+				</div>
+			</div>
+			<div class="Seperator"></div>
+			<div class="Container100 Responsive100">
+				<div class="ContainerIndent"></div>
+				<h:form>
+
+					<p:messages autoUpdate="true" id="msg" />
+					<p:wizard id="wizard" styleClass="FormContent" nextLabel="Próximo"
+						backLabel="Voltar" onnext="scrollTop();">
+						<p:tab title="Dados do Funcionário">
+							<p:panelGrid columns="1" layout="grid" styleClass="FormContent">
+
+								<h:panelGrid columns="1" id="frmDtlhAltCandidato">
+
+									<p:panelGrid columns="1"
+										style="text-align:center;margin-bottom:20px;">
+										<p:graphicImage value="#{ImgServiceBean.fotoCandidato}"
+											cache="false" width="250" height="250">
+											<f:param name="id" />
+										</p:graphicImage>
+										<p:commandButton value="Excluir Foto"
+											icon="fa fa-trash Fs16 white" />
+										<p:commandButton value="Inserir Foto"
+											icon="fa fa-camera Fs16 white" />
+									</p:panelGrid>
+								</h:panelGrid>
+								
+								
+								<p:outputLabel value="Nome" />
+								<p:inputText />
+
+								<p:outputLabel value="Departamento:" />
+								<p:inputText />
+
+								<p:outputLabel value="Função:" />
+								<p:inputText />
+
+								<p:outputLabel value="Sexo" />
+								<p:selectOneRadio>
+									<f:selectItem itemLabel="M" />
+									<f:selectItem itemLabel="F" />
+								</p:selectOneRadio>
+
+								<p:outputLabel value="Estado Civil" />
+								<p:selectOneRadio>
+									<f:selectItem itemLabel="Solteiro" />
+									<f:selectItem itemLabel="Casado" />
+									<f:selectItem itemLabel="Divorciado" />
+									<f:selectItem itemLabel="Separado" />
+								</p:selectOneRadio>
+
+								<p:outputLabel value="Idade" />
+								<p:inputText />
+
+								<p:outputLabel value="Data de Nascimento" />
+								<p:calendar />
+
+								<p:outputLabel value="Local de Nascimento" />
+								<p:inputText />
+
+								<p:outputLabel value="Nacionalidade" />
+								<p:inputText />
+
+								<p:outputLabel value="Endereço" />
+								<p:inputText />
+
+								<p:outputLabel value="Nº" />
+								<p:inputText />
+
+								<p:outputLabel value="Complemento" />
+								<p:inputText />
+
+								<p:outputLabel value="CEP" />
+								<p:inputText />
+
+								<p:outputLabel value="Bairro" />
+								<p:inputText />
+
+								<p:outputLabel value="Zona Bairro" />
+								<p:selectOneRadio>
+									<f:selectItem itemLabel="Norte" />
+									<f:selectItem itemLabel="Sul" />
+									<f:selectItem itemLabel="Leste" />
+									<f:selectItem itemLabel="Oeste" />
+									<f:selectItem itemLabel="Centro" />
+								</p:selectOneRadio>
+
+								<p:outputLabel value="Cidade" />
+								<p:selectOneMenu>
+									<f:selectItems />
+								</p:selectOneMenu>
+							</p:panelGrid>
+						</p:tab>
+
+						<p:tab title="Dados Pessoais">
+							<p:panelGrid columns="1" layout="grid" styleClass="FormContent">
+
+								<p:outputLabel value="Telefone Residencial" />
+								<p:inputText />
+
+								<p:outputLabel value="Telefone Celular" />
+								<p:inputText />
+
+								<p:outputLabel value="E-mail" />
+								<p:inputText />
+
+								<p:outputLabel value="Nº do RG" />
+								<p:inputText />
+
+								<p:outputLabel value="Data de Expedição" />
+								<p:calendar />
+
+								<p:outputLabel value="Nº do CPF" />
+								<p:inputText />
+
+								<p:outputLabel value="Nº do PIS" />
+								<p:inputText />
+
+								<p:outputLabel value="Nº do Título de Eleitor" />
+								<p:inputText />
+
+								<p:outputLabel value="Certificado Militar" />
+								<p:selectOneRadio>
+									<f:selectItem itemLabel="Sim" />
+									<f:selectItem itemLabel="Não" />
+								</p:selectOneRadio>
+
+								<p:outputLabel value="Nº CTPS/Série" />
+								<p:inputText />
+
+								<p:outputLabel value="Data de Expedição" />
+								<p:calendar />
+
+								<p:outputLabel value="CNH" />
+								<p:inputText />
+
+								<p:outputLabel value="Categoria CNH" />
+								<p:selectOneRadio>
+									<f:selectItem itemLabel="A" />
+									<f:selectItem itemLabel="B" />
+									<f:selectItem itemLabel="C" />
+									<f:selectItem itemLabel="D" />
+									<f:selectItem itemLabel="E" />
+									<f:selectItem itemLabel="ACC" />
+								</p:selectOneRadio>
+
+								<p:outputLabel value="Data de Validade" />
+								<p:calendar />
+
+								<p:outputLabel value="Fumante" />
+								<p:selectOneRadio>
+									<f:selectItem itemLabel="Sim" />
+									<f:selectItem itemLabel="Não" />
+								</p:selectOneRadio>
+
+								<p:outputLabel value="Formação Escolar" />
+								<p:selectOneMenu>
+
+									<f:selectItem itemLabel="Fundamental Incompleto" />
+									<f:selectItem itemLabel="Médio Incompleto" />
+									<f:selectItem itemLabel="Superior Incompleto" />
+									<f:selectItem itemLabel="Fundamental Completo" />
+									<f:selectItem itemLabel="Médio Completo" />
+									<f:selectItem itemLabel="Superior Completo" />
+								</p:selectOneMenu>
+
+								<p:outputLabel value="Estuda Atualmente?" />
+								<p:selectOneRadio>
+									<f:selectItem itemLabel="Sim" />
+									<f:selectItem itemLabel="Não" />
+								</p:selectOneRadio>
+
+								<p:outputLabel value="Em Qual Instituição?" />
+								<p:inputText />
+
+								<p:outputLabel value="Qual Curso?" />
+								<p:inputText />
+
+								<p:outputLabel value="Conclusão" />
+								<p:calendar />
+
+								<p:outputLabel value="Possui Conhecimentos em Informática?" />
+								<p:inputText />
+							</p:panelGrid>
+						</p:tab>
+
+						<p:tab title="Dados Familiares" />
+						<p:panelGrid columns="1" layout="grid" styleClass="FormContent">
+
+							<p:outputLabel value="Nome da Mãe" />
+							<p:inputText />
+
+							<p:outputLabel value="Nome do Pai" />
+							<p:inputText />
+
+							<p:outputLabel value="Nome do Conjuge" />
+							<p:inputText />
+
+							<p:outputLabel value="Possui Filhos?" />
+							<p:selectOneRadio>
+								<f:selectItem itemLabel="Sim" />
+								<f:selectItem itemLabel="Não" />
+							</p:selectOneRadio>
+
+							<p:outputLabel value="Quantos?" />
+							<p:inputText />
+
+							<p:panelGrid columns="2" id="gridDependente">
+								<p:outputLabel value="Nome do Filho e/ou Dependente" />
+								<p:inputText />
+
+								<p:outputLabel value="Data de Nascimento" />
+								<p:calendar />
+							</p:panelGrid>
+
+							<p:commandButton value="Adicionar Dependente" />
+
+							<p:dataTable id="tblDependentes" var="dependente"
+								rowKey="#{dependente.codigo}">
+								<p:column headerText="Nome">
+									<p:outputLabel value="#{dependente.nome}" />
+								</p:column>
+								<p:column headerText="Parentesco">
+									<p:outputLabel value="#{dependente.parentesco}" />
+								</p:column>
+								<p:column headerText="Data de Nascimento">
+									<h:outputText value="#{dependente.dataNascimento}">
+										<f:convertDateTime pattern="dd/MM/yyyy" locale="pt"
+											timeZone="America/Sao_Paulo" />
+									</h:outputText>
+								</p:column>
+								<p:column style="text-align:center;">
+									<p:commandButton icon="fa fa-close Fs16 white" />
+								</p:column>
+							</p:dataTable>
+						</p:panelGrid>
+						</p:tab>
+
+						<p:tab title="Dados Bancários">
+							<p:panelGrid columns="1" layout="grid" styleClass="FormContent">
+
+								<p:outputLabel value="Possui conta em qual Banco?" />
+								<p:selectOneMenu>
+									<f:selectItem itemLabe="Banco do Brasil" />
+									<f:selectItem itemLabel="Bradesco" />
+									<f:selectItem itemLabel="Caixa" />
+									<f:selectItem itemLabel="Citibank" />
+									<f:selectItem itemLabel="Itau" />
+									<f:selectItem itemLabel="Santander" />
+									<f:selectItem itemLabel="Safra" />
+								</p:selectOneMenu>
+
+								<p:outputLabel value="Tipo da Conta" />
+								<p:selectOneRadio>
+									<f:selectItem itemLabel="Corrente" />
+									<f:selectItem itemLabel="Poupança" />
+								</p:selectOneRadio>
+
+								<p:outputLabel value="Nº da Agência" />
+								<p:inputText>
+
+									<p:outputLabel value="Nº da Conta" />
+									<p:inputText>
+							</p:panelGrid>
+							<p:commandButton value="Salvar" />
+						</p:tab>
+
+					</p:wizard>
+
+				</h:form>
+			</div>
+		</div>
+		<h:outputScript library="javascript/maskMoney"
+			name="jquery.maskMoney.js" />
+		<p:dialog widgetVar="dlgUpload" header="Inserir Foto" modal="true"
+			resizable="false">
+			<h:form id="frmUpload">
+				<p:fileUpload
+					mode="advanced" dragDropSupport="true"
+					oncomplete="PF('dlgUpload').hide();" multiple="false"
+					invalidFileMessage="Arquivo inválido!" widgetVar="lol"
+					fileLimitMessage="Ultrapassou o limite de tamanho da foto!"
+					cancelLabel="Cancelar" label="Procurar" uploadLabel="Inserir"
+					update=":frmDtlhAltCandidato" sizeLimit="5000000"
+					allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+			</h:form>
+		</p:dialog>
+
+		<p:ajaxStatus onstart="PF('statusDialog').show()"
+			onsuccess="PF('statusDialog').hide()" />
+		<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+			closable="false" resizable="false" showHeader="false">
+					Aguarde...<br />
+			<br />
+			<p:graphicImage library="imagens" name="loader.gif" />
+		</p:dialog>
+	</ui:define>
+</ui:composition>

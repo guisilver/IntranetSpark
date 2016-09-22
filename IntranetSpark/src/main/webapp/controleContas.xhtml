@@ -1,0 +1,37 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<div class="layout-portlets-box">
+
+			<div class="DispInlBlock TexAlLeft">
+				<div class="Fleft">
+					<h2 class="black Fs24 FontRalewayMedium">Controle de Contas</h2>
+				</div>
+			</div>
+			<div class="Seperator"></div>
+
+			<div class="ContainerFixo60">
+				<p:messages id="msg" showDetail="true" autoUpdate="false"
+					closable="true" escape="true" showSummary="false" />
+			</div>
+			<div class="Container100 Responsive100">
+				<div class="ContainerIndent">
+					<ui:include src="gerencia/controle-contas/controleStyle.xhtml" />
+					<ui:include src="gerencia/controle-contas/controleContas.xhtml" />
+					<ui:include
+						src="gerencia/controle-contas/controleDialogAlterar.xhtml" />
+					<ui:include src="gerencia/controle-contas/controlePesqPConta.xhtml" />
+					<ui:include
+						src="gerencia/controle-contas/controleDialogNovaConta.xhtml" />
+					<ui:include
+						src="gerencia/controle-contas/controleDialogRelatorio.xhtml" />
+					<ui:include
+						src="gerencia/controle-contas/controleDialogExclusao.xhtml" />
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

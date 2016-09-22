@@ -1,0 +1,39 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<h:form id="frmConsRateio" rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysSEM}">
+		<p:dialog id="dlgConsultar" widgetVar="dlgConsultar" resizable="false"
+			modal="true" responsive="true" closeOnEscape="true" header="Emissão">
+			<p:growl autoUpdate="true" id="growl" widgetVar="growl" />
+			<p:messages id="msg" showDetail="true" autoUpdate="false"
+				closable="true" escape="true" showSummary="false" styleClass="msg" />
+			<p:dataTable id="tblConsultar" var="p" value="#{emMB.listaEmissao}"
+				paginator="true" rows="10"
+				emptyMessage="Não existe verbas para essa emissão!"
+				style="font-size:13px; text-align:center; width:800px; heigth:600px;">
+
+				<p:column headerText="Condomínio">
+					<h:outputText value="#{p.codigo}" />
+				</p:column>
+				<p:column headerText="Conta">
+					<h:outputText value="#{p.conta}" />
+				</p:column>
+				<p:column headerText="Histórico">
+					<h:outputText value="#{p.historico}" />
+				</p:column>
+				<p:column headerText="Valor">
+					<h:outputText value="#{p.valor}">
+						<f:convertNumber type="currency" currencySymbol="R$" locale="pt" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="Tipo">
+					<h:outputText value="#{p.tipo}" />
+				</p:column>
+			</p:dataTable>
+		</p:dialog>
+	</h:form>
+</ui:composition>

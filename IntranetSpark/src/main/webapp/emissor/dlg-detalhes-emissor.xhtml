@@ -1,0 +1,98 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<style>
+.ui-cell-editor-output {
+	word-wrap: break-word;
+	width: 140px;
+}
+
+#frmTblEmissor\3a tblEmissor_data>tr>td:nth-child(7)>table>tbody>tr>td {
+	border: 0px !important;
+}
+</style>
+	<p:dialog widgetVar="dlgDetalhesEmissor" id="dlgDetalhesEmissor"
+		header="Detalhes do Emissor" style="font-size:13px;" resizable="false"
+		modal="true">
+		<h:form id="frmDetalhesEmissor">
+			<p:panelGrid columns="2" style="margin:20px;">
+
+				<f:facet name="header">
+					<h:outputText value="Informações" />
+				</f:facet>
+
+				<h:outputText value="Cod. CND:" />
+				<h:outputText value="#{emissorMB.emissorSelecionado.codCondominio}"
+					style="color:red;" />
+
+				<h:outputText value="Nome CND:" />
+				<h:outputText value="#{emissorMB.emissorSelecionado.nomeCondominio}"
+					style="color:red;" />
+
+				<h:outputText value="Referência:" />
+				<h:outputText value="#{emissorMB.emissorSelecionado.referencia}" />
+
+				<h:outputText value="Data de Envio:" />
+				<h:outputText value="#{emissorMB.emissorSelecionado.dataEnviado}">
+					<f:convertDateTime locale="pt" pattern="dd/MM/yyyy HH:mm"
+						timeZone="America/Sao_Paulo" />
+				</h:outputText>
+				
+				<h:outputText value="Nome do Arquivo:"/>
+				<h:outputText value="#{impressaoBureauMB.loteSelecionado.nomeLote}"/>
+
+				<h:outputText value="Situação:" />
+				<p:column>
+					<h:outputText value="#{emissorMB.emissorSelecionado.situacao}"
+						styleClass="#{emissorMB.emissorSelecionado.situacao}" />
+				</p:column>
+
+				<h:outputText value="Data de Conferência:" />
+				<p:column>
+					<h:outputText value="#{emissorMB.emissorSelecionado.dataConferido}"
+						rendered="#{emissorMB.emissorSelecionado.dataConferido != null}">
+						<f:convertDateTime locale="pt" pattern="dd/MM/yyyy HH:mm"
+							timeZone="America/Sao_Paulo" />
+					</h:outputText>
+				</p:column>
+
+			</p:panelGrid>
+			<p:panelGrid columns="2" style="margin:20px;">
+
+				<f:facet name="header">
+					<h:outputText value="Arquivos" />
+				</f:facet>
+
+				<h:outputText value="Destinatário:"
+					rendered="#{emissorMB.destinatario}" />
+				<p:commandButton ajax="false"
+					onclick="PrimeFaces.monitorDownload(start, stop);"
+					icon="fa fa-download Fs16 white" value="Download"
+					rendered="#{emissorMB.destinatario}">
+					<p:fileDownload value="#{emissorMB.dwnldDest}" />
+				</p:commandButton>
+
+				<h:outputText value="Emissor 1:" rendered="#{emissorMB.emissor1}" />
+				<p:commandButton ajax="false"
+					onclick="PrimeFaces.monitorDownload(start, stop);"
+					icon="fa fa-download Fs16 white" value="Download"
+					rendered="#{emissorMB.emissor1}">
+					<p:fileDownload value="#{emissorMB.dwnldEmissor1}" />
+				</p:commandButton>
+
+				<h:outputText value="Emissor 2:" rendered="#{emissorMB.emissor2}" />
+				<p:commandButton ajax="false"
+					onclick="PrimeFaces.monitorDownload(start, stop);"
+					icon="fa fa-download Fs16 white" value="Download"
+					rendered="#{emissorMB.emissor2}">
+					<p:fileDownload value="#{emissorMB.dwnldEmissor2}" />
+				</p:commandButton>
+
+			</p:panelGrid>
+			<p:commandButton value="Fechar" icon="fa fa-close Fs16 white"
+				onclick="PF('dlgDetalhesEmissor').hide();" />
+		</h:form>
+	</p:dialog>
+</ui:composition>

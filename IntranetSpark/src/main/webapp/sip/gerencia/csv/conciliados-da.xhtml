@@ -1,0 +1,188 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<style>
+.col80 input {
+	width: 80px !important;
+}
+
+.col60 input {
+	width: 60px !important;
+}
+</style>
+		<div class="layout-portlets-box trilha"
+			style="padding-top: 0px !important; padding-bottom: 0px !important;">
+			<p:breadCrumb>
+				<p:menuitem value="Home" url="/dashboard.xhtml" />
+				<p:menuitem value="Baixa Débito Automático"
+					url="/sip/gerencia/csv/baixa-debito-automatico" />
+				<p:menuitem value="Concessionárias"
+					url="/sip/gerencia/concessionaria/controle-concessionarias" />
+			</p:breadCrumb>
+		</div>
+		<div class="layout-portlets-box">
+			<div class="DispInlBlock TexAlLeft">
+				<div class="Fleft">
+					<h2 class="black Fs24 FontRalewayMedium">Conciliados - Débito
+						Automático</h2>
+				</div>
+			</div>
+			<div class="Seperator"></div>
+			<div class="Container100 Responsive100">
+				<div class="ContainerIndent">
+					<h:form
+						rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysSipGerencia}">
+						<div>
+							<p:messages autoUpdate="true" id="msg" widgetVar="msg" />
+							<p:panelGrid columns="7">
+								<f:facet name="header">Filtro</f:facet>
+								<p:outputLabel value="Período:" />
+								<p:calendar value="#{conciliacaoDAMB.dataInicio}"
+									required="true" locale="pt" timeZone="America/Sao_Paulo"
+									requiredMessage="Informe a data de início para pesquisar!"
+									placeholder="Início" styleClass="calendar" />
+								<p:calendar value="#{conciliacaoDAMB.dataFim}" required="true"
+									locale="pt" timeZone="America/Sao_Paulo"
+									requiredMessage="Informe a data de fim para pesquisar!"
+									placeholder="Fim" styleClass="calendar" />
+								<p:commandButton value="Pesquisar"
+									actionListener="#{conciliacaoDAMB.pesquisarConciliados()}"
+									icon="fa fa-search Fs16 white" update=":frmConciliados" />
+								<p:commandButton icon="fa fa-file-text-o Fs16 white"
+									value="Gerar Relatório"
+									actionListener="#{conciliacaoDAMB.geraRelConciliacao()}" />
+								<p:outputLabel value="Fonte:" />
+								<p:selectOneMenu value="#{baixaDAMB.fonte}"
+									widgetVar="selectFonte" style="width:50px;"
+									onchange="changeFontSize();">
+									<p:ajax process="@this" />
+									<f:selectItem itemLabel="12" itemValue="12" />
+									<f:selectItem itemLabel="13" itemValue="13" />
+									<f:selectItem itemLabel="14" itemValue="14" />
+									<f:selectItem itemLabel="15" itemValue="15" />
+									<f:selectItem itemLabel="16" itemValue="16" />
+									<f:selectItem itemLabel="17" itemValue="17" />
+									<f:selectItem itemLabel="18" itemValue="18" />
+								</p:selectOneMenu>
+							</p:panelGrid>
+						</div>
+					</h:form>
+					<h:form id="frmConciliados"
+						rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysSipGerencia}">
+						<div style="margin-top: 20px;">
+							<p:outputLabel value="Valor Total:"
+								style="font-size:16px!important;" />
+							<p:outputLabel value="#{conciliacaoDAMB.valorTotal}"
+								style="color:red!important;font-size:16px!important;margin-left:5px;">
+								<f:convertNumber currencySymbol="R$" type="currency"
+									minFractionDigits="2" />
+							</p:outputLabel>
+						</div>
+						<p:dataTable value="#{conciliacaoDAMB.listaConc}" var="conc"
+							rows="50" paginator="true" style="margin-top:20px;"
+							rowStyleClass="foco" emptyMessage="Nenhum resultado encontrado.">
+							<p:column width="40" style="text-align:center;">
+								<p:commandButton icon="fa fa-trash Fs16 white"
+									styleClass="btnLittle"
+									actionListener="#{conciliacaoDAMB.excluir(conc.codigo)}"
+									update="@form" title="Excluir">
+									<p:confirm header="Confirmação"
+										message="Você confirma a exclusão?" icon="ui-icon-alert" />
+								</p:commandButton>
+							</p:column>
+							<p:column headerText="Pagamento" width="80" styleClass="col60"
+								style="text-align:center;" filterBy="#{conc.dataPagtoTxt}"
+								sortBy="#{conc.dataPagtoTxt}">
+								<h:outputText value="#{conc.dataPagtoTxt}" />
+							</p:column>
+							<p:column headerText="Vencimento" width="80" styleClass="col60"
+								filterBy="#{conc.vencimentoTxt}" sortBy="#{conc.vencimentoTxt}">
+								<h:outputText value="#{conc.vencimentoTxt}" />
+							</p:column>
+							<p:column headerText="Condomínio" filterBy="#{conc.condominio}"
+								sortBy="#{conc.condominio}" filterMatchMode="contains"
+								styleClass="col80" width="200">
+								<h:outputText value="#{conc.condominio}" />
+							</p:column>
+							<p:column headerText="ID" filterBy="#{conc.nro_identificacao}"
+								sortBy="#{conc.nro_identificacao}" filterMatchMode="contains"
+								styleClass="col80" width="100">
+								<h:outputText value="#{conc.nro_identificacao}" />
+							</p:column>
+							<p:column headerText="Nº Lancto" filterBy="#{conc.nrolancto}"
+								sortBy="#{conc.nrolancto}" filterMatchMode="contains"
+								styleClass="col60" width="80">
+								<h:outputText value="#{conc.nrolancto}" />
+							</p:column>
+							<p:column headerText="Valor" width="80" styleClass="col60"
+								filterBy="#{conc.valorTxt}" sortBy="#{conc.valorTxt}">
+								<h:outputText value="#{conc.valorTxt}" />
+							</p:column>
+							<p:column headerText="Credor" filterBy="#{conc.credor}"
+								sortBy="#{conc.credor}" filterMatchMode="contains"
+								styleClass="col60" width="100">
+								<h:outputText value="#{conc.credor}" />
+							</p:column>
+							<p:column headerText="Obs" filterMatchMode="contains"
+								styleClass="col80">
+								<h:outputText value="#{conc.obs}" />
+							</p:column>
+							<p:column width="40" style="text-align:center;">
+								<p:commandLink rendered="#{conc.possuiImg}">
+									<p:ajax oncomplete="clicaBtnDwld();" />
+									<f:setPropertyActionListener value="#{conc.nrolancto}"
+										target="#{conciliacaoDAMB.idImg}" />
+									<p:graphicImage library="imagens" name="pdf.gif" height="13" />
+								</p:commandLink>
+							</p:column>
+						</p:dataTable>
+					</h:form>
+					<h:form id="frmDwld" target="_blank"
+						rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysSipGerencia}">
+						<p:commandButton id="btnDwldImg"
+							actionListener="#{conciliacaoDAMB.baixarImg()}" ajax="false"
+							style="visibility:hidden;top:-100px!important;position:absolute;" />
+					</h:form>
+					<h:form id="frmRel" target="_blank"
+						rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysSipGerencia}">
+						<p:commandButton id="btnRel"
+							actionListener="#{conciliacaoDAMB.baixarRel()}" ajax="false"
+							style="visibility:hidden;top:-100px!important;position:absolute;" />
+					</h:form>
+				</div>
+			</div>
+		</div>
+		<script>
+			function clicaBtnDwld() {
+				$("[id='frmDwld:btnDwldImg']").click();
+			}
+			function clicaBtnRel() {
+				$("[id='frmRel:btnRel']").click();
+			}
+		</script>
+		<p:confirmDialog global="true" widgetVar="dlgExclui" showEffect="fade"
+			hideEffect="fade">
+			<p:commandButton value="Não" type="button"
+				styleClass="ui-confirmdialog-no"
+				icon="ui-icon-close fa fa-close Fs14 white" />
+			<p:commandButton value="Sim" type="button" process="@this"
+				styleClass="ui-confirmdialog-yes"
+				icon="ui-icon-check fa fa-check Fs14 white" />
+		</p:confirmDialog>
+		<p:ajaxStatus onstart="PF('statusDialog').show();"
+			onsuccess="PF('statusDialog').hide();checkCookie();" />
+		<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+			closable="false" resizable="false" showHeader="false">
+					Aguarde...<br />
+			<br />
+			<p:graphicImage library="imagens" name="loader.gif" />
+		</p:dialog>
+		<ui:include src="/includes/fonte.xhtml" />
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,36 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<p:dialog widgetVar="dlgInserirFotos" maximizable="false" height="600"
+		width="600" modal="true" resizable="false" responsive="true">
+		<h:form>
+			<div class="Container100 Responsive100">
+				<div class="ContainerIndent">
+					<h1 class="BigTopic">Novo Álbum</h1>
+					<h:form>
+						<h:panelGrid columns="2" style="width:80%;">
+							<p:outputLabel value="Título: " />
+							<p:inputText value="#{fotosOmaMB.album.nome}" style="width:100%;">
+								<p:ajax event="keyup" process="@this" />
+							</p:inputText>
+						</h:panelGrid>
+						<p:fileUpload fileUploadListener="#{fotosOmaMB.handleFileUpload}"
+							mode="advanced" dragDropSupport="false" multiple="true"
+							sizeLimit="1000000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+							label="Selecionar Fotos" uploadLabel="Salvar"
+							cancelLabel="Cancelar" />
+						<p:growl autoUpdate="true" showDetail="true" />
+					</h:form>
+				</div>
+			</div>
+		</h:form>
+	</p:dialog>
+
+	<!--<script>
+		var botaoEnviar = $(".ui-fileupload-upload");
+		$(".depois").html(botaoEnviar);
+	</script>-->
+
+</ui:composition>

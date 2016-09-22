@@ -1,0 +1,29 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<h:form id="frmAddRateio2"
+		rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysSEM}">
+		<p:dialog id="dlgAdicionarC" widgetVar="dlgAdicionarC"
+			resizable="false" modal="true" responsive="true" closeOnEscape="true"
+			header="Incluir no Rateio" maximizzable="true" closable="true">
+			<p:growl autoUpdate="true" id="growl" widgetVar="growl" />
+			<p:messages id="msg" showDetail="true" autoUpdate="false"
+				escape="true" showSummary="false" styleClass="msg" />
+			<h:panelGrid columns="2" cellpadding="5">
+				<p:outputLabel value="Conta:" />
+				<p:inputText value="#{emMB.conta}" />
+				<p:outputLabel value="Histórico:" />
+				<p:inputText value="#{emMB.historico}" maxlength="28"
+					style="width:230px; text-transform:uppercase;" />
+			</h:panelGrid>
+			<hr />
+			<p:commandButton value="Salvar" icon="fa fa-check Fs16 white"
+				action="#{emMB.incluirRateio()}"
+				oncomplete="PF('dlgAdicionarC').hide()" />
+		</p:dialog>
+	</h:form>
+</ui:composition>

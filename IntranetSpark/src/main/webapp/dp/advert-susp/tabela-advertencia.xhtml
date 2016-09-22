@@ -1,0 +1,167 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<style>
+.msg {
+	color: #FFF;
+	font-size: 20px;
+}
+
+#frmFiltro table td {
+	border: 0px !important;
+}
+
+.ui-selectoneradio tbody tr td {
+	border: 0px !important;
+}
+
+.gridFiltro tbody tr td {
+	border: 0px !important;
+}
+</style>
+		<div class="layout-portlets-box">
+			<div class="DispInlBlock TexAlLeft">
+				<div class="Fleft">
+					<h2 class="black Fs24 FontRalewayMedium">Advertência/
+						Suspensão</h2>
+				</div>
+			</div>
+			<div class="Seperator"></div>
+			<div class="Container100 Responsive100">
+				<div class="ContainerIndent">
+					<h:form id="frmAdvertSusp"
+						rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysDP}">
+						<p:panelGrid id="gridFiltro" columns="1" styleClass="gridFiltro">
+							<f:facet name="header">
+								<h:outputText value="Filtros" />
+							</f:facet>
+							<h:panelGrid columns="2">
+								<p:outputLabel for="pesquisarPor" value="Pesquisar Por:" />
+								<p:selectOneRadio id="pesquisarPor" value="#{asMB.pesquisarPor}">
+									<p:ajax update="frmAdvertSusp:gridFiltro" />
+									<f:selectItem itemLabel="Todos" itemValue="Todos" />
+									<f:selectItem itemLabel="Empresa" itemValue="Empresa" />
+									<f:selectItem itemLabel="Funcionário" itemValue="Funcionário" />
+								</p:selectOneRadio>
+
+								<p:outputLabel for="selectEmpresa" value="Empresa:"
+									rendered="#{asMB.pesquisarPor eq 'Empresa'}" />
+								<p:selectOneMenu id="selectEmpresa"
+									value="#{asMB.asBEAN.empresa}" filter="true"
+									filterMatchMode="contains" style="width:200px;"
+									rendered="#{asMB.pesquisarPor eq 'Empresa'}">
+									<f:selectItem itemLabel="Selecione" itemValue="0" />
+									<f:selectItems value="#{SessaoMB.listaCondominios}" var="item"
+										itemLabel="#{item.cndCodNome}" itemValue="#{item.codigo}" />
+								</p:selectOneMenu>
+
+								<p:outputLabel for="console2" value="Empresa:"
+									rendered="#{asMB.pesquisarPor eq 'Funcionário'}" />
+								<p:selectOneMenu id="console2" value="#{asMB.asBEAN.empresa}"
+									filter="true" filterMatchMode="contains" style="width:200px;"
+									rendered="#{asMB.pesquisarPor eq 'Funcionário'}">
+									<f:selectItem itemLabel="Selecione" itemValue="0" />
+									<f:selectItems value="#{SessaoMB.listaCondominios}" var="item"
+										itemLabel="#{item.cndCodNome}" itemValue="#{item.codigo}" />
+									<p:ajax update="frmAdvertSusp:funcionario" />
+								</p:selectOneMenu>
+								<p:outputLabel value="Funcionário:"
+									rendered="#{asMB.pesquisarPor eq 'Funcionário'}" />
+								<p:selectOneMenu id="funcionario"
+									value="#{asMB.asBEAN.funcionario}" filter="true"
+									filterMatchMode="contains" style="width:200px;"
+									rendered="#{asMB.pesquisarPor eq 'Funcionário'}">
+									<f:selectItem itemLabel="Selecione" itemValue="0" />
+									<f:selectItems value="#{asMB.listaFuncionario}" var="item"
+										itemValue="#{item.funcionario}" itemLabel="#{item.nome}" />
+								</p:selectOneMenu>
+							</h:panelGrid>
+							<h:panelGrid width="100%" style="text-align:right;">
+								<p:commandButton value="Filtrar"
+									action="#{asMB.pesquisarAdvertenciaSuspensao()}"
+									update="frmAdvertSusp:tblAdvertSusp"
+									onstart="PF('dlgStatus').show();"
+									oncomplete="PF('dlgStatus').hide();"
+									icon="fa fa-search Fs16 white" />
+							</h:panelGrid>
+						</p:panelGrid>
+						<br />
+						<h:panelGrid>
+							<p:commandButton value="Advertência/ Suspensão"
+								icon="fa fa-plus Fs16 white"
+								oncomplete="PF('dlgNovaAdvertSusp').show();" />
+						</h:panelGrid>
+						<br />
+						<p:dataTable id="tblAdvertSusp" var="item"
+							value="#{asMB.listaTabela}" row="30" paginator="true"
+							rowsPerPageTemplate="30, 50, 100" rowKey="#{item}"
+							style="font-size:12px; text-align:center;heigth:600px;"
+							reflow="true" emptyMessage="Nenhuma Advertência ou Suspensão.">
+							<f:facet name="header">Advert/ Susp</f:facet>
+							<p:column rendered="false">
+								<p:outputLabel value="#{item.id}" />
+							</p:column>
+							<p:column headerText="Empresa">
+								<h:outputText value="#{item.empresa}" />
+							</p:column>
+							<p:column headerText="Cód. Funcionário">
+								<h:outputText value="#{item.funcionario}" />
+							</p:column>
+							<p:column headerText="Nome Funcionário">
+								<h:outputText value="#{item.nome}" />
+							</p:column>
+							<p:column headerText="Função">
+								<h:outputText value="#{item.funcao}" />
+							</p:column>
+							<p:column headerText="Tipo">
+								<h:outputText rendered="#{item.tipo eq false}"
+									value="Advertência" />
+								<h:outputText rendered="#{item.tipo eq true}" value="Suspensão" />
+							</p:column>
+							<p:column>
+								<p:commandButton title="Alterar"
+									oncomplete="PF('dlgAlterarAdvertSusp').show();"
+									update=":frmAltAdvertSusp"
+									actionListener="#{asMB.carregarDialogFuncionario(item)}"
+									styleClass="btnLittle" icon="fa fa-pencil Fs16 white" />
+								<p:commandButton title="Imprimir" action="#{asMB.imprimir()}"
+									update="frmAdvertSusp:tblAdvertSusp" ajax="false"
+									process="tblAdvertSusp" styleClass="btnLittle"
+									icon="fa fa-print Fs16 white"
+									style="margin-left:5px !important">
+									<f:setPropertyActionListener value="#{item}"
+										target="#{asMB.asBEANSelecionado}" />
+								</p:commandButton>
+								<p:commandButton oncomplete="PF('dlgExclusao').show();"
+									style="margin-left:5px !important" styleClass="btnLittle"
+									icon="fa fa-trash Fs16 white" title="Excluir">
+									<f:setPropertyActionListener value="#{item}"
+										target="#{asMB.asBEANSelecionado}" />
+								</p:commandButton>
+							</p:column>
+						</p:dataTable>
+
+						<p:dialog widgetVar="dlgStatus" id="dlgStatus" header="Status"
+							style="font-size:13px;" resizable="false" modal="true"
+							closable="false">	
+								Esta pesquisa pode levar alguns segundos.<br />
+								Carregando...<br />
+							<br />
+							<p:graphicImage library="imagens" name="loader.gif" />
+							<br />
+						</p:dialog>
+
+					</h:form>
+				</div>
+			</div>
+		</div>
+		<ui:include src="/dp/advert-susp/excluir-advert-susp.xhtml" />
+		<ui:include src="/dp/advert-susp/nova-advert-susp.xhtml" />
+		<ui:include src="/dp/advert-susp/alterar-advert-susp.xhtml" />
+	</ui:define>
+</ui:composition>

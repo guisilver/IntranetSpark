@@ -1,0 +1,157 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<style>
+#frmFiltro table td {
+	border: 0px !important;
+}
+
+.ui-selectoneradio tbody tr td {
+	border: 0px !important;
+}
+
+.gridFiltro tbody tr td {
+	border: 0px !important;
+}
+</style>
+		<div class="layout-portlets-box"
+			style="padding-top: 0px !important; padding-bottom: 0px !important;">
+			<p:breadCrumb>
+				<p:menuitem value="Home" url="/dashboard.xhtml" />
+				<p:menuitem value="Taxas Administrativas"
+					url="/diretoria/relatorios-mensais/taxas-administrativas" />
+			</p:breadCrumb>
+		</div>
+		<div class="layout-portlets-box">
+
+			<div class="DispInlBlock TexAlLeft">
+				<div class="Fleft">
+					<h2 class="black Fs24 FontRalewayMedium">Relatório Mensal</h2>
+				</div>
+			</div>
+			<div class="Seperator"></div>
+
+			<div class="Container100 Responsive100">
+				<div class="ContainerIndent">
+					<h:form id="frmFiltro2"
+						rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysDiretoria}">
+						<p:growl autoUpdate="true" />
+						<p:panelGrid id="gridFiltro2" columns="1" styleClass="gridFiltro">
+							<f:facet name="header">
+								<h:outputText value="Filtros" />
+							</f:facet>
+
+							<h:panelGrid columns="3">
+								<p:outputLabel value="Período:" />
+								<p:calendar value="#{rmMB.dataInicio}" id="dataInicial"
+									pattern="dd/MM/yyyy" locale="pt" timeZone="America/Sao_Paulo"
+									styleClass="calendario" />
+								<p:calendar value="#{rmMB.dataFim}" id="dataFinal"
+									pattern="dd/MM/yyyy" locale="pt" timeZone="America/Sao_Paulo"
+									styleClass="calendario" />
+							</h:panelGrid>
+							<h:panelGrid width="100%" style="text-align:right;">
+								<p:commandButton value="Filtrar"
+									action="#{rmMB.pesquisarTaxasBancarias()}"
+									update=":frmTblLote2:dtHistorico2"
+									onstart="PF('dlgStatus').show();"
+									oncomplete="PF('dlgStatus').hide();"
+									icon="fa fa-search Fs16 white" />
+							</h:panelGrid>
+						</p:panelGrid>
+					</h:form>
+				</div>
+			</div>
+
+			<div class="Container100 TexAlCenter">
+				<div class="ContainerIndent">
+					<h:form id="frmTblLote2"
+						rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysDiretoria}">
+						<p:dataTable id="dtHistorico2" var="txBanc"
+							value="#{rmMB.listaTaxaBanc}"
+							filteredValue="#{impressaoBureauMB.fltrLotes}" rows="15"
+							paginator="true" emptyMessage="Nenhum resultado encontrado!"
+							style="font-size: 12px;text-align:center;"
+							rowsPerPageTemplate="15,30,50,100">
+							<f:facet name="header">
+							Taxas Bancárias
+							</f:facet>
+							<f:facet name="footer">
+								<p:outputLabel value="Gerar Arquivo:" />
+								<h:commandLink>
+									<p:graphicImage library="imagens" name="excel.png" />
+									<p:dataExporter type="xls" target=":frmTblLote2:dtHistorico2"
+										fileName="taxa" pageOnly="false" />
+								</h:commandLink>
+							</f:facet>
+							<p:column>
+								<f:facet name="header">Código</f:facet>
+								<h:outputText value="#{txBanc.condominio}" />
+							</p:column>
+							<p:column>
+								<f:facet name="header">Bloco</f:facet>
+								<h:outputText value="#{txBanc.bloco}" />
+							</p:column>
+							<p:column>
+								<f:facet name="header">Data</f:facet>
+								<h:outputText value="#{txBanc.data}">
+									<f:convertDateTime locale="pt" pattern="dd/MM/yyyy"
+										timeZone="America/Sao_Paulo" />
+								</h:outputText>
+							</p:column>
+							<p:column>
+								<f:facet name="header">Sinal</f:facet>
+								<h:outputText value="#{txBanc.sinal}" />
+							</p:column>
+							<p:column>
+								<f:facet name="header">Valor</f:facet>
+								<h:outputText value="#{txBanc.valor}">
+									<f:convertNumber type="currency" currencySymbol="" locale="pt" />
+								</h:outputText>
+							</p:column>
+							<p:column>
+								<f:facet name="header">Histórico</f:facet>
+								<h:outputText value="#{txBanc.historico}" />
+							</p:column>
+							<p:columnGroup type="footer">
+								<p:row>
+									<p:column />
+									<p:column />
+									<p:column />
+									<p:column />
+									<p:column footerText="Valor Total: R$ #{rmMB.taxaBancaria()}" />
+									<p:column />
+								</p:row>
+							</p:columnGroup>
+						</p:dataTable>
+
+						<p:dialog widgetVar="dlgStatus" id="dlgStatus" header="Status"
+							style="font-size:13px;" resizable="false" modal="true"
+							closable="false">	
+							Esta pesquisa pode levar alguns segundos.<br />
+							Carregando...<br />
+							<br />
+							<p:graphicImage library="imagens" name="loader.gif" />
+							<br />
+						</p:dialog>
+
+						<script type="text/javascript">
+							function start() {
+								PF('statusDialog').show();
+							}
+							function stop() {
+								PF('statusDialog').hide();
+								PF('relatorio').hide();
+							}
+						</script>
+					</h:form>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

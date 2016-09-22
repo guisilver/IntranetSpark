@@ -1,0 +1,113 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="/WEB-INF/template.xhtml">
+
+	<style>
+.msg {
+	color: #FFF;
+	font-size: 20px;
+}
+
+#frmFiltro table td {
+	border: 0px !important;
+}
+
+.ui-selectoneradio tbody tr td {
+	border: 0px !important;
+}
+
+.gridFiltro tbody tr td {
+	border: 0px !important;
+}
+</style>
+	<ui:define name="content">
+		<div class="layout-portlets-box">
+			<div class="Fleft">
+				<h2 class="black Fs24 FontRalewayMedium">Tipos de Rateio</h2>
+			</div>
+			<div class="Seperator"></div>
+			<div class="Wid100"
+				style="margin-top: 20px; margin-bottom: 20px; text-align: center;">
+				<h:form id="frmTipoRateio"
+					rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysSEM}">
+					<p:panel id="gridCancelar" header="Cadastrar"
+						style="width: 450px; height: 215px; float:left; margin-left:125px; text-align:center">
+						<p:growl autoUpdate="true" id="growl" widgetVar="growl" />
+						<p:messages id="msg" showDetail="true" autoUpdate="false"
+							closable="true" escape="true" showSummary="false"
+							styleClass="msg" />
+						<h:panelGrid columns="2" cellpadding="5">
+							<p:outputLabel value="Condomínio" for="condominio3" />
+							<p:selectOneMenu id="condominio3" value="#{emMB.condominio}"
+								style="width:240px;" filter="true" filterMatchMode="contains">
+								<f:selectItem itemLabel="Selecione" itemValue="0" />
+								<f:selectItems value="#{SessaoMB.listaTodosCondominios}"
+									var="condominio"
+									itemLabel="#{condominio.cndCodNome}"
+									itemValue="#{condominio.codigo}" />
+							</p:selectOneMenu>
+						</h:panelGrid>
+						<h:panelGrid columns="2" cellpadding="5">
+							<p:outputLabel value="Tipos:" />
+							<p:selectCheckboxMenu value="#{emMB.selectTipo}" filter="true"
+								filterMatchMode="starsWith" label="Tipos de Rateio"
+								style="width:240px;margin-left:45px;">
+								<f:selectItem itemLabel="Tipo A" itemValue="A" />
+								<f:selectItem itemLabel="Tipo B" itemValue="B" />
+								<f:selectItem itemLabel="Tipo C" itemValue="C" />
+								<f:selectItem itemLabel="Tipo D" itemValue="D" />
+								<f:selectItem itemLabel="Tipo E" itemValue="E" />
+								<f:selectItem itemLabel="Tipo F" itemValue="F" />
+								<f:selectItem itemLabel="Tipo G" itemValue="G" />
+								<f:selectItem itemLabel="Tipo H" itemValue="H" />
+								<f:selectItem itemLabel="Tipo I" itemValue="I" />
+								<f:selectItem itemLabel="Tipo J" itemValue="J" />
+								<f:selectItem itemLabel="Tipo K" itemValue="K" />
+								<f:selectItem itemLabel="Tipo L" itemValue="L" />
+								<f:selectItem itemLabel="Tipo M" itemValue="M" />
+								<f:selectItem itemLabel="Tipo N" itemValue="N" />
+								<f:selectItem itemLabel="Tipo O" itemValue="O" />
+								<f:selectItem itemLabel="Tipo P" itemValue="P" />
+								<f:selectItem itemLabel="Tipo Q" itemValue="Q" />
+								<f:selectItem itemLabel="Tipo R" itemValue="R" />
+								<f:selectItem itemLabel="Tipo S" itemValue="S" />
+								<f:selectItem itemLabel="Tipo T" itemValue="T" />
+								<f:selectItem itemLabel="Tipo U" itemValue="U" />
+								<f:selectItem itemLabel="Tipo V" itemValue="V" />
+								<f:selectItem itemLabel="Tipo W" itemValue="W" />
+								<f:selectItem itemLabel="Tipo X" itemValue="X" />
+								<f:selectItem itemLabel="Tipo Y" itemValue="Y" />
+								<f:selectItem itemLabel="Tipo Z" itemValue="Z" />
+							</p:selectCheckboxMenu>
+						</h:panelGrid>
+						<hr />
+						<h:panelGrid>
+							<p:commandButton value="Salvar"
+								action="#{emMB.salvarTipoRateio()}"
+								icon="fa fa-check Fs16 white" update="tblNovoTipoRateio"
+								style="margin-left: 160px;"/>
+						</h:panelGrid>
+					</p:panel>
+					<br />
+					<p:dataTable id="tblNovoTipoRateio" var="tipo"
+						value="#{emMB.listaTipo}" rows="10" paginator="true"
+						emptyMessage="Nenhum tipo de Rateio definido."
+						style="font-size: 12px; text-align:center;width:600px; float:left; margin-left:100px;">
+						<f:facet name="header">Consulta</f:facet>
+						<p:column headerText="Código" filterBy="#{tipo.codigo}"
+							sortBy="#{tipo.codigo}">
+							<h:outputText value="#{tipo.codigo}" />
+						</p:column>
+						<p:column headerText="Tipo">
+							<h:outputText value="#{tipo.tipo}" />
+						</p:column>
+					</p:dataTable>
+				</h:form>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,60 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<h:form id="frmAltRateio"
+		rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysSEM}">
+		<p:dialog id="dlgAlterar" widgetVar="dlgAlterar" resizable="false"
+			modal="true" responsive="true" closeOnEscape="true"
+			header="Atualizar Verba">
+			<p:growl autoUpdate="true" id="growl" widgetVar="growl" />
+			<p:messages id="msg" showDetail="true" autoUpdate="false"
+				closable="true" escape="true" showSummary="false" styleClass="msg" />
+
+			<p:panelGrid columns="2">
+				<p:outputLabel value="Condomínio:" />
+				<p:outputLabel value="#{emMB.rtBEAN.condominio}" />
+				<p:outputLabel value="Nº Rateio:"
+					rendered="#{SessaoMB.igp.sysAdmin}" />
+				<p:outputLabel value="#{emMB.rtBEAN.nro_rateio}"
+					rendered="#{SessaoMB.igp.sysAdmin}" />
+			</p:panelGrid>
+
+
+			<h:panelGrid columns="2" cellpadding="5" id="contaPlano">
+				<p:outputLabel value="Conta:" />
+				<p:inputText value="#{emMB.rtBEAN.conta}" />
+				<p:outputLabel value="Cta Anál. Financ.:" />
+				<p:inputText value="#{emMB.rtBEAN.cta_anl_financ}" />
+			</h:panelGrid>
+			<h:panelGrid columns="2" cellpadding="5">
+				<p:outputLabel value="Histórico:" />
+				<p:inputText value="#{emMB.rtBEAN.historico}" maxlength="28"
+					style="width:230px; margin-left:57px;" />
+			</h:panelGrid>
+
+			<h:panelGrid columns="2" cellpadding="5">
+				<p:outputLabel value="Nº Lançamento:" />
+				<p:inputText value="#{emMB.ltBEAN.nro_lancto}"
+					style="margin-left:5px;" />
+				<p:outputLabel value="Bloco:" />
+				<p:inputText value="#{emMB.ltBEAN.bloco}" style="margin-left:5px;" />
+				<p:outputLabel value="Tipo:" />
+				<p:inputText value="#{emMB.ltBEAN.tipo}" style="margin-left:5px;" />
+				<p:outputLabel value="Valor:" />
+				<pe:inputNumber value="#{emMB.ltBEAN.valor}"
+					style="margin-left:5px;" decimalSeparator="," thousandSeparator="." />
+			</h:panelGrid>
+			<hr />
+			<h:panelGrid>
+				<p:commandButton value="Salvar" icon="fa fa-check Fs16 white"
+					action="#{emMB.alterarRateio()}"
+					oncomplete="PF('dlgAlterar').hide()"
+					update=":frmNovaEmissao:tblNovaEmissao" />
+			</h:panelGrid>
+		</p:dialog>
+	</h:form>
+</ui:composition>

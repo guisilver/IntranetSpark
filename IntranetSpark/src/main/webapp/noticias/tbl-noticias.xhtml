@@ -1,0 +1,100 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<style>
+.Publicado {
+	color: blue !important;
+}
+
+.tblAcoes td {
+	border: 0px !important;
+}
+
+.tblAcoes tbody td {
+	border: 0px;
+}
+
+.ui-panelgrid tbody tr td {
+	border: 0px !important;
+}
+
+.ui-datatable table tbody td {
+	padding: 5px !important;
+}
+
+.botaoFluxoAta>.ui-button-text {
+	padding: 5px !important;
+}
+</style>
+	<div class="layout-portlets-box">
+		<div class="DispInlBlock TexAlLeft">
+			<div class="Fleft">
+				<h2 class="black Fs24 FontRalewayMedium">Notícias</h2>
+			</div>
+		</div>
+		<div class="Seperator"></div>
+		<div class="Container50 Responsive50">
+			<h:form>
+				<h:panelGrid columns="2">
+					<p:commandButton value="Nova Notícia" icon="fa fa-plus Fs16 white"
+						ajax="false" action="noticias/nova-noticia?faces-redirect=true;" />
+				</h:panelGrid>
+			</h:form>
+		</div>
+		<div class="Container100 TexAlCenter">
+			<h:form id="frmNoticias">
+				<p:messages />
+				<p:dataTable id="singleDT" var="noticia"
+					value="#{noticiasMktMB.listaNoticias}" rowKey="#{noticia.codigo}"
+					rows="10" paginator="true"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="5,10,15"
+					emptyMessage="Nenhum resultado encontrado!" reflow="true"
+					style="margin-top:20px;">
+					<p:column headerText="Data" style="width:100px;">
+						<h:outputText value="#{noticia.dataInserido}">
+							<f:convertDateTime pattern="dd/MM/yyyy" locale="pt"
+								timeZone="Ameirca/Sao_Paulo" />
+						</h:outputText>
+					</p:column>
+					<p:column headerText="Título" style="text-align:left;">
+						<p:outputLabel value="#{noticia.titulo}" />
+					</p:column>
+					<p:column style="width:130px;">
+						<h:panelGrid columns="3"
+							style="width:auto;margin-left:auto;margin-right:auto;"
+							styleClass="tblAcoes">
+							<p:commandButton icon="fa fa-pencil Fs16 white"
+								action="#{noticiasMktMB.abreAlteraNoticia(noticia)}"
+								ajax="false" title="Alterar" styleClass="btnLittle" />
+							<p:commandButton icon="fa fa-search Fs16 white"
+								action="#{noticiasMktMB.abreNoticia()}" ajax="false"
+								title="Visualizar" styleClass="btnLittle">
+								<f:param name="codigo" value="#{noticia.codigo}" />
+							</p:commandButton>
+							<p:commandButton
+								actionListener="#{noticiasMktMB.excluirNoticiaTbl(noticia)}"
+								icon="fa fa-trash Fs16 white" update="@form" title="Excluir"
+								styleClass="btnLittle">
+								<p:confirm header="Confirmação"
+									message="Você confirma a exclusão?"
+									icon="fa fa-alert Fs16 white" />
+							</p:commandButton>
+						</h:panelGrid>
+					</p:column>
+				</p:dataTable>
+				<p:confirmDialog global="true" widgetVar="dlgExclui"
+					showEffect="fade" hideEffect="fade">
+					<p:commandButton value="Não" type="button"
+						styleClass="ui-confirmdialog-no"
+						icon="ui-icon-close fa fa-close Fs14 white" />
+					<p:commandButton value="Sim" type="button" ajax="false"
+						styleClass="ui-confirmdialog-yes"
+						icon="ui-icon-check fa fa-check Fs14 white" />
+				</p:confirmDialog>
+			</h:form>
+		</div>
+	</div>
+</ui:composition>

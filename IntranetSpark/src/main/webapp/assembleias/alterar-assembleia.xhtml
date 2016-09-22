@@ -1,0 +1,462 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<style>
+#ui-timepicker-div>table>tbody>tr>td.ui-timepicker-hours,
+	#ui-timepicker-div>table>tbody>tr>td.ui-timepicker-minutes {
+	background: #FBFCFD;
+	border: solid 1px #DAE5EC;
+}
+
+#ui-timepicker-div>table>tbody>tr>td.ui-timepicker-hours>div,
+	#ui-timepicker-div>table>tbody>tr>td.ui-timepicker-minutes>div {
+	background-color: #D0525D;
+	border-radius: 3px !important;
+}
+
+#ui-timepicker-div>table>tbody>tr>td.ui-timepicker-hours>table,
+	#ui-timepicker-div>table>tbody>tr>td.ui-timepicker-minutes>table {
+	border-spacing: 2px;
+	border-collapse: separate;
+}
+
+#ui-timepicker-div>table>tbody {
+	background: #D0525D;
+}
+
+#ui-timepicker-div>table>tbody>tr>td.ui-timepicker-hours>table>tbody,
+	#ui-timepicker-div>table>tbody>tr>td.ui-timepicker-minutes>table>tbody
+	{
+	background: #FBFCFD !important;
+}
+
+#ui-timepicker-div>table>tbody>tr>td.ui-timepicker-hours>table>tbody>tr>td,
+	#ui-timepicker-div>table>tbody>tr>td.ui-timepicker-minutes>table>tbody>tr>td
+	{
+	border: solid 1px #DAE5EC;
+	border-radius: 3px;
+	padding: 0px !important;
+}
+
+#ui-timepicker-div>table>tbody>tr>td.ui-timepicker-hours>table>tbody>tr>td:hover,
+	#ui-timepicker-div>table>tbody>tr>td.ui-timepicker-minutes>table>tbody>tr>td:hover
+	{
+	background-color: #5FCF80;
+	border: solid 1px #5FCF80;
+	transition: all 0.5s ease;
+	color: white !important;
+}
+
+#ui-timepicker-div>table>tbody>tr>td.ui-timepicker-hours>table>tbody>tr>td>.ui-state-active,
+	#ui-timepicker-div>table>tbody>tr>td.ui-timepicker-minutes>table>tbody>tr>td>.ui-state-active
+	{
+	background-color: #5FCF80;
+	border: solid 1px #5FCF80;
+	transition: all 0.5s ease;
+	color: white !important;
+}
+
+#ui-timepicker-div>table>tbody>tr>td.ui-timepicker-hours>table>tbody>tr>td:visited,
+	#ui-timepicker-div>table>tbody>tr>td.ui-timepicker-minutes>table>tbody>tr>td:visited
+	{
+	background-color: #5FCF80;
+	border: solid 1px #5FCF80;
+	transition: all 0.5s ease;
+	color: white !important;
+}
+
+#ui-timepicker-div>table>tbody>tr>td.ui-timepicker-hours>table>tbody>tr>td>a,
+	#ui-timepicker-div>table>tbody>tr>td.ui-timepicker-minutes>table>tbody>tr>td>a
+	{
+	color: #778D9B !important;
+	text-decoration: none;
+	font-size: .9em;
+	width: auto;
+}
+</style>
+		<f:metadata>
+			<f:event listener="#{assembleiaMB.pesquisaAssembleiaSelecionada()}"
+				type="preRenderView" />
+		</f:metadata>
+		<h:form id="frmAlterarAssembleia"
+			rendered="#{assembleiaMB.assembleia.codigo > 0}">
+			<div class="layout-portlets-box">
+				<div class="Fleft">
+					<h2 class="black Fs24 FontRalewayMedium">Alterar Assembleia</h2>
+				</div>
+				<div class="Seperator"></div>
+				<div class="Container100 Responsive100">
+					<div class="ContainerIndent">
+						<p:messages />
+						<p:panelGrid columns="2" style="margin-bottom:20px;"
+							rendered="#{assembleiaMB.assembleia.codigo > 0}">
+							<p:outputLabel value="Gerente: " />
+							<p:outputLabel value="#{assembleiaMB.assembleia.gerente.nome}" />
+
+							<p:outputLabel value="Cod. Condomínio: " />
+							<p:outputLabel
+								value="#{assembleiaMB.assembleia.condominio.codigo}" />
+
+							<p:outputLabel value="Condomínio: " />
+							<p:outputLabel value="#{assembleiaMB.assembleia.condominio.nome}" />
+
+							<p:outputLabel value="Data: " />
+							<p:outputLabel value="#{assembleiaMB.assembleia.dataAssembleia}">
+								<f:convertDateTime locale="pt" pattern="dd/MM/yyyy"
+									timeZone="America/Sao_Paulo" />
+							</p:outputLabel>
+						</p:panelGrid>
+
+						<p:panelGrid columns="2" style="margin-bottom:20px;"
+							rendered="#{assembleiaMB.assembleia.codigo > 0}">
+							<p:outputLabel value="Aprovado pelo síndico" />
+							<p:selectBooleanCheckbox
+								value="#{assembleiaMB.assembleia.aprovacaoSindico}">
+								<p:ajax process="@this"
+									listener="#{assembleiaMB.insereAprovacaoSindico()}"
+									update=":@form:lblDtAprSindico" />
+							</p:selectBooleanCheckbox>
+
+							<p:outputLabel value="Data aprovação síndico" />
+							<p:outputLabel id="lblDtAprSindico"
+								value="#{assembleiaMB.assembleia.dataAprovacaoSindico}">
+								<f:convertDateTime locale="pt" pattern="dd/MM/yyyy"
+									timeZone="America/Sao_Paulo" />
+							</p:outputLabel>
+						</p:panelGrid>
+					</div>
+				</div>
+				<div class="Container100 Responsive100">
+					<div class="ContainerIndent">
+						<p:accordionPanel multiple="false" id="accordion">
+							<p:tab title="Assembleia">
+								<p:panelGrid columns="2" style="margin:20px;">
+									<p:outputLabel value="Tipo: " />
+									<p:outputLabel value="#{assembleiaMB.assembleia.tipo}" />
+
+									<p:outputLabel value="Local: " />
+									<p:outputLabel
+										value="#{assembleiaMB.assembleia.localAssembleia}" />
+
+									<p:outputLabel value="Endereço: " />
+									<p:outputLabel value="#{assembleiaMB.assembleia.enderecoLocal}" />
+
+									<p:outputLabel value="Data: " />
+									<p:calendar value="#{assembleiaMB.assembleia.dataAssembleia}"
+										rendered="#{SessaoMB.igp.sysAdmin or SessaoMB.igp.assembleiaChange}"
+										pattern="dd/MM/yyyy" locale="pt" timeZone="America/Sao_Paulo" />
+									<p:outputLabel value="1º Horário: " />
+									<p:outputLabel value=" - Obs: " style="color:red;"
+										rendered="#{assembleiaMB.assembleia.obsHorario1 != null and assembleiaMB.assembleia.obsHorario1 != ''}" />
+									<p:outputLabel value="#{assembleiaMB.assembleia.obsHorario1}"
+										rendered="#{assembleiaMB.assembleia.obsHorario1 != null and assembleiaMB.assembleia.obsHorario1 != ''}" />
+									<p:column
+										rendered="#{SessaoMB.igp.sysAdmin or SessaoMB.igp.assembleiaChange}">
+										<pe:timePicker mode="popup" label="1º horário"
+											value="#{assembleiaMB.assembleia.horario1}"
+											widgetVar="inlineTimeWidget" locale="pt" startMinutes="00"
+											intervalMinutes="15" endMinutes="45">
+										</pe:timePicker>
+										<p:outputLabel value=" Obs: " />
+										<p:inputText value="#{assembleiaMB.assembleia.obsHorario1}" />
+									</p:column>
+									<p:outputLabel value="2º Horário "
+										rendered="#{assembleiaMB.assembleia.horario2 != null}" />
+									<p:column
+										rendered="#{assembleiaMB.assembleia.horario2 != null and SessaoMB.igp.sysAdmin or SessaoMB.igp.assembleiaChange}">
+										<pe:timePicker id="horario2" label="2º horário"
+											value="#{assembleiaMB.assembleia.horario2}" mode="popup"
+											widgetVar="inlineTimeWidget2" locale="pt" startMinutes="00"
+											intervalMinutes="15" endMinutes="45" />
+										<p:outputLabel value=" Obs: " />
+										<p:inputText id="horario2obs"
+											value="#{assembleiaMB.assembleia.obsHorario2}" />
+									</p:column>
+
+									<p:outputLabel value="Aprovação de Contas: "
+										rendered="#{assembleiaMB.assembleia.contas != null and assembleiaMB.assembleia.contas != ''}" />
+									<p:outputLabel value="#{assembleiaMB.assembleia.contas}"
+										rendered="#{assembleiaMB.assembleia.contas != null and assembleiaMB.assembleia.contas != ''}" />
+
+									<p:outputLabel value="Eleição de Sindico: " />
+									<p:outputLabel
+										value="#{assembleiaMB.assembleia.eleicaoSindico ? 'Sim' : 'Não'}" />
+
+									<p:outputLabel value="Risco: " />
+									<p:outputLabel
+										value="#{assembleiaMB.assembleia.risco ? 'Sim' : 'Não'}" />
+
+									<p:outputLabel value="Detalhes do Risco: "
+										rendered="#{assembleiaMB.assembleia.riscoObs != null and assembleiaMB.assembleia.riscoObs != ''}" />
+									<p:outputLabel value="#{assembleiaMB.assembleia.riscoObs}"
+										rendered="#{assembleiaMB.assembleia.riscoObs != null and assembleiaMB.assembleia.riscoObs != ''}" />
+								</p:panelGrid>
+
+							</p:tab>
+							<p:tab title="Edital">
+								<h:panelGrid columns="2" style="margin:20px;">
+									<h:outputText value="Nº de pautas: " />
+									<p:selectOneMenu value="#{assembleiaMB.assembleia.numPautas}"
+										style="width:50px;">
+										<f:selectItem itemLabel="1" itemValue="1" />
+										<f:selectItem itemLabel="2" itemValue="2" />
+										<f:selectItem itemLabel="3" itemValue="3" />
+										<f:selectItem itemLabel="4" itemValue="4" />
+										<f:selectItem itemLabel="5" itemValue="5" />
+										<f:selectItem itemLabel="6" itemValue="6" />
+									</p:selectOneMenu>
+
+									<h:outputText value="Síndico: " />
+									<p:selectOneRadio id="options"
+										value="#{assembleiaMB.assembleia.sexo}">
+										<f:selectItem itemLabel="M" itemValue="M" />
+										<f:selectItem itemLabel="F" itemValue="F" />
+									</p:selectOneRadio>
+
+									<p:outputLabel value="Ordem:" style="font-size:14px;" />
+									<p:inputTextarea value="#{assembleiaMB.assembleia.ordem}"
+										style="width:518px;min-height:200px;" />
+
+									<p:outputLabel value="Obs: " style="font-size:14px;" />
+									<p:inputTextarea value="#{assembleiaMB.assembleia.obs}"
+										style="font-size:14px;width:518px;height:50px!important;"
+										maxlength="500" />
+
+								</h:panelGrid>
+							</p:tab>
+							<p:tab title="Reserva">
+								<h:panelGrid columns="2" style="margin:20px;">
+									<p:outputLabel value="Todos: " />
+									<p:selectBooleanCheckbox id="todos"
+										value="#{assembleiaMB.todosEquipamentos}">
+										<p:ajax event="change"
+											listener="#{assembleiaMB.selecionaTodosEquipamentos()}"
+											update=":frmAlterarAssembleia:accordion:gridEquipamentos" />
+									</p:selectBooleanCheckbox>
+								</h:panelGrid>
+
+								<h:panelGrid columns="2" id="gridEquipamentos"
+									style="margin:20px;">
+									<p:outputLabel value="Internos:"
+										style="font-size:14px;color:red;" />
+									<p:column />
+
+									<p:outputLabel value="Adaptador: " />
+									<p:selectBooleanCheckbox
+										value="#{assembleiaMB.assembleia.reserva.adaptador}">
+										<p:ajax event="blur"
+											listener="#{assembleiaMB.verificaTodosSelecionados()}"
+											update=":frmAlterarAssembleia:accordion:todos" />
+									</p:selectBooleanCheckbox>
+
+									<p:outputLabel value="Apresentador: " />
+									<p:selectBooleanCheckbox
+										value="#{assembleiaMB.assembleia.reserva.apresentador}">
+										<p:ajax event="change"
+											listener="#{assembleiaMB.verificaTodosSelecionados()}"
+											update=":frmAlterarAssembleia:accordion:todos" />
+									</p:selectBooleanCheckbox>
+
+
+									<p:outputLabel value="Extensão de Energia: " />
+									<p:selectBooleanCheckbox
+										value="#{assembleiaMB.assembleia.reserva.energia}">
+										<p:ajax event="change"
+											listener="#{assembleiaMB.verificaTodosSelecionados()}"
+											update=":frmAlterarAssembleia:accordion:todos" />
+									</p:selectBooleanCheckbox>
+
+
+									<p:outputLabel value="Extensão de VGA: " />
+									<p:selectBooleanCheckbox
+										value="#{assembleiaMB.assembleia.reserva.vga}">
+										<p:ajax event="change"
+											listener="#{assembleiaMB.verificaTodosSelecionados()}"
+											update=":frmAlterarAssembleia:accordion:todos" />
+									</p:selectBooleanCheckbox>
+
+
+									<p:outputLabel value="Mala: " />
+									<p:selectBooleanCheckbox
+										value="#{assembleiaMB.assembleia.reserva.mala}">
+										<p:ajax event="change"
+											listener="#{assembleiaMB.verificaTodosSelecionados()}"
+											update=":frmAlterarAssembleia:accordion:todos" />
+									</p:selectBooleanCheckbox>
+
+
+									<p:outputLabel value="Notebook: " />
+									<p:selectBooleanCheckbox
+										value="#{assembleiaMB.assembleia.reserva.notebook}">
+										<p:ajax event="change"
+											listener="#{assembleiaMB.verificaTodosSelecionados()}"
+											update=":frmAlterarAssembleia:accordion:todos" />
+									</p:selectBooleanCheckbox>
+
+
+									<p:outputLabel value="Pen Drive: " />
+									<p:selectBooleanCheckbox
+										value="#{assembleiaMB.assembleia.reserva.pendrive}">
+										<p:ajax event="change"
+											listener="#{assembleiaMB.verificaTodosSelecionados()}"
+											update=":frmAlterarAssembleia:accordion:todos" />
+									</p:selectBooleanCheckbox>
+
+
+									<p:outputLabel value="Projetor: " />
+									<p:selectBooleanCheckbox
+										value="#{assembleiaMB.assembleia.reserva.projetor}">
+										<p:ajax event="change"
+											listener="#{assembleiaMB.verificaTodosSelecionados()}"
+											update=":frmAlterarAssembleia:accordion:todos" />
+									</p:selectBooleanCheckbox>
+
+
+									<p:outputLabel value="Tela: " />
+									<p:selectBooleanCheckbox
+										value="#{assembleiaMB.assembleia.reserva.tela}">
+										<p:ajax event="change"
+											listener="#{assembleiaMB.verificaTodosSelecionados()}"
+											update=":frmAlterarAssembleia:accordion:todos" />
+									</p:selectBooleanCheckbox>
+
+
+									<p:outputLabel value="Externos:"
+										style="font-size:14px;color:red;" />
+									<p:column />
+
+									<p:outputLabel value="Cadeiras: " />
+									<p:selectBooleanCheckbox
+										value="#{assembleiaMB.assembleia.reserva.cadeiras}">
+										<p:ajax event="change"
+											listener="#{assembleiaMB.verificaTodosSelecionados()}"
+											update=":frmAlterarAssembleia:accordion:todos" />
+									</p:selectBooleanCheckbox>
+
+
+									<p:outputLabel value="Mesas: " />
+									<p:selectBooleanCheckbox
+										value="#{assembleiaMB.assembleia.reserva.mesas}">
+										<p:ajax event="change"
+											listener="#{assembleiaMB.verificaTodosSelecionados()}"
+											update=":frmAlterarAssembleia:accordion:todos" />
+									</p:selectBooleanCheckbox>
+								</h:panelGrid>
+							</p:tab>
+							<p:tab title="Convocação">
+								<h:panelGrid columns="2" style="margin:20px;">
+									<p:outputLabel value="Enviado p/ TI: " />
+									<p:calendar styleClass="calendario"
+										value="#{assembleiaMB.assembleia.enviado}"
+										pattern="dd/MM/yyyy" locale="pt" timeZone="America/Sao_Paulo" />
+
+									<p:outputLabel value="Devolvido: " />
+									<p:calendar styleClass="calendario"
+										value="#{assembleiaMB.assembleia.devolvido}"
+										pattern="dd/MM/yyyy" locale="pt" timeZone="America/Sao_Paulo" />
+
+									<p:outputLabel value="Publicado: "
+										rendered="#{SessaoMB.igp.sysAdmin}" />
+									<p:calendar styleClass="calendario"
+										value="#{assembleiaMB.assembleia.publicacaoConvocacao}"
+										pattern="dd/MM/yyyy" locale="pt" timeZone="America/Sao_Paulo"
+										rendered="#{SessaoMB.igp.sysAdmin}" />
+								</h:panelGrid>
+							</p:tab>
+							<p:tab title="Ata">
+								<h:panelGrid columns="2" style="margin:20px;">
+									<p:outputLabel value="Digitação: " />
+									<p:calendar styleClass="calendario"
+										value="#{assembleiaMB.assembleia.digitacao}"
+										pattern="dd/MM/yyyy" locale="pt" timeZone="America/Sao_Paulo" />
+
+									<p:outputLabel value="Advogado: " />
+									<p:calendar styleClass="calendario"
+										value="#{assembleiaMB.assembleia.advogado}"
+										pattern="dd/MM/yyyy" locale="pt" timeZone="America/Sao_Paulo" />
+
+									<p:outputLabel value="Enviado p/ Presidente: " />
+									<p:inputTextarea
+										value="#{assembleiaMB.assembleia.enviadoPresidente}" />
+
+									<p:outputLabel value="Assinado: " />
+									<p:calendar styleClass="calendario"
+										value="#{assembleiaMB.assembleia.assinada}"
+										pattern="dd/MM/yyyy" locale="pt" timeZone="America/Sao_Paulo" />
+
+									<p:outputLabel value="Cartório: " />
+									<p:calendar styleClass="calendario"
+										value="#{assembleiaMB.assembleia.cartorio}"
+										pattern="dd/MM/yyyy" locale="pt" timeZone="America/Sao_Paulo" />
+
+									<p:outputLabel value="Distribuição: " />
+									<p:calendar styleClass="calendario"
+										value="#{assembleiaMB.assembleia.distribuicao}"
+										pattern="dd/MM/yyyy" locale="pt" timeZone="America/Sao_Paulo" />
+
+									<p:outputLabel value="Enviado p/ TI: " />
+									<p:calendar styleClass="calendario"
+										value="#{assembleiaMB.assembleia.enviadoTi}"
+										pattern="dd/MM/yyyy" locale="pt" timeZone="America/Sao_Paulo" />
+
+									<p:outputLabel value="Publicado: " />
+									<p:calendar styleClass="calendario"
+										value="#{assembleiaMB.assembleia.publicacaoAta}"
+										pattern="dd/MM/yyyy" locale="pt" timeZone="America/Sao_Paulo" />
+								</h:panelGrid>
+							</p:tab>
+						</p:accordionPanel>
+						<h:panelGrid columns="4" style="margin-top:20px;">
+							<p:commandButton value="Voltar para Assembleias" process="@this"
+								action="/assembleias?faces-redirect=true;"
+								icon="fa fa-arrow-left Fs16 white" />
+
+							<p:commandButton value="Excluir"
+								actionListener="#{assembleiaMB.excluirAssembleia()}"
+								icon="fa fa-trash Fs16 white"
+								rendered="#{SessaoMB.igp.sysAdmin}">
+								<p:confirm header="Confirmação"
+									message="Você confirma a exclusão?" icon="ui-icon-alert" />
+							</p:commandButton>
+
+							<p:commandButton value="Abrir Edital"
+								onclick="PF('dlgTipoEdital').show();"
+								icon="fa fa-file-text-o white" />
+
+							<p:commandButton value="Salvar"
+								action="#{assembleiaMB.salvarAssembleia()}"
+								icon="fa fa-check Fs16 white" />
+						</h:panelGrid>
+
+						<p:confirmDialog global="true" widgetVar="dlgExclui"
+							showEffect="fade" hideEffect="fade">
+							<p:commandButton value="Não" type="button"
+								styleClass="ui-confirmdialog-no"
+								icon="ui-icon-close fa fa-close Fs14 white" />
+							<p:commandButton value="Sim" type="button" ajax="false"
+								styleClass="ui-confirmdialog-yes"
+								icon="ui-icon-check fa fa-check Fs14 white" />
+						</p:confirmDialog>
+
+						<ui:include src="dlg-tipo-edital.xhtml" />
+
+						<h:form
+							rendered="#{assembleiaMB.assembleia == null or assembleiaMB.assembleia.codigo == 0}">
+							<br />
+							<br />
+							<h:panelGrid>
+								<p:outputLabel value="Nenhum resultado encontrado!" />
+							</h:panelGrid>
+						</h:form>
+					</div>
+				</div>
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>

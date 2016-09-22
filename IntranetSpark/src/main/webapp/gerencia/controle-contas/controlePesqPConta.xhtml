@@ -1,0 +1,40 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<h:form id="frmPlanoContas">
+		<p:dialog widgetVar="planoContas" resizable="false" modal="true"
+			hideEffect="slide" showEffect="slide" header="Pesquisa - Conta"
+			width="700" height="350" closeOnEscape="true">
+			<p:dataTable var="p" rowKey="#{p.codigo}"
+				value="#{ccMB.listaPlanoContas}" paginator="true"
+				selection="#{ccMB.planoBEAN}"
+				filteredValue="#{ccMB.filtroPlanoContas}" rows="5"
+				selectionMode="single" emptyMessage="Nenhum registro encontrado!">
+
+				<p:ajax event="rowSelect" listener="#{ccMB.carregaPlanoContas}"
+					update=":frmDialogAlterar:plgDados2"
+					oncomplete="PF('planoContas').hide();" />
+
+				<p:column headerText="Conta" filterBy="#{p.nome}"
+					filterMatchMode="contains">
+					#{p.nome}
+				</p:column>
+				<p:column headerText="Nome" filterBy="#{p.nomeRealizado}"
+					filterMatchMode="contains">
+					#{p.nomeRealizado}
+				</p:column>
+				<p:column headerText="Cod. Reduzido" filterBy="#{p.codReduzido}"
+					filterMatchMode="contains" style="text-align: center;">
+					#{p.codReduzido}
+				</p:column>
+
+			</p:dataTable>
+		</p:dialog>
+
+	</h:form>
+
+</ui:composition>

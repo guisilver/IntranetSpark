@@ -1,0 +1,171 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+
+		<style>
+#frmFiltro table td {
+	border: 0px !important;
+}
+
+.ui-selectoneradio tbody tr td {
+	border: 0px !important;
+}
+
+.gridFiltro tbody tr td {
+	border: 0px !important;
+}
+</style>
+		<div class="layout-portlets-box"
+			style="padding-top: 0px !important; padding-bottom: 0px !important;">
+			<p:breadCrumb>
+				<p:menuitem value="Home" url="/dashboard.xhtml" />
+				<p:menuitem value="Tabela de Procurações" url="/procuracao-juridico" />
+				<p:menuitem value="Unidades" url="/juridico/procuracoes/unidades" />
+			</p:breadCrumb>
+		</div>
+		<div class="layout-portlets-box">
+			<div class="Fleft">
+				<h2 class="black Fs24 FontRalewayMedium">Procurações</h2>
+			</div>
+			<div class="Seperator"></div>
+			<div class="Wid100" style="margin-top: 20px; margin-bottom: 20px;">
+
+				<div class="Container100 Responsive100">
+					<div class="ContainerIndent">
+						<h:form id="frmFiltro"
+							rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysCobranca}">
+							<p:growl autoUpdate="true" />
+							<p:panelGrid id="gridFiltro" columns="1"
+								style="float:left; margin-left:100px" styleClass="gridFiltro">
+								<f:facet name="header">
+									<h:outputText value="Filtros" />
+								</f:facet>
+								<h:panelGrid columns="2">
+									<p:outputLabel for="pesquisarPor" value="Pesquisar Por:" />
+									<p:selectOneRadio id="pesquisarPor"
+										value="#{prjMB.pesquisarPor}">
+										<p:ajax listener="#{prjMB.limparListas()}"
+											update=":frmFiltro:gridFiltro" />
+										<f:selectItem itemLabel="Condomínio" itemValue="Condominio" />
+										<f:selectItem itemLabel="Carteira" itemValue="Carteira" />
+										<f:selectItem itemLabel="Todos" itemValue="Todos" />
+									</p:selectOneRadio>
+
+									<p:outputLabel id="txtCarteira" for="selectCarteira"
+										value="Carteira:"
+										rendered="#{prjMB.pesquisarPor eq 'Carteira'}" />
+									<p:selectOneMenu id="selectCarteira"
+										value="#{prjMB.gerenteBEAN}"
+										rendered="#{prjMB.pesquisarPor eq 'Carteira'}"
+										converter="omnifaces.SelectItemsConverter" style="width:95%;"
+										filter="true" filterMatchMode="contains">
+										<f:selectItem itemLabel="Carteira" noSelectionOption="true" />
+										<f:selectItems var="gerente" value="#{prjMB.listaDeGerentes}"
+											itemLabel="#{gerente.nome}" itemValue="#{gerente}" />
+									</p:selectOneMenu>
+
+									<p:outputLabel id="txtGerente" for="selectGerente"
+										value="Gerente:" rendered="#{prjMB.renderizaMenuGerente}" />
+									<p:selectOneMenu id="selectGerente"
+										value="#{prjMB.gerenteBEAN.codigo}"
+										rendered="#{prjMB.renderizaMenuGerente}"
+										converter="omnifaces.SelectItemsConverter" style="width:80%;">
+										<p:ajax update=":frmFiltro" resetValues="true" />
+										<f:selectItem itemLabel="Gerente" noSelectionOption="true" />
+										<f:selectItems var="gerente" value="#{prjMB.listaDeGerentes}"
+											itemLabel="#{gerente.nome}" itemValue="#{gerente.codigo}" />
+									</p:selectOneMenu>
+
+									<p:outputLabel id="txtCondominio" for="selectCondominio"
+										value="Condomínio:"
+										rendered="#{prjMB.pesquisarPor eq 'Condominio'}" />
+									<p:selectOneMenu id="selectCondominio" value="#{prjMB.icBEAN}"
+										rendered="#{prjMB.pesquisarPor eq 'Condominio'}"
+										converter="omnifaces.SelectItemsConverter" filter="true"
+										filterMatchMode="contains" style="width:95%;">
+										<f:selectItem itemLabel="Condomínio" noSelectionOption="true" />
+										<f:selectItems var="cnd" value="#{prjMB.listaCondominios2}"
+											itemLabel="#{cnd.codigo} - #{cnd.nome}" itemValue="#{cnd}" />
+									</p:selectOneMenu>
+
+									<p:outputLabel value="Período:" />
+									<p:calendar value="#{prjMB.dataInicial2}" id="dataInicial"
+										pattern="dd/MM/yyyy" locale="pt" timeZone="America/Sao_Paulo"
+										styleClass="calendario" />
+								</h:panelGrid>
+								<hr/>
+								<h:panelGrid width="100%" style="text-align:right">
+									<p:commandButton value="Filtrar"
+										action="#{prjMB.pesquisarCotasAberto()}" update="histCob"
+										onstart="PF('dlgStatus').show();"
+										oncomplete="PF('dlgStatus').hide();"
+										icon="fa fa-search Fs16 white" />
+								</h:panelGrid>
+							</p:panelGrid>
+							<p:dataTable id="histCob" var="cotas"
+								value="#{prjMB.listaProcuracao}"
+								selection="#{prjMB.listarProcuracaoSelecionada}"
+								filteredValue="#{prjMB.fltrProcuracao}" rows="15"
+								rowKey="#{cotas}" paginator="true"
+								emptyMessage="Nenhuma cota em aberto!"
+								style="font-size: 12px; text-align:center; width:640px; heigth:480px; float:left; margin-left:100px;"
+								rowsPerPageTemplate="5,15,30,50,100">
+								<f:facet name="header"> Procurações </f:facet>
+								<f:facet name="footer">
+									<hr />
+									<p:commandButton icon="fa fa-check Fs16 white" value="Salvar"
+										action="#{prjMB.salvarTabela()}"
+										oncomplete="PF('dlgNovamente').show();" />
+								</f:facet>
+								<p:column selectionMode="multiple"
+									style="width:16px;text-align:center;" />
+								<p:column>
+									<f:facet name="header"> Condomínio </f:facet>
+									<h:outputText
+										value="#{cotas.codigoCondominio} - #{cotas.nomeCondominio}" />
+								</p:column>
+								<p:column>
+									<f:facet name="header"> Bloco </f:facet>
+									<h:outputText value="#{cotas.bloco}" />
+								</p:column>
+								<p:column>
+									<f:facet name="header"> Unidade </f:facet>
+									<h:outputText value="#{cotas.unidade}" />
+								</p:column>
+								<p:column>
+									<f:facet name="header"> Gerente </f:facet>
+									<h:outputText value="#{cotas.nomeGerente}" />
+								</p:column>
+							</p:dataTable>
+
+							<p:dialog widgetVar="dlgStatus" id="dlgStatus" header="Status"
+								style="font-size:13px;" resizable="false" modal="true"
+								closable="false">	
+					Esta pesquisa pode levar alguns segundos.<br />
+					Carregando...<br />
+								<br />
+								<p:graphicImage library="imagens" name="loader.gif" />
+								<br />
+							</p:dialog>
+
+							<script type="text/javascript">
+							function start() {
+								PF('statusDialog').show();
+							}
+							function stop() {
+								PF('statusDialog').hide();
+								PF('relatorio').hide();
+							}
+						</script>
+						</h:form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

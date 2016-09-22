@@ -1,0 +1,75 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<style>
+.boleto {
+	color: red !important;;
+}
+
+.alignCenter {
+	text-align: center !important;
+}
+</style>
+	<h:form id="frmPendencias">
+
+		<p:dialog id="dlgPendencias" header="Possível pendência de documento para esse condomínio" widgetVar="pendencias" modal="true"
+			responsive="true" resizable="false">
+
+			<p:dataTable id="dtPendencias" var="p"
+				value="#{lancamentoMB.listaDePendencias}" rowKey="#{p.codigo}"
+				selection="#{lancamentoMB.pagar}" rows="10" paginator="true"
+				style="width: 700px !important;" selectionMode="single"
+				emptyMessage="Nenhum registro encontrado...">
+
+				<p:ajax event="rowSelect"
+					listener="#{lancamentoMB.unificarLancamento()}"
+					update=":frmNovoLancamento" oncomplete="PF('pendencias').hide();" />
+
+				<p:column headerText="Tipo Lanc." styleClass="alignCenter" filterMatchMode="contains"
+					filterBy="#{p.tipoLancamento}" sortBy="#{p.tipoLancamento}">
+					<h:outputLabel
+						value="#{p.tipoLancamento == 2 ? 'Boleto' : p.tipoLancamento == 3 ? 'Nota Fiscal' : ''}"
+						styleClass="#{p.tipoLancamento == 2 ? 'boleto' : null}" />
+				</p:column>
+
+				<p:column headerText="Cond." styleClass="alignCenter"
+					filterBy="#{p.condominio}" sortBy="#{p.condominio}">
+					<h:outputLabel value="#{p.condominio}"
+						styleClass="#{p.tipoLancamento == 2 ? 'boleto' : null}" />
+				</p:column>
+
+				<p:column headerText="Fornecedor" styleClass="alignCenter"
+					filterBy="#{p.fornecedorCnpj}" filterMatchMode="contains" sortBy="#{p.fornecedorCnpj}">
+					<h:outputLabel value="#{p.fornecedorCnpj}"
+						styleClass="#{p.tipoLancamento == 2 ? 'boleto' : null}" />
+				</p:column>
+
+				<p:column headerText="Vencimento" styleClass="alignCenter"
+					sortBy="#{p.vencimento}" filterBy="#{p.vencimento}">
+					<h:outputLabel value="#{p.vencimento}"
+						styleClass="#{p.tipoLancamento == 2 ? 'boleto' : null}">
+						<f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR" />
+					</h:outputLabel>
+				</p:column>
+
+				<p:column headerText="Valor" filterBy="#{p.valorLancto}"
+					filterMatchMode="contains" sortBy="#{p.valorLancto}">
+					<h:outputLabel value="R$ "
+						styleClass="#{p.tipoLancamento == 2 ? 'boleto' : null}" />
+					<h:outputLabel id="oplValor" value="#{p.valorLancto}"
+						styleClass="#{p.tipoLancamento == 2 ? 'boleto' : null}">
+						<f:convertNumber currencySymbol="R$" for="oplValor"
+							pattern="#,##0.00" locale="pt_BR" type="currency" />
+					</h:outputLabel>
+				</p:column>
+			</p:dataTable>
+
+		</p:dialog>
+
+	</h:form>
+
+</ui:composition>

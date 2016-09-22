@@ -1,0 +1,57 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<h:form id="frmRelatorio" enctype="multipart/form-data">
+		<p:dialog id="dlgRelatorio" header="Relatório" closeOnEscape="true"
+			hideEffect="slide" showEffect="slide" widgetVar="relatorio"
+			resizable="false" responsive="true">
+
+			<h:panelGrid columns="2" cellpadding="5">
+				<p:selectBooleanCheckbox value="#{amMB.todos}">
+					<p:ajax update=":tbvAdvMul:frmRelatorio:plgCondoRelatorio" />
+				</p:selectBooleanCheckbox>
+				<p:outputLabel value="Todos" />
+			</h:panelGrid>
+			<h:panelGrid id="plgCondoRelatorio" columns="3"
+				style="margin-bottom:10px" cellpadding="5">
+				<p:outputLabel id="oplLabelCondo" value="Condomínio:"
+					rendered="#{amMB.todos == true ? false : true}" />
+				<p:selectOneMenu id="somRelatorio" value="#{amMB.condominio}"
+					rendered="#{amMB.todos == true ? false : true}" style="width:90px;"
+					filter="true" filterMatchMode="contains">
+					<f:selectItem itemLabel="Selecione" itemValue="0" />
+					<f:selectItems value="#{SessaoMB.listaCondominios}" var="item"
+						itemLabel="#{item.codigo}" itemValue="#{item.codigo}" />
+					<p:ajax update=":tbvAdvMul:frmRelatorio:oplNomeCondo1"	listener="#{amMB.retornaNomeCondominio}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel id="oplNomeCondo1" value="#{amMB.nomeCondo}"
+					rendered="#{amMB.todos == true ? false : true}" />
+			</h:panelGrid>
+			<hr />
+
+
+			<p:commandButton id="botaoDownload" value="Gerar" ajax="false"
+				icon="fa fa-print Fs16 white"
+				onclick="PrimeFaces.monitorDownload(start, stop);">
+				<p:fileDownload value="#{amMB.stream}" />
+			</p:commandButton>
+
+
+		</p:dialog>
+		<script type="text/javascript">
+			function start() {
+				PF('statusDialog').show();
+			}
+			function stop() {
+				PF('statusDialog').hide();
+				PF('relatorio').hide();
+			}
+		</script>
+	</h:form>
+
+</ui:composition>

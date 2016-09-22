@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.2.0.final using JasperReports Library version 6.2.0  -->
+<!-- 2016-09-20T14:44:00 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="prepax" pageWidth="625" pageHeight="842" columnWidth="585" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="1f65bd9e-7e7a-4ed0-9be5-aca24932531d">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Produção"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="nome" class="java.lang.String"/>
+	<field name="valor" class="java.lang.Double"/>
+	<field name="conta_bancaria" class="java.lang.String"/>
+	<field name="cpf" class="java.lang.String"/>
+	<field name="empresa" class="java.lang.Integer"/>
+	<field name="funcionario" class="java.lang.Integer"/>
+	<field name="mesI" class="java.lang.Integer"/>
+	<field name="ano" class="java.lang.Integer"/>
+	<columnHeader>
+		<band height="22">
+			<staticText>
+				<reportElement x="0" y="0" width="580" height="20" uuid="0426f75f-1a31-4085-8569-eb152c2848ea">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<text><![CDATA[Numero de Serie;CPF;Valor Da Carga;Observacao]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="22" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="580" height="20" uuid="e599dbea-4418-4407-8044-05610baccdff">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{conta_bancaria} + ";" +$F{cpf} + ";" + new DecimalFormat("#,###,##0.00#", new DecimalFormatSymbols(new Locale("pt", "BR"))).format(($F{valor} == null ? 0.00 : $F{valor}))+ ";" + $F{empresa} + " " + $F{funcionario} + " " + $F{nome} + " " + " " + " " + $F{mesI} + " " + $F{ano}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

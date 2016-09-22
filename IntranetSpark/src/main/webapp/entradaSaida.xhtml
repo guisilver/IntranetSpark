@@ -1,0 +1,36 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<div class="layout-portlets-box">
+
+			<div class="DispInlBlock TexAlLeft">
+				<div class="Fleft">
+					<h2 class="black Fs24 FontRalewayMedium">Movimento de Caixa</h2>
+				</div>
+			</div>
+			<div class="Seperator"></div>
+
+			<div class="Container100 Responsive100">
+				<div class="ContainerIndent">
+					<p:tabView id="tbvES">
+						<p:tab title="Entrada">
+							<ui:include src="gerencia/entrada-saida/entrada.xhtml" />
+							<ui:include
+								src="gerencia/entrada-saida/dialogPesqFavEntrada.xhtml" />
+							<ui:include
+								src="gerencia/entrada-saida/dialogPesqPlanoContaEntrada.xhtml" />
+						</p:tab>
+						<p:tab title="Saída">
+							<ui:include src="gerencia/entrada-saida/saida.xhtml" />
+							<ui:include src="gerencia/entrada-saida/dialogPesqFavSaida.xhtml" />
+							<ui:include	src="gerencia/entrada-saida/dialogPesqPlanoContaSaida.xhtml" />
+						</p:tab>
+					</p:tabView>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

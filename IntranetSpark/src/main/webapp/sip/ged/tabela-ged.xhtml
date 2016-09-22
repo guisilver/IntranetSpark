@@ -1,0 +1,175 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:silver="http://silver.com/facelets"
+	template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<style>
+#frmFiltro table td {
+	border: 0px !important;
+}
+
+.ui-selectoneradio tbody tr td {
+	border: 0px !important;
+}
+
+.gridFiltro tbody tr td {
+	border: 0px !important;
+}
+</style>
+		<div class="layout-portlets-box trilha"
+			style="padding-top: 0px !important; padding-bottom: 0px !important;">
+			<p:breadCrumb>
+				<p:menuitem value="Home" url="/dashboard.xhtml" />
+				<p:menuitem value="Novo Pré-Lançamento"
+					url="/sip/pre-lancamento/novo-pre-lancamento.xhtml" />
+				<p:menuitem value="Concessionárias"
+					url="/sip/pre-lancamento/concessionaria/controle-concessionarias.xhtml" />
+			</p:breadCrumb>
+		</div>
+
+		<div class="layout-portlets-box">
+
+			<div class="DispInlBlock TexAlLeft">
+				<div class="Fleft">
+					<h2 class="black Fs24 FontRalewayMedium">GED</h2>
+				</div>
+			</div>
+			<div class="Seperator"></div>
+
+			<div class="Container100 Responsive100">
+				<div class="ContainerIndent">
+					<h:form id="frmTabela"
+						rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysSipGed}">
+
+						<p:panelGrid id="gridFiltro" columns="1">
+							<f:facet name="header">
+								<h:outputText value="Filtro" />
+							</f:facet>
+
+							<h:panelGrid columns="4" border="0" styleClass="gridFiltro">
+								<p:outputLabel value="Período:" />
+								<p:calendar value="#{sipoMB.dataInicio}" id="dataInicial"
+									pattern="dd/MM/yyyy" locale="pt" timeZone="America/Sao_Paulo"
+									styleClass="calendario" />
+								<p:calendar value="#{sipoMB.dataFim}" id="dataFinal"
+									pattern="dd/MM/yyyy" locale="pt" timeZone="America/Sao_Paulo"
+									styleClass="calendario" />
+								<p:commandButton value="Filtrar"
+									action="#{sipoMB.pesquisarTabelaImagem()}" update="dtHistorico"
+									onstart="PF('dlgStatus').show();"
+									oncomplete="PF('dlgStatus').hide();"
+									icon="fa fa-search Fs16 white" />
+							</h:panelGrid>
+						</p:panelGrid>
+						<br />
+						<h:panelGrid>
+							<p:commandButton value="Enviar Arquivos"
+								icon="fa fa-plus Fs16 white" process="@this"
+								oncomplete="PF('dlgUploadImagem').show();" />
+						</h:panelGrid>
+						<br />
+						<p:messages id="msg" showDetail="true" autoUpdate="false"
+							closable="true" escape="true" showSummary="false" />
+
+						<p:dataTable id="dtHistorico" var="etiqueta"
+							value="#{sipoMB.listaImagem}" rowKey="#{etiqueta}" rows="10"
+							rowsPerPageTemplate="5,10,20,40,60,80,100" paginator="true"
+							emptyMessage="Sem Arquivos!"
+							style="font-size:12px; text-align:center;">
+							<f:facet name="header">GED</f:facet>
+							<p:column headerText="Condomínio" filterBy="#{etiqueta.cdCnd}"> #{etiqueta.cdCnd}
+							</p:column>
+							<p:column headerText="Etiqueta"
+								filterBy="#{sipoMB.converte(etiqueta.id)}"> #{sipoMB.converte(etiqueta.id)}
+							</p:column>
+							<p:column headerText="Data">
+								<h:outputText value="#{etiqueta.dataVinculoArq}">
+									<f:convertDateTime pattern="dd/MM/yyyy - HH:mm" locale="pt"
+										timeZone="America/Sao_Paulo" />
+								</h:outputText>
+							</p:column>
+							<p:column headerText="Recebido Contab.">
+								#{etiqueta.recebidoContabilidade == 'S' ? 'Sim' : 'Não'}
+							</p:column>
+							<p:column headerText="Data Rec. Contab.">
+								<p:outputLabel value="#{etiqueta.dataRecebidoContabilidade}">
+									<f:convertDateTime pattern="dd/MM/yyyy HH:mm" locale="pt" />
+								</p:outputLabel>
+							</p:column>
+							<p:column>
+								<p:commandButton icon="fa fa-search Fs16 white"
+									oncomplete="clicaBotaoDwld();">
+									<f:setPropertyActionListener value="#{etiqueta}"
+										target="#{sipoMB.imagemSelecionada}" />
+								</p:commandButton>
+								<p:commandButton id="btnExcluir"
+									oncomplete="PF('dlgExclusao').show();"
+									icon="fa fa-trash Fs16 white" title="Excluir"
+									style="margin-left:2px;">
+									<f:setPropertyActionListener
+										target="#{sipoMB.imagemSelecionada}" value="#{etiqueta}" />
+								</p:commandButton>
+							</p:column>
+						</p:dataTable>
+					</h:form>
+
+					<p:dialog widgetVar="dlgExclusao" modal="true" resizable="false"
+						header="Exclusão">
+						<h:form>
+							<h:panelGrid columns="2">
+								<p:outputLabel value="Você confirma a exclusão?"
+									style="font-size:16px; text-align:center;" />
+								<p:column />
+								<p:commandButton value="Não"
+									oncomplete="PF('dlgExclusao').hide();"
+									icon="fa fa-close Fs16 white" />
+								<p:commandButton value="Sim" action="#{sipoMB.excluir()}"
+									update=":frmTabela:dtHistorico :frmTabela:msg"
+									icon="fa fa-check Fs16 white" />
+							</h:panelGrid>
+						</h:form>
+					</p:dialog>
+
+					<h:form id="frmDwnld" target="_blank"
+						rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysSipGed}">
+						<p:commandButton id="btnAbrirImagem"
+							action="#{sipoMB.abrirImagem()}" ajax="false"
+							style="visibility:hidden;" />
+					</h:form>
+
+					<p:dialog widgetVar="dlgStatus" id="dlgStatus" header="Status"
+						style="font-size:13px;" resizable="false" modal="true"
+						closable="false">	
+						Esta pesquisa pode levar alguns segundos.<br />
+						Carregando...<br />
+						<br />
+						<p:graphicImage library="imagens" name="loader.gif" />
+						<br />
+					</p:dialog>
+
+					<script type="text/javascript">
+						function start() {
+							PF('statusDialog').show();
+						}
+						function stop() {
+							PF('statusDialog').hide();
+							PF('relatorio').hide();
+						}
+
+						function clicaBotaoDwld() {
+							$("[id='frmDwnld:btnAbrirImagem']").click();
+						}
+					</script>
+
+					<ui:include src="/sip/ged/upload-ged.xhtml" />
+				</div>
+			</div>
+		</div>
+
+	</ui:define>
+</ui:composition>

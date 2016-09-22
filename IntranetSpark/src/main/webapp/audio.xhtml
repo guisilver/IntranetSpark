@@ -1,0 +1,113 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<style>
+.fotoCadastro {
+	cursor: -webkit-zoom-in;
+	cursor: -moz-zoom-in;
+}
+</style>
+		<h:form id="frmCadastro">
+			<div class="layout-portlets-box">
+
+				<div class="DispInlBlock TexAlLeft">
+					<div class="Fleft">
+						<h2 class="black Fs24 FontRalewayMedium">Relatório de
+							Recepção</h2>
+					</div>
+				</div>
+				<div class="Seperator"></div>
+
+				<div class="Container100 Responsive100">
+					<p:messages autoUpdate="true" id="msg" widgetVar="msg" />
+					<h:panelGrid columns="3">
+						<p:calendar value="#{cadastroRecepcaoMB.inicio}" required="true"
+							locale="pt" timeZone="America/Sao_Paulo"
+							requiredMessage="Início: Erro de validação: o valor é necessário."
+							placeholder="Início" />
+
+						<p:calendar value="#{cadastroRecepcaoMB.fim}" required="true"
+							locale="pt" timeZone="America/Sao_Paulo"
+							requiredMessage="Fim: Erro de validação: o valor é necessário."
+							placeholder="Fim" />
+
+						<p:commandButton
+							actionListener="#{cadastroRecepcaoMB.pesquisaVisitantes()}"
+							icon="fa fa-search Fs16 white" update=":frmCadastro:tblCadastro"
+							styleClass="btnLittle" />
+					</h:panelGrid>
+				</div>
+				<div class="Container100 Responsive100" style="margin-top: 20px;">
+					<p:dataTable value="#{cadastroRecepcaoMB.listaCadastro}"
+						filteredValue="#{cadastroRecepcaoMB.filtroCadastro}"
+						rowKey="#{cadastro.codigo}" widgetVar="singleDT"
+						emptyMessage="Nenhum resultado encontrado." id="tblCadastro"
+						var="cadastro" style="width:99%;">
+
+						<f:facet name="header">
+							<p:outputPanel>
+								<h:outputText value="Buscar em todos os campos:" />
+								<p:inputText id="globalFilter" onkeyup="PF('singleDT').filter()"
+									style="width:150px;margin-left:5px;"
+									placeholder="Insira a palavra" />
+							</p:outputPanel>
+						</f:facet>
+
+						<p:column headerText="Codigo" rendered="false">
+							<p:outputLabel value="#{cadastro.codigo}" />
+						</p:column>
+
+						<p:column headerText="Nome">
+							<p:outputLabel value="#{cadastro.nome}" />
+						</p:column>
+
+						<p:column headerText="RG">
+							<p:outputLabel value="#{cadastro.rg}" />
+						</p:column>
+						<p:column headerText="CPF">
+							<p:outputLabel value="#{cadastro.cpf}" />
+						</p:column>
+
+						<p:column headerText="Empresa">
+							<p:outputLabel value="#{cadastro.empresa}" />
+						</p:column>
+
+						<p:column headerText="Celular">
+							<p:outputLabel value="#{cadastro.celular}" />
+						</p:column>
+
+						<p:column headerText="Residencial">
+							<p:outputLabel value="#{cadastro.telResidencial}" />
+						</p:column>
+
+						<p:column headerText="Entrada">
+							<p:commandButton icon="fa fa-search Fs16 white"
+								styleClass="btnLittle" />
+						</p:column>
+					</p:dataTable>
+				</div>
+			</div>
+		</h:form>
+		<style>
+.ui-button-text, .ui-c {
+	padding: 0px !important;
+	font-size: 10px !important;
+}
+
+.ui-button-icon-only, .ui-button-text {
+	padding: 0px !important;
+	font-size: 10px !important;
+}
+</style>
+		<p:dialog id="dlgZoomFoto" widgetVar="dlgZoomFoto" modal="true"
+			draggable="false" resizable="false">
+			<p:graphicImage value="#{ImgServiceBean.fotoCadastroPortaria}"
+				cache="false" width="500" height="500">
+				<f:param name="id" value="#{cadastroRecepcaoMB.codigoSelecionado}" />
+			</p:graphicImage>
+		</p:dialog>
+	</ui:define>
+</ui:composition>

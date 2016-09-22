@@ -1,0 +1,147 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<h:panelGrid id="plgPrevisao1" columns="1">
+		<h:panelGrid columns="2">
+		<h:selectBooleanCheckbox id="sbcConta11"
+			value="#{projetarMB.ipoBEAN.conta11}">
+			<p:ajax update="plgPrevisao1"/>
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta11" value="#{projetarMB.ipoBEAN.nomeConta11}" style="font-size: 12px !important;"/>
+		
+		<p:column/>
+		
+		<h:panelGrid id="teste1" columns="6" rendered="#{projetarMB.ipoBEAN.conta11 eq true ? true : false}">
+			<p:outputLabel value="Jan. R$:" style="font-size: 12px !important;"/>
+			<pe:inputNumber id="inFeriasJan"
+			value="#{projetarMB.ipoBEAN.feriasJan}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+			<p:outputLabel value="Fev. R$:" style="font-size: 12px !important;"/>
+			<pe:inputNumber id="inFeriasFev"
+			value="#{projetarMB.ipoBEAN.feriasFev}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+			<p:outputLabel value="Mar. R$:" style="font-size: 12px !important;"/>
+			<pe:inputNumber id="inFeriasMar"
+			value="#{projetarMB.ipoBEAN.feriasMar}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+			<p:outputLabel value="Abr. R$:" style="font-size: 12px !important;"/>
+			<pe:inputNumber id="inFeriasAbr"
+			value="#{projetarMB.ipoBEAN.feriasAbr}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+			<p:outputLabel value="Mai. R$:" style="font-size: 12px !important;"/>
+			<pe:inputNumber id="inFeriasMai"
+			value="#{projetarMB.ipoBEAN.feriasMai}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+			<p:outputLabel value="Jun. R$:" style="font-size: 12px !important;"/>
+			<pe:inputNumber id="inFeriasJun"
+			value="#{projetarMB.ipoBEAN.feriasJun}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+			<p:outputLabel value="Jul. R$:" style="font-size: 12px !important;"/>
+			<pe:inputNumber id="inFeriasJul"
+			value="#{projetarMB.ipoBEAN.feriasJul}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+			<p:outputLabel value="Ago. R$:" style="font-size: 12px !important;"/>
+			<pe:inputNumber id="inFeriasAgo"
+			value="#{projetarMB.ipoBEAN.feriasAgo}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+			<p:outputLabel value="Set. R$:" style="font-size: 12px !important;"/>
+			<pe:inputNumber id="inFeriasSet"
+			value="#{projetarMB.ipoBEAN.feriasSet}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+			<p:outputLabel value="Out. R$:" style="font-size: 12px !important;"/>
+			<pe:inputNumber id="inFeriasOut"
+			value="#{projetarMB.ipoBEAN.feriasOut}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+			<p:outputLabel value="Nov. R$:" style="font-size: 12px !important;"/>
+			<pe:inputNumber id="inFeriasNov"
+			value="#{projetarMB.ipoBEAN.feriasNov}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+			<p:outputLabel value="Dez. R$:" style="font-size: 12px !important;"/>
+			<pe:inputNumber id="inFeriasDez"
+			value="#{projetarMB.ipoBEAN.feriasDez}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+		</h:panelGrid>
+		</h:panelGrid>
+
+	<h:panelGrid id="plgPrev2" columns="2">
+		<h:selectBooleanCheckbox id="sbcConta12"
+			value="#{projetarMB.ipoBEAN.conta12}">
+			<p:ajax update="plgPrev2"/>
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta12" value="#{projetarMB.ipoBEAN.nomeConta12}" style="font-size: 12px !important;"/>
+			<p:column/>
+		
+		<h:panelGrid id="teste2" columns="4" rendered="#{projetarMB.ipoBEAN.conta12 eq true ? true : false}">
+			<p:outputLabel value="Nov. R$:" style="font-size: 12px !important;"/>
+			<pe:inputNumber id="inDecimo13Nov"
+			value="#{projetarMB.ipoBEAN.decimo13Nov}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+		<p:outputLabel value="Dez. R$:" style="font-size: 12px !important;"/>
+			<pe:inputNumber id="inDecimo13Dez"
+			value="#{projetarMB.ipoBEAN.decimo13Dez}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+		</h:panelGrid>
+		
+	</h:panelGrid>
+	<h:panelGrid columns="4">
+		<h:selectBooleanCheckbox 
+			value="#{projetarMB.ipoBEAN.conta13}">
+			<p:ajax update="itConta13" />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta13"
+			value="#{projetarMB.ipoBEAN.nomeConta13}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor13" value="Valor R$:"
+			style="margin-left:28px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta13"
+			value="#{projetarMB.ipoBEAN.valorConta13}"
+			disabled="#{projetarMB.ipoBEAN.conta13 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+	</h:panelGrid>
+
+	<h:panelGrid id="plgPrev3" columns="6">
+	
+	
+		<h:selectBooleanCheckbox id="sbcConta14"
+			value="#{projetarMB.ipoBEAN.conta14}">
+			<p:ajax update="plgPrev3 inConta14"/>
+		</h:selectBooleanCheckbox>
+		
+		
+		<p:outputLabel id="olConta14" value="#{projetarMB.ipoBEAN.nomeConta14}" style="font-size: 12px !important;"/>
+		
+		<p:outputLabel value="Valor R$:" style="margin-left: 33px !important; font-size: 12px !important;"/>
+		<pe:inputNumber id="inConta14"
+			value="#{projetarMB.ipoBEAN.valorConta14}"
+			disabled="#{projetarMB.ipoBEAN.conta14 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+		
+			<p:outputLabel id="olMes1" value="Mês:"
+				style="margin-left: 20px; font-size: 12px !important;color: red;" />
+			<p:outputLabel value="#{projetarMB.ipoBEAN.mesCestaNatal}" style="font-size: 12px !important; color: red;"/>
+		</h:panelGrid>
+
+	</h:panelGrid>
+
+	
+</ui:composition>

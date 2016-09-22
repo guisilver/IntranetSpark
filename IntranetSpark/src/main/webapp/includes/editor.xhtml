@@ -1,0 +1,16 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	<pe:ckEditor id="#{id}" required="true" width="0" height="#{height}"
+		requiredMessage="#{requiredMessage}" value="#{value}"
+		customConfig="#{request.contextPath}/resources/js/ckeditor.js"
+		toolbar="[['Bold', 'Italic', 'Underline','-', 'Image','-', 'Link']]">
+		<p:ajax event="blur" update="editorMessageId" />
+	</pe:ckEditor>
+	<p:message for="#{id}" id="editorMessageId" />
+	<h:outputLabel value="#{request.contextPath}" />
+</ui:composition>

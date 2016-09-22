@@ -1,0 +1,28 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<div class="layout-portlets-box">
+			<div class="Container100 Responsive100">
+				<div class="ContainerIndent">
+					<div class="Container50 Responsive50">
+						<h:form>
+							<p:dataTable var="car" value="#{pessoa.lista}" filteredValue="#{pessoa.filtro}"
+								scrollable="true" scrollHeight="250" scrollWidth="300" selection="#{pessoa.p}"
+								frozenColumns="1"  selectionMode="single" rowKey="#{car.id}" rows="5" paginator="true" expandedRow="false"> 
+								<p:column headerText="nome" footerText="nome" filterBy="#{car.nome}" style="width:25px;">
+									<h:outputLabel value="#{car.nome}" />
+								</p:column>
+								<p:column headerText="Year" footerText="Year" filterBy="#{car.ano}" >
+									<h:outputText value="#{car.ano}" />
+								</p:column>
+							</p:dataTable>
+						</h:form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

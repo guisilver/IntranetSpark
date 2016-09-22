@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.2.0.final using JasperReports Library version 6.2.0  -->
+<!-- 2016-02-17T13:20:18 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="previsaoInadimplente" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2a954eef-5705-4c5c-8280-cbb568f1adb5">
+	<property name="ireport.zoom" value="1.4641000000000013"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="omacorpP"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="p_codigo" class="java.lang.Long"/>
+	<field name="p_capa" class="java.lang.String"/>
+	<field name="p_codigo_gerente" class="java.lang.Integer"/>
+	<field name="p_condominio" class="java.lang.Short"/>
+	<field name="p_conta" class="java.lang.Integer"/>
+	<field name="p_mes_projecao" class="java.sql.Timestamp"/>
+	<field name="p_despesas" class="java.lang.String"/>
+	<field name="p_mes1" class="java.lang.Double"/>
+	<field name="p_mes2" class="java.lang.Double"/>
+	<field name="p_mes3" class="java.lang.Double"/>
+	<field name="p_mes4" class="java.lang.Double"/>
+	<field name="p_mes5" class="java.lang.Double"/>
+	<field name="p_mes6" class="java.lang.Double"/>
+	<field name="p_mes7" class="java.lang.Double"/>
+	<field name="p_mes8" class="java.lang.Double"/>
+	<field name="p_mes9" class="java.lang.Double"/>
+	<field name="p_mes10" class="java.lang.Double"/>
+	<field name="p_mes11" class="java.lang.Double"/>
+	<field name="p_mes12" class="java.lang.Double"/>
+	<field name="p_media" class="java.lang.Double"/>
+	<field name="p_codigoDespesa" class="java.lang.String"/>
+	<field name="p_inadimplencia" class="java.lang.Double"/>
+	<field name="c_nomeCondominio" class="java.lang.String"/>
+	<field name="p_totalMedia" class="java.lang.Double"/>
+	<variable name="valorMes1" class="java.lang.Double" resetType="Group" resetGroup="sub_total" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_mes1}]]></variableExpression>
+	</variable>
+	<variable name="valorMes2" class="java.lang.Double" resetType="Group" resetGroup="sub_total" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_mes2}]]></variableExpression>
+	</variable>
+	<variable name="valorMes3" class="java.lang.Double" resetType="Group" resetGroup="sub_total" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_mes3}]]></variableExpression>
+	</variable>
+	<variable name="valorMes4" class="java.lang.Double" resetType="Group" resetGroup="sub_total" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_mes4}]]></variableExpression>
+	</variable>
+	<variable name="valorMes5" class="java.lang.Double" resetType="Group" resetGroup="sub_total" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_mes5}]]></variableExpression>
+	</variable>
+	<variable name="valorMes6" class="java.lang.Double" resetType="Group" resetGroup="sub_total" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_mes6}]]></variableExpression>
+	</variable>
+	<variable name="valorMes7" class="java.lang.Double" resetType="Group" resetGroup="sub_total" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_mes7}]]></variableExpression>
+	</variable>
+	<variable name="valorMes8" class="java.lang.Double" resetType="Group" resetGroup="sub_total" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_mes8}]]></variableExpression>
+	</variable>
+	<variable name="valorMes9" class="java.lang.Double" resetType="Group" resetGroup="sub_total" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_mes9}]]></variableExpression>
+	</variable>
+	<variable name="valorMes10" class="java.lang.Double" resetType="Group" resetGroup="sub_total" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_mes10}]]></variableExpression>
+	</variable>
+	<variable name="valorMes11" class="java.lang.Double" resetType="Group" resetGroup="sub_total" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_mes11}]]></variableExpression>
+	</variable>
+	<variable name="valorMes12" class="java.lang.Double" resetType="Group" resetGroup="sub_total" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_mes12}]]></variableExpression>
+	</variable>
+	<variable name="totalMedia" class="java.lang.Double" resetType="Group" resetGroup="sub_total" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_media}]]></variableExpression>
+	</variable>
+	<variable name="totalOrdinaria1" class="java.lang.Double" resetType="Group" resetGroup="total_despesas_ordinarias" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_mes1}]]></variableExpression>
+	</variable>
+	<variable name="totalOrdinaria2" class="java.lang.Double" resetType="Group" resetGroup="total_despesas_ordinarias" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_mes2}]]></variableExpression>
+	</variable>
+	<variable name="totalOrdinaria3" class="java.lang.Double" resetType="Group" resetGroup="total_despesas_ordinarias" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_mes3}]]></variableExpression>
+	</variable>
+	<variable name="totalOrdinaria4" class="java.lang.Double" resetType="Group" resetGroup="total_despesas_ordinarias" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_mes4}]]></variableExpression>
+	</variable>
+	<variable name="totalOrdinaria5" class="java.lang.Double" resetType="Group" resetGroup="total_despesas_ordinarias" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_mes5}]]></variableExpression>
+	</variable>
+	<variable name="totalOrdinaria6" class="java.lang.Double" resetType="Group" resetGroup="total_despesas_ordinarias" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_mes6}]]></variableExpression>
+	</variable>
+	<variable name="totalOrdinaria7" class="java.lang.Double" resetType="Group" resetGroup="total_despesas_ordinarias" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_mes7}]]></variableExpression>
+	</variable>
+	<variable name="totalOrdinaria8" class="java.lang.Double" resetType="Group" resetGroup="total_despesas_ordinarias" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_mes8}]]></variableExpression>
+	</variable>
+	<variable name="totalOrdinaria9" class="java.lang.Double" resetType="Group" resetGroup="total_despesas_ordinarias" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_mes9}]]></variableExpression>
+	</variable>
+	<variable name="totalOrdinaria10" class="java.lang.Double" resetType="Group" resetGroup="total_despesas_ordinarias" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_mes10}]]></variableExpression>
+	</variable>
+	<variable name="totalOrdinaria11" class="java.lang.Double" resetType="Group" resetGroup="total_despesas_ordinarias" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_mes11}]]></variableExpression>
+	</variable>
+	<variable name="totalOrdinaria12" class="java.lang.Double" resetType="Group" resetGroup="total_despesas_ordinarias" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_mes12}]]></variableExpression>
+	</variable>
+	<variable name="totalOrdinariaMedia" class="java.lang.Double" resetType="Group" resetGroup="total_despesas_ordinarias" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_media}]]></variableExpression>
+	</variable>
+	<variable name="totalPercentual" class="java.lang.Double" resetType="Group" resetGroup="total_despesas_ordinarias" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_media}]]></variableExpression>
+	</variable>
+	<group name="total_rateio">
+		<groupFooter>
+			<band height="12"/>
+		</groupFooter>
+	</group>
+	<group name="total_inadimplencia">
+		<groupFooter>
+			<band height="16"/>
+		</groupFooter>
+	</group>
+	<group name="total_despesas_ordinarias">
+		<groupFooter>
+			<band height="16">
+				<staticText>
+					<reportElement x="167" y="0" width="178" height="12" uuid="eb6e8099-532c-45be-b3a5-8e5b78066205"/>
+					<box rightPadding="2"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[TOTAL DESPESAS ORDINÁRIAS:]]></text>
+				</staticText>
+				<textField pattern="#,##0.00">
+					<reportElement x="345" y="0" width="48" height="12" uuid="cb6ec022-d8c0-4cf5-86d3-a116bc89005a"/>
+					<box rightPadding="4"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{totalOrdinariaMedia}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0 %">
+					<reportElement x="393" y="0" width="56" height="12" uuid="546a4ff4-0f40-4eac-b052-24cd6137d652"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{totalPercentual}/$F{p_totalMedia}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="sub_total">
+		<groupExpression><![CDATA[$F{p_conta}]]></groupExpression>
+		<groupFooter>
+			<band height="15">
+				<textField pattern="#,##0.00">
+					<reportElement x="345" y="0" width="48" height="12" isRemoveLineWhenBlank="true" uuid="8685f3b7-20f1-4c2e-863f-8e66e84d58cd"/>
+					<box rightPadding="4">
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{p_conta} == 9999 ? "" : $V{totalMedia}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="145" y="0" width="200" height="12" isRemoveLineWhenBlank="true" uuid="aee3ce4d-6f8d-4971-be4f-d1160310c336"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{p_conta} == 9999 ? "" : "Sub-Total:"]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00 %">
+					<reportElement x="393" y="0" width="56" height="12" isRemoveLineWhenBlank="true" uuid="e6c98e57-94d7-4dfe-80bb-aa9c7449ea38"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{p_conta} == 9999 ? "" : $V{totalMedia}/$F{p_totalMedia}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="21" splitType="Stretch">
+			<textField>
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="21" backcolor="#CCCCCC" uuid="ab5e5eba-cf5d-430a-9e0d-ac3083b4ffd0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["CONDOMÍNIO EDIFÍCIO "+$F{c_nomeCondominio}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="20" uuid="5b1ca7c1-d693-4108-b446-ef4b40f8124a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[PREVISÃO ORÇAMENTÁRIA ORDINÁRIA PARA OS PRÓXIMOS 12 MESES]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="15" splitType="Stretch">
+			<staticText>
+				<reportElement x="145" y="0" width="200" height="15" uuid="70aaf4b0-4043-4bad-9b03-4b1ec4ca79d2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DESPESAS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="345" y="0" width="48" height="15" uuid="9585085e-8a93-4b86-8b17-ffe41f28c76e"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MEDIA]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="27" splitType="Stretch">
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="145" y="0" width="200" height="12" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" uuid="23ada89a-d4d5-40b9-bee6-9db5dfa27279"/>
+				<box>
+					<pen lineWidth="0.0" lineStyle="Dotted"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted"/>
+					<bottomPen lineWidth="0.0" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted"/>
+				</box>
+				<textElement>
+					<font size="8" isBold="true" isItalic="false" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{p_conta} == 9999 ? "" : $F{p_capa}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="145" y="12" width="200" height="15" isRemoveLineWhenBlank="true" uuid="1107fc6a-07bd-4cd1-b293-4743477db9e6"/>
+				<box rightPadding="2">
+					<pen lineWidth="0.5" lineStyle="Dotted"/>
+					<topPen lineWidth="0.5" lineStyle="Dotted"/>
+					<leftPen lineWidth="0.5" lineStyle="Dotted"/>
+					<bottomPen lineWidth="0.5" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.5" lineStyle="Dotted"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{p_conta} == 9999 ? "" : $F{p_despesas}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="345" y="12" width="48" height="15" isRemoveLineWhenBlank="true" uuid="2d2e040a-2da4-437f-94d3-55d3a684788b"/>
+				<box rightPadding="4">
+					<pen lineWidth="0.5" lineStyle="Dotted"/>
+					<topPen lineWidth="0.5" lineStyle="Dotted"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted"/>
+					<bottomPen lineWidth="0.5" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.5" lineStyle="Dotted"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{p_conta} == 9999 ? "" : $F{p_media}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="11" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="7" splitType="Stretch"/>
+	</pageFooter>
+</jasperReport>

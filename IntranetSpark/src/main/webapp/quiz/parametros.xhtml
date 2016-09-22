@@ -1,0 +1,74 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<div class="layout-portlets-box">
+			<div class="DispInlBlock TexAlLeft">
+				<div class="Fleft">
+					<h2 class="black Fs24 FontRalewayMedium">Quiz - Parâmetros</h2>
+				</div>
+			</div>
+			<div class="Seperator"></div>
+			<div class="Container100 Responsive100">
+				<p:messages autoUpdate="true" />
+				<div class="ContainerIndent">
+
+					<h:form>
+
+						<p:panelGrid columns="5">
+							<p:outputLabel value="Quantidade de envios:" />
+							<p:inputText value="#{quizMB.parametros.qtdEnvios}" />
+							<p:outputLabel value="a cada " />
+							<p:inputText value="#{quizMB.parametros.repeticao}" maxlength="3"
+								required="true"
+								requiredMessage="A quantidade de dias deve ser informada!" />
+							<p:outputLabel value="dias" />
+						</p:panelGrid>
+
+						<p:panelGrid columns="4" style="margin-top:20px;">
+							<p:outputLabel value="Autoriza Início" />
+							<p:selectBooleanCheckbox value="#{quizMB.parametros.autorizado}" />
+
+							<p:outputLabel value="Data Início:" />
+							<p:calendar value="#{quizMB.parametros.dataInicio}"
+								required="true"
+								requiredMessage="A data de início deve ser informada!" />
+						</p:panelGrid>
+
+						<p:panelGrid id="gridEmail" columns="3" style="margin-top:20px;">
+							<p:outputLabel value="E-mail:" />
+							<p:inputText value="#{quizMB.email.email}" maxlength="100"
+								style="width:300px;" />
+							<p:commandButton actionListener="#{quizMB.adicionarEmail()}"
+								update="@form:gridEmail, @form:tblEmails"
+								icon="fa fa-plus Fs16 white" />
+						</p:panelGrid>
+
+						<p:dataTable id="tblEmails" value="#{quizMB.emails}" var="email"
+							rows="15" style="margin-top:20px;width:500px;">
+							<p:column headerText="E-mail">
+								<p:outputLabel value="#{email.email}" />
+							</p:column>
+							<p:column>
+								<p:commandButton icon="fa fa-trash Fs16 white"
+									actionListener="#{quizMB.removerEmail(email)}"
+									update="@form:tblEmails" process="@this" />
+							</p:column>
+						</p:dataTable>
+
+						<p:commandButton value="Salvar" icon="fa fa-check Fs16 white"
+							actionListener="#{quizMB.salvarParametros()}" ajax="false"
+							style="margin-top:20px;" />
+
+					</h:form>
+
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,495 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<style>
+body {
+	min-width: 1200px;
+}
+
+.Row {
+	display: table;
+	width: 100%; /*Optional*/
+	margin-top: 20px;
+}
+
+.Column {
+	display: table-cell;
+}
+
+.SIM {
+	color: blue;
+	font-weight: bold !important;
+}
+
+.NÃO {
+	color: red;
+	font-weight: bold !important;
+}
+
+.INAPTO {
+	color: black;
+	font-weight: bold !important;
+}
+
+#frmFiltro\3a tblCandidatos_data>tr>td:nth-child(2)>table td {
+	border: 0px !important;
+}
+
+#frmFiltro>div>div:nth-child(1) {
+	vertical-align: top;
+}
+
+.gridAcao tbody tr td {
+	border: 0px !important;
+}
+</style>
+	<div class="layout-portlets-box trilha"
+		style="padding-top: 0px !important; padding-bottom: 0px !important;">
+		<p:breadCrumb>
+			<p:menuitem value="Home" url="/dashboard.xhtml" />
+			<p:menuitem value="Entrevistas" url="/rh/entrevistas" />
+			<p:menuitem value="Novo Candidato"
+				url="/rh/candidatos/novo-candidato.xhtml" />
+			<p:menuitem value="Pré Cadastro" url="/rh/candidatos/pre-cadastro" />
+			<p:menuitem value="Vagas" url="/rh/vagas" />
+		</p:breadCrumb>
+	</div>
+	<div class="layout-portlets-box">
+		<div class="DispInlBlock TexAlLeft">
+			<div class="Fleft">
+				<h2 class="black Fs24 FontRalewayMedium">Candidatos</h2>
+			</div>
+		</div>
+		<div class="Seperator"></div>
+		<div class="Container100 Responsive100">
+			<p:messages autoUpdate="true" id="msg" />
+			<h:form>
+				<h:panelGrid columns="2">
+					<p:commandButton value="Pré Cadastro"
+						icon="fa fa-user-plus Fs16 white" ajax="false"
+						action="candidatos/pre-cadastro?faces-redirect=true;" />
+					<p:commandButton value="Novo Candidato"
+						icon="fa fa-plus Fs16 white" ajax="false"
+						rendered="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.verificaDepto('RH')}"
+						action="candidatos/novo-candidato?faces-redirect=true;" />
+				</h:panelGrid>
+			</h:form>
+			<h:form id="frmFiltro">
+				<div class="Row">
+					<div class="Column" style="width: 300px !important;">
+						<p:panelGrid columns="1">
+							<f:facet name="header">
+									Filtros
+								</f:facet>
+							<p:outputLabel value="Filtrar com palavra chave"
+								styleClass="lblFiltro" />
+							<p:column>
+								<p:inputText value="#{candidatosMB.palavraChave}" maxlength="50"
+									styleClass="Wid90"
+									onkeypress="if (event.keyCode == 13) {blur(); return false; }"
+									onblur="clicaBotao();" />
+							</p:column>
+
+							<p:outputLabel value="Experiência" styleClass="lblFiltro" />
+							<p:column>
+								<p:inputText value="#{candidatosMB.filtroHistorico}"
+									maxlength="50" styleClass="Wid90"
+									onkeypress="if (event.keyCode == 13) {blur(); return false; }"
+									onblur="clicaBotao();" />
+							</p:column>
+
+							<p:outputLabel value="Data de preenchimento da ficha"
+								styleClass="lblFiltro" />
+							<p:column>
+								<p:calendar
+									value="#{candidatosMB.candidato.dataPreenchimentoFicha}"
+									pattern="dd/MM/yyyy" locale="pt" timeZone="America/Sao_Paulo"
+									showButtonPanel="true" navigator="true">
+									<p:ajax event="dateSelect" oncomplete="clicaBotao();" />
+									<p:ajax oncomplete="clicaBotao();" />
+								</p:calendar>
+							</p:column>
+
+							<p:outputLabel value="Data Entrevista" styleClass="lblFiltro" />
+							<p:column>
+								<p:calendar value="#{candidatosMB.candidato.dataEntrevista}"
+									pattern="dd/MM/yyyy" locale="pt" timeZone="America/Sao_Paulo"
+									showButtonPanel="true" navigator="true">
+									<p:ajax event="dateSelect" oncomplete="clicaBotao();" />
+									<p:ajax oncomplete="clicaBotao();" />
+								</p:calendar>
+							</p:column>
+
+							<p:outputLabel value="Contato Bloqueado" styleClass="lblFiltro" />
+							<p:column>
+								<p:selectManyCheckbox value="#{candidatosMB.filtroContato}"
+									onchange="clicaBotao();">
+									<f:selectItem itemLabel="S" itemValue="S" />
+									<f:selectItem itemLabel="N" itemValue="N" />
+								</p:selectManyCheckbox>
+							</p:column>
+
+							<p:outputLabel value="Entrevista" styleClass="lblFiltro" />
+							<p:column>
+								<p:selectManyCheckbox value="#{candidatosMB.filtroEntrevista}"
+									onchange="clicaBotao();">
+									<f:selectItem itemLabel="S" itemValue="S" />
+									<f:selectItem itemLabel="N" itemValue="N" />
+									<f:selectItem itemLabel="I" itemValue="I" />
+								</p:selectManyCheckbox>
+							</p:column>
+
+							<p:outputLabel value="SOCAL" styleClass="lblFiltro" />
+							<p:column>
+								<p:selectManyCheckbox value="#{candidatosMB.filtroLevantamento}"
+									onchange="clicaBotao();">
+									<f:selectItem itemLabel="S" itemValue="S" />
+									<f:selectItem itemLabel="N" itemValue="N" />
+									<f:selectItem itemLabel="I" itemValue="I" />
+								</p:selectManyCheckbox>
+							</p:column>
+
+							<p:outputLabel value="Contratado" styleClass="lblFiltro" />
+							<p:column>
+								<p:selectManyCheckbox value="#{candidatosMB.filtroContratado}"
+									onchange="clicaBotao();">
+									<f:selectItem itemLabel="S" itemValue="S" />
+									<f:selectItem itemLabel="N" itemValue="N" />
+								</p:selectManyCheckbox>
+							</p:column>
+
+							<p:outputLabel value="Cargo" styleClass="lblFiltro" />
+							<p:selectOneMenu id="cargoPretendido"
+								value="#{candidatosMB.candidato.cargoPretendido}"
+								style="min-width:200px; width:250px;" filter="true"
+								filterMatchMode="contains" onchange="clicaBotao();">
+								<f:selectItem itemLabel="Nenhum" noSelectionOption="true" />
+								<f:selectItem itemLabel="Todos" itemValue="Todos" />
+								<f:selectItems value="#{candidatosMB.listaCargoPretendido}"
+									var="cargo" itemLabel="#{cargo}" itemValue="#{cargo}" />
+							</p:selectOneMenu>
+
+							<p:outputLabel value="Pretensão Salarial" styleClass="lblFiltro" />
+							<p:column style="text-align:center;">
+								<p:selectOneMenu filter="true" filterMatchMode="contains"
+									onchange="clicaBotao();" value="#{candidatosMB.salarioFim}"
+									style="width:250px;">
+									<f:selectItem itemLabel="Selecionar" noSelectionOption="true" />
+									<f:selectItem itemLabel="Até R$ 1.000,00" itemValue="1000" />
+									<f:selectItem itemLabel="Até R$ 1.500,00" itemValue="1500" />
+									<f:selectItem itemLabel="Até R$ 2.000,00" itemValue="2000" />
+									<f:selectItem itemLabel="Até R$ 3.000,00" itemValue="3000" />
+									<f:selectItem itemLabel="Até R$ 4.000,00" itemValue="4000" />
+									<f:selectItem itemLabel="Até R$ 5.000,00" itemValue="5000" />
+									<f:selectItem itemLabel="Até R$ 10.000,00" itemValue="10000" />
+									<f:selectItem itemLabel="Até R$ 20.000,00" itemValue="20000" />
+								</p:selectOneMenu>
+							</p:column>
+
+							<p:outputLabel value="Nome" styleClass="lblFiltro" />
+							<p:inputText value="#{candidatosMB.candidato.nome}"
+								maxlength="50" styleClass="Wid90"
+								onkeypress="if (event.keyCode == 13) {blur(); return false; }"
+								onblur="clicaBotao();">
+							</p:inputText>
+
+							<p:outputLabel value="Cidade" styleClass="lblFiltro" />
+							<p:selectOneMenu filter="true" filterMatchMode="contains"
+								value="#{candidatosMB.cidadeSelecionada}" style="width:250px;"
+								onchange="clicaBotao();">
+								<f:selectItem itemLabel="Selecionar" noSelectionOption="true" />
+								<f:selectItems value="#{candidatosMB.listaCidades}" var="cidade"
+									itemLabel="#{cidade}" itemValue="#{cidade}" />
+							</p:selectOneMenu>
+
+							<p:outputLabel value="Bairro" styleClass="lblFiltro" />
+							<p:inputText value="#{candidatosMB.candidato.bairro}"
+								maxlength="50" styleClass="Wid90"
+								onkeypress="if (event.keyCode == 13) {blur(); return false; }"
+								onblur="clicaBotao();" />
+
+							<p:outputLabel value="Zona Bairro" styleClass="lblFiltro" />
+							<p:selectOneMenu filter="true"
+								value="#{candidatosMB.candidato.zonaBairro}"
+								filterMatchMode="contains" style="width:250px;"
+								onchange="clicaBotao();">
+								<f:selectItem itemLabel="Todas" noSelectionOption="true" />
+								<f:selectItem itemLabel="Norte" itemValue="Norte" />
+								<f:selectItem itemLabel="Centro" itemValue="Centro" />
+								<f:selectItem itemLabel="Sul" itemValue="Sul" />
+								<f:selectItem itemLabel="Leste" itemValue="Leste" />
+								<f:selectItem itemLabel="Oeste" itemValue="Oeste" />
+							</p:selectOneMenu>
+
+							<p:outputLabel value="Estado Civil" styleClass="lblFiltro" />
+							<p:selectOneRadio id="estadoCivil"
+								value="#{candidatosMB.candidato.estadoCivil}"
+								layout="pageDirection" styleClass="radioOma"
+								onchange="clicaBotao();">
+								<f:selectItem itemLabel="Solteiro" itemValue="S" />
+								<f:selectItem itemLabel="Casado" itemValue="C" />
+								<f:selectItem itemLabel="Indiferente" itemValue="I" />
+							</p:selectOneRadio>
+
+							<p:outputLabel value="Sexo" styleClass="lblFiltro" />
+							<p:selectOneRadio value="#{candidatosMB.candidato.sexo}"
+								styleClass="radioOma" layout="pageDirection"
+								onchange="clicaBotao();">
+								<f:selectItem itemLabel="M" itemValue="M" />
+								<f:selectItem itemLabel="F" itemValue="F" />
+								<f:selectItem itemLabel="Indiferente" itemValue="I" />
+							</p:selectOneRadio>
+
+							<p:outputLabel value="Não Fumante" styleClass="lblFiltro" />
+							<p:selectBooleanCheckbox
+								value="#{candidatosMB.candidato.fumante}"
+								onchange="clicaBotao();">
+							</p:selectBooleanCheckbox>
+
+							<p:outputLabel value="Estuda" styleClass="lblFiltro" />
+							<p:selectBooleanCheckbox
+								value="#{candidatosMB.candidato.estudaAtualmente}"
+								onchange="clicaBotao();">
+							</p:selectBooleanCheckbox>
+
+							<p:outputLabel value="Formação" styleClass="lblFiltro" />
+							<p:selectOneMenu filter="true"
+								value="#{candidatosMB.candidato.formacao}"
+								filterMatchMode="contains" style="width:250px;"
+								onchange="clicaBotao();">
+								<f:selectItem itemLabel="Todas" noSelectionOption="true" />
+								<f:selectItem itemLabel="Fundamental Incompleto"
+									itemValue="Fundamental Incompleto" />
+								<f:selectItem itemLabel="Médio Incompleto"
+									itemValue="Medio Incompleto" />
+								<f:selectItem itemLabel="Superior Incompleto"
+									itemValue="Superior Incompleto" />
+								<f:selectItem itemLabel="Fundamental Completo"
+									itemValue="Fundamental Completo" />
+								<f:selectItem itemLabel="Médio Completo"
+									itemValue="Medio Completo" />
+								<f:selectItem itemLabel="Superior Completo"
+									itemValue="Superior Completo" />
+							</p:selectOneMenu>
+
+							<p:outputLabel value="Informática" styleClass="lblFiltro" />
+							<p:selectOneMenu filter="true"
+								value="#{candidatosMB.candidato.conhecimentoInformatica}"
+								filterMatchMode="contains" style="width:250px;"
+								onchange="clicaBotao();">
+								<f:selectItem itemLabel="Indiferente" noSelectionOption="true" />
+								<f:selectItem itemLabel="Básico" itemValue="Básico" />
+								<f:selectItem itemLabel="Intermediário"
+									itemValue="Intermediário" />
+								<f:selectItem itemLabel="Avançado" itemValue="Avançado" />
+							</p:selectOneMenu>
+
+							<p:outputLabel value="Deficiente" styleClass="lblFiltro" />
+							<p:selectBooleanCheckbox
+								value="#{candidatosMB.candidato.possuiDeficiencia}"
+								onchange="clicaBotao();">
+							</p:selectBooleanCheckbox>
+
+							<p:outputLabel value="Tipo Deficiência" styleClass="lblFiltro" />
+							<p:selectOneMenu filter="true" filterMatchMode="contains"
+								value="#{candidatosMB.candidato.tipoDeficiencia}"
+								style="width:250px;" onchange="clicaBotao();">
+								<f:selectItem itemLabel="Selecionar" noSelectionOption="true" />
+								<f:selectItem itemLabel="Física" itemValue="Física" />
+								<f:selectItem itemLabel="Auditiva" itemValue="Auditiva" />
+								<f:selectItem itemLabel="Visual" itemValue="Visual" />
+								<f:selectItem itemLabel="Mental" itemValue="Mental" />
+							</p:selectOneMenu>
+
+							<p:outputLabel value="Idade" styleClass="lblFiltro" />
+							<p:column style="text-align:center;">
+								<p:inputText maxlength="2" type="number"
+									value="#{candidatosMB.idadeInicio}" style="width:50px;"
+									onkeypress="if (event.keyCode == 13) {blur(); return false; }">
+								</p:inputText>
+								 	à 
+								 	<p:inputText maxlength="2" value="#{candidatosMB.idadeFim}"
+									type="number" style="width:50px;"
+									onkeypress="if (event.keyCode == 13) {blur(); return false; }"
+									onblur="clicaBotao();">
+								</p:inputText>
+									anos
+									</p:column>
+
+							<p:outputLabel value="Categoria CNH" styleClass="lblFiltro" />
+							<p:selectOneMenu filter="true" filterMatchMode="contains"
+								value="#{candidatosMB.candidato.categoriaCnh}"
+								style="width:250px;" onchange="clicaBotao();">
+								<f:selectItem itemLabel="Todas" noSelectionOption="true" />
+								<f:selectItem itemLabel="A" itemValue="A" />
+								<f:selectItem itemLabel="B" itemValue="B" />
+								<f:selectItem itemLabel="C" itemValue="C" />
+								<f:selectItem itemLabel="D" itemValue="D" />
+								<f:selectItem itemLabel="E" itemValue="E" />
+							</p:selectOneMenu>
+
+							<p:commandButton value="Limpar Filtros"
+								icon="fa fa-file-o Fs16 white" styleClass="lblFiltro"
+								actionListener="#{candidatosMB.limparFiltros()}" ajax="false"
+								style="float:right;margin-top:20px;" />
+						</p:panelGrid>
+					</div>
+					<div class="Column">
+
+						<p:dataTable value="#{candidatosMB.listaCandidatos}"
+							id="tblCandidatos" var="candidato" rowKey="#{candidato.codigo}"
+							rows="15" paginator="true"
+							emptyMessage="Nenhum resultado encontrado!"
+							widgetVar="tblCandidatos" paginatorAlwaysVisible="false">
+							<p:ajax event="page" oncomplete="subPag();" />
+							<p:column styleClass="cl">
+								<img
+									src="#{request.contextPath}/candidatos/getimage?imageId=#{candidato.codigo}"
+									onerror="this.src='#{request.contextPath}/resources/imagens/silhueta2.jpg'"
+									class="foto" width="150" height="150" />
+							</p:column>
+							<p:column>
+								<h:panelGrid columns="2" styleClass="gridCandidato">
+									<p:outputLabel value="Pretensão Salarial:" styleClass="lblC" />
+									<p:column>
+										<p:outputLabel value="R$ " />
+										<h:outputText value="#{candidato.pretensaoSalarial}">
+											<f:convertNumber currencySymbol="R$" maxFractionDigits="2"
+												minFractionDigits="2" />
+										</h:outputText>
+									</p:column>
+									<p:outputLabel value="Cargo:" styleClass="lblC" />
+									<p:outputLabel value="#{candidato.cargoPretendido}" />
+									<p:outputLabel value="Nome:" styleClass="lblC" />
+									<p:outputLabel value="#{candidato.nome}" />
+									<p:outputLabel value="Idade:" styleClass="lblC" />
+									<p:outputLabel
+										value="#{candidatosMB.calculaIdade(candidato.dataNascimento)}" />
+								</h:panelGrid>
+							</p:column>
+
+							<p:column headerText="Entrevista" style="text-align:center;"
+								width="60">
+								<p:outputLabel value="#{candidato.verificaAptoEntrevista}"
+									styleClass="#{candidato.verificaAptoEntrevista}" />
+							</p:column>
+
+							<p:column headerText="SOCAL" style="text-align:center;"
+								width="60">
+								<p:outputLabel value="#{candidato.verificaAptoLevantamento}"
+									styleClass="#{candidato.verificaAptoLevantamento}" />
+							</p:column>
+
+							<p:column style="width:100px;">
+								<h:panelGrid columns="3" styleClass="gridAcao">
+									<p:commandButton icon="fa fa-pencil Fs16 white"
+										action="#{candidatosMB.abreAlteraCandidatos(candidato.codigo)}"
+										title="Alterar" float="right" ajax="false">
+										<f:setPropertyActionListener value="#{candidatos}"
+											target="#{candidatosMB.candidatoSelecionado}" />
+									</p:commandButton>
+									<p:commandButton
+										actionListener="#{candidatosMB.excluirCandidatoTbl(candidato)}"
+										icon="fa fa-trash Fs16 white" update="@form" title="Excluir">
+										<p:confirm header="Confirmação"
+											message="Você confirma a exclusão?"
+											icon="fa fa-alert Fs16 white" />
+									</p:commandButton>
+								</h:panelGrid>
+							</p:column>
+						</p:dataTable>
+
+						<p:confirmDialog global="true" widgetVar="dlgExclui"
+							showEffect="fade" hideEffect="fade">
+							<p:commandButton value="Não" type="button"
+								styleClass="ui-confirmdialog-no"
+								icon="ui-icon-close fa fa-close Fs14 white" />
+							<p:commandButton value="Sim" type="button" update="@form"
+								styleClass="ui-confirmdialog-yes"
+								icon="ui-icon-check fa fa-check Fs14 white" />
+						</p:confirmDialog>
+					</div>
+				</div>
+				<p:commandButton id="btnFiltro"
+					actionListener="#{candidatosMB.pesquisarCandidatos()}"
+					update="@form" ajax="false"
+					style="visibility:hidden;heigh:0px;width:0px;" />
+
+
+			</h:form>
+
+			<script>
+				function clicaBotao() {
+					PF('tblCandidatos').getPaginator().setPage(0);
+					$("[id='frmFiltro:btnFiltro']").click();
+				}
+			</script>
+		</div>
+	</div>
+	<style>
+.cl {
+	width: 150px !important;
+}
+
+.gridCandidato tbody  tr>td:nth-child(1) {
+	width: 100px !important;
+}
+
+.lblC {
+	font-weight: bold !important;
+}
+
+.lblFiltro {
+	font-size: 16px !important;
+}
+
+.lblFiltro span {
+	font-size: 12px !important;
+}
+
+.gridFiltro {
+	width: 80% !important;
+}
+
+.radioOma td {
+	border: 0px !important;
+}
+</style>
+	<p:ajaxStatus onstart="PF('statusDialog').show();"
+		onsuccess="PF('statusDialog').hide()" />
+	<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+		closable="false" resizable="false" showHeader="false">
+					Aguarde...<br />
+		<br />
+		<p:graphicImage library="imagens" name="loader.gif" />
+	</p:dialog>
+
+	<script>
+		$(window).ready(
+				function() {
+					var width = $(window).width();
+					var height = $(window).height();
+					var htmlTag = document.getElementById('dlgFull');
+					htmlTag.style.height = Math
+							.floor(window.innerHeight * 0.98)
+							+ "px";
+					htmlTag.style.width = Math.floor(window.innerWidth * 0.9)
+							+ "px";
+				});
+
+		function subPag() {
+			$('#frmFiltro').submit();
+		}
+
+		$(".ui-inputfield").on('input', function(evt) {
+			var input = $(this);
+			var start = input[0].selectionStart;
+			$(this).val(function(_, val) {
+				return val.toUpperCase();
+			});
+			input[0].selectionStart = input[0].selectionEnd = start;
+		});
+	</script>
+</ui:composition>

@@ -1,0 +1,42 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<style>
+#frmGrupoGeren\:gridNovoGeren {
+	border: 0px !important;
+}
+</style>
+	<h:form id="frmDialogGeren" rendered="#{SessaoMB.igp.sysAdmin}">
+		<p:dialog id="dlgGerente" widgetVar="dialogGeren" resizable="false"
+			header="Novo Gerente">
+			<p:messages showDetail="true" autoUpdate="true" closable="true"	escape="true" showSummary="false" />
+			<h:panelGrid id="gridNovoGeren" columns="2"
+				style="border:0px !important; background:none;" class="FormContent">
+				<p:outputLabel id="olCodigoGeren" value="Codigo: *"
+					style="color:#CA220A;" />
+				<p:inputText id="iptCodigo" value="#{grupo.gerenBean.codigo}" onkeypress="validate(event)" styleClass="Wid20" maxlength="3"/>
+
+					<p:outputLabel id="olNomeGeren" value="Nome: *"
+						style="color:#CA220A;" />
+					<p:inputText id="iptNome" value="#{grupo.gerenBean.nome}"
+						style="width: 250px;" />
+
+					<p:outputLabel id="olEmail" value="Email: *" style="color:#CA220A;" />
+					<p:inputText id="iptEmail" value="#{grupo.gerenBean.email}"
+						style="width: 250px;" />
+			</h:panelGrid>
+			<hr />
+			<p:commandButton value="Salvar" action="#{grupo.adicionarGerente}"
+				update=":frmDialogGeren :frmGrupoGeren" oncomplete="PF('dialogGeren').close();"
+				style="float: right;" />
+
+		</p:dialog>
+
+	</h:form>
+
+	
+</ui:composition>

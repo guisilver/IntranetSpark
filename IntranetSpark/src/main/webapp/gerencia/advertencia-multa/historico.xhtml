@@ -1,0 +1,141 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<h:form id="frmHistorico" rendered="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.igp.sysAdvertMult}">
+
+		<p:dataTable id="dtHistorico" var="p" value="#{amMB.listaAdvmMul}"
+			rowKey="#{p.codigo}" filteredValue="#{amMB.filtroAdvmMul}" rows="5"
+			paginator="true" selection="#{amMB.amBEAN}" emptyMessage="Sem Registro" style="font-size:12px;">
+
+			<p:column selectionMode="single" style="width:16px;text-align:center" />
+
+			<p:column id="clTipo" headerText="Tipo"
+				sortBy="#{p.tipo eq 1 ? 'Advertência' : p.tipo eq 2 ? 'Multa' : ''}"
+				filterBy="#{p.tipo eq 1 ? 'Advertência' : p.tipo eq 2 ? 'Multa' : ''}"
+				filterMatchMode="contains" style="width: 80px !important;">
+					#{p.tipo eq 1 ? 'Advertência' : p.tipo eq 2 ? 'Multa' : ''}
+			</p:column>
+
+			<p:column id="clCondo" headerText="Cond." sortBy="#{p.condominio}"
+				filterBy="#{p.condominio}"
+				style="text-align:center; width: 80px !important;">
+					#{p.condominio}
+			</p:column>
+
+			<p:column headerText="Emitido" sortBy="#{p.dataAtual}"
+				style="width: 90px !important;">
+				<p:outputLabel value="#{p.dataAtual}">
+					<f:convertDateTime pattern="dd/MM/yyyy" locale="pt"
+						timeZone="America/Sao_Paulo" />
+				</p:outputLabel>
+			</p:column>
+
+			<p:column id="clBloco" headerText="Torre"
+				style="text-align:center; width: 60px !important;"
+				sortBy="#{p.bloco}" filterBy="#{p.bloco}" filterMatchMode="contains">
+					#{p.bloco}
+			</p:column>
+
+			<p:column id="clUnidade" headerText="Unid."
+				style="text-align:center; width: 60px !important;"
+				sortBy="#{p.unidade}" filterBy="#{p.unidade}">
+					#{p.unidade}
+			</p:column>
+
+			<p:column id="clCliente" headerText="Cliente" filterBy="#{p.nome}"
+				filterMatchMode="contains" style="width: 180px !important;">
+					#{p.nome}
+			</p:column>
+
+			<p:column headerText="Ocorrido" sortBy="#{p.ocorrido}"
+				style="width: 90px !important;">
+				<p:outputLabel value="#{p.ocorrido}">
+					<f:convertDateTime pattern="dd/MM/yyyy" locale="pt"
+						timeZone="America/Sao_Paulo" />
+				</p:outputLabel>
+			</p:column>
+
+			<p:column id="motivo" headerText="Motivo" width="200px !important;"
+				style="text-align:justify;">
+					#{p.motivo}
+			</p:column>
+
+			<p:column id="clValor" headerText="Valor" filterBy="#{p.valor}"
+				filterMatchMode="contains" style="width: 80px !important;">
+				<p:outputLabel value="#{p.valor eq null ? '' : p.valor}" />
+			</p:column>
+
+		<!-- 	<p:column id="clTextoPadrao" headerText="Texto Padrão"
+				width="60px !important;" style="text-align:center;"
+				filterBy="#{p.validaTexto}" filterMatchMode="contains">
+										#{p.validaTexto}
+			</p:column> -->
+
+			<p:column headerText="Protocolo"
+				style="text-align:center; width: 90px !important;">
+				<p:commandLink value="Abrir" oncomplete="PF('dlgProtocolo').show();"
+					update=":tbvAdvMul:frmDlgRelatorio:dialogProt"
+					rendered="#{not empty p.protocolo}"
+					style="color:blue;text-decoration: underline;">
+					<f:setPropertyActionListener target="#{amMB.codigo}" value="#{p.codigo}" />
+				</p:commandLink>
+				<h:outputText rendered="#{empty p.protocolo}" value="Vazio"
+					style="color:red;" />
+			</p:column>
+
+			<f:facet name="header">
+				<p:commandButton id="btnAlter" icon="fa fa-plus Fs16 white"
+					style="margin-left:10px;" value="Alterar" rendered="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.igp.advertMultChange}"
+					update=":tbvAdvMul:frmAlter:dlgAlter"
+					oncomplete="PF('alterarAdvm').show();" />
+
+				<p:commandButton id="btnProt" icon="fa fa-plus Fs16 white"
+					style="margin-left:10px;" value="Adicionar Protocolo" rendered="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.igp.advertMultAdd}"
+					oncomplete="PF('dialogAddProtocolo').show();" update=":tbvAdvMul:frmDlgRelatorio:plgAddProt1 
+					:tbvAdvMul:frmDlgRelatorio:plgAddProt2 :tbvAdvMul:frmDlgRelatorio:plgAddProt3" />
+
+				<p:commandButton id="btnImp" icon="fa fa-print Fs16 white"
+					style="margin-left:10px;" value="Imprimir" rendered="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.igp.advertMultConsult}"
+					update=":tbvAdvMul:frmDlgRelatorio:dlgRelatorio"
+					oncomplete="PF('dlgTipoEdital').show();" />
+					
+				<p:commandButton id="btnRelatorio" icon="fa fa-print Fs16 white"
+					style="margin-left:10px;" value="Gerar Relatório" rendered="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.igp.advertMultConsult}"
+					update=":tbvAdvMul:frmDlgRelatorio:dlgRelatorio"
+					oncomplete="PF('relatorio').show();" />
+
+				<p:commandButton id="btnDel" icon="fa fa-close Fs16 white" value="Excluir" rendered="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.igp.advertMultRemove}"
+					style="margin-left: 10px;" oncomplete="PF('dlgExclusao').show();"
+					update=":tbvAdvMul:frmDlgRelatorio:dlgExcluirAdvMult"/>
+					
+			</f:facet>
+		</p:dataTable>
+
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+			<p:commandButton value="Sim" type="button" style="float: right;"
+				styleClass="ui-confirmdialog-yes" icon="fa fa-check Fs16 white" />
+			<p:commandButton value="Não" type="button" 
+				styleClass="ui-confirmdialog-no" icon="fa fa-close Fs16 white" />
+		</p:confirmDialog>
+
+		<p:dialog widgetVar="dlgTipoEdital" resizable="false" modal="true"
+			hideEffect="slide" showEffect="slide" header="Abrir">
+			<h:panelGrid columns="2">
+				<p:commandButton value="WORD" ajax="false">
+					<p:fileDownload value="#{amMB.geraRelWord()}" />
+				</p:commandButton>
+				<p:commandButton id="btnImp" icon="fa fa-print Fs16 white"
+					style="margin-left:10px;" value="PDF"
+					update=":tbvAdvMul:frmDlgRelatorio:dlgRelatorio"
+					action="#{amMB.geraRel()}" onstart="PF('statusDialog').show();"
+					oncomplete="PF('statusDialog').hide(); PF('dlgGeraRelatorio').show(); PF('dlgTipoEdital').hide();" />
+			</h:panelGrid>
+		</p:dialog>
+
+	</h:form>
+
+</ui:composition>

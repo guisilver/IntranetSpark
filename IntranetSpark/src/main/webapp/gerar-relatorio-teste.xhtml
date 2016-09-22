@@ -1,0 +1,169 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<style>
+#ui-timepicker-div>table>tbody>tr>td.ui-timepicker-hours,
+	#ui-timepicker-div>table>tbody>tr>td.ui-timepicker-minutes {
+	background: #FBFCFD;
+	border: solid 1px #DAE5EC;
+}
+
+#ui-timepicker-div>table>tbody>tr>td.ui-timepicker-hours>div,
+	#ui-timepicker-div>table>tbody>tr>td.ui-timepicker-minutes>div {
+	background-color: #D0525D;
+	border-radius: 3px !important;
+}
+
+#ui-timepicker-div>table>tbody>tr>td.ui-timepicker-hours>table,
+	#ui-timepicker-div>table>tbody>tr>td.ui-timepicker-minutes>table {
+	border-spacing: 2px;
+	border-collapse: separate;
+}
+
+#ui-timepicker-div>table>tbody {
+	background: #D0525D;
+}
+
+#ui-timepicker-div>table>tbody>tr>td.ui-timepicker-hours>table>tbody,
+	#ui-timepicker-div>table>tbody>tr>td.ui-timepicker-minutes>table>tbody
+	{
+	background: #FBFCFD !important;
+}
+
+#ui-timepicker-div>table>tbody>tr>td.ui-timepicker-hours>table>tbody>tr>td,
+	#ui-timepicker-div>table>tbody>tr>td.ui-timepicker-minutes>table>tbody>tr>td
+	{
+	border: solid 1px #DAE5EC;
+	border-radius: 3px;
+	padding: 0px !important;
+}
+
+#ui-timepicker-div>table>tbody>tr>td.ui-timepicker-hours>table>tbody>tr>td:hover,
+	#ui-timepicker-div>table>tbody>tr>td.ui-timepicker-minutes>table>tbody>tr>td:hover
+	{
+	background-color: #5FCF80;
+	border: solid 1px #5FCF80;
+	transition: all 0.5s ease;
+	color: white !important;
+}
+
+#ui-timepicker-div>table>tbody>tr>td.ui-timepicker-hours>table>tbody>tr>td>.ui-state-active,
+	#ui-timepicker-div>table>tbody>tr>td.ui-timepicker-minutes>table>tbody>tr>td>.ui-state-active
+	{
+	background-color: #5FCF80;
+	border: solid 1px #5FCF80;
+	transition: all 0.5s ease;
+	color: white !important;
+}
+
+#ui-timepicker-div>table>tbody>tr>td.ui-timepicker-hours>table>tbody>tr>td:visited,
+	#ui-timepicker-div>table>tbody>tr>td.ui-timepicker-minutes>table>tbody>tr>td:visited
+	{
+	background-color: #5FCF80;
+	border: solid 1px #5FCF80;
+	transition: all 0.5s ease;
+	color: white !important;
+}
+
+#ui-timepicker-div>table>tbody>tr>td.ui-timepicker-hours>table>tbody>tr>td>a,
+	#ui-timepicker-div>table>tbody>tr>td.ui-timepicker-minutes>table>tbody>tr>td>a
+	{
+	color: #778D9B !important;
+	text-decoration: none;
+	font-size: .9em;
+	width: auto;
+}
+</style>
+		<div class="layout-portlets-box">
+			<div class="Fleft">
+				<h2 class="black Fs24 FontRalewayMedium">Gerar Relatório de
+					Atas e Convocações</h2>
+			</div>
+			<div class="Seperator"></div>
+			<div class="Container100 Responsive100">
+				<div class="ContainerIndent">
+					<h:form id="frmAssembleia">
+						<p:messages />
+
+						<h:panelGrid id="gridForm" columns="2" style="margin:20px;">
+							<p:outputLabel value="Tipo de Relatório" for="options" />
+							<p:selectOneRadio id="options"
+								value="#{assembleiaMB.tipoRelatorio}" required="true"
+								requiredMessage="O tipo de relatório deve ser informado!">
+								<f:selectItem itemLabel="Atas" itemValue="A" />
+								<f:selectItem itemLabel="Convocações" itemValue="C" />
+							</p:selectOneRadio>
+
+							<p:outputLabel value="Tipo de Assembleia" />
+							<p:selectOneMenu value="#{assembleiaMB.tipoAssembleiaRelatorio}"
+								style="width:200px;">
+								<f:selectItem itemLabel="Todas" itemValue="Todas" />
+								<f:selectItem itemLabel="AGO" itemValue="AGO" />
+								<f:selectItem itemLabel="AGE" itemValue="AGE" />
+								<f:selectItem itemLabel="Reunião de Conselho"
+									itemValue="Reunião de Conselho" />
+							</p:selectOneMenu>
+
+							<p:outputLabel value="Ordenar por" />
+							<p:selectOneMenu value="#{assembleiaMB.ordenacaoRelatorio}"
+								style="width:200px;">
+								<f:selectItem itemLabel="Data" itemValue="data" />
+								<f:selectItem itemLabel="Nome do Condomínio"
+									itemValue="nome_condominio" />
+								<f:selectItem itemLabel="Código do Condomínio"
+									itemValue="cod_condominio" />
+								<f:selectItem itemLabel="Gerente" itemValue="nome_gerente" />
+							</p:selectOneMenu>
+
+							<p:outputLabel value="Somente não publicados" />
+							<p:selectBooleanCheckbox value="#{assembleiaMB.pendentes}" />
+
+							<p:outputLabel value="Início " for="relDtIncio" />
+							<p:calendar value="#{assembleiaMB.relDtInicio}" id="relDtIncio"
+								locale="pt" timeZone="America/São_Paulo" pattern="dd/MM/yyyy"
+								required="true"
+								requiredMessage="A data de início deve ser informada!" />
+							<p:outputLabel value="Fim " for="relDtFim" />
+							<p:calendar value="#{assembleiaMB.relDtFim}" id="relDtFim"
+								locale="pt" timeZone="America/São_Paulo" pattern="dd/MM/yyyy"
+								required="true"
+								requiredMessage="A data de fim deve ser informada!" />
+						</h:panelGrid>
+						<h:panelGrid columns="2">
+
+							<p:commandButton value="Voltar para Assembleias" process="@this"
+								action="/assembleias?faces-redirect=true;"
+								icon="fa fa-arrow-left Fs16 white" />
+
+							<p:commandButton value="Gerar Relatório"
+								actionListener="#{assembleiaMB.gerarRelatorioConvocacoes()}"
+								update="@form" icon="fa fa-file-text-o Fs16 white" />
+						</h:panelGrid>
+
+						<script>
+							function clicaBotaoDownload(){
+								$("[id='frmAssembleia:btnDownload']").click();
+							}
+						</script>
+
+						<h:commandLink id="btnDownload"
+							action="#{assembleiaMB.downloadPDF(assembleiaMB.retorno)}"
+							target="_blank" style="visibility:hidden;" />
+					</h:form>
+				</div>
+			</div>
+		</div>
+		<p:ajaxStatus onstart="PF('statusDialog').show()"
+			onsuccess="PF('statusDialog').hide()" />
+		<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+			closable="false" resizable="false" showHeader="false">
+					Aguarde...<br />
+			<br />
+			<p:graphicImage library="imagens" name="loader.gif" />
+		</p:dialog>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,44 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<h:form id="frmDlgHistorico">
+
+		<p:dialog id="dialog" header="Histórico - Relatório Semanal" closeOnEscape="true"
+			widgetVar="dlgRelatorio" resizable="false" showEffect="slide"
+			hideEffect="slide" modal="true">
+
+			<h:panelGrid id="rel1">
+
+				<h:panelGrid id="rel2" columns="2">
+					<h:outputText value="Sindico: " />
+					<p:outputLabel value="#{rsMB.rshBean.nomeSindico}" />
+
+					<h:outputText value="Zelador: "  />
+					<p:outputLabel value="#{rsMB.rshBean.nomeZelador}" />
+
+					<p:outputLabel value="Mandato:" />
+					<p:outputLabel value="#{rsMB.rshBean.finalMandato}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</p:outputLabel>
+
+					<p:outputLabel value="Honor. Adm.:" />
+					<p:outputLabel id="honorario2" value="#{rsMB.rshBean.taxaAdm}">
+						<f:convertNumber pattern="#,##0.00" />
+					</p:outputLabel>
+				</h:panelGrid>
+				<h:panelGrid columns="1" width="400">
+					<p:outputLabel value="Pendência:"
+						style="font-weight:bold;" />
+					<p:outputLabel id="editor" value="#{rsMB.rshBean.obs}"	style="text-aling:left;" />
+				</h:panelGrid>
+
+			</h:panelGrid>
+		</p:dialog>
+
+	</h:form>
+
+</ui:composition>

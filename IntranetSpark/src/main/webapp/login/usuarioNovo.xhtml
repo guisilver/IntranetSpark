@@ -1,0 +1,161 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<style>
+.ui-messages-info-detail {
+	font-size: 18px !important;
+}
+</style>
+
+	<h:form id="frmFunc" rendered="#{SessaoMB.igp.sysAdmin}">
+		<p:messages id="msg" showDetail="true" autoUpdate="true"
+			closable="true" escape="true" showSummary="false" />
+		<p:wizard id="wizardFunc" styleClass="FormContent">
+			<p:tab title="Dados">
+				<p:panel header="Dados do Usuário" styleClass="FormContent">
+					<p:panelGrid id="gridNovoFuncLDAP" columns="1" layout="grid"
+						style="border:0px !important; background:none;"
+						class="FormContent">
+						<p:outputLabel value="Buscar no LDAP" />
+						<p:inputText styleClass="Wid30" value="#{usuarioMB.nomeLDAP}">
+							<p:ajax event="blur" listener="#{usuarioMB.carregaUsuario}"
+								update=":frmFunc:gridNovoFuncLDAP :frmFunc:gridDadosFunc :frmFunc:gridGrupoDepto :frmFunc:gridGrupoGer :frmFunc:gridGrupoConfirm" />
+						</p:inputText>
+					</p:panelGrid>
+
+					<p:panelGrid id="gridDadosFunc" columns="1" layout="grid"
+						style="border:0px !important; background:none;"
+						class="FormContent">
+
+						<p:outputLabel value=" Nome " />
+						<p:inputText value="#{usuarioMB.user.nome}" styleClass="Wid50"
+							required="true" requiredMessage="Nome obrigatório!" />
+
+						<p:outputLabel value="E-mail / Login" />
+						<p:inputText value="#{usuarioMB.user.email}" required="true"
+							requiredMessage="E-mail / Login obrigatório!" styleClass="Wid50" />
+
+						<p:outputLabel value="Senha" />
+						<p:password value="#{usuarioMB.user.senha}" required="true"
+							requiredMessage="Senha obrigatório!" />
+					</p:panelGrid>
+				</p:panel>
+			</p:tab>
+			<p:tab title="Grupos">
+				<p:panel header="Grupos">
+					<p:panelGrid id="gridGrupoDepto" columns="1"
+						style="border:0px !important; background:none;">
+						<f:facet name="header">
+							<p:outputLabel value="Grupo / Depto." />
+						</f:facet>
+						<p:selectManyCheckbox value="#{usuarioMB.nomesDosGrupos}"
+							layout="grid" columns="5" required="true"
+							requiredMessage="Depto. obrigatório!">
+							<f:selectItems value="#{usuarioMB.gruposDepto}" var="g"
+								itemLabel="#{g.nome}" itemValue="#{g.nome}" />
+						</p:selectManyCheckbox>
+					</p:panelGrid>
+					<br />
+					<p:panelGrid id="gridGrupoGer" columns="1"
+						style="border:0px !important; background:none;">
+						<f:facet name="header">
+							<p:outputLabel value="Grupo / Gerentes" />
+						</f:facet>
+						<p:selectManyCheckbox value="#{usuarioMB.nomesDosGerentes}" 	layout="grid" columns="3">
+							<f:selectItems value="#{usuarioMB.gruposGer}" var="g"
+								itemLabel="#{g.nome}" itemValue="#{g.codigo}" />
+						</p:selectManyCheckbox>
+					</p:panelGrid>
+				</p:panel>
+				<p:panel header="Perfil">
+					<p:panelGrid id="gridAss" columns="1"
+						style="border:0px !important; background:none;">
+						<p:selectOneRadio value="#{usuarioMB.nenhum}" columns="5" layout="grid">
+							<f:selectItem itemLabel="Nenhum" itemValue="0" />
+							<f:selectItem itemLabel="Assistente" itemValue="1" />
+							<f:selectItem itemLabel="Asistente Geral" itemValue="5" />
+							<f:selectItem itemLabel="Gerente" itemValue="2" />
+							<f:selectItem itemLabel="Encarregado" itemValue="3" />
+							<f:selectItem itemLabel="Diretoria" itemValue="4" />
+						</p:selectOneRadio>
+					</p:panelGrid>
+				</p:panel>
+				
+				<p:panel header="Possui Gerente?">
+					<p:panelGrid id="pgGerente" columns="1"
+						style="border:0px !important; background:none;">
+							<p:selectOneMenu value="#{usuarioMB.user.gerente}" style="width: 140px !important;" layout="grid">
+								<f:selectItem itemLabel="Não" itemValue="0"/>
+								<f:selectItems var="item" value="#{SessaoMB.listaDeGerente}" itemLabel="#{item.nome}" itemValue="#{item.codigo}"/>
+							</p:selectOneMenu>
+					</p:panelGrid>
+				</p:panel>
+				
+			</p:tab>
+			<p:tab title="Permissões">
+				<p:panel header="Grupo / Permissões">
+				<p:panelGrid id="gridGrupoPerm" columns="1"
+						style="border:0px !important; background:none;">
+					<p:selectManyCheckbox value="#{usuarioMB.nomesPermissoes}"
+							layout="grid" columns="1">
+							<f:selectItems value="#{usuarioMB.gruposPerm}" var="g"
+								itemLabel="#{g.nomeGrupo}" itemValue="#{g.nomeGrupo}" />
+						</p:selectManyCheckbox>
+					</p:panelGrid>
+				</p:panel>
+			</p:tab>
+			<p:tab title="Confirmar">
+				<p:panel header="Dados do Usuário">
+					<p:panelGrid id="gridGrupoConfirm" columns="2"
+						style="border:0px !important; background:none;">
+						<p:outputLabel value=" Nome: " />
+						<p:outputLabel value="#{usuarioMB.user.nome}" />
+
+						<p:outputLabel value="E-mail / Login:" />
+						<p:outputLabel value="#{usuarioMB.user.email}" />
+
+					</p:panelGrid>
+				</p:panel>
+				<p:panel header="Grupo / Departamento">
+					<p:panelGrid id="gridDepto" columns="1"
+						style="border:0px !important; background:none;">
+						<p:dataList id="dataListGDepto"
+							value="#{usuarioMB.nomesDosGrupos}" var="p" type="ordered">
+											#{p}
+										</p:dataList>
+					</p:panelGrid>
+				</p:panel>
+				<p:panel header="Grupo / Gerentes">
+					<p:panelGrid id="gridGer" columns="1"
+						style="border:0px !important; background:none;">
+						<p:dataList id="dataListGGer"
+							value="#{usuarioMB.nomesDosGerentes}" var="p" type="ordered"
+							emptyMessage="Nenhum gerente selecionado...">
+							<p:outputLabel value="#{usuarioMB.nomeGerente(p)}" />
+						</p:dataList>
+					</p:panelGrid>
+				</p:panel>
+				<p:panel header="Grupo / Permissoes">
+					<p:panelGrid id="gridPer" columns="1"
+						style="border:0px !important; background:none;">
+						<p:tree value="#{usuarioMB.confirm}" var="node1" style="border:0px;" >
+							<p:treeNode>
+								<h:outputText value="#{node1}" />
+							</p:treeNode>
+						</p:tree>
+					</p:panelGrid>
+				</p:panel>
+
+				<br />
+				<br />
+				<p:commandButton value="Salvar" action="#{usuarioMB.adiciona}"
+					style="float:right;" update=":frmFunc" icon="fa fa-plus Fs16 white"/>
+			</p:tab>
+
+
+		</p:wizard>
+	</h:form>
+</ui:composition>

@@ -1,0 +1,54 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<div class="layout-portlets-box">
+
+
+			<div class="DispInlBlock TexAlLeft">
+				<div class="Fleft">
+					<h2 class="black Fs24 FontRalewayMedium">Controle de
+						Protocolos</h2>
+				</div>
+			</div>
+			<div class="Seperator"></div>
+
+			<div class="Container100 Responsive100">
+				<div class="ContainerIndent">
+					<h:form id="frmCondominio">
+						<h:panelGrid id="plgCondominio" columns="3"
+							style="margin-bottom:10px" cellpadding="5">
+							<p:outputLabel for="console" value="Condomínio:" />
+							<p:selectOneMenu id="console" value="#{ProtGEDMB.condominio}"
+								style="width:300px;" filter="true" filterMatchMode="contains">
+								<f:selectItem itemLabel="Selecione" itemValue="0" />
+								<f:selectItems value="#{SessaoMB.listaCondominios}" var="item"
+									itemLabel="#{item.cndCodNome}" itemValue="#{item.codigo}" />
+								<p:ajax update=":frmTblProtocolo:tblProtocolos"
+									listener="#{ProtGEDMB.retornaNomeCondominio}" />
+							</p:selectOneMenu>
+						</h:panelGrid>
+						<p:messages id="msg" showDetail="true" autoUpdate="false"
+							closable="true" escape="true" showSummary="false" />
+					</h:form>
+					<hr />
+					<ui:include src="financeiro/protocolo/tbl-protocolos.xhtml" />
+					<ui:include src="financeiro/protocolo/dlg-novo-protocolo.xhtml" />
+					<ui:include src="financeiro/protocolo/dlg-detalhes-protocolo.xhtml" />
+					<ui:include src="financeiro/protocolo/dlg-relatorio.xhtml" />
+					<ui:include src="financeiro/protocolo/dlg-confirma-impressao.xhtml" />
+					<ui:include src="financeiro/protocolo/dlg-obs.xhtml" />
+					<ui:include src="financeiro/protocolo/dlg-exclui.xhtml" />
+
+					<script language="javascript">
+						function focarCampoEtiqueta() {
+							$("[id='frmNovoProtocolo:txtIdArquivo']").focus();
+						}
+					</script>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

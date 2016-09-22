@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</h:head>
+<ui:composition>
+	<p:dialog widgetVar="dlgAltrFuncionario" header="Alterar Escala"
+		resizable="false" modal="true">
+		<h:form id="frmAltrFuncionario">
+			<h:panelGrid>
+				<p:panelGrid columns="2" style="width:100%;">
+					<h:outputText value="Nome:" />
+					<h:outputText value="#{escalaDeFolgaMB.funcionario.nome}" />
+					<h:outputText value="Função:" />
+					<h:outputText value="#{escalaDeFolgaMB.funcionario.funcao}" />
+					<h:outputText value="Condomínio: " />
+					<h:outputText value="#{escalaDeFolgaMB.condominio.nome}" />
+					<h:outputText value="Último Tipo de Escala Usado:"
+						rendered="#{escalaDeFolgaMB.ultimo_tipo_escala != null and escalaDeFolgaMB.ultimo_tipo_escala.tipo > 0}"
+						style="color:red;" />
+					<h:outputText
+						value="#{escalaDeFolgaMB.converteTipoEscala(escalaDeFolgaMB.ultimo_tipo_escala.tipo)}"
+						rendered="#{escalaDeFolgaMB.ultimo_tipo_escala != null and escalaDeFolgaMB.ultimo_tipo_escala.tipo > 0}"
+						style="color:red;" />
+					<h:outputText value="Última Folga:"
+						rendered="#{escalaDeFolgaMB.ultimaFolga != null}"
+						style="color:red;" />
+					<h:outputText value="#{escalaDeFolgaMB.ultimaFolga}"
+						rendered="#{escalaDeFolgaMB.ultimaFolga != null}"
+						style="color:red;">
+						<f:convertDateTime locale="pt" pattern="dd/MM/yyyy"
+							timeZone="America/Sao_Paulo" />
+					</h:outputText>
+					<h:outputText value="Legenda:" />
+					<p:inputText value="#{escalaDeFolgaMB.legenda}" maxlength="3"
+						style="width:30px;" />
+					<h:outputText value="Tipo de Escala:" />
+					<p:selectOneMenu value="#{escalaDeFolgaMB.funcionario.tipoEscala}"
+						style="width:100px;">
+						<f:selectItem itemLabel="4/2" itemValue="42" />
+						<f:selectItem itemLabel="5/1" itemValue="51" />
+						<f:selectItem itemLabel="5/2" itemValue="52" />
+						<f:selectItem itemLabel="6/1" itemValue="61" />
+						<f:selectItem itemLabel="6/2" itemValue="62" />
+						<f:selectItem itemLabel="12/36" itemValue="1236" />
+					</p:selectOneMenu>
+					<h:outputText value="Início de Folga:" />
+					<p:calendar value="#{escalaDeFolgaMB.folgaInicio}" locale="pt" />
+					<h:outputText value="Preenchimento Automático" />
+					<p:selectBooleanCheckbox
+						value="#{escalaDeFolgaMB.preenchimentoAutomatico}" />
+				</p:panelGrid>
+			</h:panelGrid>
+			<h:panelGrid style="width:100%;margin-top:20px;" columns="3">
+				<p:commandButton value="Cancelar" icon="fa fa-close Fs16 white"
+					onclick="PF('dlgAltrFuncionario').hide();" />
+				<p:commandButton value="Salvar" icon="fa fa-check Fs16 white"
+					actionListener="#{escalaDeFolgaMB.salvarNovaEscalaFuncionario()}"
+					style="float:right;" update=":frmTblFolgas:tbl"
+					onstart="PF('statusDialog').show()"
+					onsuccess="PF('statusDialog').hide()" />
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
+</ui:composition>
+</html>

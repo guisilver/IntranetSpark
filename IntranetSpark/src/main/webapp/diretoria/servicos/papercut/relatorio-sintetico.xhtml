@@ -1,0 +1,143 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<style>
+.mudarCor {
+	color: red !important;
+}
+
+#frmPaper\:tbvPaper\:tblPaperRel\:clTotalAnalitico\:filter {
+	width: 80px !important;
+}
+</style>
+
+	<h:form id="frmPaper">
+		<p:panel header="Selecione o Período:">
+			<h:panelGrid columns="5">
+				<p:outputLabel value="Inicial:" />
+				<p:calendar value="#{papercut.periodoInicial}" pattern="dd/MM/yyyy"
+					locale="pt" />
+				<p:outputLabel value="Final:" />
+				<p:calendar value="#{papercut.periodoFinal}" pattern="dd/MM/yyyy"
+					locale="pt" />
+				<p:commandButton value="Pesquisar"
+					rendered="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.igp.papercutConsult}"
+					update="frmPaper:tbvPaper:tblPaper frmPaper:tbvPaper:tblPaperRel"
+					action="#{papercut.listarPapercut()}"
+					onstart="PF('statusPesquisar').show();"
+					onsuccess="PF('statusPesquisar').hide();" />
+			</h:panelGrid>
+			<p:separator />
+		</p:panel>
+		
+		<p:messages id="msg2" showDetail="true" autoUpdate="false"
+					closable="true" escape="true" showSummary="false" />
+
+		<p:tabView id="tbvPaper">
+			<p:tab title="Gerar / SIGA"
+				rendered="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.igp.papercutAdd}">
+
+				<p:commandButton value="Salvar" update=":frmDlgSalvar:dlgPaperProc"
+					rendered="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.igp.papercutAdd}"
+					oncomplete="PF('processamento').show();" style="float: right;" />
+				<br />
+				<br />
+				<br />
+				<p:dataTable id="tblPaper" var="p" value="#{papercut.listaPapercut}"
+					selection="#{papercut.selectPaperCut}" rowKey="#{p.id}" emptyMessage="Nenhum item encontrado...">
+
+					<p:column selectionMode="multiple"
+						style="width:16px;text-align:center" />
+					<p:column visible="false">
+						#{p.id}
+					</p:column>
+					<p:column headerText="Debito" sortBy="#{p.nome}">
+						#{p.nome}
+					</p:column>
+					<p:column headerText="Tipo" sortBy="#{p.subNome}">
+						#{p.subNome}
+					</p:column>
+					<p:column headerText="Total Páginas" style="text-align:center;"
+						sortBy="#{p.totalPage}">
+						<h:outputLabel value="#{p.totalPage}"
+							styleClass="#{papercut.alertaNumeroPaginas(p.totalPage)}">
+							<f:convertNumber maxFractionDigits="0" />
+						</h:outputLabel>
+					</p:column>
+					<p:column style="width:50px">
+						<p:commandLink value="Detalhe"
+							oncomplete="PF('dglAnalitico').show()"
+							update="frmAnalitico:tblAnalitico"
+							action="#{papercut.listarAnalitico(p.nome, p.subNome)}" />
+					</p:column>
+
+				</p:dataTable>
+				<p:separator />
+				<p:commandButton value="Salvar"
+					rendered="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.igp.papercutAdd}" update=":frmDlgSalvar:dlgPaperProc"
+					oncomplete="PF('processamento').show();" style="float: right;" />
+				<br />
+				<br />
+			</p:tab>
+			<p:tab title="Relatório Papercut"
+				rendered="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.igp.papercutConsult}">
+
+				<p:panel header="Relatório Analitico">
+					<p:dataTable id="tblPaperRel" var="p"
+						value="#{papercut.listarPaperRel}" rows="30" paginator="true" emptyMessage="Nenhum item encontrado...">
+
+						<p:column headerText="Data" width="150" sortBy="#{p.data}">
+							<p:outputLabel value="#{p.data}">
+								<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+							</p:outputLabel>
+						</p:column>
+						<p:column headerText="Usuário" filterBy="#{p.usuario}"
+							filterMatchMode="contains">
+						#{p.usuario}
+					</p:column>
+
+
+						<p:column headerText="Debito" filterBy="#{p.nome}"
+							filterMatchMode="contains">
+						#{p.nome}
+					</p:column>
+						<p:column headerText="Tipo" width="auto" filterBy="#{p.subNome}"
+							filterMatchMode="contains">
+						#{p.subNome}
+					</p:column>
+						<p:column headerText="Descrição" width="auto"
+							filterBy="#{p.documentoNome}" filterMatchMode="contains">
+						#{p.documentoNome}
+					</p:column>
+						<p:column id="clTotalAnalitico" headerText="Total" width="100"
+							style="text-align:center;" filterBy="#{p.totalPage}">
+							<h:outputLabel value="#{p.totalPage}"
+								styleClass="#{papercut.alertaNumeroPaginas(p.totalPage)}">
+								<f:convertNumber maxFractionDigits="0" />
+							</h:outputLabel>
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+
+			</p:tab>
+		</p:tabView>
+		<p:separator />
+	</h:form>
+	
+	<h:form id="frmStatus">
+		
+		<p:dialog id="dlgPesquisar" modal="true" widgetVar="statusPesquisar"
+			header="Pesquisando, aguarde..." draggable="false" resizable="false"
+			closable="false">
+			<center>
+				<p:graphicImage name="loader.gif" library="imagens" width="250"
+					height="25" />
+			</center>
+		</p:dialog>
+	</h:form>
+
+</ui:composition>

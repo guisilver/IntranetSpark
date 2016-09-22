@@ -1,0 +1,139 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<style>
+#frmManutUsuario\:tabUsuario {
+	border: 0 !important;
+}
+
+#frmManutUsuario\:tabPermissao {
+	border: 0 !important;
+}
+
+#frmManutUsuario\:accpGrupos\:gridExluirGrupoDepto {
+	border: 0 !important;
+}
+
+#frmManutUsuario\:accpGrupos\:gridGrupoGer {
+	border: 0 !important;
+}
+
+#frmManutUsuario\:accpGrupos\:gridGrupoPer {
+	border: 0 !important;
+}
+
+#frmManutUsuario\:accpGrupos\:gridAdicionarGrupoGer_header {
+	text-align: center !important;
+}
+
+#frmManutUsuario\:accpGrupos\:gridUserPerfil_header {
+	text-align: center !important;
+}
+
+#frmManutUsuario\:accpGrupos\:gridAdicionarGrupoDepto_header {
+	text-align: center !important;
+}
+
+#frmManutUsuario\:accpGrupos\:gridAdicionarGrupoPerm_header {
+	text-align: center !important;
+}
+</style>
+
+	<p:dialog header="Usuário" widgetVar="excluirUsuario" resizable="false"
+		closeOnEscape="true">
+		<p:accordionPanel id="accpGrupos">
+
+			<p:tab id="tabUsuario" title="Usuário">
+				<h:panelGrid id="pnlExcluirUsuario" columns="2">
+					<p:selectBooleanCheckbox value="#{usuarioMB.excluirUsuario}">
+						<p:ajax event="change" update=":frmManutUsuario:accpGrupos" />
+					</p:selectBooleanCheckbox>
+				<p:outputLabel value="#{usuarioMB.user.nome}" />
+				</h:panelGrid>
+				
+				<h:panelGrid columns="2" rendered="#{usuarioMB.excluirUsuario eq false ? true : false}">
+					<p:outputLabel value="Senha:" />
+					<p:password value="#{usuarioMB.novaSenha}" styleClass="Hei80 Wid40" />
+				</h:panelGrid>
+
+				<p:panel id="gridUserPerfil"
+					rendered="#{usuarioMB.excluirUsuario eq false ? true : false}"
+					style="border:0px !important; background:none;">
+					<f:facet name="header">
+					Perfil
+				</f:facet>
+					<p:selectOneRadio value="#{usuarioMB.user.perfil}" columns="3"
+						layout="grid">
+						<f:selectItem itemLabel="Nenhum" itemValue="0" />
+						<f:selectItem itemLabel="Assistente" itemValue="1" />
+						<f:selectItem itemLabel="Gerente" itemValue="2" />
+						<f:selectItem itemLabel="Encarregado" itemValue="3" />
+						<f:selectItem itemLabel="Diretoria" itemValue="4" />
+					</p:selectOneRadio>
+				</p:panel>
+				<p:outputLabel id="oplAviso"
+					value="Essa ação irá excluir o usuário!!" style="color: red"
+					rendered="#{usuarioMB.excluirUsuario eq false ? false : true}" />
+			</p:tab>
+
+			<p:tab id="tabDepartamento" title="Departamento"
+				rendered="#{usuarioMB.excluirUsuario eq false ? true : false}">
+				<p:panel id="gridAdicionarGrupoDepto"
+					style="border:0px !important; background:none;">
+					<p:selectCheckboxMenu value="#{usuarioMB.listaDeDepto}" layout="grid" label="Departamentos" filter="true" filterMatchMode="contains" >
+						<f:selectItems value="#{usuarioMB.gruposDepto}" var="g" itemLabel="#{g.nome}" itemValue="#{g}" />
+					</p:selectCheckboxMenu>
+				</p:panel>
+			</p:tab>
+
+			<p:tab id="tabGerencia" title="Gerência"
+				rendered="#{usuarioMB.excluirUsuario eq false ? true : false}">
+
+							<p:panel id="gridAdicionarGrupoGer"
+					style="border:0px !important; background:none;">
+					
+					<p:selectCheckboxMenu value="#{usuarioMB.listaDeGerente}" label="Gerentes" filter="true" filterMatchMode="contains"	layout="grid" >
+						<f:selectItems value="#{usuarioMB.gruposGer}" var="g"
+							itemLabel="#{g.nome}" itemValue="#{g.codigo}" />
+					</p:selectCheckboxMenu>
+				</p:panel>
+
+			</p:tab>
+
+			<p:tab id="tabPermissao" title="Permissão"
+				rendered="#{usuarioMB.excluirUsuario eq false ? true : false}">
+
+				<p:dataList id="gridGrupoPer" value="#{usuarioMB.user.grupoPer}"
+					var="d" type="ordered">
+					<f:facet name="header">
+						Grupo atual
+					</f:facet>
+       					 #{d.nomeGrupo}
+    			</p:dataList>
+				<hr />
+				<p:panel id="gridAdicionarGrupoPerm"
+					style="border:0px !important; background:none;">
+					<f:facet name="header">
+						Adicionar Grupo
+					</f:facet>
+					<p:selectManyCheckbox value="#{usuarioMB.usuarioBean.grupoPer}"
+						converter="omnifaces.SelectItemsConverter" layout="grid"
+						columns="3">
+						<f:selectItems value="#{usuarioMB.gruposPerm}" var="g"
+							itemLabel="#{g.nomeGrupo}" itemValue="#{g}" />
+					</p:selectManyCheckbox>
+				</p:panel>
+
+			</p:tab>
+		</p:accordionPanel>
+		<hr />
+		<p:commandButton action="#{usuarioMB.excluirUsuario}" value="Salvar"
+			oncomplete="PF('excluirUsuario').hide();" update=":frmManutUsuario"
+			style="float: right;" >
+			</p:commandButton>
+	</p:dialog>
+
+</ui:composition>

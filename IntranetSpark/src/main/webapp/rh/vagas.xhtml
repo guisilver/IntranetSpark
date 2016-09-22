@@ -1,0 +1,35 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<style>
+.lbl0 {
+	background-color: #CCCCCC !important;
+}		
+
+.lbl1 {
+	background-color: #CCFFCC !important;
+}
+
+.lbl2 {
+	background-color: #FFC000 !important;
+}
+
+.lbl3 {
+	background-color: #FFFF99 !important;
+}
+
+.lbl4 {
+	background-color: #99CCFF !important;
+}
+
+td>label {
+	word-wrap: break-word;
+}
+</style>
+		<ui:include src="vagas/tbl-vagas.xhtml" />
+		<ui:include src="vagas/dlg-altr-vaga.xhtml" />
+	</ui:define>
+</ui:composition>

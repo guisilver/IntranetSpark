@@ -1,0 +1,34 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+	<h:form id="frmFavSaida">
+		<p:dialog widgetVar="pesqFavSaida" resizable="false" responsive="true"
+			modal="true" header="Pesquisa - Favorecido" width="700" height="350"
+			closeOnEscape="true">
+			<p:dataTable var="p" rowKey="#{p.codigo}"
+				value="#{movimentoCaixaMB.listaDeFavorecido}" paginator="true"
+				selection="#{movimentoCaixaMB.favorecido}"
+				filteredValue="#{movimentoCaixaMB.filtroFavorecido}" rows="5"
+				selectionMode="single" emptyMessage="Nenhum registro encontrado!">
+				<p:ajax event="rowSelect" process="@this"
+					listener="#{movimentoCaixaMB.carregaFavorecido}"
+					update=":frmMovimentoCaixa:plg4, :frmMovimentoCaixa:plg5, :frmMovimentoCaixa:plg6, :frmMovimentoCaixa:plg7, :frmMovimentoCaixa:plg8, :frmMovimentoCaixa:plg9" oncomplete="PF('pesqFavSaida').hide();" />
+				<p:column headerText="Codigo" filterBy="#{p.codigo}"
+					filterMatchMode="contains" width="20" style="text-align:center;">
+					#{p.codigo}
+				</p:column>
+				<p:column headerText="Favorecido" filterBy="#{p.favorecido}"
+					filterMatchMode="contains" width="70">
+					#{p.favorecido}
+				</p:column>
+				<p:column headerText="Banco" filterBy="#{p.banco}"
+					filterMatchMode="contains" width="20" style="text-align:center;">
+					#{p.banco}
+				</p:column>
+			</p:dataTable>
+		</p:dialog>
+	</h:form>
+</ui:composition>

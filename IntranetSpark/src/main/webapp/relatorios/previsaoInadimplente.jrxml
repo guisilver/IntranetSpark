@@ -1,0 +1,1128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="previsaoInadimplente" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2a954eef-5705-4c5c-8280-cbb568f1adb5">
+	<property name="ireport.zoom" value="1.4641000000000013"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="mes1" class="java.lang.String"/>
+	<parameter name="mes2" class="java.lang.String"/>
+	<parameter name="mes3" class="java.lang.String"/>
+	<parameter name="mes4" class="java.lang.String"/>
+	<parameter name="mes5" class="java.lang.String"/>
+	<parameter name="mes6" class="java.lang.String"/>
+	<parameter name="mes7" class="java.lang.String"/>
+	<parameter name="mes8" class="java.lang.String"/>
+	<parameter name="mes9" class="java.lang.String"/>
+	<parameter name="mes10" class="java.lang.String"/>
+	<parameter name="mes11" class="java.lang.String"/>
+	<parameter name="mes12" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="p_codigo" class="java.lang.Long"/>
+	<field name="p_capa" class="java.lang.String"/>
+	<field name="p_codigo_gerente" class="java.lang.Integer"/>
+	<field name="p_condominio" class="java.lang.Short"/>
+	<field name="p_conta" class="java.lang.Integer"/>
+	<field name="p_mes_projecao" class="java.sql.Timestamp"/>
+	<field name="p_despesas" class="java.lang.String"/>
+	<field name="p_mes1" class="java.lang.Double"/>
+	<field name="p_mes2" class="java.lang.Double"/>
+	<field name="p_mes3" class="java.lang.Double"/>
+	<field name="p_mes4" class="java.lang.Double"/>
+	<field name="p_mes5" class="java.lang.Double"/>
+	<field name="p_mes7" class="java.lang.Double"/>
+	<field name="p_mes6" class="java.lang.Double"/>
+	<field name="p_mes8" class="java.lang.Double"/>
+	<field name="p_mes9" class="java.lang.Double"/>
+	<field name="p_mes10" class="java.lang.Double"/>
+	<field name="p_mes11" class="java.lang.Double"/>
+	<field name="p_mes12" class="java.lang.Double"/>
+	<field name="p_media" class="java.lang.Double"/>
+	<field name="p_codigoDespesa" class="java.lang.String"/>
+	<field name="p_inadimplencia" class="java.lang.Double"/>
+	<field name="c_nomeCondominio" class="java.lang.String"/>
+	<field name="p_totalMedia" class="java.lang.Double"/>
+	<variable name="valorMes1" class="java.lang.Double" resetType="Group" resetGroup="sub_total" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_mes1}]]></variableExpression>
+	</variable>
+	<variable name="valorMes2" class="java.lang.Double" resetType="Group" resetGroup="sub_total" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_mes2}]]></variableExpression>
+	</variable>
+	<variable name="valorMes3" class="java.lang.Double" resetType="Group" resetGroup="sub_total" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_mes3}]]></variableExpression>
+	</variable>
+	<variable name="valorMes4" class="java.lang.Double" resetType="Group" resetGroup="sub_total" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_mes4}]]></variableExpression>
+	</variable>
+	<variable name="valorMes5" class="java.lang.Double" resetType="Group" resetGroup="sub_total" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_mes5}]]></variableExpression>
+	</variable>
+	<variable name="valorMes6" class="java.lang.Double" resetType="Group" resetGroup="sub_total" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_mes6}]]></variableExpression>
+	</variable>
+	<variable name="valorMes7" class="java.lang.Double" resetType="Group" resetGroup="sub_total" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_mes7}]]></variableExpression>
+	</variable>
+	<variable name="valorMes8" class="java.lang.Double" resetType="Group" resetGroup="sub_total" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_mes8}]]></variableExpression>
+	</variable>
+	<variable name="valorMes9" class="java.lang.Double" resetType="Group" resetGroup="sub_total" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_mes9}]]></variableExpression>
+	</variable>
+	<variable name="valorMes10" class="java.lang.Double" resetType="Group" resetGroup="sub_total" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_mes10}]]></variableExpression>
+	</variable>
+	<variable name="valorMes11" class="java.lang.Double" resetType="Group" resetGroup="sub_total" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_mes11}]]></variableExpression>
+	</variable>
+	<variable name="valorMes12" class="java.lang.Double" resetType="Group" resetGroup="sub_total" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_mes12}]]></variableExpression>
+	</variable>
+	<variable name="totalMedia" class="java.lang.Double" resetType="Group" resetGroup="sub_total" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_media}]]></variableExpression>
+	</variable>
+	<variable name="totalOrdinaria1" class="java.lang.Double" resetType="Group" resetGroup="total_despesas_ordinarias" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_mes1}]]></variableExpression>
+	</variable>
+	<variable name="totalOrdinaria2" class="java.lang.Double" resetType="Group" resetGroup="total_despesas_ordinarias" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_mes2}]]></variableExpression>
+	</variable>
+	<variable name="totalOrdinaria3" class="java.lang.Double" resetType="Group" resetGroup="total_despesas_ordinarias" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_mes3}]]></variableExpression>
+	</variable>
+	<variable name="totalOrdinaria4" class="java.lang.Double" resetType="Group" resetGroup="total_despesas_ordinarias" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_mes4}]]></variableExpression>
+	</variable>
+	<variable name="totalOrdinaria5" class="java.lang.Double" resetType="Group" resetGroup="total_despesas_ordinarias" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_mes5}]]></variableExpression>
+	</variable>
+	<variable name="totalOrdinaria6" class="java.lang.Double" resetType="Group" resetGroup="total_despesas_ordinarias" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_mes6}]]></variableExpression>
+	</variable>
+	<variable name="totalOrdinaria7" class="java.lang.Double" resetType="Group" resetGroup="total_despesas_ordinarias" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_mes7}]]></variableExpression>
+	</variable>
+	<variable name="totalOrdinaria8" class="java.lang.Double" resetType="Group" resetGroup="total_despesas_ordinarias" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_mes8}]]></variableExpression>
+	</variable>
+	<variable name="totalOrdinaria9" class="java.lang.Double" resetType="Group" resetGroup="total_despesas_ordinarias" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_mes9}]]></variableExpression>
+	</variable>
+	<variable name="totalOrdinaria10" class="java.lang.Double" resetType="Group" resetGroup="total_despesas_ordinarias" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_mes10}]]></variableExpression>
+	</variable>
+	<variable name="totalOrdinaria11" class="java.lang.Double" resetType="Group" resetGroup="total_despesas_ordinarias" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_mes11}]]></variableExpression>
+	</variable>
+	<variable name="totalOrdinaria12" class="java.lang.Double" resetType="Group" resetGroup="total_despesas_ordinarias" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_mes12}]]></variableExpression>
+	</variable>
+	<variable name="totalOrdinariaMedia" class="java.lang.Double" resetType="Group" resetGroup="total_despesas_ordinarias" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_media}]]></variableExpression>
+	</variable>
+	<variable name="totalPercentual" class="java.lang.Double" resetType="Group" resetGroup="total_despesas_ordinarias" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_media}]]></variableExpression>
+	</variable>
+	<group name="total_rateio">
+		<groupFooter>
+			<band height="12">
+				<staticText>
+					<reportElement x="22" y="0" width="178" height="12" uuid="16cc585f-b816-4f0f-a0ca-85f4bc088c18"/>
+					<box rightPadding="2"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[TOTAL NECESSÁRIO PARA RATEIO:]]></text>
+				</staticText>
+				<textField pattern="#,##0.00">
+					<reportElement x="200" y="0" width="42" height="12" uuid="4b6af47a-f637-4875-b934-06b1ee35c667"/>
+					<box rightPadding="4"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[(($V{totalOrdinaria1}*$F{p_inadimplencia})/100)+$V{totalOrdinaria1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="242" y="0" width="42" height="12" uuid="07de7391-9936-4c4c-bf69-d9b0aed59767"/>
+					<box rightPadding="4"/>
+					<textElement textAlignment="Right">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[(($V{totalOrdinaria2}*$F{p_inadimplencia})/100)+$V{totalOrdinaria2}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="284" y="0" width="42" height="12" uuid="c459d5a2-0fca-4836-92ba-7bbd190e0d62"/>
+					<box rightPadding="4"/>
+					<textElement textAlignment="Right">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[(($V{totalOrdinaria3}*$F{p_inadimplencia})/100)+$V{totalOrdinaria3}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="326" y="0" width="42" height="12" uuid="2aa1e698-c4e6-40f6-a04a-95101c2b1562"/>
+					<box rightPadding="4"/>
+					<textElement textAlignment="Right">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[(($V{totalOrdinaria4}*$F{p_inadimplencia})/100)+$V{totalOrdinaria4}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="368" y="0" width="42" height="12" uuid="90695e0f-291e-48c0-8d49-c71492f72e87"/>
+					<box rightPadding="4"/>
+					<textElement textAlignment="Right">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[(($V{totalOrdinaria5}*$F{p_inadimplencia})/100)+$V{totalOrdinaria5}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="410" y="0" width="42" height="12" uuid="290927e1-8f76-4372-b67b-3844e8cf3429"/>
+					<box rightPadding="4"/>
+					<textElement textAlignment="Right">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[(($V{totalOrdinaria6}*$F{p_inadimplencia})/100)+$V{totalOrdinaria6}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="452" y="0" width="42" height="12" uuid="ced8bb20-a236-480b-a1f3-2dd4fdeb8cac"/>
+					<box rightPadding="4"/>
+					<textElement textAlignment="Right">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[(($V{totalOrdinaria7}*$F{p_inadimplencia})/100)+$V{totalOrdinaria7}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="494" y="0" width="42" height="12" uuid="27639726-dc20-4656-9443-d0115c3d4009"/>
+					<box rightPadding="4"/>
+					<textElement textAlignment="Right">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[(($V{totalOrdinaria8}*$F{p_inadimplencia})/100)+$V{totalOrdinaria8}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="536" y="0" width="42" height="12" uuid="cde78656-282f-4910-b84a-f98c40ea04bb"/>
+					<box rightPadding="4"/>
+					<textElement textAlignment="Right">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[(($V{totalOrdinaria9}*$F{p_inadimplencia})/100)+$V{totalOrdinaria9}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="578" y="0" width="42" height="12" uuid="7b8eef4c-3bbf-4cd2-88fa-a43946687f9d"/>
+					<box rightPadding="4"/>
+					<textElement textAlignment="Right">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[(($V{totalOrdinaria10}*$F{p_inadimplencia})/100)+$V{totalOrdinaria10}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="620" y="0" width="42" height="12" uuid="36213144-8918-4a89-9c52-5e0c4402b5f1"/>
+					<box rightPadding="4"/>
+					<textElement textAlignment="Right">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[(($V{totalOrdinaria11}*$F{p_inadimplencia})/100)+$V{totalOrdinaria11}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="662" y="0" width="42" height="12" uuid="8b8dbbe5-6b7f-4956-bdda-cbdf9103b823"/>
+					<box rightPadding="4"/>
+					<textElement textAlignment="Right">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[(($V{totalOrdinaria12}*$F{p_inadimplencia})/100)+$V{totalOrdinaria12}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="702" y="0" width="44" height="12" uuid="2e34edff-dc21-41c0-a74f-79e2186c7ea0"/>
+					<box rightPadding="4"/>
+					<textElement textAlignment="Right">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[(($V{totalOrdinariaMedia}*$F{p_inadimplencia})/100)+$V{totalOrdinariaMedia}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="total_inadimplencia">
+		<groupFooter>
+			<band height="16">
+				<staticText>
+					<reportElement x="22" y="0" width="178" height="12" uuid="126265de-b317-4cf5-9cba-0ef71eb63b70"/>
+					<box rightPadding="2"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[INADIMPLÊNCIA:]]></text>
+				</staticText>
+				<textField pattern="#,##0.00">
+					<reportElement x="200" y="0" width="42" height="12" uuid="d427ad25-0300-418e-9e56-718e5e30619d"/>
+					<box rightPadding="4"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($V{totalOrdinaria1}*$F{p_inadimplencia})/100]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="242" y="0" width="42" height="12" uuid="80705839-b383-4e9a-8748-2c176d758450"/>
+					<box rightPadding="4"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($V{totalOrdinaria2}*$F{p_inadimplencia})/100]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="284" y="0" width="42" height="12" uuid="06c7e8fc-4703-46af-8582-b8c825324129"/>
+					<box rightPadding="4"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($V{totalOrdinaria3}*$F{p_inadimplencia})/100]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="326" y="0" width="42" height="12" uuid="291dfc5e-7d34-40b9-bae4-0a2053656eb9"/>
+					<box rightPadding="4"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($V{totalOrdinaria4}*$F{p_inadimplencia})/100]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="368" y="0" width="42" height="12" uuid="9d63dbf1-44b8-48c3-96f1-40231f0d7778"/>
+					<box rightPadding="4"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($V{totalOrdinaria5}*$F{p_inadimplencia})/100]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="410" y="0" width="42" height="12" uuid="d5999723-7e20-4311-9c96-8f7f0444baec"/>
+					<box rightPadding="4"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($V{totalOrdinaria6}*$F{p_inadimplencia})/100]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="452" y="0" width="42" height="12" uuid="801d0828-58e0-4021-a6f2-1bb2ce319785"/>
+					<box rightPadding="4"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($V{totalOrdinaria7}*$F{p_inadimplencia})/100]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="494" y="0" width="42" height="12" uuid="bb96a4ee-2661-453e-ade6-092295b6bf58"/>
+					<box rightPadding="4"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($V{totalOrdinaria8}*$F{p_inadimplencia})/100]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="536" y="0" width="42" height="12" uuid="9e934e5d-a882-4819-a7d2-e10f39227f82"/>
+					<box rightPadding="4"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($V{totalOrdinaria9}*$F{p_inadimplencia})/100]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="578" y="0" width="42" height="12" uuid="d79263c6-4203-497a-a32f-844e04782d93"/>
+					<box rightPadding="4"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($V{totalOrdinaria10}*$F{p_inadimplencia})/100]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="620" y="0" width="42" height="12" uuid="dbdf90ee-6619-411f-9109-c864e60cf708"/>
+					<box rightPadding="4"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($V{totalOrdinaria11}*$F{p_inadimplencia})/100]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="662" y="0" width="42" height="12" uuid="94d934b4-f330-4f43-bea9-ac6cfcc2d494"/>
+					<box rightPadding="4"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($V{totalOrdinaria12}*$F{p_inadimplencia})/100]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="704" y="0" width="42" height="12" uuid="902448af-7eaa-4351-af82-6e0722d31967"/>
+					<box rightPadding="4"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($V{totalOrdinariaMedia}*$F{p_inadimplencia})/100]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="total_despesas_ordinarias">
+		<groupFooter>
+			<band height="16">
+				<staticText>
+					<reportElement x="22" y="0" width="178" height="12" uuid="eb6e8099-532c-45be-b3a5-8e5b78066205"/>
+					<box rightPadding="2"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[TOTAL DESPESAS ORDINÁRIAS:]]></text>
+				</staticText>
+				<textField pattern="#,##0.00">
+					<reportElement x="200" y="0" width="42" height="12" uuid="e28be275-3f95-45b8-9595-536c340caba4"/>
+					<box rightPadding="4"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{totalOrdinaria1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="242" y="0" width="42" height="12" uuid="557811e8-6250-4646-b942-a61a4a02914b"/>
+					<box rightPadding="4"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{totalOrdinaria2}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="284" y="0" width="42" height="12" uuid="185793ef-b7c5-4f82-9ac9-b8bfdf2473e9"/>
+					<box rightPadding="4"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{totalOrdinaria3}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="326" y="0" width="42" height="12" uuid="6fd3ce5f-89ea-40a9-8415-04a5a9604984"/>
+					<box rightPadding="4"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{totalOrdinaria4}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="368" y="0" width="42" height="12" uuid="872527f1-f1c6-4e1b-9355-a1f422fb0ca6"/>
+					<box rightPadding="4"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{totalOrdinaria5}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="410" y="0" width="42" height="12" uuid="0fc0a4a7-d35a-412c-b342-66aca8ef7a84"/>
+					<box rightPadding="4"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{totalOrdinaria6}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="452" y="0" width="42" height="12" uuid="9a9dad52-b8c7-495a-96ce-e14a2f4c064c"/>
+					<box rightPadding="4"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{totalOrdinaria7}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="494" y="0" width="42" height="12" uuid="b51e578d-280c-489f-9bc2-7d0a91efb60d"/>
+					<box rightPadding="4"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{totalOrdinaria8}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="536" y="0" width="42" height="12" uuid="da61d151-eb8d-4f79-93f5-45dc8af50ccc"/>
+					<box rightPadding="4"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{totalOrdinaria9}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="578" y="0" width="42" height="12" uuid="f5473f22-3a29-45d3-8756-0949119faa33"/>
+					<box rightPadding="4"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{totalOrdinaria10}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="620" y="0" width="42" height="12" uuid="6e69830b-4e3e-49c9-8c6b-97f071570f1e"/>
+					<box rightPadding="4"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{totalOrdinaria11}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="662" y="0" width="42" height="12" uuid="e6856645-72b1-44d7-885d-cd819d6c6c2c"/>
+					<box rightPadding="4"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{totalOrdinaria12}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="704" y="0" width="42" height="12" uuid="cb6ec022-d8c0-4cf5-86d3-a116bc89005a"/>
+					<box rightPadding="4"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{totalOrdinariaMedia}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0 %">
+					<reportElement x="746" y="0" width="56" height="12" uuid="546a4ff4-0f40-4eac-b052-24cd6137d652"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{totalPercentual}/$F{p_totalMedia}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="sub_total">
+		<groupExpression><![CDATA[$F{p_conta}]]></groupExpression>
+		<groupFooter>
+			<band height="15">
+				<textField pattern="#,##0.00">
+					<reportElement x="200" y="0" width="42" height="12" isRemoveLineWhenBlank="true" uuid="38f0b2de-d291-46ad-b147-d0760ae79a41"/>
+					<box rightPadding="4">
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{p_conta} == 9999 ? "" :$V{valorMes1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="242" y="0" width="42" height="12" isRemoveLineWhenBlank="true" uuid="7047590d-7aff-442e-b7d2-599d06937e3f"/>
+					<box rightPadding="4">
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{p_conta} == 9999 ? "" : $V{valorMes2}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="284" y="0" width="42" height="12" isRemoveLineWhenBlank="true" uuid="f702d538-2ce3-4b0c-9f73-885ccdaa7d8a"/>
+					<box rightPadding="4">
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{p_conta} == 9999 ? "" : $V{valorMes3}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="326" y="0" width="42" height="12" isRemoveLineWhenBlank="true" uuid="7f420c51-e918-40fa-9b11-481d1783d383"/>
+					<box rightPadding="4">
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{p_conta} == 9999 ? "" : $V{valorMes4}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="368" y="0" width="42" height="12" isRemoveLineWhenBlank="true" uuid="09c79788-5584-42df-99a7-77b95596f151"/>
+					<box rightPadding="4">
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{p_conta} == 9999 ? "" : $V{valorMes5}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="410" y="0" width="42" height="12" isRemoveLineWhenBlank="true" uuid="f033b4cb-fec0-4c74-b62f-0887386b0dc1"/>
+					<box rightPadding="4">
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{p_conta} == 9999 ? "" : $V{valorMes6}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="452" y="0" width="42" height="12" isRemoveLineWhenBlank="true" uuid="2e7a3600-8c18-4457-9c06-53cb4cc3a0b8"/>
+					<box rightPadding="4">
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{p_conta} == 9999 ? "" : $V{valorMes7}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="494" y="0" width="42" height="12" isRemoveLineWhenBlank="true" uuid="b1263e80-e64f-4d87-8a4d-d1f83b877a8f"/>
+					<box rightPadding="4">
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{p_conta} == 9999 ? "" : $V{valorMes8}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="536" y="0" width="42" height="12" isRemoveLineWhenBlank="true" uuid="80d76e81-dacb-4197-83d4-4c035f766876"/>
+					<box rightPadding="4">
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{p_conta} == 9999 ? "" : $V{valorMes9}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="578" y="0" width="42" height="12" isRemoveLineWhenBlank="true" uuid="72cecb41-69b4-46c6-9fc3-a0454393cbe8"/>
+					<box rightPadding="4">
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{p_conta} == 9999 ? "" : $V{valorMes10}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="620" y="0" width="42" height="12" isRemoveLineWhenBlank="true" uuid="aa49b7c3-9076-4122-b8b8-02c921177d52"/>
+					<box rightPadding="4">
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{p_conta} == 9999 ? "" : $V{valorMes11}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="662" y="0" width="42" height="12" isRemoveLineWhenBlank="true" uuid="e012f468-0fbf-4e54-8cc5-d756ccd3f40d"/>
+					<box rightPadding="4">
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{p_conta} == 9999 ? "" : $V{valorMes12}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="704" y="0" width="42" height="12" isRemoveLineWhenBlank="true" uuid="8685f3b7-20f1-4c2e-863f-8e66e84d58cd"/>
+					<box rightPadding="4">
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{p_conta} == 9999 ? "" : $V{totalMedia}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="0" y="0" width="200" height="12" isRemoveLineWhenBlank="true" uuid="aee3ce4d-6f8d-4971-be4f-d1160310c336"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{p_conta} == 9999 ? "" : "Sub-Total:"]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00 %">
+					<reportElement x="746" y="0" width="56" height="12" isRemoveLineWhenBlank="true" uuid="e6c98e57-94d7-4dfe-80bb-aa9c7449ea38"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{p_conta} == 9999 ? "" : $V{totalMedia}/$F{p_totalMedia}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="21" splitType="Stretch">
+			<textField>
+				<reportElement mode="Opaque" x="0" y="0" width="802" height="21" backcolor="#CCCCCC" uuid="ab5e5eba-cf5d-430a-9e0d-ac3083b4ffd0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["CONDOMÍNIO EDIFÍCIO "+$F{c_nomeCondominio}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="802" height="20" uuid="5b1ca7c1-d693-4108-b446-ef4b40f8124a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[PREVISÃO ORÇAMENTÁRIA ORDINÁRIA PARA OS PRÓXIMOS 12 MESES]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="15" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="200" height="15" uuid="70aaf4b0-4043-4bad-9b03-4b1ec4ca79d2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DESPESAS]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="200" y="0" width="42" height="15" uuid="bc8e2bdf-39b3-46d6-8158-82bd1971709f"/>
+				<box>
+					<pen lineWidth="0.5" lineStyle="Dotted"/>
+					<topPen lineWidth="0.5" lineStyle="Dotted"/>
+					<leftPen lineWidth="0.5" lineStyle="Dotted"/>
+					<bottomPen lineWidth="0.5" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.5" lineStyle="Dotted"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{mes1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="242" y="0" width="42" height="15" uuid="c594f8f0-bd5d-4930-9cac-cb6baf34e66d"/>
+				<box>
+					<pen lineWidth="0.5" lineStyle="Dotted"/>
+					<topPen lineWidth="0.5" lineStyle="Dotted"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted"/>
+					<bottomPen lineWidth="0.5" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.5" lineStyle="Dotted"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{mes2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="284" y="0" width="42" height="15" uuid="75090196-f4d5-4ecb-9e69-19f7d98ff882"/>
+				<box>
+					<pen lineWidth="0.5" lineStyle="Dotted"/>
+					<topPen lineWidth="0.5" lineStyle="Dotted"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted"/>
+					<bottomPen lineWidth="0.5" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.5" lineStyle="Dotted"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{mes3}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="326" y="0" width="42" height="15" uuid="3f07afc8-e44a-46f7-85b8-863f8526a350"/>
+				<box>
+					<pen lineWidth="0.5" lineStyle="Dotted"/>
+					<topPen lineWidth="0.5" lineStyle="Dotted"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted"/>
+					<bottomPen lineWidth="0.5" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.5" lineStyle="Dotted"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{mes4}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="368" y="0" width="42" height="15" uuid="bf51e6b0-ec2b-40df-8346-b66c637b0ec2"/>
+				<box>
+					<pen lineWidth="0.5" lineStyle="Dotted"/>
+					<topPen lineWidth="0.5" lineStyle="Dotted"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted"/>
+					<bottomPen lineWidth="0.5" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.5" lineStyle="Dotted"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{mes5}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="410" y="0" width="42" height="15" uuid="52b7e35b-3c38-4bb5-aca2-cb838e0eecea"/>
+				<box>
+					<pen lineWidth="0.5" lineStyle="Dotted"/>
+					<topPen lineWidth="0.5" lineStyle="Dotted"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted"/>
+					<bottomPen lineWidth="0.5" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.5" lineStyle="Dotted"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{mes6}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="452" y="0" width="42" height="15" uuid="f62d9bf5-5054-451e-9f9d-49bae997a8c8"/>
+				<box>
+					<pen lineWidth="0.5" lineStyle="Dotted"/>
+					<topPen lineWidth="0.5" lineStyle="Dotted"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted"/>
+					<bottomPen lineWidth="0.5" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.5" lineStyle="Dotted"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{mes7}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="494" y="0" width="42" height="15" uuid="297a931d-40bb-460c-a91a-f07a74733aee"/>
+				<box>
+					<pen lineWidth="0.5" lineStyle="Dotted"/>
+					<topPen lineWidth="0.5" lineStyle="Dotted"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted"/>
+					<bottomPen lineWidth="0.5" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.5" lineStyle="Dotted"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{mes8}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="536" y="0" width="42" height="15" uuid="0f27e340-c723-46ea-a10f-e48c3d5d065a"/>
+				<box>
+					<pen lineWidth="0.5" lineStyle="Dotted"/>
+					<topPen lineWidth="0.5" lineStyle="Dotted"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted"/>
+					<bottomPen lineWidth="0.5" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.5" lineStyle="Dotted"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{mes9}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="578" y="0" width="42" height="15" uuid="7a25681f-9470-4aac-b557-48da90f436a0"/>
+				<box>
+					<pen lineWidth="0.5" lineStyle="Dotted"/>
+					<topPen lineWidth="0.5" lineStyle="Dotted"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted"/>
+					<bottomPen lineWidth="0.5" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.5" lineStyle="Dotted"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{mes10}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="620" y="0" width="42" height="15" uuid="b6621b92-dbd2-4acc-beea-f911a8964a5e"/>
+				<box>
+					<pen lineWidth="0.5" lineStyle="Dotted"/>
+					<topPen lineWidth="0.5" lineStyle="Dotted"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted"/>
+					<bottomPen lineWidth="0.5" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.5" lineStyle="Dotted"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{mes11}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="662" y="0" width="42" height="15" uuid="76fac2c7-a94c-4c3e-8623-d54bf4f5a62e"/>
+				<box>
+					<pen lineWidth="0.5" lineStyle="Dotted"/>
+					<topPen lineWidth="0.5" lineStyle="Dotted"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted"/>
+					<bottomPen lineWidth="0.5" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.5" lineStyle="Dotted"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{mes12}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="704" y="0" width="42" height="15" uuid="9585085e-8a93-4b86-8b17-ffe41f28c76e"/>
+				<box>
+					<pen lineWidth="0.5" lineStyle="Dotted"/>
+					<topPen lineWidth="0.5" lineStyle="Dotted"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted"/>
+					<bottomPen lineWidth="0.5" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.5" lineStyle="Dotted"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MEDIA]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="27" splitType="Stretch">
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="0" y="0" width="200" height="12" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" uuid="23ada89a-d4d5-40b9-bee6-9db5dfa27279"/>
+				<textElement>
+					<font size="8" isBold="true" isItalic="false" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{p_conta} == 9999 ? "" : $F{p_capa}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="12" width="200" height="15" isRemoveLineWhenBlank="true" uuid="1107fc6a-07bd-4cd1-b293-4743477db9e6"/>
+				<box rightPadding="2">
+					<pen lineWidth="0.5" lineStyle="Dotted"/>
+					<topPen lineWidth="0.5" lineStyle="Dotted"/>
+					<leftPen lineWidth="0.5" lineStyle="Dotted"/>
+					<bottomPen lineWidth="0.5" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.5" lineStyle="Dotted"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{p_conta} == 9999 ? "" : $F{p_despesas}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="200" y="12" width="42" height="15" isRemoveLineWhenBlank="true" uuid="80119e2c-5d16-449e-a06e-d1748944ea03"/>
+				<box rightPadding="4">
+					<pen lineWidth="0.5" lineStyle="Dotted"/>
+					<topPen lineWidth="0.5" lineStyle="Dotted"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted"/>
+					<bottomPen lineWidth="0.5" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.5" lineStyle="Dotted"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{p_conta} == 9999 ? "" : $F{p_mes1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="242" y="12" width="42" height="15" isRemoveLineWhenBlank="true" uuid="3eb90180-42a1-4c24-b17f-3367b2b9b2b1"/>
+				<box rightPadding="4">
+					<pen lineWidth="0.5" lineStyle="Dotted"/>
+					<topPen lineWidth="0.5" lineStyle="Dotted"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted"/>
+					<bottomPen lineWidth="0.5" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.5" lineStyle="Dotted"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{p_conta} == 9999 ? "" : $F{p_mes2}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="284" y="12" width="42" height="15" isRemoveLineWhenBlank="true" uuid="6bc1af84-3bc5-434f-a51d-5bf22c2935c0"/>
+				<box rightPadding="4">
+					<pen lineWidth="0.5" lineStyle="Dotted"/>
+					<topPen lineWidth="0.5" lineStyle="Dotted"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted"/>
+					<bottomPen lineWidth="0.5" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.5" lineStyle="Dotted"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{p_conta} == 9999 ? "" : $F{p_mes3}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="326" y="12" width="42" height="15" isRemoveLineWhenBlank="true" uuid="98f9af9f-7f4f-4dec-bafd-63804f13bfe4"/>
+				<box rightPadding="4">
+					<pen lineWidth="0.5" lineStyle="Dotted"/>
+					<topPen lineWidth="0.5" lineStyle="Dotted"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted"/>
+					<bottomPen lineWidth="0.5" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.5" lineStyle="Dotted"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{p_conta} == 9999 ? "" : $F{p_mes4}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="368" y="12" width="42" height="15" isRemoveLineWhenBlank="true" uuid="d877534b-073b-47de-99fa-a0f7432fa3bb"/>
+				<box rightPadding="4">
+					<pen lineWidth="0.5" lineStyle="Dotted"/>
+					<topPen lineWidth="0.5" lineStyle="Dotted"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted"/>
+					<bottomPen lineWidth="0.5" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.5" lineStyle="Dotted"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{p_conta} == 9999 ? "" : $F{p_mes5}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="410" y="12" width="42" height="15" isRemoveLineWhenBlank="true" uuid="9f0dbc10-696a-422d-b45f-b1b98f64fb59"/>
+				<box rightPadding="4">
+					<pen lineWidth="0.5" lineStyle="Dotted"/>
+					<topPen lineWidth="0.5" lineStyle="Dotted"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted"/>
+					<bottomPen lineWidth="0.5" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.5" lineStyle="Dotted"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{p_conta} == 9999 ? "" : $F{p_mes6}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="452" y="12" width="42" height="15" isRemoveLineWhenBlank="true" uuid="8e24b121-5168-4452-bda3-2f6b7426aea5"/>
+				<box rightPadding="4">
+					<pen lineWidth="0.5" lineStyle="Dotted"/>
+					<topPen lineWidth="0.5" lineStyle="Dotted"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted"/>
+					<bottomPen lineWidth="0.5" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.5" lineStyle="Dotted"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{p_conta} == 9999 ? "" : $F{p_mes7}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="494" y="12" width="42" height="15" isRemoveLineWhenBlank="true" uuid="9da5a15f-3e47-4085-9897-e5378f0bd394"/>
+				<box rightPadding="4">
+					<pen lineWidth="0.5" lineStyle="Dotted"/>
+					<topPen lineWidth="0.5" lineStyle="Dotted"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted"/>
+					<bottomPen lineWidth="0.5" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.5" lineStyle="Dotted"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{p_conta} == 9999 ? "" : $F{p_mes8}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="536" y="12" width="42" height="15" isRemoveLineWhenBlank="true" uuid="957212d7-f83a-4acb-87d8-218b72b09f0d"/>
+				<box rightPadding="4">
+					<pen lineWidth="0.5" lineStyle="Dotted"/>
+					<topPen lineWidth="0.5" lineStyle="Dotted"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted"/>
+					<bottomPen lineWidth="0.5" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.5" lineStyle="Dotted"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{p_conta} == 9999 ? "" : $F{p_mes9}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="578" y="12" width="42" height="15" isRemoveLineWhenBlank="true" uuid="778285fa-596f-41ae-b39a-6aec5292d6aa"/>
+				<box rightPadding="4">
+					<pen lineWidth="0.5" lineStyle="Dotted"/>
+					<topPen lineWidth="0.5" lineStyle="Dotted"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted"/>
+					<bottomPen lineWidth="0.5" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.5" lineStyle="Dotted"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{p_conta} == 9999 ? "" : $F{p_mes10}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="620" y="12" width="42" height="15" isRemoveLineWhenBlank="true" uuid="baf38f88-8ca9-489e-a61e-f5c125ce8bee"/>
+				<box rightPadding="4">
+					<pen lineWidth="0.5" lineStyle="Dotted"/>
+					<topPen lineWidth="0.5" lineStyle="Dotted"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted"/>
+					<bottomPen lineWidth="0.5" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.5" lineStyle="Dotted"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{p_conta} == 9999 ? "" : $F{p_mes11}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="662" y="12" width="42" height="15" isRemoveLineWhenBlank="true" uuid="19105fe9-cea3-4107-96c8-1934bc37abc8"/>
+				<box rightPadding="4">
+					<pen lineWidth="0.5" lineStyle="Dotted"/>
+					<topPen lineWidth="0.5" lineStyle="Dotted"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted"/>
+					<bottomPen lineWidth="0.5" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.5" lineStyle="Dotted"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{p_conta} == 9999 ? "" : $F{p_mes12}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="704" y="12" width="42" height="15" isRemoveLineWhenBlank="true" uuid="2d2e040a-2da4-437f-94d3-55d3a684788b"/>
+				<box rightPadding="4">
+					<pen lineWidth="0.5" lineStyle="Dotted"/>
+					<topPen lineWidth="0.5" lineStyle="Dotted"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted"/>
+					<bottomPen lineWidth="0.5" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.5" lineStyle="Dotted"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{p_conta} == 9999 ? "" : $F{p_media}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="11" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="7" splitType="Stretch"/>
+	</pageFooter>
+</jasperReport>

@@ -1,0 +1,25 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:form id="frmExcluirAtendimento"
+		rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.verificaDepto('Comercial')}">
+		<p:dialog id="dlgExcluirAtendimento" widgetVar="dlgExcluirAtendimento"
+			resizable="false" modal="true" responsive="true" closeOnEscape="true"
+			header="Exclusão de Atendimento">
+			<h:panelGrid columns="2">
+				<p:outputLabel value="Você confirma a exclusão?" />
+				<p:column />
+				<p:commandButton value="Não"
+					oncomplete="PF('dlgExcluirAtendimento').hide();"
+					icon="fa fa-close Fs16 white" />
+				<p:commandButton value="Sim" icon="fa fa-check Fs16 white"
+					oncomplete="PF('dlgExcluirAtendimento').hide()"
+					update=":frmAtendimento:tblAtendimento" />
+			</h:panelGrid>
+		</p:dialog>
+	</h:form>
+</ui:composition>

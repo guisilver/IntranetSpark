@@ -1,0 +1,44 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<h:form id="frmPrevisaoPrint">
+		<p:dialog id="dlgRelatorio1" header="Relatório"
+			widgetVar="dlgGeraRelatorio1" style="font-size:12px;" resizable="true"
+			modal="true" hideEffect="slide" showEffect="slide"
+			position="left top" height="500" width="800">
+			<p:media value="/relatorios/#{previsaoMB.nomeArquivoPrevisao}.pdf" player="pdf"
+				width="100%" height="100%;" />
+		</p:dialog>
+		
+		<p:dialog id="dlgRelatorio2" header="Relatório"
+			widgetVar="dlgGeraRelatorio2" style="font-size:12px;" resizable="true"
+			modal="true" hideEffect="slide" showEffect="slide"
+			position="left top" height="500" width="800">
+			<p:media value="/relatorios/#{previsaoMB.nomeArquivoMedia}.pdf" player="pdf"
+				width="100%" height="100%;" />
+		</p:dialog>
+		
+		<p:dialog id="dlgRelatorio3" header="Relatório"
+			widgetVar="dlgGeraRelatorio3" style="font-size:12px;" resizable="true"
+			modal="true" hideEffect="slide" showEffect="slide"
+			position="left top" height="500" width="800">
+			<p:media value="/relatorios/#{previsaoMB.nomeArquivoGrafico}.pdf" player="pdf"
+				width="100%" height="100%;" />
+		</p:dialog>
+
+		<p:dialog modal="false" widgetVar="statusDialog1"
+			header="Gerando Relatório" draggable="false" resizable="false"
+			closable="false">
+			<center>
+				<p:graphicImage name="loader.gif" library="imagens" width="200"
+					height="25" />
+			</center>
+		</p:dialog>
+
+	</h:form>
+
+</ui:composition>

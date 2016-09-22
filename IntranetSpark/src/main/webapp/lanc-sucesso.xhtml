@@ -1,0 +1,25 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<div class="layout-portlets-box">
+			<div class="Container100 Responsive100">
+
+				<h:form id="frmLancSucesso">
+					<div style="margin: 20px !important;" align="center">
+						<p:outputLabel value="LANÇAMENTO SALVO COM SUCESSO!"
+							style="color:red;font-weight:bold;margin-top:50px;" />
+						<h:panelGrid columns="2" style="margin-top:15px;">
+							<p:commandButton value="Novo Lançamento" icon="fa fa-file-o Fs16 white"
+								action="lancamento?faces-redirect=true;" ajax="false" />
+							<p:commandButton value="Consultar Lançamentos"
+								icon="fa fa-search Fs16 white" action="financeiro?faces-redirect=true;" />
+						</h:panelGrid>
+					</div>
+				</h:form>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

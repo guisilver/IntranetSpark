@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="multa" pageWidth="595" pageHeight="842" columnWidth="483" leftMargin="56" rightMargin="56" topMargin="26" bottomMargin="34" uuid="a5043ef6-5469-4a3c-bfb1-8a0b23d72c47">
+	<property name="ireport.zoom" value="1.3636363636363635"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="codigo" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select * from omacorp.dbo.intra_advert_mult where codigo = $P{codigo}]]>
+	</queryString>
+	<field name="codigo" class="java.lang.Long"/>
+	<field name="artigo" class="java.lang.String"/>
+	<field name="bloco" class="java.lang.String"/>
+	<field name="clausula" class="java.lang.String"/>
+	<field name="codigo_gerente" class="java.lang.Integer"/>
+	<field name="condominio" class="java.lang.Short"/>
+	<field name="data_" class="java.sql.Timestamp"/>
+	<field name="data_ocorrido" class="java.lang.String"/>
+	<field name="email_geren" class="java.lang.String"/>
+	<field name="frase" class="java.lang.String"/>
+	<field name="item_clausula" class="java.lang.Boolean"/>
+	<field name="motivo" class="java.lang.String"/>
+	<field name="nome" class="java.lang.String"/>
+	<field name="nome_condo" class="java.lang.String"/>
+	<field name="nome_geren" class="java.lang.String"/>
+	<field name="ocorrido" class="java.lang.String"/>
+	<field name="protocolo" class="java.lang.Object"/>
+	<field name="sexo" class="java.lang.String"/>
+	<field name="texto" class="java.lang.String"/>
+	<field name="tipo_reg_cov" class="java.lang.String"/>
+	<field name="unidade" class="java.lang.String"/>
+	<field name="validaTexto" class="java.lang.String"/>
+	<field name="valor" class="java.lang.String"/>
+	<field name="valorExtenso" class="java.lang.String"/>
+	<field name="vencimento" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="51" splitType="Stretch">
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement x="0" y="-12" width="100" height="63" uuid="eb8ea241-3dd2-4a05-ac7b-9199f61d418d"/>
+				<imageExpression><![CDATA["http://10.1.1.20:8080//imagens//logo45pb.bmp"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="460" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="35" width="71" height="20" uuid="5486ef86-11ec-4c34-9f13-47efb77c99e3"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana" size="11"/>
+				</textElement>
+				<text><![CDATA[Unidade:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="55" width="71" height="20" uuid="aa9e2c80-0416-4c37-a01c-15c6ecde40b6"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana" size="11"/>
+				</textElement>
+				<text><![CDATA[Condomínio:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="0" y="196" width="483" height="20" uuid="110d9535-97b7-485e-8aa2-40814b80c240"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Verdana" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Desta forma, solicitamos sua especial atenção para que o fato ocorrido em "+$F{data_ocorrido}+", quando "+ $F{motivo}+", não mais ocorra."]]></textFieldExpression>
+			</textField>
+			<elementGroup/>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="418" width="100" height="20" uuid="8c12f0a6-a03d-4a7b-bc54-904409b8c50e"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana" size="11"/>
+				</textElement>
+				<text><![CDATA[Gerência]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="30" y="15" width="304" height="20" uuid="78980c65-9c5d-446e-982f-fad8e1b08ce3"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana" size="12" isBold="true" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="71" y="35" width="61" height="20" uuid="e6faf58e-bf52-4a3a-9d29-f42593f62fab"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{unidade}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="131" y="35" width="146" height="20" uuid="80fb26ad-b6a9-4d90-9a3c-cf34f4f1db0a"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{bloco} == null ? "" : $F{bloco}.trim().equals("0") ? "" : "Torre: " + $F{bloco}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="71" y="55" width="326" height="20" uuid="10d8856d-918b-4bbf-8f8a-62fb9859ca2b"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nome_condo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="398" width="277" height="20" uuid="2d0b0c1e-6d0d-4e16-a684-0b1bd73a0b43"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nome_geren}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="438" width="277" height="20" uuid="1526f069-5625-46a0-8cb1-2d29270e824a"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{email_geren}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="15" width="30" height="20" uuid="9df940fe-3b7f-4b29-bfaa-803c13918b4d"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sexo}.equals("F") ? "Sra." : "Sr."]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="0" y="232" width="483" height="20" uuid="76e55f6d-da59-411f-9b08-4caaaf7273ca"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Verdana" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Mediante ao exposto, considerando tratar-se de reincidência, fica aplicada multa de R$ "+ $F{valor}+" ("+$F{valorExtenso}+"), com vencimento em "+$F{vencimento}+"."]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="376" width="146" height="20" uuid="e6ee9d05-ea3b-4867-846a-e38e06a76143"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana" size="11"/>
+				</textElement>
+				<text><![CDATA[Atenciosamente,]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+				<reportElement positionType="Float" x="0" y="90" width="483" height="20" uuid="df873ebc-d6cb-4d58-aa4c-9901e54925fd"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Verdana" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Inicialmente, cumpre-nos registrar que os preceitos atinentes à boa vizinhança, cujas regras de comportamento são mais rígidas em condomínios, devido a convivência, a proximidade ou a própria circunstância de viverem os condôminos no mesmo espaço, necessitam ser devidamente observados, em benefício do princípio social de convivência."]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="0" y="268" width="483" height="20" uuid="720c65e6-2030-4b68-ab85-4b3868d3e4a2"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Verdana" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Lamentamos o fato e a obrigação de aplicarmos a presente multa, mas esta é uma medida de ordem geral e necessária."]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd &apos;de&apos; MMMM &apos;de&apos; yyyy">
+				<reportElement mode="Opaque" x="334" y="0" width="149" height="20" uuid="e64163fb-fce5-498f-8203-6c0d1a492be6"/>
+				<textElement textAlignment="Right">
+					<font fontName="Verdana" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("dd 'de' MMMM 'de' yyyy", new Locale("pt","BR")).format(new Date())]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="FixRelativeToBottom" x="0" y="339" width="483" height="20" uuid="815dc085-5bf2-4c02-b6e5-06dd6a38d7e7"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Verdana" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Contamos com sua compreensão e pronta colaboração."]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="0" y="304" width="483" height="20" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" uuid="9854c8e2-3b00-4aa8-881f-290261588ca6"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Verdana" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{validaTexto}.equals("N") ? $F{texto} : "Visando assegurar o princípio do contraditório e da ampla defesa, fica assegurado a V. Sa. o direito de apresentar recurso, sem efeito suspensivo, a ser submetido à apreciação e deliberação da próxima Assembleia Geral que se realizar no Condomínio."]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="0" y="125" width="483" height="20" uuid="65076562-0e4b-4724-9bf5-f64ba9410880"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Verdana" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipo_reg_cov}.equals("R") ? "Com base neste preceito, em atendimento a solicitação do Corpo Diretivo e objetivando manter a boa convivência entre todos, informamos que o Regulamento Interno do Condomínio, estabelece o quanto segue:" : "Com base neste preceito, em atendimento a solicitação do Corpo Diretivo e objetivando manter a boa convivência entre todos, informamos que a Convenção do Condomínio, estabelece o quanto segue:"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="0" y="160" width="483" height="20" uuid="6945e1e0-ed61-4ee3-a599-65155624614a"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Verdana" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{item_clausula} == true ? "- Cláusula "+$F{clausula} +", Artigo "+ $F{artigo}+":“"+$F{frase}+"”"+"." : "Artigo "+ $F{artigo}+": “"+$F{frase}+"”"+"."]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="32" splitType="Stretch">
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement x="0" y="0" width="100" height="23" uuid="6ffd11df-a1f1-419d-89a5-3ce99df74a34"/>
+				<imageExpression><![CDATA["http://10.1.1.20:8080//imagens//rodapepb.bmp"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="0" y="23" width="70" height="9" uuid="c66cf439-b849-401e-936f-57483ea2eb77"/>
+				<textElement rotation="None">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[OMA INTRANET]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

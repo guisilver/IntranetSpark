@@ -1,0 +1,288 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	<style>
+.outConta {
+	color: red;
+	max-width: 200px;
+}
+
+.lblValor {
+	min-width: 55px;
+}
+</style>
+	<p:dialog widgetVar="dlgValRat" resizable="false" modal="true"
+		closeOnEscape="true" width="auto" header="Valores do rateio"
+		hideEffect="slide" showEffect="slide" style="min-width:650px;">
+		<h:form id="frmValRat">
+			<p:scrollPanel style="max-height:400px;" mode="native">
+				<h:panelGrid id="pnlDlg" columns="1">
+					<p:panel>
+						<h:panelGrid columns="7">
+							<p:outputLabel value="1 Valor:" />
+							<p:inputText name="txtValor1" id="txtValor1"
+								value="#{ged.valor1}"
+								style="width:90px;margin-left: 15px !important;">
+								<p:ajax event="blur" listener="#{ged.somaValor()}"
+									update=":frmValRat:pnlSomaVal" />
+							</p:inputText>
+
+							<p:outputLabel value="Conta:" />
+							<p:inputText id="txtContaContabil1" value="#{ged.codRed1}"
+								style="width:90px;" onkeypress="validate(event)" maxlength="9">
+								<p:ajax listener="#{ged.pesquisaContaRatCod1()}"
+									update=":frmValRat:txtContaContabil1,:frmValRat:nomeContaContabil1" />
+							</p:inputText>
+
+							<p:commandButton icon="fa fa-search Fs16 white" immediate="true"
+								style="margin-left:5px;"
+								onclick="PF('dlgPesqContaRat1').show();" />
+
+							<p:outputLabel value="Nome:" />
+							<p:outputLabel id="nomeContaContabil1"
+								value="#{ged.rat.nomeContaReduzida1}" styleClass="outConta" />
+						</h:panelGrid>
+						<h:panelGrid columns="2">
+							<p:outputLabel value="Histórico:" />
+							<p:inputText value="#{ged.complemento1}" maxlength="150"
+								style="width:450px;" />
+						</h:panelGrid>
+					</p:panel>
+					<p:panel>
+						<h:panelGrid columns="7">
+							<p:outputLabel value="2 Valor:" />
+							<p:inputText name="txtValor2" id="txtValor2"
+								value="#{ged.valor2}"
+								style="width:90px;margin-left: 15px !important;">
+								<p:ajax event="blur" listener="#{ged.somaValor()}"
+									update=":frmValRat:pnlSomaVal" />
+							</p:inputText>
+
+							<p:outputLabel value="Conta:" />
+							<p:inputText id="txtContaContabil2" value="#{ged.codRed2}"
+								style="width:90px;" onkeypress="validate(event)" maxlength="9">
+								<p:ajax listener="#{ged.pesquisaContaRatCod2()}"
+									update=":frmValRat:txtContaContabil2,:frmValRat:nomeContaContabil2" />
+							</p:inputText>
+
+							<p:commandButton icon="fa fa-search Fs16 white" immediate="true"
+								style="margin-left:5px;"
+								onclick="PF('dlgPesqContaRat2').show();" />
+
+							<p:outputLabel value="Nome:" />
+							<p:outputLabel id="nomeContaContabil2"
+								value="#{ged.rat.nomeContaReduzida2}" styleClass="outConta" />
+						</h:panelGrid>
+						<h:panelGrid columns="2">
+							<p:outputLabel value="Histórico:" />
+							<p:inputText value="#{ged.complemento2}" maxlength="150"
+								style="width:450px;" />
+						</h:panelGrid>
+					</p:panel>
+					<p:panel>
+						<h:panelGrid columns="7">
+							<p:outputLabel value="3 Valor:" />
+							<p:inputText name="txtValor3" id="txtValor3"
+								value="#{ged.valor3}"
+								style="width:90px;margin-left: 15px !important;">
+								<p:ajax event="blur" listener="#{ged.somaValor()}"
+									update=":frmValRat:pnlSomaVal" />
+							</p:inputText>
+
+							<p:outputLabel value="Conta:" />
+							<p:inputText id="txtContaContabil3" value="#{ged.codRed3}"
+								style="width:90px;margin-left: 15px !important;"
+								onkeypress="validate(event)" maxlength="9">
+								<p:ajax listener="#{ged.pesquisaContaRatCod3()}"
+									update=":frmValRat:txtContaContabil3,:frmValRat:nomeContaContabil3" />
+							</p:inputText>
+
+							<p:commandButton icon="fa fa-search Fs16 white" immediate="true"
+								style="margin-left:5px;"
+								onclick="PF('dlgPesqContaRat3').show();" />
+
+							<p:outputLabel value="Nome:" />
+							<p:outputLabel id="nomeContaContabil3"
+								value="#{ged.rat.nomeContaReduzida3}" styleClass="outConta" />
+
+						</h:panelGrid>
+						<h:panelGrid columns="2">
+							<p:outputLabel value="Histórico:" />
+							<p:inputText value="#{ged.complemento3}" maxlength="150"
+								style="width:450px;" />
+						</h:panelGrid>
+					</p:panel>
+					<p:panel>
+						<h:panelGrid columns="7">
+							<p:outputLabel value="4 Valor:" />
+							<p:inputText name="txtValor4" id="txtValor4"
+								value="#{ged.valor4}"
+								style="width:90px;margin-left: 15px !important;">
+								<p:ajax event="blur" listener="#{ged.somaValor()}"
+									update=":frmValRat:pnlSomaVal" />
+							</p:inputText>
+
+							<p:outputLabel value="Conta:" />
+							<p:inputText id="txtContaContabil4" value="#{ged.codRed4}"
+								style="width:90px;" onkeypress="validate(event)" maxlength="9">
+								<p:ajax listener="#{ged.pesquisaContaRatCod4()}"
+									update=":frmValRat:txtContaContabil4,:frmValRat:nomeContaContabil4" />
+							</p:inputText>
+
+							<p:commandButton icon="fa fa-search Fs16 white" immediate="true"
+								style="margin-left:5px;"
+								onclick="PF('dlgPesqContaRat4').show();" />
+
+							<p:outputLabel value="Nome:" />
+							<p:outputLabel id="nomeContaContabil4"
+								value="#{ged.rat.nomeContaReduzida4}" styleClass="outConta" />
+
+						</h:panelGrid>
+						<h:panelGrid columns="2">
+							<p:outputLabel value="Histórico:" />
+							<p:inputText value="#{ged.complemento4}" maxlength="150"
+								style="width:450px;" />
+						</h:panelGrid>
+					</p:panel>
+					<p:panel>
+						<h:panelGrid columns="7">
+							<p:outputLabel value="5 Valor:" />
+							<p:inputText name="txtValor5" id="txtValor5"
+								value="#{ged.valor5}"
+								style="width:90px;margin-left: 15px !important;">
+								<p:ajax event="blur" listener="#{ged.somaValor()}"
+									update=":frmValRat:pnlSomaVal" />
+							</p:inputText>
+
+							<p:outputLabel value="Conta:" />
+							<p:inputText id="txtContaContabil5" value="#{ged.codRed5}"
+								style="width:90px;" onkeypress="validate(event)" maxlength="9">
+								<p:ajax listener="#{ged.pesquisaContaRatCod5()}"
+									update=":frmValRat:txtContaContabil5,:frmValRat:nomeContaContabil5" />
+							</p:inputText>
+
+							<p:commandButton icon="fa fa-search Fs16 white" immediate="true"
+								style="margin-left:5px;"
+								onclick="PF('dlgPesqContaRat5').show();" />
+
+							<p:outputLabel value="Nome:" />
+							<p:outputLabel id="nomeContaContabil5"
+								value="#{ged.rat.nomeContaReduzida5}" styleClass="outConta" />
+						</h:panelGrid>
+						<h:panelGrid columns="2">
+							<p:outputLabel value="Histórico:" />
+							<p:inputText value="#{ged.complemento5}" maxlength="150"
+								style="width:450px;" />
+						</h:panelGrid>
+					</p:panel>
+					<p:panel>
+						<h:panelGrid columns="7">
+							<p:outputLabel value="6 Valor:" />
+							<p:inputText name="txtValor6" id="txtValor6"
+								value="#{ged.valor6}"
+								style="width:90px;margin-left: 15px !important;">
+								<p:ajax event="blur" listener="#{ged.somaValor()}"
+									update=":frmValRat:pnlSomaVal" />
+							</p:inputText>
+
+							<p:outputLabel value="Conta:" />
+							<p:inputText id="txtContaContabil6" value="#{ged.codRed6}"
+								style="width:90px;" onkeypress="validate(event)" maxlength="9">
+								<p:ajax listener="#{ged.pesquisaContaRatCod6()}"
+									update=":frmValRat:txtContaContabil6,:frmValRat:nomeContaContabil6" />
+							</p:inputText>
+
+							<p:commandButton icon="fa fa-search Fs16 white" immediate="true"
+								style="margin-left:5px;"
+								onclick="PF('dlgPesqContaRat6').show();" />
+
+							<p:outputLabel value="Nome:" />
+							<p:outputLabel id="nomeContaContabil6"
+								value="#{ged.rat.nomeContaReduzida6}" styleClass="outConta" />
+						</h:panelGrid>
+						<h:panelGrid columns="2">
+							<p:outputLabel value="Histórico:" />
+							<p:inputText value="#{ged.complemento6}" maxlength="150"
+								style="width:450px;" />
+						</h:panelGrid>
+					</p:panel>
+				</h:panelGrid>
+			</p:scrollPanel>
+
+			<hr />
+			<h:panelGrid id="pnlSomaVal" columns="2">
+				<p:outputLabel value="Total:" />
+				<p:outputLabel value="#{ged.rat.valorBruto}">
+					<f:convertNumber type="currency" currencySymbol="R$" locale="pt" />
+				</p:outputLabel>
+			</h:panelGrid>
+
+			<p:commandButton value="Adicionar" icon="fa fa-plus Fs16 white"
+				action="#{ged.addListaDeRateio}" ajax="true"
+				style="float:right; font-size:14px;" />
+		</h:form>
+	</p:dialog>
+
+	<h:outputScript library="javascript/maskMoney"
+		name="jquery.maskMoney.js" />
+
+
+	<script language="javascript">
+		//<![CDATA[
+		$(document).ready(function() {
+			$(PrimeFaces.escapeClientId('frmValRat:txtValor1')).maskMoney({
+				prefix : 'R$ ',
+				thousands : '.',
+				decimal : ',',
+				affixesStay : true
+			});
+		});
+		$(document).ready(function() {
+			$(PrimeFaces.escapeClientId('frmValRat:txtValor2')).maskMoney({
+				prefix : 'R$ ',
+				thousands : '.',
+				decimal : ',',
+				affixesStay : true
+			});
+		});
+		$(document).ready(function() {
+			$(PrimeFaces.escapeClientId('frmValRat:txtValor3')).maskMoney({
+				prefix : 'R$ ',
+				thousands : '.',
+				decimal : ',',
+				affixesStay : true
+			});
+		});
+		$(document).ready(function() {
+			$(PrimeFaces.escapeClientId('frmValRat:txtValor4')).maskMoney({
+				prefix : 'R$ ',
+				thousands : '.',
+				decimal : ',',
+				affixesStay : true
+			});
+		});
+		$(document).ready(function() {
+			$(PrimeFaces.escapeClientId('frmValRat:txtValor5')).maskMoney({
+				prefix : 'R$ ',
+				thousands : '.',
+				decimal : ',',
+				affixesStay : true
+			});
+		});
+		$(document).ready(function() {
+			$(PrimeFaces.escapeClientId('frmValRat:txtValor6')).maskMoney({
+				prefix : 'R$ ',
+				thousands : '.',
+				decimal : ',',
+				affixesStay : true
+			});
+		});
+
+		//]]>
+	</script>
+
+</ui:composition>

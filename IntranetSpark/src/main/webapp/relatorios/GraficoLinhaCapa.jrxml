@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.2.0.final using JasperReports Library version 6.2.0  -->
+<!-- 2016-03-08T14:56:15 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="GraficoLinhaCapa" pageWidth="595" pageHeight="1122" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="27e952b5-ba07-41d0-81c5-446bd482bbb7">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String"/>
+	<parameter name="codigoCondominio" class="java.lang.Short"/>
+	<parameter name="nomeCondominio" class="java.lang.String"/>
+	<parameter name="periodo" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="codigo" class="java.lang.Integer">
+		<fieldDescription><![CDATA[codigo]]></fieldDescription>
+	</field>
+	<field name="listaGraficos" class="java.util.List">
+		<fieldDescription><![CDATA[listaGraficos]]></fieldDescription>
+	</field>
+	<field name="nome" class="java.lang.String">
+		<fieldDescription><![CDATA[nome]]></fieldDescription>
+	</field>
+	<field name="contas" class="java.util.List">
+		<fieldDescription><![CDATA[contas]]></fieldDescription>
+	</field>
+	<field name="class" class="java.lang.Class">
+		<fieldDescription><![CDATA[class]]></fieldDescription>
+	</field>
+	<field name="listaElementoGrafico" class="java.util.List">
+		<fieldDescription><![CDATA[listaElementoGrafico]]></fieldDescription>
+	</field>
+	<detail>
+		<band height="1122" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<subreport>
+				<reportElement x="0" y="0" width="595" height="1122" uuid="ba86975a-5191-4fe6-b3e3-56c49ae5b221">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="periodo">
+					<subreportParameterExpression><![CDATA[$P{periodo}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="nomeCondominio">
+					<subreportParameterExpression><![CDATA[$P{nomeCondominio}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="codigoCondominio">
+					<subreportParameterExpression><![CDATA[$P{codigoCondominio}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="nomeCapa">
+					<subreportParameterExpression><![CDATA[$F{nome}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{listaElementoGrafico},false)]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR}+"GraficoLinha.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>

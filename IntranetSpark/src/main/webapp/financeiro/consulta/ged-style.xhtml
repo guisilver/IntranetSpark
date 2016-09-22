@@ -1,0 +1,171 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+<style>
+.Reprovado {
+	color: red;
+}
+
+.Pendente {
+	color: blue;
+}
+
+.Aprovado {
+	color: green;
+}
+
+.Aguardando {
+	color: orange;
+}
+
+.AlertaObs {
+	color: red !important;
+	font-weight: bold !important;
+}
+
+.ui-fieldset, .ui-fieldset .ui-fieldset-legend {
+	padding: 0px !important;
+	font-size: 14px !important;
+}
+#frmGed\:dtPagar{
+	width: 800px !important;
+}
+</style>
+
+<style>
+
+#frmFinanceiroGed\:tblLancamentos\:clCondominio\:filter {
+	width: 45px !important;
+}
+#frmFinanceiroGed\:tblLancamentos\:clNroLanctoPagar\:filter {
+	width: 40px !important;
+}
+#frmFinanceiroGed\:tblLancamentos\:clFeitoEm\:filter {
+	width: 20px !important;
+}
+#frmFinanceiroGed\:tblLancamentos\:clRateado\:filter {
+	width: 20px !important;
+}
+#frmFinanceiroGed\:tblLancamentos\:clParcelado\:filter {
+	width: 20px !important;
+}
+#frmFinanceiroGed\:tblLancamentos\:clObs\:filter {
+	width: 20px !important;
+}
+#frmFinanceiroGed\:tblLancamentos\:clValor\:filter {
+	width: 40px !important;
+}
+#frmFinanceiroGed\:tblLancamentos\:clConta\:filter {
+	width: 40px !important;
+}
+#frmFinanceiroGed\:tblLancamentos\:clTipoPagto\:filter {
+	width: 20px !important;
+}
+#frmFinanceiroGed\:tblLancamentos\:clHistorico\:filter {
+	width: 20px !important;
+}
+#frmFinanceiroGed\:tblLancamentos\:clFeitoPor\:filter {
+	width: 20px !important;
+}
+#frmLancamento\:panelSelRat > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1){border: 0px !important;}
+#frmLancamento\:panelSelRat > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2){border: 0px !important;}
+#frmLancamento\:sorRateio > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1){border: 0px !important;}
+#frmLancamento\:sorRateio > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2){border: 0px !important;}
+#frmLancamento\:sorRateio > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(3){border: 0px !important;}
+#frmLancamento\:sorRateio > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(4){border: 0px !important;}
+#frmLancamento\:panelSelRat > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2){border: 0px !important;}
+#frmLancamento\:panelRat > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1){border: 0px !important;}
+#frmLancamento\:panelValRat > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1){border: 0px !important;}
+#frmLancamento\:pnlNmCont > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1){border: 0px !important;}
+#frmLancamento\:pnlCtCont > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1){border: 0px !important;}
+#frmLancamento\:pnlCtCont > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2){border: 0px !important;}
+#frmLancamento\:pnlCtCont > tbody:nth-child(1) > tr:nth-child(2) > td:nth-child(1){border: 0px !important;}
+#frmLancamento\:pnlCtCont > tbody:nth-child(1) > tr:nth-child(2) > td:nth-child(2){border: 0px !important;}
+#frmLancamento\:pnlCPF > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1){border: 0px !important;}
+#frmLancamento\:pnlCPF > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2){border: 0px !important;}
+#frmLancamento\:pnlCPF > tbody:nth-child(1) > tr:nth-child(2) > td:nth-child(1){border: 0px !important;}
+#frmLancamento\:pnlCPF > tbody:nth-child(1) > tr:nth-child(2) > td:nth-child(2){border: 0px !important;}
+#frmLancamento\:pnlSelParc > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1){border: 0px !important;}
+#frmLancamento\:sorParcelado > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1){border: 0px !important;}
+#frmLancamento\:sorParcelado > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2){border: 0px !important;}
+#frmLancamento\:sorParcelado > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(3){border: 0px !important;}
+#frmLancamento\:sorParcelado > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(4){border: 0px !important;}
+#frmLancamento\:pnlSelParc > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2){border: 0px !important;}
+#frmLancamento\:pnlSelParc > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(3){border: 0px !important;}
+#frmLancamento\:pnlSelParc > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(4){border: 0px !important;}
+#frmLancamento\:pnlSelParc > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(5){border: 0px !important;}
+#frmLancamento\:colHistorico > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1){border: 0px !important;}
+#frmLancamento\:pnlDadosBanco > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1){border: 0px !important;}
+#frmLancamento\:pnlDadosBanco > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2){border: 0px !important;}
+#frmLancamento\:pnlDadosBanco > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(3){border: 0px !important;}
+#frmLancamento\:pnlDadosBanco > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(4){border: 0px !important;}
+#frmLancamento\:pnlDadosAgenc > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1){border: 0px !important;}
+#frmLancamento\:pnlDadosAgenc > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2){border: 0px !important;}
+#frmLancamento\:pnlDadosAgenc > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(3){border: 0px !important;}
+#frmLancamento\:pnlDadosAgenc > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(4){border: 0px !important;}
+#frmLancamento\:pnlDadosAgenc > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(5){border: 0px !important;}
+#frmLancamento\:pnlDadosAgenc > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(6){border: 0px !important;}
+#frmLancamento\:pnlDadosConta > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1){border: 0px !important;}
+#frmLancamento\:pnlDadosConta > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2){border: 0px !important;}
+#frmLancamento\:pnlDadosConta > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(3){border: 0px !important;}
+#frmLancamento\:pnlDadosConta > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(4){border: 0px !important;}
+#frmLancamento\:pnlDadosConta > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(5){border: 0px !important;}
+#frmLancamento\:pnlDadosConta > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(6){border: 0px !important;}
+#frmLancamento\:oneRadioCPoupancaCC > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1){border: 0px !important;}
+#frmLancamento\:oneRadioCPoupancaCC > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2){border: 0px !important;}
+#frmLancamento\:oneRadioCPoupancaCC > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(3){border: 0px !important;}
+#frmLancamento\:oneRadioCPoupancaCC > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(4){border: 0px !important;}
+#frmLancamento\:oneRadioTipoPessoaCC > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1){border: 0px !important;}
+#frmLancamento\:oneRadioTipoPessoaCC > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2){border: 0px !important;}
+#frmLancamento\:oneRadioTipoPessoaCC > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(3){border: 0px !important;}
+#frmLancamento\:oneRadioTipoPessoaCC > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(4){border: 0px !important;}
+#frmLancamento\:pnlCodBanco > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1){border: 0px !important;}
+#frmLancamento\:pnlCodBanco > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2){border: 0px !important;}
+#frmLancamento\:pnlCodBanco > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(3){border: 0px !important;}
+#frmLancamento\:pnlCodBanco > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(4){border: 0px !important;}
+#frmLancamento\:pnlCodBanco > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(5){border: 0px !important;}
+#frmLancamento\:pnlCodBanco > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(6){border: 0px !important;}
+#frmLancamento\:pnlCodigoAgencia > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1){border: 0px !important;}
+#frmLancamento\:pnlCodigoAgencia > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2){border: 0px !important;}
+#frmLancamento\:pnlCodigoAgencia > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(3){border: 0px !important;}
+#frmLancamento\:pnlCodigoAgencia > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(4){border: 0px !important;}
+#frmLancamento\:pnlCodigoAgencia > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(5){border: 0px !important;}
+#frmLancamento\:pnlCodigoAgencia > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(6){border: 0px !important;}
+#frmLancamento\:pnlTipoDaConta > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1){border: 0px !important;}
+#frmLancamento\:pnlTipoDaConta > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2){border: 0px !important;}
+#frmLancamento\:pnlTipoDaConta > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(3){border: 0px !important;}
+#frmLancamento\:pnlTipoDaConta > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(4){border: 0px !important;}
+#frmLancamento\:pnlTipoDaConta > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(5){border: 0px !important;}
+#frmLancamento\:pnlTipoDaConta > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(6){border: 0px !important;}
+#frmLancamento\:txtCPoupancaDoc > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1){border: 0px !important;}
+#frmLancamento\:txtCPoupancaDoc > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2){border: 0px !important;}
+#frmLancamento\:txtCPoupancaDoc > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(3){border: 0px !important;}
+#frmLancamento\:txtCPoupancaDoc > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(4){border: 0px !important;}
+#frmLancamento\:txtTipoPessoaDoc > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1){border: 0px !important;}
+#frmLancamento\:txtTipoPessoaDoc > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2){border: 0px !important;}
+#frmLancamento\:txtTipoPessoaDoc > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(3){border: 0px !important;}
+#frmLancamento\:txtTipoPessoaDoc > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(4){border: 0px !important;}
+#frmLancamento\:pnlDadosBoleto > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1){border: 0px !important;}
+#frmLancamento\:pnlDadosBoleto > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2){border: 0px !important;}
+#frmLancamento\:linhaDigBan > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1){border: 0px !important;}
+#frmLancamento\:linhaDigBan > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2){border: 0px !important;}
+#frmLancamento\:linhaDigBan > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(3){border: 0px !important;}
+#frmLancamento\:linhaDigBan > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(4){border: 0px !important;}
+#frmLancamento\:linhaDigBan > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(5){border: 0px !important;}
+#frmLancamento\:linhaDigBan > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(6){border: 0px !important;}
+#frmLancamento\:pnlCodDeBarras > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1){border: 0px !important;}
+#frmLancamento\:pnlCodDeBarras > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2){border: 0px !important;}
+#frmLancamento\:linhaDigConc > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1){border: 0px !important;}
+#frmLancamento\:linhaDigConc > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2){border: 0px !important;}
+#frmLancamento\:linhaDigConc > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(3){border: 0px !important;}
+#frmLancamento\:linhaDigConc > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(4){border: 0px !important;}
+#frmLancamento\:linhaDigConc > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(5){border: 0px !important;}
+#frmLancamento\:linhaDigConc > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(6){border: 0px !important;}
+#frmLancamento\:panelRat{border: 0px !important;}
+</style>
+
+</ui:composition>

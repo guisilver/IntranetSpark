@@ -1,0 +1,37 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<div class="layout-portlets-box">
+			<div class="Container100 Responsive100">
+				<div class="ContainerIndent">
+					<p:tabView id="tbvSC">
+						<p:tab title="8888">
+							<ui:include src="/diretoria/seguro-conteudo/sc-8888.xhtml" />
+						</p:tab>
+						<p:tab title="Condômino">
+							<ui:include src="/diretoria/seguro-conteudo/sc-condomino.xhtml" />
+						</p:tab>
+						<p:tab title="Embutido">
+							<ui:include src="/diretoria/seguro-conteudo/sc-embutido.xhtml" />
+						</p:tab>
+						<p:tab title="Locação">
+							<ui:include src="/diretoria/seguro-conteudo/sc-locacao.xhtml" />
+						</p:tab>
+					</p:tabView>
+				</div>
+			</div>
+		</div>
+		<p:dialog widgetVar="dlgStatus" id="dlgStatus" header="Status"
+			style="font-size:13px;" resizable="false" closable="false"
+			modal="true">	
+					Esta pesquisa pode levar alguns segundos.<br />
+					Carregando...<br />
+			<br />
+			<p:graphicImage library="imagens" name="loader.gif" />
+			<br />
+		</p:dialog>
+	</ui:define>
+</ui:composition>

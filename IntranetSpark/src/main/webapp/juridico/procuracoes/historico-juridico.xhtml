@@ -1,0 +1,187 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+	<style>
+#frmFiltro table td {
+	border: 0px !important;
+}
+
+.ui-selectoneradio tbody tr td {
+	border: 0px !important;
+}
+
+.gridFiltro tbody tr td {
+	border: 0px !important;
+}
+</style>
+
+	<div class="Container50 Responsive50">
+		<div class="ContainerIndent">
+			<h:form>
+				<p:growl autoUpdate="true" id="growl" widgetVar="growl" />
+				<p:panelGrid id="gridFiltro" columns="1" styleClass="gridFiltro">
+					<f:facet name="header">
+						<h:outputText value="Filtro" />
+					</f:facet>
+					<h:panelGrid columns="2">
+						<p:outputLabel id="txtCondominio" for="selectCondominio"
+							value="Condomínio:" styleClass="gridFiltro" />
+						<p:selectOneMenu id="selectCondominio" value="#{prjMB.icBEAN}"
+							converter="omnifaces.SelectItemsConverter" filter="true"
+							filterMatchMode="contains" style="width:360px;">
+							<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+							<f:selectItems var="cnd" value="#{prjMB.listaCondominios2}"
+								itemLabel="#{cnd.codigo} - #{cnd.nome}" itemValue="#{cnd}" />
+						</p:selectOneMenu>
+					</h:panelGrid>
+					<h:panelGrid columns="3">
+						<p:outputLabel value="Período:" />
+						<p:calendar value="#{prjMB.dataInicial}" id="dataInicial"
+							pattern="dd/MM/yyyy" locale="pt" timeZone="America/Sao_Paulo"
+							styleClass="calendario" style="margin-left:30px;" />
+						<p:calendar value="#{prjMB.dataFinal}" id="dataFinal"
+							pattern="dd/MM/yyyy" locale="pt" timeZone="America/Sao_Paulo"
+							styleClass="calendario" />
+					</h:panelGrid>
+					<h:panelGrid width="100%" style="text-align:right">
+						<p:commandButton value="Filtrar"
+							action="#{prjMB.pesquisarPorData()}"
+							update=":frmTabela:histCobJur" onstart="PF('dlgStatus').show();"
+							oncomplete="PF('dlgStatus').hide();"
+							icon="fa fa-search Fs16 white" />
+					</h:panelGrid>
+				</p:panelGrid>
+			</h:form>
+		</div>
+	</div>
+	<div class="Container100 TexAlCenter">
+		<div class="ContainerIndent">
+			<h:form id="frmTabela">
+				<p:messages autoUpdate="true" closable="true" escape="true"
+					showDetail="false" />
+				<p:dataTable id="histCobJur" var="cotas"
+					value="#{prjMB.listaTabela}"
+					filteredValue="#{prjMB.fltrProcuracao}" rows="15" paginator="true"
+					emptyMessage="Nenhuma informação encontrada!"
+					style="font-size: 12px; test-align:center;"
+					rowsPerPageTemplate="5,15,30,50,100" reflow="true">
+					<f:facet name="header"> Procurações 
+					</f:facet>
+					<f:facet name="footer">
+						<p:outputPanel>
+							<p:commandButton value="Gerar Relatório"
+								icon="fa fa-print Fs16 white" action="#{prjMB.gerarRelatorio()}"
+								ajax="false" update=":frmTabela:histCobJur" process="histCobJur" />
+						</p:outputPanel>
+					</f:facet>
+
+					<p:column
+						rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysJuridico || SessaoMB.igp.sysCobranca}">
+						<p:commandButton id="btnAlterar" title="Alterar"
+							update=":frmInserir" ajax="false"
+							action="#{prjMB.abreAlteraInformacao()}" styleClass="btnLittle"
+							icon="fa fa-pencil Fs16 white">
+							<f:setPropertyActionListener value="#{cotas}"
+								target="#{prjMB.idSelecionado}" />
+						</p:commandButton>
+					</p:column>
+					<p:column>
+						<f:facet name="header" filterBy="#{cotas.codigoCondominio}"
+							sortBy="#{codigoCondominio}"> Condomínio </f:facet>
+						<h:outputText
+							value="#{cotas.codigoCondominio} - #{cotas.nomeCondominio}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header"> Unidade </f:facet>
+						<h:outputText value="Bl. #{cotas.bloco} Unid. #{cotas.unidade}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header" filterBy="#{cotas.nomeGerente}"
+							sortBy="#{cotas.nomeGerente}"> Gerente </f:facet>
+						<h:outputText value="#{cotas.nomeGerente}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header"> Advogada </f:facet>
+						<h:outputText value="#{cotas.nomeAdvogada}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header"> Pedido de Procuração </f:facet>
+						<h:outputText value="#{cotas.pedProcuracao}">
+							<f:convertDateTime pattern="dd/MM/yyyy" locale="pt"
+								timeZone="America/Sao_Paulo" />
+						</h:outputText>
+					</p:column>
+					<p:column>
+						<f:facet name="header"> Envio de Procuração ao Síndico </f:facet>
+						<h:outputText value="#{cotas.envProcuracao}">
+							<f:convertDateTime pattern="dd/MM/yyyy" locale="pt"
+								timeZone="America/Sao_Paulo" />
+						</h:outputText>
+					</p:column>
+					<p:column>
+						<f:facet name="header"> Retorno do Síndico </f:facet>
+						<h:outputText value="#{cotas.retornoSindico}">
+							<f:convertDateTime pattern="dd/MM/yyyy" locale="pt"
+								timeZone="America/Sao_Paulo" />
+						</h:outputText>
+					</p:column>
+					<p:column>
+						<f:facet name="header"> Status </f:facet>
+						<h:outputText value="#{cotas.status}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header"> Observação </f:facet>
+						<h:outputText value="#{cotas.observacao}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header"> Solicitação de CRI </f:facet>
+						<h:outputText value="#{cotas.solicitacaoCRI}">
+							<f:convertDateTime pattern="dd/MM/yyyy" locale="pt"
+								timeZone="America/Sao_Paulo" />
+						</h:outputText>
+					</p:column>
+					<p:column>
+						<f:facet name="header"> Previsão de Retirada de CRI </f:facet>
+						<h:outputText value="#{cotas.retiradaCRI}">
+							<f:convertDateTime pattern="dd/MM/yyyy" locale="pt"
+								timeZone="America/Sao_Paulo" />
+						</h:outputText>
+					</p:column>
+					<p:column>
+						<f:facet name="header"> Compromisso de Compra e Venda/ Termo de Entrega de Chaves e Vistoria </f:facet>
+						<h:outputText value="#{cotas.compraVenda}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header"> Data Iniciais </f:facet>
+						<h:outputText value="#{cotas.dataIniciais}">
+							<f:convertDateTime pattern="dd/MM/yyyy" locale="pt"
+								timeZone="America/Sao_Paulo" />
+						</h:outputText>
+					</p:column>
+				</p:dataTable>
+				<p:dialog widgetVar="dlgStatus" id="dlgStatus" header="Status"
+					style="font-size:13px;" resizable="false" modal="true"
+					closable="false">	
+					Esta pesquisa pode levar alguns segundos.<br />
+					Carregando...<br />
+					<br />
+					<p:graphicImage library="imagens" name="loader.gif" />
+					<br />
+				</p:dialog>
+
+				<script type="text/javascript">
+							function start() {
+								PF('statusDialog').show();
+							}
+							function stop() {
+								PF('statusDialog').hide();
+								PF('relatorio').hide();
+							}
+						</script>
+			</h:form>
+		</div>
+	</div>
+</ui:composition>

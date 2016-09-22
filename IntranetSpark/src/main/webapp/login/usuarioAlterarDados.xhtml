@@ -1,0 +1,23 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:form id="frmAlterDados">
+		<p:messages id="msg" showDetail="true" autoUpdate="true"
+			closable="true" escape="true" showSummary="false" />
+		
+		<p:panel header="Alterar Senha">
+			<h:panelGrid columns="2">
+				<p:outputLabel value="Nova Senha:"/>
+				<p:password id="pwd1" value="#{usuarioMB.usuarioBean.senha}" validatorMessage="As senhas devem ser iguais!" autocomplete="false" match="pwd2" promptLabel="Digite a nova Senha" goodLabel="Media" feedback="true" weakLabel="Fraca" strongLabel="Forte"  required="true" requiredMessage="Preencha os campos !!!"/>
+				<p:column/>
+				<p:password id="pwd2" required="true" autocomplete="false" feedback="true" promptLabel="Digite a nova Senha" goodLabel="Media"  weakLabel="Fraca" strongLabel="Forte"  requiredMessage="Preencha os campos !!!"/>
+			</h:panelGrid>
+			<hr/>
+			<p:commandButton value="Salvar" action="#{usuarioMB.alterarSenha()}" update=":frmAlterDados" style="float:right;"/>
+		</p:panel>
+
+	</h:form>
+</ui:composition>

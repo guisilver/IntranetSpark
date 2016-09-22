@@ -1,0 +1,51 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+	<p:dialog widgetVar="dlgPesqConta" resizable="false" modal="true"
+		width="300" header="Pesquisar Conta" hideEffect="slide" showEffect="slide" responsive="true">
+		<h:form id="frmPesqConta">
+			<h:panelGrid columns="2">
+				<p:outputLabel value="Nome:" />
+				<p:inputText value="#{ged.nomeConta}" />
+			</h:panelGrid>
+			<hr />
+			<p:commandButton value="Cancelar"
+				onclick="PF('dlgPesqConta').hide();" icon="fa fa-close Fs16 white"
+				style="float:left;" />
+			<p:commandButton value="Pesquisar" icon="fa fa-search Fs16 white"
+				style="float:right;"
+				actionListener="#{ged.pesquisaConta()}"
+				update=":frmResultadoConta" />
+		</h:form>
+	</p:dialog>
+
+	<p:dialog widgetVar="dlgResultadoConta" resizable="false" modal="true"
+		width="500" header="Resultado de pesquisa" hideEffect="slide" showEffect="slide" responsive="true">
+		<h:form id="frmResultadoConta">
+			<p:dataTable id="tblResultadoConta" var="item"
+				selection="#{ged.cndplano}" selectionMode="single"
+				value="#{ged.lstConta}" rowKey="#{item.cod_reduzido}"
+				emptyMessage="Nenhum resultado encontrado." rows="5"
+				paginator="true">
+				<p:ajax event="rowSelect"
+					listener="#{ged.selecionarContaContabil()}"
+					update=":frmLancamento:nomeContaContabil,:frmLancamento:txtContaContabil" />
+				<p:column headerText="Conta" sortBy="#{item.cod_reduzido}" filterBy="#{item.cod_reduzido}">
+					<h:outputText value="#{item.cod_reduzido}" />
+				</p:column>
+				<p:column headerText="Nome" sortBy="#{item.nome}" filterBy="#{item.nome}">
+					<h:outputText value="#{item.nome}" />
+				</p:column>
+			</p:dataTable>
+			<p:commandButton value="Fechar"
+				onclick="PF('dlgResultadoConta').hide();" icon="fa fa-close Fs16 white"
+				style="float:left;margin-top:15px;" />
+		</h:form>
+	</p:dialog>
+
+</ui:composition>

@@ -1,0 +1,125 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<style>
+.msg {
+	color: #FFF;
+	font-size: 20px;
+}
+
+#frmFiltro table td {
+	border: 0px !important;
+}
+
+.ui-selectoneradio tbody tr td {
+	border: 0px !important;
+}
+
+.gridFiltro tbody tr td {
+	border: 0px !important;
+}
+</style>
+		<div class="layout-portlets-box"
+			style="padding-top: 0px !important; padding-bottom: 0px !important;">
+			<p:breadCrumb>
+				<p:menuitem value="Home" url="/dashboard.xhtml" />
+				<p:menuitem value="Prepax" url="/prepax.xhtml" />
+			</p:breadCrumb>
+		</div>
+
+		<div class="layout-portlets-box">
+			<div class="DispInlBlock TexAlLeft">
+				<div class="Fleft">
+					<h2 class="black Fs24 FontRalewayMedium">Consulta Lançamentos</h2>
+				</div>
+			</div>
+			<div class="Seperator"></div>
+			<div class="Container100 Responsive100">
+				<div class="ContainerIndent">
+					<h:form rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysDP}">
+						<p:growl autoUpdate="true" id="growl" widgetVar="growl" />
+						<p:messages id="msg" showDetail="true" autoUpdate="false"
+							closable="true" escape="true" showSummary="false"
+							styleClass="msg" />
+						<p:panelGrid columns="1" styleClass="gridFiltro">
+							<f:facet name="header">
+								<h:outputText value="Filtros" />
+							</f:facet>
+							<h:panelGrid columns="2" cellpadding="5">
+								<p:outputLabel value="Código:" />
+								<p:selectOneMenu value="#{ppMB.codigo}" style="width:130px;">
+									<f:selectItem itemLabel="Selecione" itemValue="0" />
+									<f:selectItem itemLabel="Adiantamento" itemValue="26723" />
+									<f:selectItem itemLabel="Salário" itemValue="26722" />
+								</p:selectOneMenu>
+								<p:outputLabel value="Data de Pagamento:" />
+								<p:calendar value="#{ppMB.dataPagto}" pattern="dd/MM/yyyy"
+									locale="pt" timeZone="America/Sao_Paulo"
+									styleClass="calendario" />
+							</h:panelGrid>
+							<h:panelGrid width="100%" style="text-align:right">
+								<p:commandButton value="Filtrar" icon="fa fa-search Fs16 white"
+									action="#{ppMB.pesquisarDCPorData()}"
+									update=":frmDadosLancamento:tblDebito :frmDadosLancamento:tblCredito" />
+							</h:panelGrid>
+						</p:panelGrid>
+						<br />
+						<h:panelGrid>
+							<p:commandButton value="Imprimir" icon="fa fa-print Fs16 white"
+								ajax="false">
+								<pe:exporter type="xlsx"
+									target="frmDadosLancamento:tblCredito, frmDadosLancamento:tblDebito"
+									fileName="prepax" />
+							</p:commandButton>
+						</h:panelGrid>
+					</h:form>
+					<br /> <br />
+					<h:form id="frmDadosLancamento"
+						rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysDP}">
+						<h:panelGrid columns="2">
+							<p:dataTable id="tblDebito" var="c" value="#{ppMB.listaDebito}"
+								style="font-size:12px; text-align:center;width:90%;" rows="10"
+								paginator="true">
+								<f:facet name="header"> Débito</f:facet>
+								<p:column headerText="Nº Lancto" style="width:100px;">
+									<h:outputText value="#{c.nrolancto}" />
+								</p:column>
+								<p:column headerText="Histórico">
+									<h:outputText value="#{c.historico}" />
+								</p:column>
+								<p:column headerText="Valor" style="width:100px;">
+									<h:outputText value="${c.valor}">
+										<f:convertNumber type="currency" currencySymbol="R$"
+											locale="pt" />
+									</h:outputText>
+								</p:column>
+							</p:dataTable>
+							<p:dataTable id="tblCredito" var="a" value="#{ppMB.listaCredito}"
+								style="font-size:12px; text-align:center;width:90%; margin-left:50px;"
+								rows="10" paginator="true">
+								<f:facet name="header"> Crédito</f:facet>
+								<p:column headerText="Nº Lancto" style="width:100px;">
+									<h:outputText value="#{a.numero}" />
+								</p:column>
+								<p:column headerText="Histórico">
+									<h:outputText value="#{a.historico}" />
+								</p:column>
+								<p:column headerText="Valor" style="width:100px;">
+									<h:outputText value="#{a.valor}">
+										<f:convertNumber type="currency" currencySymbol="R$"
+											locale="pt" />
+									</h:outputText>
+								</p:column>
+							</p:dataTable>
+						</h:panelGrid>
+					</h:form>
+				</div>
+			</div>
+		</div>
+
+	</ui:define>
+</ui:composition>

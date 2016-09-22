@@ -1,0 +1,92 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<div class="layout-portlets-box">
+			<div class="Fleft">
+				<h2 class="black Fs24 FontRalewayMedium">Procurações</h2>
+			</div>
+			<div class="Seperator"></div>
+			<div class="Wid100" style="margin-top: 20px; margin-bottom: 20px;">
+				<h:form id="frmInserir"
+					rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysCobranca}">
+					<p:panel style="width:30%; margin-top:60px;"
+						header="Departamento de Cobrança">
+						<h:panelGrid columns="2" cellpadding="5">
+							<p:outputLabel value="Gerente:" for="somGerente" />
+							<p:selectOneMenu id="somGerente"
+								value="#{prjMB.gerenteBEAN.codigo}" filter="true"
+								filterMatchMode="contains"
+								converter="omnifaces.SelectItemsConverter"
+								style="width:200px;  margin-left:30px;">
+								<f:selectItems value="#{prjMB.listaDeGerentes}" var="item"
+									itemLabel="#{item.nome}" itemValue="#{item.codigo}" />
+								<p:ajax update="frmInserir:somCondominio" />
+							</p:selectOneMenu>
+						</h:panelGrid>
+						<h:panelGrid columns="3" cellpadding="5" id="somCondominio">
+							<p:outputLabel value="Condomínio:" for="condominio" />
+							<p:selectOneMenu id="condominio" value="#{prjMB.condominio}"
+								style="width:100px;" filter="true" filterMatchMode="contains">
+								<f:selectItem itemLabel="Selecione" itemValue="0" />
+								<f:selectItems value="#{prjMB.listaDeCondominio}" var="item"
+									itemLabel="#{item.codigo}" itemValue="#{item.codigo}" />
+								<p:ajax
+									update="frmInserir:somBloco, frmInserir:somUnidade, frmInserir:oplNomeCondo"
+									listener="#{prjMB.retornaNomeCondominio}" />
+							</p:selectOneMenu>
+							<p:outputLabel id="oplNomeCondo" value="#{prjMB.nomeCondo}" />
+						</h:panelGrid>
+						<h:panelGrid columns="2" cellpadding="5" id="gridTorre">
+							<p:outputLabel value="Torre:" />
+							<p:selectOneMenu id="somBloco" value="#{prjMB.bloco}"
+								style="width:100px; text-align:center !important; margin-left:50px;">
+								<f:selectItem itemLabel="Bloco" itemValue="" />
+								<f:selectItems value="#{prjMB.listaDeBloco}" var="items"
+									itemValue="#{items.bloco}" itemLabel="#{items.bloco}" />
+								<p:ajax update="frmInserir:somUnidade" />
+							</p:selectOneMenu>
+						</h:panelGrid>
+						<h:panelGrid columns="3" cellpadding="5" id="gridUnidade">
+							<p:outputLabel value="Unidade:" />
+							<p:selectOneMenu id="somUnidade" value="#{prjMB.unidade}"
+								filter="true" filterMatchMode="contains"
+								style="width:100px; margin-left:25px;">
+								<f:selectItem itemLabel="Unidade" />
+								<f:selectItems value="#{prjMB.listaDeUnidade}" var="items"
+									itemValue="#{items.unidade}" itemLabel="#{items.unidade}" />
+								<p:ajax update="frmInserir:ipNomeCliente"
+									listener="#{prjMB.nomeCliente}" />
+								<p:outputLabel id="ipNomeCliente" value="#{prjMB.clienteNome}" />
+							</p:selectOneMenu>
+						</h:panelGrid>
+
+						<h:panelGrid columns="2" cellpadding="5" id="gridParcelas">
+							<p:outputLabel value="Parcelas Atrasadas:" />
+							<p:inputText maxlength="200"
+								value="#{prjMB.pjcBEAN.parcelasAtrasadas}"
+								style="margin-left:25px;" />
+						</h:panelGrid>
+
+						<h:panelGrid columns="2" cellpadding="5" id="gridPedido">
+							<p:outputLabel value="Pedido de Procuração:" />
+							<p:calendar value="#{prjMB.pjcBEAN.pedProcuracao}" type="date"
+								pattern="dd-MM-yyyy" readonlyInput="true" locale="pt"
+								timeZone="America/Sao_Paulo" navigator="true" required="true" />
+						</h:panelGrid>
+						<hr />
+						<h:panelGrid>
+							<p:commandButton icon="fa fa-check Fs16 white" value="Salvar"
+								style="float:right;" action="#{prjMB.salvarTabela()}"
+								update="frmInserir" />
+						</h:panelGrid>
+					</p:panel>
+				</h:form>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

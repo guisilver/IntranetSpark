@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Sintetico" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0ad65360-7d49-4694-b553-88662a06b5c1">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="dataInicial" class="java.util.Date"/>
+	<parameter name="dataFinal" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[select condominio_codigo, condominio_nome, usuario, sum(minutos)minutos
+from omacorp.dbo.intra_contabilizador
+where condominio_codigo between 111 and 4241
+group by condominio_codigo, condominio_nome, usuario, minutos order by condominio_codigo, usuario]]>
+	</queryString>
+	<field name="condominio_codigo" class="java.lang.Integer"/>
+	<field name="condominio_nome" class="java.lang.String"/>
+	<field name="usuario" class="java.lang.String"/>
+	<field name="minutos" class="java.lang.Integer"/>
+	<variable name="Soma" class="java.lang.Integer" resetType="Column" incrementType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{minutos}]]></variableExpression>
+	</variable>
+	<variable name="minutos_total" class="java.lang.Integer" resetType="Group" resetGroup="minutos" calculation="Sum">
+		<variableExpression><![CDATA[$F{minutos}]]></variableExpression>
+	</variable>
+	<variable name="minutos_1" class="java.lang.Integer" resetType="Group" resetGroup="minutos" calculation="Sum">
+		<variableExpression><![CDATA[$F{minutos}]]></variableExpression>
+	</variable>
+	<group name="minutos">
+		<groupExpression><![CDATA[$F{condominio_codigo}]]></groupExpression>
+		<groupHeader>
+			<band height="102">
+				<rectangle>
+					<reportElement x="0" y="5" width="555" height="88" uuid="6f66404c-dd87-4871-9f51-116d7758b7b0"/>
+				</rectangle>
+				<textField>
+					<reportElement x="70" y="65" width="475" height="17" uuid="e3adc586-7d2b-4425-b9e0-b9e2ae65f5f9"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Verdana" size="11"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{usuario}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="0" y="35" width="555" height="1" uuid="a210100e-d1cd-428c-9eac-4e4b6dd4b21c"/>
+				</line>
+				<staticText>
+					<reportElement x="5" y="40" width="87" height="17" uuid="4314c1f9-280c-4002-9d38-d7a00843223b">
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Verdana" size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Condomínio:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="302" y="13" width="122" height="17" uuid="0c5f310b-bb4e-42ac-afb6-3b2730ab1044"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Verdana" size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Tempo de Serviço:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="5" y="65" width="65" height="17" uuid="f3c704c7-7a0e-4fee-9331-2a47dfa775d4"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Verdana" size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Gerência:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="92" y="40" width="24" height="17" uuid="47140d7a-7ee3-4104-8fe9-aaed5f42152f"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Verdana" size="11"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{condominio_codigo}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="minutos">
+					<reportElement x="424" y="13" width="20" height="17" uuid="7d9de907-df4c-487b-aba6-afa4d8400353"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Verdana" size="11"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{minutos_1}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="116" y="40" width="429" height="17" uuid="6ece4a3c-44e4-4108-9359-5754adf42046"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Verdana" size="11"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" - " + $F{condominio_nome}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="444" y="13" width="105" height="17" uuid="f9eae78f-7f97-4b80-9c87-c96c5fd9635b"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Verdana" size="11"/>
+					</textElement>
+					<text><![CDATA[ minutos]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="81" splitType="Stretch">
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement x="0" y="10" width="83" height="60" uuid="ddfa4713-3f59-407f-ba62-0da3b0103520">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<imageExpression><![CDATA["http://10.1.1.20:8080//imagens//logo45pb.bmp"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="10" y="45" width="535" height="30" uuid="e633def2-e090-4bc6-805a-867a20af5e28"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Contabilizador]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement mode="Opaque" x="424" y="5" width="131" height="16" uuid="7037b22f-d34d-45a5-b531-7dce707a0f70"/>
+				<textElement textAlignment="Right">
+					<font fontName="Verdana" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</pageHeader>
+</jasperReport>

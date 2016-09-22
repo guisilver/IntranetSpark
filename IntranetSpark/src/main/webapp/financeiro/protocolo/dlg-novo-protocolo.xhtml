@@ -1,0 +1,100 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+	<style>
+#frmNovoProtocolo\3a dtProtocolo_input {
+	width: 88px !important;
+}
+</style>
+
+	<p:dialog widgetVar="dlgNovoProtocolo" resizable="false" modal="true" responsive="true" 
+		width="800" header="Novo Protocolo" hideEffect="slide" showEffect="slide">
+		<h:form id="frmNovoProtocolo">
+			<p:scrollPanel style="max-height:350px;" mode="native">
+				<p:focus context=":frmNovoProtocolo:gridId" />
+
+				<h:panelGrid style="width:100%;">
+					<p:outputLabel value="OBS: " />
+					<p:inputTextarea value="#{ProtGEDMB.protocolo.obs}" style="width:500px;" />
+				</h:panelGrid>
+
+				<h:panelGrid id="gridId">
+					<p:outputLabel value="Etiqueta:*"
+						for=":frmNovoProtocolo:txtIdArquivo" style="color:red;"
+						tabindex="1" />
+					<p:column>
+						<p:inputText id="txtIdArquivo" value="#{ProtGEDMB.idImagem}"
+							style="width:150px;" maxlength="14" /><p:spacer/>
+					<p:commandButton icon="fa fa-plus Fs16 white"
+							actionListener="#{ProtGEDMB.adicionarLancto()}"
+							oncomplete="focarCampoEtiqueta();"
+							update=":frmNovoProtocolo:txtIdArquivo :frmNovoProtocolo:tblProtocolos :frmNovoProtocolo:msg2" />
+					</p:column>
+				</h:panelGrid>
+				<p:messages id="msg2" showDetail="true" autoUpdate="false" closable="true" escape="true" showSummary="false" />
+				<p:dataTable var="item" emptyMessage="Não há registros."
+					id="tblProtocolos" rows="7"
+					value="#{ProtGEDMB.protocolo.lancamentos}"
+					rowKey="#{item.codigo}"
+					style="font-size:12px;text-align:center;width:auto;margin-top:15px;"
+					paginator="true">
+					<f:facet name="header">Lançamentos</f:facet>
+
+					<p:column headerText="Código" rendered="false">
+						<h:outputText value="#{item.codigo}" />
+					</p:column>
+
+					<p:column headerText="Etiqueta">
+						<h:outputText value="#{item.idImagem}" />
+					</p:column>
+
+					<p:column headerText="Vencimento">
+						<h:outputText value="#{item.vencimento}">
+							<f:convertDateTime pattern="dd/MM/yyyy" locale="pt"
+								timeZone="America/Sao_Paulo" />
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="Valor">
+						<h:outputText value="#{item.valor}">
+							<f:convertNumber type="currency" locale="pt" currencySymbol="R$" />
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="NF">
+						<h:outputText value="#{item.nf}" />
+					</p:column>
+
+					<p:column headerText="Empresa">
+						<h:outputText value="#{item.empresa}" />
+					</p:column>
+
+					<p:column>
+						<p:commandButton icon="fa fa-trash Fs16 white"
+							actionListener="#{ProtGEDMB.excluirLanctoProtocolo(item.idImagem)}"
+							update=":frmNovoProtocolo:tblProtocolos" />
+					</p:column>
+				</p:dataTable>
+			</p:scrollPanel>
+			<h:panelGrid style="width:100%;">
+				<p:column>
+					<p:commandButton value="Cancelar" icon="fa fa-close Fs16 white"
+						style="margin-top:15px;float:left;"
+						onclick="PF('dlgNovoProtocolo').hide();" />
+
+					<p:commandButton value="Salvar" icon="fa fa-save Fs16 white"
+						actionListener="#{ProtGEDMB.salvarProtocolo()}"
+						update=":frmTblProtocolo:tblProtocolos :frmCondominio:msg"
+						style="margin-top:15px;float:right;" />
+				</p:column>
+			</h:panelGrid>
+
+		</h:form>
+	</p:dialog>
+
+</ui:composition>

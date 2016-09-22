@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+<ui:composition>
+	<h:panelGrid columns="2"
+		rendered="#{ged.cndpagar.aguardandoCompletarResumido}">
+		<p:outputLabel
+			value="Antes da aprovação, é necessário completar os dados abaixo!"
+			style="color:red;" />
+		<br />
+		<br />
+		<h:panelGrid id="pnlCtCont" columns="2">
+			<p:outputLabel value="Classificação" />
+			<p:selectOneMenu value="#{ged.classificacao}" style="width:200px;">
+				<f:selectItem itemLabel="Venda" itemValue="V" />
+				<f:selectItem itemLabel="Serviços" itemValue="S" />
+				<f:selectItem itemLabel="Venda / Serviços" itemValue="VS" />
+			</p:selectOneMenu>
+
+			<p:outputLabel value="Conta:"
+				rendered="#{ged.rateado == 'N'}" />
+			<p:column rendered="#{ged.rateado == 'N'}">
+				<p:inputText id="txtContaContabil" styleClass="txtContaContabil"
+					rendered="#{ged.rateado == 'N'}"
+					value="#{ged.contaContabil}"
+					onkeypress="validate(event)" maxlength="9">
+					<p:ajax listener="#{ged.pesquisaContaCod()}"
+						update="@(.gridNomeContaContabil)" />
+				</p:inputText>
+				<p:commandButton icon="fa fa-search Fs16 white" immediate="true"
+					rendered="#{ged.rateado == 'N'}"
+					style="margin-left:5px;" onclick="PF('dlgPesqConta2').show();" />
+			</p:column>
+			<p:outputLabel value="Nome:"
+				rendered="#{ged.rateado == 'N'}" />
+
+			<h:panelGrid columns="3" id="gridNomeContaContabil"
+				styleClass="gridNomeContaContabil">
+
+				<p:outputLabel id="nomeCapa" styleClass="nomeCapa"
+					rendered="#{ged.rateado == 'N'}"
+					value="#{ged.nomeCapa}" style="margin-top:5px;" />
+
+				<p:outputLabel
+					rendered="#{not empty ged.nomeConta and not empty ged.nomeCapa and ged.rateado == 'N'}"
+					value="-" style="margin-top:5px;" />
+
+				<p:outputLabel id="nomeContaContabil" styleClass="nomeContaContabil"
+					rendered="#{ged.rateado == 'N'}"
+					value="#{ged.nomeConta}" style="margin-top:5px;" />
+			</h:panelGrid>
+
+			<p:outputLabel value="#{ged.qtdeDeContas}"
+				rendered="#{ged.rateado == 'S'}" />
+
+			<p:outputLabel value="Empresa" />
+			<p:inputText id="txtDescricao" value="#{ged.empresa}"
+				maxlength="50">
+				<p:ajax event="blur"
+					listener="#{ged.trataExibicaoHistorico()}"
+					update="@(.colHistorico)" />
+			</p:inputText>
+
+			<p:outputLabel value="#{ged.tipoDocumento}"
+				id="lblTipoDoc" />
+			<p:inputText onkeypress="validate(event)" id="txtNF"
+				value="#{ged.notaFiscal}" maxlength="9">
+				<p:ajax event="blur"
+					listener="#{ged.trataExibicaoHistorico()}"
+					update="@(.colHistorico)" />
+			</p:inputText>
+
+			<p:outputLabel value="Emissão N.F" for=":frmLancamento:dtEmissaoNF" />
+			<p:calendar id="dtEmissaoNF" mask="true" locale="pt"
+				timeZone="America/Sao_Paulo" pattern="dd/MM/yyyy"
+				value="#{ged.dtEmissaoNF}" />
+
+			<p:outputLabel value="Histórico" />
+			<p:inputTextarea id="txtComplemento"
+				value="#{ged.complemento}" maxlength="150"
+				disabled="#{ged.rateado == 'S'}">
+				<p:ajax event="blur" update="@(.colHistorico)" />
+			</p:inputTextarea>
+
+			<p:outputLabel value="Histórico Completo" />
+			<h:panelGrid id="colHistorico" styleClass="colHistorico"
+				style="word-wrap:break-word;max-width:400px;color:red;">
+				<p:column rendered="#{ged.rateado == 'N'}">
+					<p
+						style="word-wrap: break-word; max-width: 400px; text-align: left;"
+						align="right">
+						<p:outputLabel id="historico1" value="#{ged.empresa}"
+							rendered="#{not empty ged.empresa}" />
+						<p:outputLabel value="&nbsp;-&nbsp;"
+							rendered="#{not empty ged.empresa and not empty ged.notaFiscal}" />
+						<p:outputLabel id="historico2"
+							value="#{ged.tipoDocumento} #{ged.notaFiscal}"
+							rendered="#{not empty ged.notaFiscal and ged.notaFiscal gt 0}" />
+						<p:outputLabel value="&nbsp;-&nbsp;"
+							rendered="#{(not empty ged.notaFiscal and not empty ged.complemento) or (not empty ged.empresa and not empty ged.complemento)}" />
+						<p:outputLabel id="historico3"
+							value="#{ged.complemento}"
+							rendered="#{not empty ged.complemento}" />
+
+						<p:outputLabel id="historico5"
+							value="&nbsp; - PC. #{ged.pci}"
+							rendered="#{not empty ged.pci}" />
+						<p:outputLabel id="historico6" value="/#{ged.pcf}"
+							rendered="#{not empty ged.pcf}" />
+					</p>
+				</p:column>
+				<p:column rendered="#{ged.rateado == 'S'}">
+					<h:outputText value="#{ged.historicoExibicaoRateado}"
+						escape="false" />
+				</p:column>
+			</h:panelGrid>
+		</h:panelGrid>
+	</h:panelGrid>
+	<br />
+	<br />
+</ui:composition>
+</html>

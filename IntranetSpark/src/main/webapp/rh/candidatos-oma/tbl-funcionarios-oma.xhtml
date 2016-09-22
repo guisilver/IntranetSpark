@@ -1,0 +1,50 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+
+
+	<div class="layout-portlets-box">
+		<div class="Seperator"></div>
+		<div class="Container100 Responsive100">
+			<div class="ContainerIndent">
+				<h:form>
+					<center>
+						<p:outputLabel value="Funcionários OMA"
+							style="font-weight: bold !important;font-size:14px !important;" />
+					</center>
+					<p:messages showDetail="true" autoUpdate="false" closable="true"
+						escape="true" showSummary="false" />
+					<hr />
+
+					<h:panelGrid columns="1">
+						<p:commandButton value="Inserir Novo Funcionário" />
+					</h:panelGrid>
+
+					<h:panelGrid columns="2" cellpadding="5">
+						<p:outputLabel value="Empresa:" />
+						<p:inputText />
+
+						<p:outputLabel value="Funcionário:" />
+						<p:inputText />
+
+						<p:outputLabel value="Departamento:" />
+						<p:inputText />
+
+						<p:outputLabel value="Nome:" />
+						<p:inputText />
+
+						<p:outputLabel value="Função:" />
+						<p:inputText />
+					</h:panelGrid>
+					<hr />
+					<p:commandButton value="Filtrar" />
+
+				</h:form>
+			</div>
+		</div>
+	</div>
+
+</ui:composition>

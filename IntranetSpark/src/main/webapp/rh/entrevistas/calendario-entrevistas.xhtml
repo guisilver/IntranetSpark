@@ -1,0 +1,167 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+	<div class="layout-portlets-box trilha"
+		style="padding-top: 0px !important; padding-bottom: 0px !important;">
+		<p:breadCrumb>
+			<p:menuitem value="Home" url="/dashboard.xhtml" />
+			<p:menuitem value="Lista Candidatos" url="/rh/candidatos" />
+			<p:menuitem value="Novo Candidato"
+				url="/rh/candidatos/novo-candidato.xhtml" />
+			<p:menuitem value="Pré Cadastro" url="/rh/candidatos/pre-cadastro" />
+			<p:menuitem value="Vagas" url="/rh/vagas" />
+		</p:breadCrumb>
+	</div>
+	<div class="layout-portlets-box">
+		<style>
+#frmDtlhCandidato\3a j_idt95>tbody>tr>td:nth-child(1) label {
+	color: blue !important;
+}
+
+#frmDtlhCandidato\3a gridFoto>tbody>tr>td, #frmDtlhCandidato\3a j_idt62>tbody>tr>td:nth-child(2)
+	{
+	padding: 0px !important;
+	border: 0px !important;
+}
+
+#frmDtlhCandidato\3a j_idt67 {
+	margin-left: 5px;
+}
+</style>
+		<div class="Container100">
+			<div class="DispInlBlock TexAlLeft">
+				<i class="fa fa-calendar Fs40 blue Fleft MarRight10"></i>
+				<div class="Fleft">
+					<h2 class="black Fs24 FontRalewayMedium">Entrevistas</h2>
+				</div>
+			</div>
+			<div class="Seperator"></div>
+			<div class="Wid100" style="margin-top: 20px; margin-bottom: 20px;">
+				<h:panelGrid columns="6" style="font-size:12px;float:left;">
+					<div style="width: 15px; height: 15px; background: #CA220A;" />
+					<p:outputLabel value="NÃO ENTREVISTADO" />
+					<div
+						style="width: 15px; height: 15px; background: #4e6fea; margin-left: 10px;" />
+					<p:outputLabel value="CHEGOU" />
+					<div
+						style="width: 15px; height: 15px; background: #5FCF80; margin-left: 10px;" />
+					<p:outputLabel value="ENTREVISTADO" />
+				</h:panelGrid>
+			</div>
+			<div class="Wid100 Fleft">
+				<h:form id="frmCalendario">
+					<h:panelGrid id="gridContador" columns="4"
+						style="font-size:12px;float:left;margin-top:10px;">
+						<p:outputLabel value="Concluídas:" style="color:blue;" />
+						<p:outputLabel value="#{entrevistasMB.concluidas}" />
+						<p:outputLabel value="Não realizadas:"
+							style="color:red;margin-left:10px;" />
+						<p:outputLabel value="#{entrevistasMB.pendentes}" />
+					</h:panelGrid>
+					<p:schedule id="schedule" tooltip="true"
+						value="#{entrevistasMB.listaEntrevistas}" widgetVar="calendario"
+						timeZone="America/Sao_Paulo" locale="pt"
+						style="margin:0px!important;overflow: auto !important;margin-top:10px;"
+						draggable="false" resizable="false" timeFormat="HH:mm"
+						axisFormat="HH:mm" rightHeaderTemplate="false"
+						styleClass="calendario">
+						<p:ajax event="eventSelect"
+							listener="#{entrevistasMB.onEventSelect}"
+							update=":frmDtlhCandidato"
+							oncomplete="PF('dlgCandidato').show();" />
+					</p:schedule>
+				</h:form>
+			</div>
+		</div>
+		<p:dialog modal="true" widgetVar="dlgCandidato" resizable="false"
+			header="Detalhes do Candidato">
+			<h:form id="frmDtlhCandidato">
+				<h:panelGrid>
+					<p:commandButton value="Ver perfil completo"
+						action="#{entrevistasMB.abrirPerfilCompleto()}" ajax="false"
+						icon="fa fa-arrow-right Fs16 white"
+						style="float:left;margin-bottom:10px;" />
+					<p:panelGrid columns="2" style="width:100%;"
+						styleClass="gridResumo">
+						<p:column>
+							<p:panelGrid columns="1" id="gridFoto"
+								style="text-align:center;width:250px!important;border:0px;">
+								<p:graphicImage value="#{ImgServiceBean.fotoCandidato}"
+									cache="false" width="250" height="250">
+									<f:param name="id" value="#{entrevistasMB.candidato.codigo}" />
+								</p:graphicImage>
+							</p:panelGrid>
+						</p:column>
+						<p:column>
+							<p:panelGrid columns="2">
+								<p:outputLabel value="Nome:" />
+								<p:outputLabel value="#{entrevistasMB.candidato.nome}" />
+								<p:outputLabel value="Cargo:" />
+								<p:outputLabel
+									value="#{entrevistasMB.candidato.cargoPretendido}" />
+								<p:outputLabel value="Idade:" />
+								<p:outputLabel value="#{entrevistasMB.calculaIdade()}" />
+								<p:outputLabel value="Naturalidade:" />
+								<p:outputLabel
+									value="#{entrevistasMB.candidato.localNascimento}" />
+								<p:outputLabel value="Cel.:" />
+								<p:outputLabel value="#{entrevistasMB.candidato.telCelular}" />
+								<p:outputLabel value="Tel.:" />
+								<p:outputLabel value="#{entrevistasMB.candidato.telResidencial}" />
+								<p:outputLabel value="Recado:" />
+								<p:outputLabel value="#{entrevistasMB.candidato.telRecado}" />
+								<p:outputLabel value="Bairro:" />
+								<p:outputLabel value="#{entrevistasMB.candidato.bairro}" />
+								<p:outputLabel value="Zona:" />
+								<p:outputLabel value="#{entrevistasMB.candidato.zonaBairro}" />
+								<p:outputLabel value="Escolaridade:" />
+								<p:outputLabel value="#{entrevistasMB.candidato.formacao}" />
+								<p:outputLabel value="Pretensão Salarial:" />
+								<p:column>
+									<p:outputLabel value="R$ " />
+									<p:outputLabel
+										value="#{entrevistasMB.candidato.pretensaoSalarial}">
+										<f:convertNumber currencySymbol="R$" minFractionDigits="2" />
+									</p:outputLabel>
+								</p:column>
+								<p:outputLabel value="Chegou:" />
+								<p:selectBooleanCheckbox value="#{entrevistasMB.chegou}" />
+							</p:panelGrid>
+						</p:column>
+					</p:panelGrid>
+				</h:panelGrid>
+				<p:commandButton value="Fechar" onclick="PF('dlgCandidato').hide();"
+					icon="fa fa-close Fs16 white" style="float:left;margin-top:10px;" />
+				<p:commandButton value="Salvar"
+					actionListener="#{entrevistasMB.salvarChegada()}"
+					icon="fa fa-check Fs16 white" update=":frmCalendario"
+					oncomplete="PF('calendario').update();"
+					style="float:right;margin-top:10px;" />
+			</h:form>
+		</p:dialog>
+	</div>
+	<h:form>
+		<pe:remoteCommand name="verificaMesCalendario"
+			actionListener="#{entrevistasMB.verificaMesCalendario}"
+			update=":frmCalendario:gridContador">
+			<pe:methodSignature parameters="java.lang.String" />
+			<pe:methodParam name="str" />
+		</pe:remoteCommand>
+	</h:form>
+	<script>
+		$(document).ready(function() {
+			$(".fc-next-button").click(function() {
+				var valor = $(".fc-center > h2").html();
+				verificaMesCalendario(valor);
+			});
+
+			$(".fc-prev-button").click(function() {
+				var valor = $(".fc-center > h2").html();
+				verificaMesCalendario(valor);
+			});
+		});
+	</script>
+</ui:composition>

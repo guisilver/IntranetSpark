@@ -1,0 +1,138 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<style>
+.fotoCadastro {
+	cursor: -webkit-zoom-in;
+	cursor: -moz-zoom-in;
+}
+</style>
+
+		<div class="layout-portlets-box trilha"
+			style="padding-top: 0px !important; padding-bottom: 0px !important;">
+			<p:breadCrumb>
+				<p:menuitem value="Home" url="/dashboard.xhtml" />
+				<p:menuitem value="Entrevistas" url="/rh/entrevistas" />
+				<p:menuitem value="Lista Candidatos" url="/rh/candidatos" />
+				<p:menuitem value="Novo Candidato"
+					url="/rh/candidatos/novo-candidato.xhtml" />
+				<p:menuitem value="Vagas" url="/rh/vagas" />
+			</p:breadCrumb>
+		</div>
+
+		<h:form id="frmCadastro">
+
+			<div class="layout-portlets-box">
+
+				<div class="DispInlBlock TexAlLeft">
+					<div class="Fleft">
+						<h2 class="black Fs24 FontRalewayMedium">Pré-Cadastro</h2>
+					</div>
+				</div>
+				<div class="Seperator"></div>
+
+				<div class="Container100 Responsive100">
+					<p:messages autoUpdate="true" id="msg" widgetVar="msg" />
+					<p:dataTable value="#{candidatosMB.listaPreCadastro}"
+						filteredValue="#{candidatosMB.filtroPreCadastro}"
+						widgetVar="singleDT" emptyMessage="Nenhum resultado encontrado."
+						id="tblCadastro" var="cadastro" rowKey="#{cadastro.codigo}"
+						style="width:99%;margin-top: 20px;" reflow="true" rows="12"
+						paginator="true">
+
+						<f:facet name="header">
+							<p:outputPanel>
+								<h:outputText value="Buscar em todos os campos:" />
+								<p:inputText id="globalFilter" onkeyup="PF('singleDT').filter()"
+									style="width:150px;margin-left:5px;"
+									placeholder="Insira a palavra" />
+							</p:outputPanel>
+						</f:facet>
+
+						<p:column headerText="Codigo" rendered="false">
+							<p:outputLabel value="#{cadastro.codigo}" />
+						</p:column>
+
+						<p:column headerText="Cargo" filterMatchMode="contains"
+							filterBy="#{cadastro.cargoPretendido}">
+							<p:outputLabel value="#{cadastro.cargoPretendido}" />
+						</p:column>
+
+						<p:column headerText="Foto" style="text-align:center;">
+							<p:commandLink oncomplete="PF('dlgZoomFoto').show();"
+								update=":dlgZoomFoto">
+								<f:setPropertyActionListener
+									target="#{candidatosMB.codigoSelecionado}"
+									value="#{cadastro.codigo}" />
+								<p:graphicImage value="#{ImgServiceBean.fotoCandidato}"
+									style="width:100px;height:100px;" styleClass="fotoCadastro">
+									<f:param name="id" value="#{cadastro.codigo}" />
+								</p:graphicImage>
+							</p:commandLink>
+						</p:column>
+
+						<p:column headerText="Nome" filterMatchMode="contains"
+							filterBy="#{cadastro.nome}">
+							<p:outputLabel value="#{cadastro.nome}" />
+						</p:column>
+
+						<p:column headerText="RG" filterMatchMode="contains"
+							filterBy="#{cadastro.rg}">
+							<p:outputLabel value="#{cadastro.rg}" />
+						</p:column>
+
+						<p:column headerText="CPF" filterMatchMode="contains"
+							filterBy="#{cadastro.cpf}">
+							<p:outputLabel value="#{cadastro.cpf}" />
+						</p:column>
+
+						<p:column headerText="Celular" filterMatchMode="contains"
+							filterBy="#{cadastro.telCelular}">
+							<p:outputLabel value="#{cadastro.telCelular}" />
+						</p:column>
+
+						<p:column headerText="Residencial" filterMatchMode="contains"
+							filterBy="#{cadastro.telResidencial}">
+							<p:outputLabel value="#{cadastro.telResidencial}" />
+						</p:column>
+
+						<p:column headerText="Cadastrar" style="text-align:center;">
+							<h:panelGrid columns="2">
+								<p:commandButton icon="fa fa-arrow-circle-right Fs16 white"
+									action="#{candidatosMB.redirecionaPreCadastro(cadastro)}"
+									ajax="false" />
+								<p:commandButton
+									actionListener="#{candidatosMB.excluirCadastroTbl(cadastro)}"
+									icon="fa fa-trash Fs16 white" update="@form" title="Excluir">
+									<p:confirm header="Confirmação"
+										message="Você confirma a exclusão?"
+										icon="fa fa-alert Fs16 white" />
+								</p:commandButton>
+							</h:panelGrid>
+						</p:column>
+					</p:dataTable>
+					<p:confirmDialog global="true" widgetVar="dlgExclui"
+						showEffect="fade" hideEffect="fade">
+						<p:commandButton value="Não" type="button"
+							styleClass="ui-confirmdialog-no"
+							icon="ui-icon-close fa fa-close Fs14 white" />
+						<p:commandButton value="Sim" type="button" ajax="false"
+							styleClass="ui-confirmdialog-yes"
+							icon="ui-icon-check fa fa-check Fs14 white" />
+					</p:confirmDialog>
+				</div>
+			</div>
+		</h:form>
+		<p:dialog id="dlgZoomFoto" widgetVar="dlgZoomFoto" modal="true"
+			draggable="false" resizable="false">
+			<p:graphicImage value="#{ImgServiceBean.fotoCandidato}" cache="false"
+				width="500" height="500">
+				<f:param name="id" value="#{candidatosMB.codigoSelecionado}" />
+			</p:graphicImage>
+		</p:dialog>
+	</ui:define>
+
+</ui:composition>

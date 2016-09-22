@@ -1,0 +1,336 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<style>
+.noBorder tbody tr td {
+	border: 0px !important;
+}
+</style>
+		<div class="layout-portlets-box">
+			<div class="DispInlBlock TexAlLeft">
+				<div class="Fleft">
+					<h2 class="black Fs24 FontRalewayMedium">Contábil - Gráfico
+						Evolutivo</h2>
+				</div>
+			</div>
+			<div class="Seperator"></div>
+			<div class="Container100 Responsive100">
+				<div class="ContainerIndent">
+					<p:messages autoUpdate="true" />
+
+					<h:form id="frmFiltros">
+						<p:panelGrid columns="2" style="margin:10px;">
+							<f:facet name="header">
+								Filtros
+							</f:facet>
+
+							<p:outputLabel value="Gerente: " for="gerente"
+								rendered="#{!SessaoMB.verificaDepto(' Todos')}" />
+							<p:selectOneMenu filter="true" id="gerente"
+								filterMatchMode="contains" value="#{graficosMB.gerente}"
+								converter="omnifaces.SelectItemsConverter" style="width:200px;"
+								required="true" requiredMessage="Insira o gerente!"
+								rendered="#{!SessaoMB.verificaDepto(' Todos')}">
+								<p:ajax listener="#{graficosMB.listarCondominios()}"
+									update=":frmFiltros" resetValues="true" />
+								<f:selectItem itemLabel="Nenhum" noSelectionOption="true" />
+								<f:selectItems var="gerente" value="#{graficosMB.listaGerentes}"
+									itemLabel="#{gerente.nome}" itemValue="#{gerente}" />
+							</p:selectOneMenu>
+
+							<p:outputLabel for="console" value="Condomínio:" />
+							<p:selectOneMenu id="console"
+								value="#{graficosMB.condominioSelecionado}" style="width:200px"
+								filter="true" filterMatchMode="contains"
+								converter="omnifaces.SelectItemsConverter" required="true"
+								requiredMessage="Insira o condomínio!">
+								<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+								<f:selectItems value="#{graficosMB.listaCondominios}" var="item"
+									itemLabel="#{item.cndCodNome}" itemValue="#{item}" />
+							</p:selectOneMenu>
+
+							<p:outputLabel for="tipo" value="Tipo:" />
+							<p:selectOneMenu id="tipo" value="#{graficosMB.tipoGrafico}"
+								style="width:200px" filter="true" filterMatchMode="contains"
+								converter="omnifaces.SelectItemsConverter">
+								<p:ajax process="@this" />
+								<f:selectItem itemLabel="Barra" itemValue="Barra" />
+								<f:selectItem itemLabel="Linha" itemValue="Linha" />
+							</p:selectOneMenu>
+
+							<h:outputText value="Data Início" />
+							<p:column>
+								<h:panelGrid columns="2" styleClass="noBorder">
+									<p:selectOneMenu value="#{graficosMB.mesInicio}"
+										style="width:100px;">
+										<f:selectItem itemLabel="Janeiro" itemValue="1" />
+										<f:selectItem itemLabel="Fevereiro" itemValue="2" />
+										<f:selectItem itemLabel="Março" itemValue="3" />
+										<f:selectItem itemLabel="Abril" itemValue="4" />
+										<f:selectItem itemLabel="Maio" itemValue="5" />
+										<f:selectItem itemLabel="Junho" itemValue="6" />
+										<f:selectItem itemLabel="Julho" itemValue="7" />
+										<f:selectItem itemLabel="Agosto" itemValue="8" />
+										<f:selectItem itemLabel="Setembro" itemValue="9" />
+										<f:selectItem itemLabel="Outubro" itemValue="10" />
+										<f:selectItem itemLabel="Novembro" itemValue="11" />
+										<f:selectItem itemLabel="Dezembro" itemValue="12" />
+									</p:selectOneMenu>
+									<p:selectOneMenu value="#{graficosMB.anoInicio}"
+										style="width:60px;">
+										<f:selectItem itemLabel="2010" itemValue="2010" />
+										<f:selectItem itemLabel="2011" itemValue="2011" />
+										<f:selectItem itemLabel="2012" itemValue="2012" />
+										<f:selectItem itemLabel="2013" itemValue="2013" />
+										<f:selectItem itemLabel="2014" itemValue="2014" />
+										<f:selectItem itemLabel="2015" itemValue="2015" />
+										<f:selectItem itemLabel="2016" itemValue="2016" />
+									</p:selectOneMenu>
+								</h:panelGrid>
+							</p:column>
+
+							<h:outputText value="Data Fim" />
+							<p:column>
+								<h:panelGrid columns="3" styleClass="noBorder">
+									<p:selectOneMenu value="#{graficosMB.mesFim}"
+										style="width:100px;">
+										<f:selectItem itemLabel="Janeiro" itemValue="1" />
+										<f:selectItem itemLabel="Fevereiro" itemValue="2" />
+										<f:selectItem itemLabel="Março" itemValue="3" />
+										<f:selectItem itemLabel="Abril" itemValue="4" />
+										<f:selectItem itemLabel="Maio" itemValue="5" />
+										<f:selectItem itemLabel="Junho" itemValue="6" />
+										<f:selectItem itemLabel="Julho" itemValue="7" />
+										<f:selectItem itemLabel="Agosto" itemValue="8" />
+										<f:selectItem itemLabel="Setembro" itemValue="9" />
+										<f:selectItem itemLabel="Outubro" itemValue="10" />
+										<f:selectItem itemLabel="Novembro" itemValue="11" />
+										<f:selectItem itemLabel="Dezembro" itemValue="12" />
+									</p:selectOneMenu>
+									<p:selectOneMenu value="#{graficosMB.anoFim}"
+										style="width:60px;">
+										<f:selectItem itemLabel="2010" itemValue="2010" />
+										<f:selectItem itemLabel="2011" itemValue="2011" />
+										<f:selectItem itemLabel="2012" itemValue="2012" />
+										<f:selectItem itemLabel="2013" itemValue="2013" />
+										<f:selectItem itemLabel="2014" itemValue="2014" />
+										<f:selectItem itemLabel="2015" itemValue="2015" />
+										<f:selectItem itemLabel="2016" itemValue="2016" />
+									</p:selectOneMenu>
+									<p:commandButton icon="fa fa-search Fs16 white" value="Filtrar"
+										actionListener="#{graficosMB.filtrar()}"
+										update=":frmSelecionaCapa" />
+								</h:panelGrid>
+							</p:column>
+						</p:panelGrid>
+					</h:form>
+
+					<p:dialog widgetVar="dlgSelecionaCapas" width="300" height="auto"
+						style="max-height:600px;" modal="true" closeOnEscape="true"
+						header="Selecionar Capas" resizable="false">
+
+						<h:form id="frmSelecionaCapa">
+
+							<p:selectBooleanCheckbox itemLabel="Todas"
+								value="#{graficosMB.todasCapas}">
+								<p:ajax listener="#{graficosMB.selecionaTodasCapas()}"
+									process="@this" update="@form" />
+							</p:selectBooleanCheckbox>
+
+							<p:selectManyCheckbox id="basic"
+								value="#{graficosMB.capasSelecionadasUtil}"
+								converter="omnifaces.SelectItemsConverter" layout="grid"
+								columns="1" rendered="#{!graficosMB.todasCapas}">
+								<f:selectItems value="#{graficosMB.capas}" var="capa"
+									itemLabel="#{capa.nome}" itemValue="#{capa.nome}" />
+							</p:selectManyCheckbox>
+
+							<h:panelGrid columns="2" style="margin-top:20px;">
+								<p:commandButton value="Cancelar" icon="fa fa-close Fs16 white"
+									onclick="PF('dlgSelecionaCapas').hide();" style="float:left;" />
+								<p:commandButton value="Listar" icon="fa fa-check Fs16 white"
+									actionListener="#{graficosMB.listarCapasSelecionadas()}"
+									update=":frmGraficos,:frmRelatorio, :frmGraficosLinha"
+									style="float:right;" />
+							</h:panelGrid>
+
+						</h:form>
+
+					</p:dialog>
+
+					<h:form id="frmRelatorio" target="_blank">
+						<h:panelGrid
+							style="margin-top:10px;margin-bottom:10px;margin-left:7px;"
+							rendered="#{graficosMB.capasSelecionadas.size() > 0}">
+							<p:commandButton value="Gerar Relatório PDF"
+								action="#{graficosMB.gerarRelatorio()}" ajax="false" />
+						</h:panelGrid>
+					</h:form>
+
+					<style>
+.jqplot-xaxis-tick {
+	transform: rotate(-30deg);
+	margin-top: 10px;
+}
+</style>
+
+					<h:form id="frmGraficos">
+						<p:tabView id="tabCapas" value="#{graficosMB.capasSelecionadas}"
+							var="capa"
+							rendered="#{graficosMB.capasSelecionadas.size() > 0 and graficosMB.tipoGrafico == 'Barra'}"
+							style="width:auto;" dynamic="true">
+							<p:ajax event="tabChange"
+								listener="#{graficosMB.tabChange(capa)}" />
+							<p:tab title="#{capa.nome}">
+								<p:dataGrid var="conta" value="#{capa.contas}"
+									style="text-align:center;width:auto;"
+									rendered="#{graficosMB.capas.size() > 0}" columns="3"
+									layout="grid">
+									<p:panel header="#{conta.nome}" style="height:240px;">
+										<p:chart type="bar" responsive="true"
+											model="#{graficosMB.geraGraficoBarraConta(conta,graficosMB.dataInicio,graficosMB.dataFim)}"
+											style="height:200px">
+											<f:param name="codigo" value="#{conta.codigo}" />
+											<p:ajax event="itemSelect"
+												listener="#{graficosMB.itemSelect}" update=":frmContas" />
+										</p:chart>
+									</p:panel>
+								</p:dataGrid>
+							</p:tab>
+						</p:tabView>
+					</h:form>
+
+					<h:form id="frmGraficosLinha">
+						<p:tabView id="tabCapas" value="#{graficosMB.capasSelecionadas}"
+							var="capa"
+							rendered="#{graficosMB.capasSelecionadas.size() > 0 and graficosMB.tipoGrafico == 'Linha'}"
+							style="width:auto;" dynamic="true">
+							<p:tab title="#{capa.nome}">
+								<p:chart type="line" responsive="true"
+									model="#{graficosMB.geraGraficoLinhaConta(capa,graficosMB.dataInicio,graficosMB.dataFim)}"
+									rendered="#{graficosMB.capasSelecionadas.size() > 0  and graficosMB.tipoGrafico == 'Linha'}"
+									style="height:600px;" />
+							</p:tab>
+						</p:tabView>
+					</h:form>
+
+				</div>
+			</div>
+		</div>
+
+		<p:dialog widgetVar="dlgDetalhesContas" width="auto" height="auto"
+			style="max-height:600px;" modal="true" closeOnEscape="true"
+			header="Lancamentos do Mês" resizable="false">
+			<h:form id="frmContas">
+				<center>
+					<h:panelGrid columns="2" style="margin:15px;">
+						<h:outputText value="Conta: " style="color:red;" />
+						<h:outputText value="#{graficosMB.conta.nome}" />
+						<h:outputText value="Mês: " style="color:red;" />
+						<h:outputText value="#{graficosMB.mesSelecionado}">
+							<f:convertDateTime pattern="MM/yyyy" locale="pt"
+								timeZone="America/Sao_Paulo" />
+						</h:outputText>
+						<h:outputText value="Valor Total: " style="color:red;" />
+						<h:outputText id="valor"
+							value="#{graficosMB.getValorTotalPeriodo()}">
+							<f:convertNumber type="currency" currencySymbol="R$" />
+						</h:outputText>
+					</h:panelGrid>
+				</center>
+				<br />
+				<p:dataTable var="item" id="tblContas"
+					value="#{graficosMB.lancamentosMes}"
+					style="width:640px;margin-bottom:20px;height: 400px;"
+					scrollable="true" scrollHeight="400">
+					<p:column headerText="Data" style="text-align:center;">
+						<h:outputText value="#{item.data}" rendered="#{!item.sintetico}">
+							<f:convertDateTime pattern="dd/MM/yyyy" locale="pt"
+								timeZone="America/Sao_Paulo" />
+						</h:outputText>
+						<h:outputText value="#{item.data}" rendered="#{item.sintetico}">
+							<f:convertDateTime pattern="MM/yyyy" locale="pt"
+								timeZone="America/Sao_Paulo" />
+						</h:outputText>
+					</p:column>
+					<p:column headerText="Conta" style="text-align:center;">
+						<h:outputText value="#{item.conta}" />
+					</p:column>
+					<p:column headerText="Histórico">
+						<h:outputText value="#{item.historico}" />
+					</p:column>
+					<p:column headerText="Valor">
+						<h:outputText value="#{item.valor}">
+							<f:convertNumber type="currency" />
+						</h:outputText>
+					</p:column>
+					<p:column headerText="Docs" style="text-align:center;width:50px;">
+						<p:commandButton icon="fa fa-search Fs16 white"
+							actionListener="#{pastaDigitalMB.pesquisaDoctosLancto(item,graficosMB.condominioSelecionado)}"
+							rendered="#{item.possuiDocs}" oncomplete="PF('dlgDocto').show();"
+							update=":frmDocto">
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</p:dialog>
+
+		<p:dialog widgetVar="dlgDocto" modal="true" resizable="false"
+			header="Documento">
+			<h:form id="frmDocto">
+				<h:panelGrid id="tblDocto" columns="2" style="vertical-align:top;">
+					<p:dataTable id="tblDoctos" var="item"
+						value="#{pastaDigitalMB.listaDoctos}"
+						emptyMessage="Nenhum resultado encontrado." style="width:200px;"
+						scrollable="true" scrollHeight="250" rowKey="#{item}"
+						rendered="#{pastaDigitalMB.listaDoctos.size()>1}">
+						<f:facet name="header">
+							<h:outputText value="Documentos" />
+						</f:facet>
+						<p:column headerText="Nome">
+							<h:outputText value="#{item.nome}" />
+						</p:column>
+						<p:column style="width:50px;">
+							<p:commandButton icon="fa fa-search Fs16 white"
+								update=":frmDocto:gridMedia">
+								<f:setPropertyActionListener
+									value="#{graficosMB.condominioSelecionado}"
+									target="#{pastaDigitalMB.condominioSelecionado}" />
+								<f:setPropertyActionListener
+									target="#{pastaDigitalMB.doctoSelecionado}" value="#{item}" />
+							</p:commandButton>
+						</p:column>
+					</p:dataTable>
+					<p:panel id="gridMedia">
+						<f:facet name="header">
+							<h:outputText value="Nome:" />
+							<h:outputText value="#{pastaDigitalMB.doctoSelecionado.nome}" />
+						</f:facet>
+						<p:media player="pdf" value="#{doctoServiceMB.doctoLancto}"
+							width="800" height="600" cache="false"
+							rendered="#{pastaDigitalMB.doctoSelecionado != null}">
+							<f:param name="idDocto"
+								value="#{pastaDigitalMB.doctoSelecionado.id}" />
+						</p:media>
+					</p:panel>
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+
+		<p:ajaxStatus onstart="PF('statusDialog').show()"
+			onsuccess="PF('statusDialog').hide()" />
+		<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+			closable="false" resizable="false" showHeader="false">
+					Carregando...<br />
+			<br />
+			<p:graphicImage library="imagens" name="loader.gif" />
+		</p:dialog>
+
+	</ui:define>
+</ui:composition>

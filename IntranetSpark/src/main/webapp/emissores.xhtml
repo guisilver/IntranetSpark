@@ -1,0 +1,81 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<style>
+.Pendente {
+	color: red;
+}
+
+.Cancelado {
+	color: blue;
+}
+
+.Recebido {
+	color: green;
+}
+</style>
+		<div class="layout-portlets-box">
+			<div class="Container100 Responsive100">
+				<div class="ContainerIndent">
+					<h:form>
+						<p:toolbar>
+							<f:facet name="left">
+								<h:panelGrid columns="7">
+									<p:commandButton value=" Novo Emissor"
+										icon="fa fa-plus Fs16 white"
+										oncomplete="PF('dlgNovoEmissor').show();"
+										update=":frmNovoEmissor" />
+									<span class="ui-separator"> <span
+										class="fa fa-ellipsis-v leaden" />
+									</span>
+									<p:selectOneMenu id="selectGerente" filter="true"
+										filterMatchMode="contains" value="#{emissorMB.gerente}"
+										converter="omnifaces.SelectItemsConverter">
+										<p:ajax listener="#{emissorMB.pesquisaEmissores}"
+											update=":frmTblEmissor" resetValues="true" />
+										<f:selectItem itemLabel="Gerente" noSelectionOption="true" />
+										<f:selectItems var="gerente"
+											value="#{assembleiaMB.listaGerentes}"
+											itemLabel="#{gerente.nome}" itemValue="#{gerente}" />
+									</p:selectOneMenu>
+									<p:outputLabel value="Período" />
+									<p:calendar value="#{emissorMB.dataInicio}"
+										pattern="dd/MM/yyyy" locale="pt" timeZone="America/Sao_Paulo"
+										styleClass="calendario" />
+									<p:calendar value="#{emissorMB.dataFim}" pattern="dd/MM/yyyy"
+										locale="pt" timeZone="America/Sao_Paulo"
+										styleClass="calendario" />
+									<p:commandButton value="Filtrar"
+										action="#{emissorMB.filtrarListaEmissores}"
+										icon="fa fa-search Fs16 white"
+										update=":frmTblEmissor:tblEmissor" />
+								</h:panelGrid>
+							</f:facet>
+						</p:toolbar>
+					</h:form>
+				</div>
+			</div>
+			<p:growl autoUpdate="true" life="3000" id="growl" />
+			<div class="Fleft" style="margin-top: 20px;">
+				<h2 class="black Fs24 FontRalewayMedium">Emissores</h2>
+			</div>
+			<div class="Seperator" style=" margin-bottom: 20px;"></div>
+			<div class="Wid100" style="margin-top: 20px; margin-bottom: 20px;">
+				<ui:include src="emissor/tbl-emissores.xhtml" />
+			</div>
+			<ui:include src="emissor/dlg-novo-emissor.xhtml" />
+			<ui:include src="emissor/dlg-detalhes-emissor.xhtml" />
+			<p:ajaxStatus onstart="PF('statusDialog').show()"
+				onsuccess="PF('statusDialog').hide()" />
+			<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+				closable="false" resizable="false" showHeader="false">
+					Aguarde...<br />
+				<br />
+				<p:graphicImage library="imagens" name="loader.gif" />
+			</p:dialog>
+		</div>
+	</ui:define>
+</ui:composition>

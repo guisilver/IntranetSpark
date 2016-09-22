@@ -1,0 +1,733 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	<style>
+#frmLancamento\3a dtVencimento>button {
+	margin-left: 5px;
+}
+
+#frmLancamento\3a gridCreditoEmConta label,
+	#frmLancamento\3a gridCreditoEmConta input {
+	margin-right: 5px;
+}
+
+#frmLancamento\3a gridCreditoEmConta input {
+	margin-right: 10px;
+}
+
+.fileupload-content {
+	visibility: hidden !important;
+	z-index: 2 !important;
+	border-collapse: false !important;
+	position: absolute !important;
+}
+
+.files {
+	border-collapse: false;
+	position: abostule;
+	visibility: hidden;
+}
+
+.fileupload-buttonbar {
+	border-width: 0px;
+	background-color: white;
+}
+</style>
+	<h:form id="frmLancamento" styleClass="frmLancamento">
+		<div
+			style="margin-left: 20px; margin-top: 15px; padding-top: 15px; padding-bottom: 15px;"
+			align="center">
+			<h:panelGrid
+				style="width:auto;margin-left: auto; margin-right: auto;display:inline-block;vertical-align:top;"
+				rendered="#{ged.grid1}">
+				<p:panelGrid columns="2">
+					<f:facet name="header">
+						<p:outputLabel value="LANÇAMENTO" />
+					</f:facet>
+					<p:outputLabel value="Classificação" />
+					<p:selectOneMenu value="#{ged.classificacao}">
+						<f:selectItem itemLabel="Venda" itemValue="V" />
+						<f:selectItem itemLabel="Serviços" itemValue="S" />
+						<f:selectItem itemLabel="Venda / Serviços" itemValue="VS" />
+					</p:selectOneMenu>
+
+					<p:outputLabel value="Vencimento" for=":frmLancamento:dtVencimento" />
+					<p:calendar id="dtVencimento" mask="true" locale="pt"
+						timeZone="America/Sao_Paulo" pattern="dd/MM/yyyy"
+						value="#{ged.vencimento}" required="true"
+						requiredMessage="Insira a data de vencimento!" />
+
+					<p:panelGrid>
+						<p:outputLabel value="Pagamento Rateado:" />
+					</p:panelGrid>
+
+					<h:panelGrid id="panelSelRat" columns="4">
+						<p:column />
+						<p:selectOneRadio value="#{ged.rateado}">
+							<f:selectItem itemLabel="S" itemValue="S" />
+							<f:selectItem itemLabel="N" itemValue="N" />
+							<p:ajax
+								update=":frmLancamento:panelRat :frmLancamento:panelValRat :frmLancamento:colRateado :frmLancamento:pnlCtCont :frmLancamento:pnlNmCont" />
+							<p:ajax listener="#{ged.limparRateio()}" />
+						</p:selectOneRadio>
+						<p:column />
+						<h:panelGrid id="colRateado">
+							<p:commandButton value="Rateio"
+								rendered="#{ged.rateado == 'S'}" immediate="true"
+								onclick="PF('dlgValRat').show();" />
+						</h:panelGrid>
+					</h:panelGrid>
+
+					<h:panelGrid id="panelRat" columns="2">
+						<p:outputLabel value="Valor"
+							rendered="#{ged.rateado == 'N'}"
+							styleClass="mascaraMonetaria" for=":frmLancamento:txtValor"/>
+						<p:outputLabel value="Valor Bruto" for=":frmLancamento:txtValorBt"
+							rendered="#{ged.rateado == 'S'}" />
+					</h:panelGrid>
+
+					<h:panelGrid id="panelValRat" columns="2">
+						<p:column />
+						<script type="text/javascript">
+							$(PrimeFaces.escapeClientId('frmLancamento:txtValor')).maskMoney({prefix:'R$ ', thousands:'.', decimal:',', affixesStay: true});
+						</script>
+						<c:if test="#{ged.rateado == 'N'}">
+							<p:inputText name="txtValor" id="txtValor"
+								rendered="#{ged.rateado == 'N'}"
+								value="#{ged.valor}" required="true"
+								requiredMessage="Insira o valor!" />
+						</c:if>
+						<p:outputLabel id="txtValorBt"
+							value="#{ged.rat.valorBruto}"
+							rendered="#{ged.rateado == 'S'}">
+							<f:convertNumber type="currency" currencySymbol="R$" locale="pt" />
+						</p:outputLabel>
+					</h:panelGrid>
+
+					<h:panelGrid id="pnlNmCont" columns="2">
+						<p:outputLabel value="Conta contábil"
+							rendered="#{ged.rateado == 'N'}" />
+						<p:outputLabel value="Qtde. de Contas"
+							rendered="#{ged.rateado == 'S'}" />
+					</h:panelGrid>
+
+					<p:column>
+						<h:panelGrid id="pnlCtCont" columns="2">
+							<p:outputLabel value="Conta:"
+								for=":frmLancamento:txtContaContabil"
+								rendered="#{ged.rateado == 'N'}" />
+							<p:column rendered="#{ged.rateado == 'N'}">
+								<p:inputText id="txtContaContabil"
+									rendered="#{ged.rateado == 'N'}"
+									value="#{ged.contaContabil}"
+									onkeypress="validate(event)" maxlength="9" required="true"
+									requiredMessage="Insira a conta!">
+									<p:ajax listener="#{ged.pesquisaContaCod()}"
+										update=":frmLancamento:txtContaContabil,:frmLancamento:nomeContaContabil" />
+								</p:inputText>
+								<p:commandButton icon="ui-icon-search" immediate="true"
+									rendered="#{ged.rateado == 'N'}"
+									style="margin-left:5px;" onclick="PF('dlgPesqConta').show();" />
+							</p:column>
+							<p:outputLabel value="Nome:"
+								rendered="#{ged.rateado == 'N'}" />
+							<p:outputLabel id="nomeContaContabil"
+								rendered="#{ged.rateado == 'N'}"
+								value="#{ged.nomeConta}" style="margin-top:5px;" />
+
+							<p:outputLabel value="#{ged.qtdeDeContas}"
+								rendered="#{ged.rateado == 'S'}" />
+						</h:panelGrid>
+					</p:column>
+
+					<p:outputLabel value="Tipo de Documento" />
+					<p:selectOneMenu value="#{ged.tipoDocumento}">
+						<f:selectItem itemLabel="Nota Fiscal" itemValue="NF" />
+					</p:selectOneMenu>
+
+					<p:outputLabel value="Fornecedor" />
+					<p:column>
+						<h:panelGrid columns="2">
+							<p:outputLabel value="CPF/CNPJ:"
+								for=":frmLancamento:txtFornecedor" />
+							<p:column>
+								<p:inputText id="txtFornecedor" onkeypress="validate(event)"
+									value="#{ged.fornecedor}" maxlength="14">
+									<p:ajax event="blur"
+										listener="#{ged.pesquisaFornecedor()}"
+										update=":frmLancamento:txtNomeFornecedor" />
+								</p:inputText>
+								<p:commandButton icon="ui-icon-search" immediate="true"
+									style="margin-left:5px;"
+									onclick="PF('dlgPesqFornecedor').show();" />
+							</p:column>
+							<p:outputLabel value="Nome:" />
+							<p:outputLabel id="txtNomeFornecedor"
+								value="#{ged.nomeFornecedor}" style="margin-top:5px;"
+								disabled="true" />
+						</h:panelGrid>
+					</p:column>
+
+					<p:outputLabel value="Empresa" />
+					<p:inputText id="txtDescricao" value="#{ged.empresa}"
+						maxlength="100">
+						<p:ajax event="blur" update=":frmLancamento:colHistorico" />
+					</p:inputText>
+
+					<p:outputLabel value="N.F" />
+					<p:inputText onkeypress="validate(event)" id="txtNF"
+						value="#{ged.notaFiscal}" maxlength="10">
+						<p:ajax event="blur" update=":frmLancamento:colHistorico" />
+					</p:inputText>
+
+					<p:outputLabel value="Emissão N.F" for=":frmLancamento:dtEmissaoNF" />
+					<p:calendar id="dtEmissaoNF" mask="true" locale="pt"
+						timeZone="America/Sao_Paulo" pattern="dd/MM/yyyy"
+						value="#{ged.dtEmissaoNF}" />
+
+
+					<p:outputLabel value="Histórico" />
+					<p:inputTextarea id="txtComplemento"
+						value="#{ged.complemento}" maxlength="100">
+						<p:ajax event="blur" update=":frmLancamento:colHistorico" />
+					</p:inputTextarea>
+					
+					<p:outputLabel value="Parcelado"/>
+					<h:panelGrid id="pnlSelParc" columns="8">
+					<p:selectOneRadio value="#{ged.parcelamento}">
+								<f:selectItem itemLabel="S" itemValue="S" />
+								<f:selectItem itemLabel="N" itemValue="N" />
+								<p:ajax update=":frmLancamento:pnlSelParc"/>
+								<p:ajax listener="#{ged.limparParcelado()}"/>
+					</p:selectOneRadio>
+							<p:outputLabel value="&nbsp;&nbsp;&nbsp;&nbsp;"/>
+							<p:outputLabel value="Parc.:" rendered="#{ged.parcelamento == 'S'}" style="float:right;"/>
+							<p:inputText value="#{ged.pci}" 
+										 style="width:40px;" 
+										 onkeypress="validate(event)" 
+										 maxlength="3"
+										 rendered="#{ged.parcelamento == 'S'}" 
+										 required="#{ged.parcelamento == 'S'}"
+										 requiredMessage="Preencha 1º parcela!">
+								<p:ajax update=":frmLancamento:colHistorico"/>
+							</p:inputText>
+							<p:outputLabel value=" de " rendered="#{ged.parcelamento == 'S'}" />
+							<p:inputText value="#{ged.pcf}" 
+										 style="width:45px;" 
+										 onkeypress="validate(event)" 
+										 maxlength="4" 
+										 rendered="#{ged.parcelamento == 'S'}"
+										 required="#{ged.parcelamento == 'S'}"
+										 requiredMessage="Preencha 2º parcela!">
+								<p:ajax update=":frmLancamento:colHistorico"/>
+							</p:inputText>
+					</h:panelGrid>
+
+					<p:outputLabel value="Histórico Completo" />
+					<h:panelGrid id="colHistorico"
+						style="word-wrap:break-word;max-width:400px;">
+						<p:column>
+							<p
+								style="word-wrap: break-word; max-width: 400px; text-align: left;"
+								align="right">
+								<p:outputLabel id="historico1" value="#{ged.empresa}"
+									rendered="#{not empty ged.empresa}" />
+								<p:outputLabel value="&nbsp;-&nbsp;"
+									rendered="#{ged.empresa != null and not empty ged.notaFiscal and ged.notaFiscal gt 0}" />
+								<p:outputLabel id="historico2"
+									value="NF. #{ged.notaFiscal}"
+									rendered="#{not empty ged.notaFiscal and ged.notaFiscal gt 0}" />
+								<p:outputLabel value="&nbsp;-&nbsp;"
+									rendered="#{(not empty ged.notaFiscal and not empty ged.complemento) or (not empty ged.empresa and not empty ged.complemento)}" />
+								<p:outputLabel id="historico3"
+									value="#{ged.complemento} "
+									rendered="#{not empty ged.complemento}" />
+									
+								<p:outputLabel id="historico5"
+									value="&nbsp; - PC. #{ged.pci}"
+									rendered="#{not empty ged.pci}" />
+									<p:outputLabel id="historico6"
+									value="/#{ged.pcf}"
+									rendered="#{not empty ged.pcf}" />
+								
+							</p>
+						</p:column>
+					</h:panelGrid>
+				</p:panelGrid>
+			</h:panelGrid>
+			
+			<h:panelGrid id="gridDocs" border="0" 
+				style="display:inline-block;vertical-align:top;text-align:left"
+				rendered="#{ged.grid1}">
+				<p:commandButton value="Enviar arquivos" icon="ui-icon-plus"
+					update=":frmUploadArquivo" process="@this"
+					oncomplete="PF('dlgUploadArquivo').show();" />
+				<p:column>
+					<p:dataTable id="tblArquivos" var="item"
+						value="#{ged.listaArquivos}"
+						emptyMessage="Nenhum resultado encontrado." style="width:450px;"
+						scrollable="true" scrollHeight="150">
+						<p:column headerText="Id" style="width:130px;">
+							<p:outputLabel value="#{ged.converte(item.id)}"
+								style="color:blue;word-wrap:break-word;" />
+						</p:column>
+						<p:column headerText="Nome" style="width:150px;">
+							<p:outputLabel value="${item.nome_arquivo}"
+								style="color:blue;word-wrap:break-word;" />
+						</p:column>
+						<p:column style="width:45px;">
+							<p:commandButton icon="ui-icon-closethick" style="color:red;"
+								update=":frmLancamento:gridDocs" immediate="true"
+								actionListener="#{ged.excDocumento(ged.listaArquivos.indexOf(item))}">
+							</p:commandButton>
+						</p:column>
+						<p:column style="width:45px;">
+							<p:commandButton
+								actionListener="#{ged.dwldDocumento(ged.listaArquivos.indexOf(item))}"
+								style="color:red;" icon="ui-icon-arrowthickstop-1-s"
+								ajax="false">
+								<p:fileDownload value="#{ged.arquivoDownload}" />
+							</p:commandButton>
+						</p:column>
+					</p:dataTable>
+				</p:column>
+				
+			</h:panelGrid>
+			
+			<h:panelGrid columns="2"
+				style="width:400px;text-align:center;margin-top:15px;"
+				rendered="#{ged.grid1}">
+				<p:commandButton value="Limpar" update=":frmLancamento"
+					icon="ui-icon-document" actionListener="#{ged.reset()}"
+					immediate="true" ajax="false" />
+				<p:commandButton value="Próximo"
+					actionListener="#{ged.validaGrid1()}"
+					update=":frmLancamento" icon="ui-icon-arrowthick-1-e" ajax="false" />
+			</h:panelGrid>
+
+			<p:panelGrid columns="2" style="margin-bottom:15px"
+				rendered="#{ged.grid2}">
+				<p:outputLabel value="Tipo de pagamento" />
+				<p:selectOneMenu value="#{ged.tipoPagamento}">
+					<p:ajax listener="#{ged.limpaTipoConta()}"
+						update=":frmLancamento:gridTiposPagamento" />
+					<f:selectItem itemLabel="Nenhum" noSelectionOption="true" />
+					<f:selectItem itemLabel="Crédito em Conta" itemValue="5" />
+					<f:selectItem itemLabel="DOC" itemValue="7" />
+					<f:selectItem itemLabel="Ficha de Compensação / Boleto"
+						itemValue="8" />
+					<f:selectItem
+						itemLabel="Concessionárias - água / luz / telefone / gás / etc"
+						itemValue="E" />
+				</p:selectOneMenu>
+
+
+			</p:panelGrid>
+			<h:panelGrid id="gridTiposPagamento"
+				rendered="#{ged.grid2}">
+				<!-- Crédito em Conta -->
+				<p:panelGrid id="gridCreditoEmConta" columns="1"
+					rendered="#{ged.tipoPagamento == '5'}"
+					style="vertical-align:bottom;">
+					<p:column>
+						<p:outputLabel value="Favorecido"
+							for=":frmLancamento:txtNomeFavorecidoCC" />
+						<p:inputText value="#{ged.nomeFavorecido}"
+							style="width:325px;" id="txtNomeFavorecidoCC" />
+						<p:commandButton icon="ui-icon-search" style="margin-left:5px;"
+							onclick="PF('dlgPesqFavorecido').show();" />
+					</p:column>
+
+					<p:column>
+						<h:panelGrid columns="4">
+							<p:outputLabel value="Código do Banco"
+								for=":frmLancamento:txtCodBancoCC" />
+							<p:inputText onkeypress="validate(event)" style="width:80px;"
+								value="#{ged.codBanco}" id="txtCodBancoCC"
+								maxlength="4">
+								<p:ajax event="blur"
+									listener="#{ged.pesquisarBanco()}"
+									update=":frmLancamento:txtNomeBancoCC" />
+							</p:inputText>
+							<p:inputText id="txtNomeBancoCC"
+								value="#{ged.nomeDoBanco}" style="width:400px;" />
+							<p:commandButton icon="ui-icon-search" style="margin-left:5px;"
+								onclick="PF('dlgPesqBanco').show();" />
+						</h:panelGrid>
+					</p:column>
+					<p:column>
+						<h:panelGrid columns="6">
+							<p:outputLabel value="Código da Agência"
+								for=":frmLancamento:txtCodAgenciaCC" />
+							<p:inputText onkeypress="validate(event)" style="width:80px;"
+								value="#{ged.codAgencia}" id="txtCodAgenciaCC" />
+							<p:outputLabel value="C/C" for=":frmLancamento:txtContaCC" />
+							<p:inputText style="width:300px;" value="#{ged.cc}"
+								id="txtContaCC" />
+							<p:outputLabel value="Digito" for=":frmLancamento:txtDigitoCC" />
+							<p:inputText style="width:40px;" value="#{ged.dac}"
+								id="txtDigitoCC" />
+						</h:panelGrid>
+					</p:column>
+					<p:column>
+						<h:panelGrid columns="6">
+							<p:outputLabel value="Conta poupança"
+								for=":frmLancamento:oneRadioCPoupancaCC" />
+							<p:selectOneRadio id="oneRadioCPoupancaCC"
+								value="#{ged.contaPoupanca}">
+								<f:selectItem itemLabel="S" itemValue="S" />
+								<f:selectItem itemLabel="N" itemValue="N" />
+							</p:selectOneRadio>
+							<p:outputLabel value="Tipo Pessoa"
+								for=":frmLancamento:oneRadioTipoPessoaCC"
+								style="margin-left:30px;" />
+							<p:selectOneRadio value="#{ged.tipoPessoa}"
+								id="oneRadioTipoPessoaCC">
+								<f:selectItem itemLabel="F" itemValue="F" />
+								<f:selectItem itemLabel="J" itemValue="J" />
+							</p:selectOneRadio>
+							<p:outputLabel value="CPF/CNPJ" style="margin-left:30px;"
+								for=":frmLancamento:txtCpfCnpjCC" />
+							<p:inputText style="width:150px;" id="txtCpfCnpjCC"
+								value="#{ged.cpf_cnpj}" onkeypress="validate(event)" />
+						</h:panelGrid>
+					</p:column>
+					<p:column rendered="false">
+						<h:panelGrid columns="5">
+							<p:outputLabel value="Tipo de pagamento" />
+							<p:inputText style="width:80px;"
+								value="#{ged.tipoPagto}" />
+							<p:selectOneMenu style="width:300px;"
+								value="#{ged.codBarras}" />
+							<p:outputLabel value="Código do Movimento" />
+							<p:inputText onkeypress="validate(event)" style="width:80px;"
+								value="#{ged.codMovimento}" />
+						</h:panelGrid>
+					</p:column>
+				</p:panelGrid>
+
+				<p:panelGrid id="gridDoc" columns="1"
+					rendered="#{ged.tipoPagamento == '7'}"
+					style="vertical-align:bottom;">
+					<p:column>
+						<p:outputLabel value="Favorecido"
+							for=":frmLancamento:txtNomeFavorecidoDoc" />
+						<p:inputText value="#{ged.nomeFavorecido}"
+							style="width:325px;" id="txtNomeFavorecidoDoc" />
+						<p:commandButton icon="ui-icon-search" style="margin-left:5px;"
+							onclick="PF('dlgPesqFavorecido').show();" />
+					</p:column>
+					<p:column>
+						<h:panelGrid columns="4">
+							<p:outputLabel value="Banco Destino"
+								for=":frmLancamento:txtCodBancoDoc" />
+							<p:inputText onkeypress="validate(event)" id="txtCodBancoDoc"
+								style="width:80px;" value="#{ged.codBanco}"
+								maxlength="4">
+								<p:ajax listener="#{ged.pesquisarBanco()}"
+									update=":frmLancamento:txtNomeBancoDoc" />
+							</p:inputText>
+							<p:inputText id="txtNomeBancoDoc"
+								value="#{ged.nomeDoBanco}" style="width:400px;" />
+							<p:commandButton icon="ui-icon-search" style="margin-left:5px;"
+								onclick="PF('dlgPesqBanco').show();" />
+						</h:panelGrid>
+					</p:column>
+					<p:column>
+						<h:panelGrid columns="8">
+							<p:outputLabel value="Agência"
+								for=":frmLancamento:txtCodAgenciaDoc" />
+							<p:inputText style="width:80px;"
+								value="#{ged.codAgencia}" id="txtCodAgenciaDoc" />
+							<p:outputLabel value="C/C" for=":frmLancamento:txtContaDoc" />
+							<p:inputText style="width:250px;" value="#{ged.cc}"
+								id="txtContaDoc" />
+							<p:outputLabel value="Digito" for=":frmLancamento:txtDigitoDoc" />
+							<p:inputText style="width:40px;" value="#{ged.dac}"
+								id="txtDigitoDoc" />
+						</h:panelGrid>
+					</p:column>
+					<p:column>
+						<h:panelGrid columns="6">
+							<p:outputLabel value="Conta poupança"
+								for=":frmLancamento:txtCPoupancaDoc" />
+							<p:selectOneRadio value="#{ged.contaPoupanca}"
+								id="txtCPoupancaDoc">
+								<f:selectItem itemLabel="S" itemValue="S" />
+								<f:selectItem itemLabel="N" itemValue="N" />
+							</p:selectOneRadio>
+							<p:outputLabel value="Tipo Pessoa" style="margin-left:30px;"
+								for=":frmLancamento:txtTipoPessoaDoc" />
+							<p:selectOneRadio value="#{ged.tipoPessoa}"
+								id="txtTipoPessoaDoc">
+								<f:selectItem itemLabel="F" itemValue="F" />
+								<f:selectItem itemLabel="J" itemValue="J" />
+							</p:selectOneRadio>
+							<p:outputLabel value="CPF/CNPJ" style="margin-left:30px;"
+								for=":frmLancamento:txtCpfCnpjDoc" />
+							<p:inputText style="width:150px;"
+								value="#{ged.cpf_cnpj}" onkeypress="validate(event)"
+								id="txtCpfCnpjDoc" />
+						</h:panelGrid>
+					</p:column>
+
+					<p:column rendered="false">
+						<h:panelGrid columns="5">
+							<p:outputLabel value="Tipo de pagamento" />
+							<p:inputText style="width:80px;"
+								value="#{ged.tipoPagto}" />
+							<p:selectOneMenu style="width:300px;" />
+							<p:outputLabel value="Usar TED" />
+							<p:selectBooleanCheckbox value="#{ged.usarTED}" />
+						</h:panelGrid>
+					</p:column>
+				</p:panelGrid>
+
+
+				<p:panelGrid rendered="#{ged.tipoPagamento == '8'}"
+					columns="1">
+					<p:column>
+						<h:panelGrid columns="2">
+							<p:outputLabel value="Código de barras"
+								for=":frmLancamento:txtCodBarras" />
+							<p:inputText id="txtCodBarras" style="width:700px;"
+								value="#{ged.codigoBarras}"
+								onkeydown="validaBarras(event);">
+								<p:ajax event="blur" update=":frmLancamento:linhaDigBan"
+									listener="#{ged.listarLinhaDigitavel()}" />
+							</p:inputText>
+						</h:panelGrid>
+					</p:column>
+					<p:column>
+						<h:panelGrid columns="6" id="linhaDigBan">
+							<p:outputLabel value="Linha digitável" />
+							<p:inputMask mask="99999.99999" maxlength="11"
+								value="#{ged.ldCampo1}" style="width:150px;" />
+							<p:inputMask mask="99999.999999" maxlength="12"
+								value="#{ged.ldCampo2}" style="width:150px;" />
+							<p:inputMask mask="99999.999999" maxlength="12"
+								value="#{ged.ldCampo3}" style="width:150px;" />
+							<p:inputMask mask="9" maxlength="1"
+								value="#{ged.ldDac}" style="width:40px;" />
+							<p:inputMask mask="99999999999999" maxlength="14"
+								value="#{ged.ldValor}" style="width:150px;"
+								onblur="validaLD();" />
+						</h:panelGrid>
+					</p:column>
+				</p:panelGrid>
+
+				<p:panelGrid rendered="#{ged.tipoPagamento == 'E'}"
+					columns="1">
+					<p:column>
+						<h:panelGrid columns="2">
+							<p:outputLabel value="Código de barras"
+								for=":frmLancamento:txtCodBarras2" />
+							<p:inputText style="width:700px;" id="txtCodBarras2"
+								value="#{ged.codigoBarras}"
+								onkeydown="validaBarras(event);">
+								<p:ajax event="blur" update=":frmLancamento:linhaDigConc"
+									listener="#{ged.listarLinhaDigitavel()}" />
+							</p:inputText>
+						</h:panelGrid>
+					</p:column>
+
+					<p:column>
+						<h:panelGrid columns="6" id="linhaDigConc">
+							<p:outputLabel value="Linha digitável" />
+							<p:inputMask mask="999999999999" maxlength="12"
+								value="#{ged.concSegbarra1}" style="width:150px;" />
+							<p:inputMask mask="999999999999" maxlength="12"
+								value="#{ged.concSegbarra2}" style="width:150px;" />
+							<p:inputMask mask="999999999999" maxlength="12"
+								value="#{ged.concSegbarra3}" style="width:150px;" />
+							<p:inputMask mask="999999999999" maxlength="12"
+								value="#{ged.concSegbarra4}" style="width:150px;"
+								onblur="validaLD();" />
+						</h:panelGrid>
+					</p:column>
+				</p:panelGrid>
+			</h:panelGrid>
+
+			<h:panelGrid columns="2"
+				style="width:400px;text-align:center;margin-top:15px;"
+				rendered="#{ged.grid2}">
+				<p:commandButton value="Voltar" update=":frmLancamento"
+					icon="ui-icon-arrowthick-1-w" ajax="false">
+					<f:setPropertyActionListener target="#{ged.grid1}"
+						value="true" />
+					<f:setPropertyActionListener target="#{ged.grid2}"
+						value="false" />
+				</p:commandButton>
+				<p:commandButton id="btnProximo2" value="Próximo"
+					update=":frmLancamento" icon="ui-icon-arrowthick-1-e"
+					actionListener="#{ged.validaGrid2()}" ajax="false" />
+
+			</h:panelGrid>
+
+			<div
+				style="margin-top: 20px; margin-bottom: 15px;display:#{ged.grid3 == true ? 'block' : 'none'}">
+				<p:panelGrid columns="2"
+					style="display:inline-block;text-align:left;"
+					rendered="#{ged.grid3}">
+					<f:facet name="header">
+						<p:outputLabel value="RESUMO DO LANÇAMENTO" />
+					</f:facet>
+					<p:outputLabel value="Vencimento:" />
+					<p:outputLabel value="#{ged.vencimento}">
+						<f:convertDateTime pattern="dd/MM/yyyy"
+							timeZone="America/Sao_Paulo" locale="pt" />
+					</p:outputLabel>
+					<p:outputLabel value="Valor:"
+						rendered="#{ged.rateado == 'N'}" />
+					<p:outputLabel value="#{ged.valor}"
+						rendered="#{ged.rateado == 'N'}">
+						<f:convertNumber type="currency" currencySymbol="R$" locale="pt" />
+					</p:outputLabel>
+					<p:outputLabel value="Valor Bruto:"
+						rendered="#{ged.rateado == 'S'}" />
+					<p:outputLabel value="#{ged.rat.valorBruto}"
+						rendered="#{ged.rateado == 'S'}">
+						<f:convertNumber type="currency" currencySymbol="R$" locale="pt" />
+					</p:outputLabel>
+
+					<p:outputLabel value="Conta:"
+						rendered="#{ged.rateado == 'N'}" />
+					<p:outputLabel value="#{ged.contaContabil}"
+						rendered="#{ged.rateado == 'N'}" />
+
+					<p:outputLabel value="Contas:"
+						rendered="#{ged.rateado == 'S'}" />
+					<p:column rendered="#{ged.rateado == 'S'}">
+						<c:forEach var="item" items="#{ged.listaDeCodReduzido}">
+							<p:outputLabel value="#{item}" />;&nbsp;
+						<br />
+						</c:forEach>
+					</p:column>
+
+					<p:outputLabel value="Fornecedor:" />
+					<p:outputLabel value="#{ged.fornecedor}" />
+					<p:outputLabel value="NF:" />
+					<p:outputLabel value="#{ged.notaFiscal}" />
+					<p:outputLabel value="Histórico:" />
+					<p:column>
+						<p:outputLabel id="historico1Resumo"
+							value="#{ged.empresa}"
+							rendered="#{not empty ged.empresa}" />
+						<p:outputLabel value="&nbsp;-&nbsp;"
+							rendered="#{ged.empresa != null and not empty ged.notaFiscal and ged.notaFiscal gt 0}" />
+						<p:outputLabel id="historico2Resumo"
+							value="NF. #{ged.notaFiscal}"
+							rendered="#{not empty ged.notaFiscal and ged.notaFiscal gt 0}" />
+						<p:outputLabel value="&nbsp;-&nbsp;"
+							rendered="#{(not empty ged.notaFiscal and not empty ged.complemento) or (not empty ged.empresa and not empty ged.complemento)}" />
+						<p:outputLabel id="historico3Resumo"
+							value="#{ged.complemento}"
+							rendered="#{not empty ged.complemento}" />
+					</p:column>
+					<p:outputLabel value="Tipo pagamento:" />
+					<p:outputLabel value="#{ged.tipoPagamento}" />
+					<p:outputLabel value="Cód. de barras:" />
+					<p:outputLabel value="#{ged.codigoBarras}" />
+					<p:outputLabel value="Id de imagem:" />
+					<p:column>
+						<c:forEach var="item" items="#{ged.listaArquivos}">
+							<p:outputLabel value="#{ged.converte(item.id)}" />;&nbsp;
+						<br />
+						</c:forEach>
+					</p:column>
+				</p:panelGrid>
+
+			</div>
+
+			<c:if test="#{ged.rateado == 'N'}">
+				<h:panelGrid columns="2"
+					style="width:400px;text-align:center;margin-top:15px;"
+					rendered="#{ged.grid3}">
+					<p:commandButton value="Voltar" update=":frmLancamento"
+						icon="ui-icon-arrowthick-1-w" ajax="false">
+						<f:setPropertyActionListener target="#{ged.grid2}"
+							value="true" />
+						<f:setPropertyActionListener target="#{ged.grid3}"
+							value="false" />
+					</p:commandButton>
+					<p:commandButton value="Salvar" onclick="PF('dlgConfirmacao1').show();" icon="ui-icon-check" />
+				</h:panelGrid>
+			</c:if>
+			<c:if test="#{ged.rateado == 'S'}">
+				<h:panelGrid columns="2"
+					style="width:400px;text-align:center;margin-top:15px;"
+					rendered="#{ged.grid3}">
+					<p:commandButton value="Voltar" update=":frmLancamento"
+						icon="ui-icon-arrowthick-1-w" ajax="false">
+						<f:setPropertyActionListener target="#{ged.grid2}"
+							value="true" />
+						<f:setPropertyActionListener target="#{ged.grid3}"
+							value="false" />
+					</p:commandButton>
+					<p:commandButton value="Salvar"
+						action="#{ged.addLanctoOmaRateado}"
+						icon="ui-icon-check" />
+				</h:panelGrid>
+			</c:if>
+		</div>
+
+		<p:commandButton id="btnValidaBarras" value="atualizar"
+			actionListener="#{ged.listarLinhaDigitavel()}"
+			update=":frmLancamento:linhaDigBan,:frmLancamento:linhaDigConc"
+			style="visibility:hidden;" oncomplete="focusProximo();" />
+
+		<p:commandButton id="btnValidaLD" value="atualizar"
+			actionListener="#{ged.listarCodigoBarras()}"
+			update=":frmLancamento:txtCodBarras,:frmLancamento:txtCodBarras2"
+			style="visibility:hidden;" oncomplete="focusProximo();" />
+
+	</h:form>
+
+	<h:outputScript library="javascript/maskMoney"
+		name="jquery.maskMoney.js" />
+
+	<script language="javascript">
+	//<![CDATA[
+  	$(document).ready(function(){
+  		$(PrimeFaces.escapeClientId('frmLancamento:txtValor')).maskMoney({prefix:'R$ ', thousands:'.', decimal:',', affixesStay: true});
+	});
+
+	$(document).on('keypress',function(event){
+		if (!$(event.target).is(":button")){
+			if(event.keyCode == 13){
+				event.preventDefault();
+			}else{
+				$('.ui-inputtext,.ui-inputtextarea').on('keyup', function(event){
+					  var x = event.keyCode;
+					  if((x>64&&x<91)||(x>96&&x<123)||(x>127&&x<155)||(x>159&&x<166) || (x==186)){
+					  	up(this);
+					  }
+				});
+			}
+		}
+	});
+	
+	function validaBarras(evt){
+		var theEvent = evt || window.event;
+		var key = theEvent.keyCode || theEvent.which;
+		if (key == 13) {
+			evt.preventDefault();
+			$("[id='frmLancamento:btnValidaBarras']").click();
+		}
+	}
+
+ 	function validaLD(){
+		$("[id='frmLancamento:btnValidaLD']").click();
+	}
+	
+	function focusProximo(){
+		$("[id='frmLancamento:btnProximo2']").focus();
+	}
+	//]]>
+	</script>
+
+</ui:composition>

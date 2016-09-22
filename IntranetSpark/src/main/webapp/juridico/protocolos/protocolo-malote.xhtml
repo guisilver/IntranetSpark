@@ -1,0 +1,109 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<style>
+#frmFiltro table td {
+	border: 0px !important;
+}
+
+.ui-selectoneradio tbody tr td {
+	border: 0px !important;
+}
+
+.gridFiltro tbody tr td {
+	border: 0px !important;
+}
+</style>
+
+		<div class="layout-portlets-box">
+
+			<div class="DispInlBlock TexAlLeft">
+				<div class="Fleft">
+					<h2 class="black Fs24 FontRalewayMedium">Protoloco de
+						Requisição de Malote</h2>
+				</div>
+			</div>
+			<div class="Seperator"></div>
+
+			<div class="Container100 Responsive100">
+				<div class="ContainerIndent">
+					<h:form id="frmProtocolo" target="_blank"
+						rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysJuridico}">
+						<p:growl autoUpdate="true" id="growl" widgetVar="growl" />
+						<div class="Container100 Responsive100">
+							<div class="ContainerIndent">
+								<p:panelGrid id="gridFiltro" columns="1"
+									style="margin-bottom:20px;">
+									<f:facet name="header">
+										<h:outputText value="Filtro" />
+									</f:facet>
+									<h:panelGrid columns="2" style="margin-bottom:10px"
+										cellpadding="5" styleClass="gridFiltro">
+										<p:outputLabel for="console" value="Recebido:" />
+										<p:selectOneRadio id="console" value="#{pjMB.impressao}">
+											<p:ajax event="change" listener="#{pjMB.filtroProtocolo()}"
+												process="@form" update=":frmProtocolo:dtProtocolo" />
+											<f:selectItem itemLabel="Pendente" itemValue="Pendente" />
+											<f:selectItem itemLabel="Impresso" itemValue="Impressao" />
+											<f:selectItem itemLabel="Todos" itemValue="Todos" />
+										</p:selectOneRadio>
+									</h:panelGrid>
+								</p:panelGrid>
+							</div>
+						</div>
+
+						<p:dataTable id="dtProtocolo" var="requisicao"
+							value="#{pjMB.listarProtocolo}" rowKey="#{requisicao}"
+							selection="#{pjMB.listarProtocoloSelecionados}" rows="15"
+							scrollable="true" rowsPerPageTemplate="5,10,15,50,100"
+							paginator="true" emptyMessage="Sem Registro"
+							style="width:100%; font-size:12px; text-align:center; margin-top:20px; margin-bottom:10px;">
+
+							<p:column rendered="false">
+								<p:outputLabel value="#{requisicao}" />
+							</p:column>
+
+							<p:column selectionMode="multiple"
+								style="width:16px;text-align:center;" />
+
+							<p:column headerText="Nº Protocolo" sortBy="#{requisicao.codigo}"
+								filterBy="#{requisicao.codigo}"> #{requisicao.codigo}
+							</p:column>
+							<p:column headerText="Solicitante"
+								filterBy="#{requisicao.nomJuridico}"
+								sortBy="#{requisicao.nomJuridico}">#{requisicao.nomJuridico}
+							</p:column>
+							<p:column headerText="Condomínio"
+								filterBy="#{requisicao.cond_cod}">#{requisicao.cond_cod}
+							</p:column>
+							<p:column headerText="Aos Cuidados"
+								filterBy="#{requisicao.sindico}">#{requisicao.sindico}
+							</p:column>
+							<p:column headerText="Endereço">#{requisicao.endereco}
+							</p:column>
+							<p:column headerText="Referência"
+								filterBy="#{requisicao.referencia}">#{requisicao.referencia}
+							</p:column>
+							<p:column headerText="Situação:" sortBy="#{requisicao.impressao}">
+								<p:outputLabel
+									value="#{requisicao.impressao == 'Impresso' ? 'Impresso' : 'Pendente'}"
+									style="color:#{requisicao.impressao == 'Impresso'? 'blue' : 'red'}" />
+							</p:column>
+						</p:dataTable>
+						<hr />
+						<h:panelGrid columns="1">
+							<p:commandButton value="Imprimir" icon="fa fa-print Fs16 white"
+								action="#{pjMB.gerarRequisicao()}"
+								update=":frmProtocolo:dtProtocolo"
+								style=" font-size:12px; float:right; margin-top:20px;"
+								ajax="false" process="dtProtocolo" />
+						</h:panelGrid>
+					</h:form>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

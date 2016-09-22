@@ -1,0 +1,93 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<h:form id="frmDialogNovaConta">
+		<h:panelGrid id="plgDados">
+			<p:dialog id="dlgNovaConta" widgetVar="novaConta" resizable="false" responsive="true"
+				showEffect="slide" hideEffect="slide" closeOnEscape="true" modal="true">
+				<f:facet name="header">
+					<h:outputLabel value="Nova Conta" style="font-size:14px;" />
+				</f:facet>
+
+				<h:panelGrid id="plgDados1" columns="2">
+					<p:outputLabel value="Despesa:" />
+					<p:inputText value="#{ccMB.icc2BEAN.despesa}" size="50" />
+					<p:outputLabel value="Obs.:" />
+					<p:inputText value="#{ccMB.icc2BEAN.obs}" size="50" />
+					<p:outputLabel value="Vencimento:" />
+					<p:inputText value="#{ccMB.icc2BEAN.vencimento}" size="3" validatorMessage="Vencimento fora do padrão de 1 à 31!">
+						<f:validateDoubleRange minimum="1" maximum="31" />
+					</p:inputText>
+					<p:outputLabel value="Condominio:" />
+					<p:inputText value="#{ccMB.icc2BEAN.condominio}" maxlength="4" onkeypress="validate(event)" size="5" />
+				</h:panelGrid>
+
+				<h:panelGrid id="plgDados2" columns="3">
+					<p:outputLabel value="Conta:" />
+					<p:inputText value="#{ccMB.icc2BEAN.tipo}" size="5"
+						style="margin-left:46px;" />
+					<p:commandButton icon="fa fa-search Fs16 white" style="font-size:10px;"
+						oncomplete="PF('planoContas').show()" />
+				</h:panelGrid>
+
+				<hr />
+				<h:panelGrid id="plgMeses">
+
+					<h:panelGrid columns="6">
+						<h:outputLabel value="Jan. R$:" />
+						<p:inputText value="#{ccMB.icc2BEAN.mes1}" size="10" />
+
+						<h:outputLabel value="Fev. R$:" />
+						<p:inputText value="#{ccMB.icc2BEAN.mes2}" size="10" />
+
+						<h:outputLabel value="Mar. R$:" />
+						<p:inputText value="#{ccMB.icc2BEAN.mes3}" size="10" />
+
+						<h:outputLabel value="Abr. R$:" />
+						<p:inputText value="#{ccMB.icc2BEAN.mes4}" size="10" />
+
+						<h:outputLabel value="Mai. R$:" />
+						<p:inputText value="#{ccMB.icc2BEAN.mes5}" size="10" />
+
+						<h:outputLabel value="Jun. R$:" />
+						<p:inputText value="#{ccMB.icc2BEAN.mes6}" size="10" />
+
+						<p:outputLabel value="Jul. R$:" />
+						<p:inputText value="#{ccMB.icc2BEAN.mes7}" size="10" />
+
+						<h:outputLabel value="Ago. R$:" />
+						<p:inputText value="#{ccMB.icc2BEAN.mes8}" size="10" />
+
+						<h:outputLabel value="Set. R$:" />
+						<p:inputText value="#{ccMB.icc2BEAN.mes9}" size="10" />
+
+						<h:outputLabel value="Out. R$:" />
+						<p:inputText value="#{ccMB.icc2BEAN.mes10}" size="10" />
+
+						<h:outputLabel value="Nov. R$:" />
+						<p:inputText value="#{ccMB.icc2BEAN.mes11}" size="10" />
+
+						<h:outputLabel value="Dez. R$:" />
+						<p:inputText value="#{ccMB.icc2BEAN.mes12}" size="10" />
+
+					</h:panelGrid>
+				</h:panelGrid>
+				<hr />
+				<p:commandButton id="saveAlter" value="Salvar"
+					action="#{ccMB.salvarNovaConta()}"
+					oncomplete="PF('novaConta').hide();PF('statusDialog').hide();"
+					onstart="PF('statusDialog').show();"
+					update=":frmLegenda :frmTabelaContas :frmTabelaContas msg" style="float:right;" />
+			</p:dialog>
+		</h:panelGrid>
+		<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+					closable="false" resizable="false" showHeader="false">
+					<p:graphicImage library="imagens" name="loader.gif" />
+		</p:dialog>
+	</h:form>
+
+</ui:composition>

@@ -1,0 +1,49 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<h:form id="frmControleExclusao">
+		<p:dialog id="dlgEcluirContas" header="Exclusão de Contas" showEffect="slide" hideEffect="slide" closeOnEscape="true"
+			widgetVar="controleExclusao" width="700" responsive="true"
+			resizable="false" modal="true">
+			<p:commandButton id="btnDel" icon="fa fa-close Fs16 white"
+				value="Excluir" actionListener="#{ccMB.excluir()}"
+				onstart="PF('statusDialog').show();"
+				oncomplete="PF('statusDialog').hide();PF('controleExclusao').hide();"
+				style="margin-left: 5px;" update=":frmTabelaContas msg">
+				<p:confirm header="Confirmação" message="Confirma a exclusão?"
+					icon="fa fa-alert Fs16 white" />
+			</p:commandButton>
+			<hr />
+			<p:dataTable id="dtControleExclusao" var="p" rowKey="#{p.codigo}"
+				value="#{ccMB.listarContas}" paginator="true"
+				filteredValue="#{ccMB.filtrarContas}" selection="#{ccMB.listaDeExclusao}"
+				rows="5" emptyMessage="Sem Registro" style="border: 0px;">
+				<p:column selectionMode="multiple"
+					style="width:16px;text-align:center" />
+				<p:column id="clCondoExcluir" filterBy="#{p.condominio}" filterMatchMode="contains" width="50" style="text-align:center;">
+						#{p.condominio}
+					</p:column>
+				<p:column id="clDespExcluir" filterBy="#{p.despesa}" filterMatchMode="contains">
+						#{p.despesa}
+					</p:column>
+				<p:column id="clObsExcluir" filterBy="#{p.obs}" filterMatchMode="contains">
+						#{p.obs}
+					</p:column>
+				<p:column id="clVencExcluir" filterBy="#{p.vencimento}" filterMatchMode="contains" width="30" style="text-align:center;">
+						#{p.vencimento}
+					</p:column>
+			</p:dataTable>
+		</p:dialog>
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+			<p:commandButton value="Sim" type="button" style="float: right;"
+				styleClass="ui-confirmdialog-yes" icon="fa fa-check Fs16 white" />
+			<p:commandButton value="Não" type="button"
+				styleClass="ui-confirmdialog-no" icon="fa fa-close Fs16 white" />
+		</p:confirmDialog>
+	</h:form>
+
+</ui:composition>

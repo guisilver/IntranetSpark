@@ -1,0 +1,685 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<h:outputScript library="js" name="ws-cep3.js" />
+		<style>
+.msg {
+	color: #FFF;
+	font-size: 20px;
+}
+
+#frmFiltro table td {
+	border: 0px !important;
+}
+
+.ui-selectoneradio tbody tr td {
+	border: 0px !important;
+}
+
+.gridFiltro tbody tr td {
+	border: 0px !important;
+}
+
+.gridFiltro2 tbody tr td {
+	border: 0px !important;
+}
+</style>
+		<div class="layout-portlets-box">
+			<div class="DispInlBlock TexAlLeft">
+				<div class="Fleft">
+					<h2 class="black Fs24 FontRalewayMedium">Cadastro de Captação</h2>
+				</div>
+			</div>
+			<div class="Seperator"></div>
+			<div class="Container100 Responsive100">
+				<div class="ContainerIndent">
+					<h:form id="frmNovaCaptacao"
+						rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.verificaDepto('NetImoveis')}">
+						<p:growl autoUpdate="true" id="growl" widgetVar="growl" />
+						<p:messages id="msg" showDetail="true" autoUpdate="false"
+							closable="true" escape="true" showSummary="false"
+							styleClass="msg" />
+						<p:panel styleClass="gridFiltro">
+							<p:panel styleClass="gridFiltro2" columns="1"
+								style="width:400px;">
+								<h:panelGrid columns="2">
+									<p:outputLabel value="Código nº:" />
+									<p:inputText value="#{ntMB.ncBEAN.codigoCondominio}" />
+								</h:panelGrid>
+							</p:panel>
+							<br />
+							<p:panel styleClass="gridFiltro2" columns="1"
+								style="width:900px;">
+								<h:panelGrid columns="6">
+									<p:outputLabel value="Tipo de Imóvel:" />
+									<p:inputText value="#{ntMB.ncBEAN.tipoImovel}" maxlength="50" />
+									<p:outputLabel value="Preço R$:" style="margin-left:30px;" />
+									<pe:inputNumber value="#{ntMB.ncBEAN.precoImovel}"
+										decimalPlaces="2" thousandSeparator="." minValue="0"
+										maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+									<p:outputLabel value="Data:" style="margin-left:30px;" />
+									<p:calendar value="#{ntMB.ncBEAN.data}" pattern="dd/MM/yyyy"
+										locale="pt" timeZone="America/Sao_Paulo"
+										styleClass="calendario" yearRange="c-3:c+5" />
+								</h:panelGrid>
+								<h:panelGrid columns="8">
+									<p:outputLabel value="Exclusividade:" />
+									<p:selectBooleanCheckbox value="#{ntMB.ncBEAN.exclusividade}" />
+									<p:outputLabel value="Autorização:" style="margin-left:200px;" />
+									<p:selectBooleanCheckbox value="#{ntMB.ncBEAN.autorizacao}" />
+									<p:outputLabel value="Venda:" style="margin-left:175px;" />
+									<p:selectBooleanCheckbox value="#{ntMB.ncBEAN.venda}" />
+									<p:outputLabel value="Aluguel:" style="margin-left:60px;" />
+									<p:selectBooleanCheckbox value="#{ntMB.ncBEAN.aluguel}" />
+								</h:panelGrid>
+							</p:panel>
+							<br />
+							<p:accordionPanel multiple="false" id="accordion">
+								<p:tab title="Laudo de Avaliação" id="tabLaudo">
+									<h:panelGrid columns="6">
+										<p:outputLabel value="Bairro:" />
+										<p:outputLabel value="Nº Salas:" style="margin-left:300px;" />
+										<p:outputLabel value="Quartos:" style="margin-left:30px;" />
+										<p:outputLabel value="Bh. Social:" style="margin-left:30px;" />
+										<p:outputLabel value="Varanda:" style="margin-left:30px;" />
+										<p:outputLabel value="Vaga(s) Garagem:"
+											style="margin-left:30px;" />
+									</h:panelGrid>
+									<h:panelGrid columns="9" style="margin-bottom:10px;">
+										<p:inputText id="bairro" value="#{ntMB.ncBEAN.bairro}"
+											style="width:320px;" maxlength="50" />
+										<p:inputText value="#{ntMB.ncBEAN.nroSalas}"
+											style="width:40px;margin-left:10px;" />
+										<p:inputText value="#{ntMB.ncBEAN.nroQuartos}"
+											style="width:40px;margin-left:30px;" />
+										<p:inputText value="#{ntMB.ncBEAN.bhSocial}"
+											style="width:40px;margin-left:35px;" />
+										<p:selectBooleanCheckbox value="#{ntMB.ncBEAN.venda}"
+											style="margin-left:60px;" />
+										<p:outputLabel value="Livre:" style="margin-left:55px;" />
+										<p:inputText value="#{ntMB.ncBEAN.vagaLivre}"
+											style="width:40px;" />
+										<p:outputLabel value="Presa:" />
+										<p:inputText value="#{ntMB.ncBEAN.vagaPresa}"
+											style="width:40px;" />
+									</h:panelGrid>
+									<h:panelGrid columns="5">
+										<p:outputLabel value="Endereço:" />
+										<p:outputLabel value="Cep:" style="margin-left:275px;" />
+										<p:outputLabel value="Nº:" style="margin-left:160px;" />
+										<p:outputLabel value="Unidade:" style="margin-left:80px;" />
+										<p:outputLabel value="Idade:" style="margin-left:25px;" />
+									</h:panelGrid>
+									<h:panelGrid columns="5" style="margin-bottom:10px;">
+										<p:inputText id="endereco" value="#{ntMB.ncBEAN.endereco}"
+											style="width:320px;" maxlength="100" />
+										<p:inputText id="cep" value="#{ntMB.ncBEAN.cep}"
+											style="width:150px;margin-left:10px;">
+											<p:ajax process="frmNovaCaptacao:accordion:cep"
+												update="frmNovaCaptacao:accordion:endereco, frmNovaCaptacao:accordion:bairro" />
+										</p:inputText>
+										<p:inputText value="#{ntMB.ncBEAN.nroEndereco}"
+											style="width:40px;margin-left:20px;" />
+										<p:inputText value="#{ntMB.ncBEAN.unidade}"
+											style="width:40px;margin-left:45px;" maxlength="20" />
+										<p:inputText value="#{ntMB.ncBEAN.idade}"
+											style="width:40px;margin-left:30px;" />
+									</h:panelGrid>
+									<h:panelGrid columns="4">
+										<p:outputLabel value="Edifício:" />
+										<p:outputLabel value="Condomínio R$:"
+											style="margin-left:295px;" />
+										<p:outputLabel value="IPTU R$:" style="margin-left:75px;" />
+										<p:outputLabel value="Índice Cadastral:"
+											style="margin-left:135px;" />
+									</h:panelGrid>
+									<h:panelGrid columns="4" style="margin-bottom:10px;">
+										<p:inputText value="#{ntMB.ncBEAN.edificio}"
+											style="width:320px;" maxlength="150" />
+										<pe:inputNumber value="#{ntMB.ncBEAN.condominioValor}"
+											style="width:150px;margin-left:10px;" decimalPlaces="2"
+											thousandSeparator="." minValue="0" maxValue="999999999"
+											decimalSeparator="," emptyValue="0,00" />
+										<pe:inputNumber value="#{ntMB.ncBEAN.iptuValor}"
+											style="width:150px;margin-left:20px;" decimalPlaces="2"
+											thousandSeparator="." minValue="0" maxValue="999999999"
+											decimalSeparator="," emptyValue="0,00" />
+										<p:inputText value="#{ntMB.ncBEAN.indiceCadastral}"
+											style="width:200px;margin-left:30px;" maxlength="50" />
+									</h:panelGrid>
+									<h:panelGrid columns="3">
+										<p:outputLabel value="Fachada Frontal:" />
+										<p:outputLabel value="Fachada Lateral:"
+											style="margin-left:230px;" />
+										<p:outputLabel value="Posição:" style="margin-left:270px;" />
+									</h:panelGrid>
+									<h:panelGrid columns="3" style="margin-bottom:10px;">
+										<p:inputText value="#{ntMB.ncBEAN.fachadaFrontal}"
+											style="width:320px;" maxlength="50" />
+										<p:inputText value="#{ntMB.ncBEAN.fachadaLateral}"
+											style="width:320px;margin-left:10px;" maxlength="50" />
+										<p:selectOneMenu value="#{ntMB.ncBEAN.posicao}"
+											style="width:150px;margin-left:55px;">
+											<f:selectItem itemLabel="Selecione" itemValue="" />
+											<f:selectItem itemLabel="Frente" itemValue="Frente" />
+											<f:selectItem itemLabel="Fundos" itemValue="Fundos" />
+										</p:selectOneMenu>
+									</h:panelGrid>
+									<h:panelGrid columns="2">
+										<p:outputLabel value="Síndico/ Telefone:" />
+										<p:outputLabel value="Conservadora/ Telefone:"
+											style="margin-left:215px;" />
+									</h:panelGrid>
+									<h:panelGrid columns="2" style="margin-bottom:10px;">
+										<p:inputText value="#{ntMB.ncBEAN.sindicoTelefone}"
+											style="width:320px;" maxlength="20" />
+										<p:inputText value="#{ntMB.ncBEAN.conservadoraTelefone}"
+											style="width:320px;margin-left:10px;" maxlength="20" />
+									</h:panelGrid>
+									<h:panelGrid columns="9">
+										<p:outputLabel value="Nº de Unid.:" />
+										<p:outputLabel value="Nº Pavimentos:" style="margin-left:5px;" />
+										<p:outputLabel value="Unid. p/ And.:" style="margin-left:5px;" />
+										<p:outputLabel value="Área Real Priv.:"
+											style="margin-left:5px;" />
+										<p:outputLabel value="Área Construída (m²):"
+											style="margin-left:5px;" />
+										<p:outputLabel value="Área Lote (m²):"
+											style="margin-left:5px;" />
+										<p:outputLabel value="Frente do Lote:"
+											style="margin-left:5px;" />
+										<p:outputLabel value="Zona de Uso:" style="margin-left:5px;" />
+										<p:outputLabel value="Aproveitamento:"
+											style="margin-left:5px;" />
+									</h:panelGrid>
+									<h:panelGrid columns="9" style="margin-bottom:10px;">
+										<p:inputText value="#{ntMB.ncBEAN.nroUnidades}"
+											style="width:40px;" />
+										<p:inputText value="#{ntMB.ncBEAN.nroPavimentos}"
+											style="width:40px;margin-left:60px;" />
+										<p:inputText value="#{ntMB.ncBEAN.unidsPorAndar}"
+											style="width:40px;margin-left:50px;" />
+										<p:inputText value="#{ntMB.ncBEAN.areaRealPriv}"
+											style="width:40px;margin-left:50px;" maxlength="20" />
+										<p:inputText value="#{ntMB.ncBEAN.areaConstruida}"
+											style="width:40px;margin-left:60px;" maxlength="20" />
+										<p:inputText value="#{ntMB.ncBEAN.areaLote}"
+											style="width:40px;margin-left:90px;" maxlength="20" />
+										<p:inputText value="#{ntMB.ncBEAN.frenteLote}"
+											style="width:40px;margin-left:60px;" maxlength="20" />
+										<p:inputText value="#{ntMB.ncBEAN.zonaUso}"
+											style="width:40px;margin-left:50px;" maxlength="20" />
+										<p:inputText value="#{ntMB.ncBEAN.aproveitamento}"
+											style="width:40px;margin-left:50px;" maxlength="30" />
+									</h:panelGrid>
+									<h:panelGrid columns="1" style="margin-bottom:10px;">
+										<p:outputLabel value="Referência:" />
+										<p:inputText value="#{ntMB.ncBEAN.referencia}"
+											style="width:670px;" />
+										<p:outputLabel value="Melhor Acesso:" />
+										<p:inputText value="#{ntMB.ncBEAN.melhorAcesso}"
+											style="width:670px;" />
+									</h:panelGrid>
+									<h:panelGrid columns="4">
+										<p:outputLabel value="Imóvel Ocupado:" />
+										<p:outputLabel value="Imóvel:" style="margin-left:100px;" />
+										<p:outputLabel value="Locatário:" style="margin-left:50px;" />
+										<p:outputLabel value="Telefone:" style="margin-left:340px;" />
+									</h:panelGrid>
+									<h:panelGrid columns="4" style="margin-bottom:10px;">
+										<p:selectOneMenu value="#{ntMB.ncBEAN.imovelOcupado}"
+											style="width:150px;">
+											<f:selectItem itemLabel="Selecione" itemValue="" />
+											<f:selectItem itemLabel="Próprio" itemValue="Próprio" />
+											<f:selectItem itemLabel="Locatário" itemValue="Locatário" />
+										</p:selectOneMenu>
+										<p:selectBooleanCheckbox value="#{ntMB.ncBEAN.imovelVago}"
+											style="margin-left:70px;" />
+										<p:inputText value="#{ntMB.ncBEAN.nomeLocatario}"
+											style="width:330px;margin-left:70px;" />
+										<p:inputMask value="#{ntMB.ncBEAN.telefone}"
+											style="width:150px;margin-left:70px;" mask="(999)9999-99999" />
+									</h:panelGrid>
+									<h:panelGrid columns="2">
+										<p:outputLabel value="Chaves:" />
+										<p:outputLabel value="Horário de Visita:"
+											style="margin-left:170px;" />
+									</h:panelGrid>
+									<h:panelGrid columns="2" style="margin-bottom:10px;">
+										<p:selectOneMenu value="#{ntMB.ncBEAN.chaves}"
+											style="width:150px;">
+											<f:selectItem itemLabel="Selecione" itemValue="" />
+											<f:selectItem itemLabel="Próprio" itemValue="Próprio" />
+											<f:selectItem itemLabel="Locatário" itemValue="Locatário" />
+											<f:selectItem itemLabel="Portaria" itemValue="Portaria" />
+											<f:selectItem itemLabel="Corretora" itemValue="Corretora" />
+										</p:selectOneMenu>
+										<p:inputText value="#{ntMB.ncBEAN.horaVisita}"
+											style="width:320px;margin-left:60px;" maxlength="50" />
+									</h:panelGrid>
+									<h:panelGrid columns="1">
+										<p:outputLabel value="Benefícios:" />
+									</h:panelGrid>
+									<h:panelGrid columns="1" style="margin-bottom:10px;">
+										<p:inputText value="#{ntMB.ncBEAN.beneficios}"
+											style="width:670px;" maxlength="300" />
+									</h:panelGrid>
+									<h:panelGrid columns="8" style="margin-bottom:10px;">
+										<p:selectBooleanCheckbox value="#{ntMB.ncBEAN.arCondicionado}" />
+										<p:outputLabel value="Ar Condicionado" />
+										<p:selectBooleanCheckbox value="#{ntMB.ncBEAN.salaMassagem}"
+											style="margin-left:15px;" />
+										<p:outputLabel value="Sala Massagem" />
+										<p:selectBooleanCheckbox value="#{ntMB.ncBEAN.playground}"
+											style="margin-left:15px;" />
+										<p:outputLabel value="Playground" />
+										<p:selectBooleanCheckbox
+											value="#{ntMB.ncBEAN.hallSocialDecorado}"
+											style="margin-left:15px;" />
+										<p:outputLabel value="Hall Social Decorado" />
+										<p:selectBooleanCheckbox
+											value="#{ntMB.ncBEAN.portaoEletronico}" />
+										<p:outputLabel value="Portão Eletrônico" />
+										<p:selectBooleanCheckbox value="#{ntMB.ncBEAN.salaoFestas}"
+											style="margin-left:15px;" />
+										<p:outputLabel value="Salão de Festas" />
+										<p:selectBooleanCheckbox
+											value="#{ntMB.ncBEAN.churrasqEspGourmet}"
+											style="margin-left:15px;" />
+										<p:outputLabel value="Churrasqueira/Espaço Gourmet" />
+										<p:selectBooleanCheckbox value="#{ntMB.ncBEAN.interfone}"
+											style="margin-left:15px;" />
+										<p:outputLabel value="Interfone" />
+										<p:selectBooleanCheckbox
+											value="#{ntMB.ncBEAN.portariaPermanente}" />
+										<p:outputLabel value="Portaria Permanente" />
+										<p:selectBooleanCheckbox value="#{ntMB.ncBEAN.salaoJogos}"
+											style="margin-left:15px;" />
+										<p:outputLabel value="Salão de Jogos" />
+										<p:selectBooleanCheckbox value="#{ntMB.ncBEAN.circuitoTV}"
+											style="margin-left:15px;" />
+										<p:outputLabel value="Circuito de TV" />
+										<p:selectBooleanCheckbox
+											value="#{ntMB.ncBEAN.janelaComVenezianas}"
+											style="margin-left:15px;" />
+										<p:outputLabel value="Janela com Venezianas" />
+										<p:selectBooleanCheckbox value="#{ntMB.ncBEAN.quadraEsportes}" />
+										<p:outputLabel value="Quadra de Esportes" />
+										<p:selectBooleanCheckbox value="#{ntMB.ncBEAN.sauna}"
+											style="margin-left:15px;" />
+										<p:outputLabel value="Sauna" />
+										<p:selectBooleanCheckbox
+											value="#{ntMB.ncBEAN.elevadorServico}"
+											style="margin-left:15px;" />
+										<p:outputLabel value="Elevador de Serviço" />
+										<p:selectBooleanCheckbox value="#{ntMB.ncBEAN.jardins}"
+											style="margin-left:15px;" />
+										<p:outputLabel value="Jardins" />
+										<p:selectBooleanCheckbox value="#{ntMB.ncBEAN.elevadorSocial}" />
+										<p:outputLabel value="Elevador Social" />
+										<p:selectBooleanCheckbox value="#{ntMB.ncBEAN.solDeManha}"
+											style="margin-left:15px;" />
+										<p:outputLabel value="Sol de Manhã" />
+										<p:selectBooleanCheckbox
+											value="#{ntMB.ncBEAN.esquadriasAluminio}"
+											style="margin-left:15px;" />
+										<p:outputLabel value="Esquadrias de Alumínio" />
+										<p:selectBooleanCheckbox value="#{ntMB.ncBEAN.mobilhado}"
+											style="margin-left:15px;" />
+										<p:outputLabel value="Mobiliado" />
+										<p:selectBooleanCheckbox value="#{ntMB.ncBEAN.academia}" />
+										<p:outputLabel value="Academia" />
+										<p:selectBooleanCheckbox value="#{ntMB.ncBEAN.piscinas}"
+											style="margin-left:15px;" />
+										<p:outputLabel value="Piscinas" />
+										<p:selectBooleanCheckbox value="#{ntMB.ncBEAN.gasCanalizado}"
+											style="margin-left:15px;" />
+										<p:outputLabel value="Gás Canalizado" />
+										<p:selectBooleanCheckbox value="#{ntMB.ncBEAN.andarAlto}"
+											style="margin-left:15px;" />
+										<p:outputLabel value="Andar Alto" />
+									</h:panelGrid>
+									<h:panelGrid columns="1" style="margin-bottom:10px;">
+										<p:outputLabel value="Descreva o Prédio:" />
+										<p:inputText value="#{ntMB.ncBEAN.descrevaPredio}"
+											style="width:670px;" maxlength="200" />
+										<p:outputLabel value="Construtora:" />
+										<p:inputText value="#{ntMB.ncBEAN.construtora}"
+											style="width:670px;" />
+									</h:panelGrid>
+									<h:panelGrid columns="1" style="margin-bottom:10px;">
+										<p:outputLabel
+											value="Descreva o Imóvel pela Ordem: Sala/ Varanda/ Quarto/ Banho/ Cozinha/ Área/ DCE:" />
+										<p:inputTextarea value="#{ntMB.ncBEAN.descrevaImovelOrdem}"
+											style="width:670px;" maxlength="750" />
+									</h:panelGrid>
+									<h:panelGrid columns="3">
+										<p:outputLabel value="Documentação:" />
+										<p:outputLabel value="Valor de Escritura R$:"
+											style="margin-left:70px;" />
+										<p:outputLabel value="Condições Pagto:"
+											style="margin-left:30px;" />
+									</h:panelGrid>
+									<h:panelGrid columns="3" style="margin-bottom:10px;">
+										<p:selectOneMenu value="#{ntMB.ncBEAN.documentacao}"
+											style="width:150px;">
+											<f:selectItem itemLabel="Selecione" itemValue="" />
+											<f:selectItem itemLabel="Registro" itemValue="Registro" />
+											<f:selectItem itemLabel="Escritura" itemValue="Escritura" />
+										</p:selectOneMenu>
+										<pe:inputNumber value="#{ntMB.ncBEAN.valorEscritura}"
+											style="width:150px;margin-left:20px;" decimalPlaces="2"
+											thousandSeparator="." minValue="0" maxValue="999999999"
+											decimalSeparator="," emptyValue="0,00" />
+										<p:inputText value="#{ntMB.ncBEAN.condicoesPagto}"
+											style="width:320px;margin-left:20px;" />
+									</h:panelGrid>
+									<h:panelGrid columns="2">
+										<p:outputLabel value="Estuda Permuta?" />
+										<p:outputLabel value="Motiva da Venda?"
+											style="margin-left:250px;" />
+									</h:panelGrid>
+									<h:panelGrid columns="2" style="margin-bottom:10px;">
+										<p:inputText value="#{ntMB.ncBEAN.estudaPermuta}"
+											style="width:320px;" />
+										<p:inputText value="#{ntMB.ncBEAN.motivoVenda}"
+											style="width:320px;margin-left:40px;" maxlength="150" />
+									</h:panelGrid>
+									<h:panelGrid columns="4">
+										<p:outputLabel value="Captador/ Celular:" />
+										<p:outputLabel value="Avaliação da Corretora R$:"
+											style="margin-left:240px;" />
+										<p:outputLabel value="Custo p/ m²:" style="margin-left:40px;" />
+										<p:outputLabel value="Última Confirmação:"
+											style="margin-left:130px;" />
+									</h:panelGrid>
+									<h:panelGrid columns="4" style="margin-bottom:10px;">
+										<p:inputText value="#{ntMB.ncBEAN.captadorCelular}"
+											style="width:320px;" />
+										<pe:inputNumber value="#{ntMB.ncBEAN.avaliacaoCorretora}"
+											style="width:170px;margin-left:40px;" decimalPlaces="2"
+											thousandSeparator="." minValue="0" maxValue="999999999"
+											decimalSeparator="," emptyValue="0,00" />
+										<pe:inputNumber value="#{ntMB.ncBEAN.custoM3}"
+											style="width:170px;margin-left:40px;" decimalPlaces="2"
+											thousandSeparator="." minValue="0" maxValue="999999999"
+											decimalSeparator="," emptyValue="0,00" />
+										<p:calendar value="#{ntMB.ncBEAN.ultimaConfirmacao}"
+											style="margin-left:40px;" pattern="dd/MM/yyyy" locale="pt"
+											timeZone="America/Sao_Paulo" styleClass="calendario"
+											yearRange="c-3:c+5" />
+									</h:panelGrid>
+								</p:tab>
+								<p:tab title="Dados do Proprietário" id="tabProprietario">
+									<br />
+									<p:panelGrid columns="1" styleClass="gridFiltro">
+										<f:facet name="header">Dados do Proprietário</f:facet>
+										<h:panelGrid columns="3">
+											<p:outputLabel value="Prop./ Empresa:" />
+											<p:outputLabel value="Nacionalidade:"
+												style="margin-left:245px;" />
+											<p:outputLabel value="Estado Civil:"
+												style="margin-left:75px;" />
+										</h:panelGrid>
+										<h:panelGrid columns="3" style="margin-bottom:10px;">
+											<p:inputText value="#{ntMB.npBEAN.nome}" style="width:320px;"
+												maxlength="100" />
+											<p:inputText value="#{ntMB.npBEAN.nacionalidade}"
+												style="width:150px;margin-left:20px;" maxlength="50" />
+											<p:inputText value="#{ntMB.npBEAN.estadoCivil}"
+												style="width:150px;margin-left:20px;" maxlength="20" />
+										</h:panelGrid>
+										<h:panelGrid columns="4">
+											<p:outputLabel value="Profissão:" />
+											<p:outputLabel value="CPF/ CNPJ:" style="margin-left:295px;" />
+											<p:outputLabel value="C.I.:" style="margin-left:100px;" />
+											<p:outputLabel value="Dia/Mês (Nasc.):"
+												style="margin-left:165px;" />
+										</h:panelGrid>
+										<h:panelGrid columns="4" style="margin-bottom:10px;">
+											<p:inputText value="#{ntMB.npBEAN.profissao}"
+												style="width:320px;" maxlength="50" />
+											<p:inputText value="#{ntMB.npBEAN.cpfCnpj}"
+												style="width:150px;margin-left:20px;" maxlength="20" />
+											<p:inputText value="#{ntMB.npBEAN.ci}"
+												style="width:150px; margin-left:20px;" maxlength="30" />
+											<p:calendar value="#{ntMB.npBEAN.nascimento}"
+												style="margin-left:20px;" pattern="dd/MM/yyyy" locale="pt"
+												timeZone="America/Sao_Paulo" styleClass="calendario"
+												yearRange="c-3:c+5" />
+										</h:panelGrid>
+										<h:panelGrid columns="4">
+											<p:outputLabel value="Tel. Residencial:" />
+											<p:outputLabel value="Tel. Comercial:"
+												style="margin-left:245px;" />
+											<p:outputLabel value="Fax:" style="margin-left:75px;" />
+											<p:outputLabel value="Celular:" style="margin-left:165px;" />
+										</h:panelGrid>
+										<h:panelGrid columns="4" style="margin-bottom:10px;">
+											<p:inputMask value="#{ntMB.npBEAN.telResidencial}"
+												style="width:150px;" mask="(999)9999-9999" />
+											<p:inputMask value="#{ntMB.npBEAN.telComercial}"
+												style="width:150px;margin-left:190px;" mask="(999)9999-9999" />
+											<p:inputMask value="#{ntMB.npBEAN.fax}"
+												style="width:150px;margin-left:20px;" mask="(999)9999-9999" />
+											<p:inputMask value="#{ntMB.npBEAN.celular}"
+												style="width:150px;margin-left:20px;" mask="(999)99999-9999" />
+										</h:panelGrid>
+										<h:panelGrid columns="1" style="margin-bottom:10px;">
+											<p:outputLabel value="E-mail:" />
+											<p:inputText value="#{ntMB.npBEAN.email}"
+												style="width:570px;" maxlength="75" />
+										</h:panelGrid>
+										<h:panelGrid columns="2">
+											<p:outputLabel value="End. Res.:" />
+											<p:outputLabel value="Bairro:" style="margin-left:295px;" />
+										</h:panelGrid>
+										<h:panelGrid columns="2" style="margin-bottom:10px;">
+											<p:inputText value="#{ntMB.npBEAN.enderecoResidencial}"
+												style="width:320px;" maxlength="100" />
+											<p:inputText value="#{ntMB.npBEAN.bairroResidencial}"
+												style="width:200px;margin-left:20px;" maxlength="50" />
+										</h:panelGrid>
+										<h:panelGrid columns="2">
+											<p:outputLabel value="Cidade/ UF:" />
+											<p:outputLabel value="Cep:" style="margin-left:275px;" />
+										</h:panelGrid>
+										<h:panelGrid columns="2" style="margin-bottom:10px;">
+											<p:inputText value="#{ntMB.npBEAN.cidadeResidencia}"
+												style="width:200px;" maxlength="50" />
+											<p:inputMask value="#{ntMB.npBEAN.cepResidencial}"
+												style="width:150px;margin-left:140px;" mask="99999-999" />
+										</h:panelGrid>
+										<h:panelGrid columns="2">
+											<p:outputLabel value="End. Com.:" />
+											<p:outputLabel value="Bairro:" style="margin-left:285px;" />
+										</h:panelGrid>
+										<h:panelGrid columns="2" style="margin-bottom:10px;">
+											<p:inputText value="#{ntMB.npBEAN.enderecoComercial}"
+												style="width:320px;" maxlength="100" />
+											<p:inputText value="#{ntMB.npBEAN.bairroComercial}"
+												style="width:200px;margin-left:20px;" maxlength="50" />
+										</h:panelGrid>
+										<h:panelGrid columns="2">
+											<p:outputLabel value="Cidade/ UF:" />
+											<p:outputLabel value="Cep:" style="margin-left:275px;" />
+										</h:panelGrid>
+										<h:panelGrid columns="2" style="margin-bottom:10px;">
+											<p:inputText value="#{ntMB.npBEAN.cidadeComercial}"
+												style="width:200px;" maxlength="50" />
+											<p:inputMask value="#{ntMB.npBEAN.cepComercial}"
+												style="width:150px;margin-left:140px;" mask="99999-999" />
+										</h:panelGrid>
+										<h:panelGrid columns="3">
+											<p:outputLabel value="Cônjuge:" />
+											<p:outputLabel value="Nacionalidade:"
+												style="margin-left:295px;" />
+											<p:outputLabel value="Estado Civil:"
+												style="margin-left:80px;" />
+										</h:panelGrid>
+										<h:panelGrid columns="3" style="margin-bottom:10px;">
+											<p:inputText value="#{ntMB.npBEAN.conjuge}"
+												style="width:320px;" maxlength="75" />
+											<p:inputText value="#{ntMB.npBEAN.nacionalidade}"
+												style="width:150px;margin-left:20px;" maxlength="50" />
+											<p:inputText value="#{ntMB.npBEAN.estadoCivilConjuge}"
+												style="width:150px;margin-left:20px;" maxlength="50" />
+										</h:panelGrid>
+										<h:panelGrid columns="4">
+											<p:outputLabel value="Profissão:" />
+											<p:outputLabel value="CPF:" style="margin-left:295px;" />
+											<p:outputLabel value="C.I.:" style="margin-left:155px;" />
+											<p:outputLabel value="Dia/Mês (Nasc.):"
+												style="margin-left:160px;" />
+										</h:panelGrid>
+										<h:panelGrid columns="4" style="margin-bottom:10px;">
+											<p:inputText value="#{ntMB.npBEAN.profissaoConjuge}"
+												style="width:320px;" maxlength="50" />
+											<p:inputMask value="#{ntMB.npBEAN.cpfConjuge}"
+												style="width:150px;margin-left:20px;" mask="999.999.999-99" />
+											<p:inputText value="#{ntMB.npBEAN.ciConjuge}"
+												style="width:150px;margin-left:20px;" maxlength="30" />
+											<p:calendar value="#{ntMB.npBEAN.nascimentoConjuge}"
+												style="margin-left:20px;" pattern="dd/MM/yyyy" locale="pt"
+												timeZone="America/Sao_Paulo" styleClass="calendario"
+												yearRange="c-3:c+5" />
+										</h:panelGrid>
+										<h:panelGrid columns="2">
+											<p:outputLabel value="End. Res./ Bairro:" />
+											<p:outputLabel value="Telefones:" style="margin-left:235px;" />
+										</h:panelGrid>
+										<h:panelGrid columns="2" style="margin-bottom:10px;">
+											<p:inputText value="#{ntMB.npBEAN.endResConjuge}"
+												style="width:320px;" maxlength="100" />
+											<p:inputMask value="#{ntMB.npBEAN.telResConjuge}"
+												style="width:150px;margin-left:20px;" mask="(999)9999-9999" />
+										</h:panelGrid>
+										<h:panelGrid columns="3">
+											<p:outputLabel value="Procurador:" />
+											<p:outputLabel value="Telefone:" style="margin-left:275px;" />
+											<p:outputLabel value="E-mail:" style="margin-left:125px;" />
+										</h:panelGrid>
+										<h:panelGrid columns="3" style="margin-bottom:10px;">
+											<p:inputText value="#{ntMB.npBEAN.procurador}"
+												style="width:320px;" maxlength="75" />
+											<p:inputMask value="#{ntMB.npBEAN.telefoneProcurador}"
+												style="width:150px;margin-left:20px;" mask="(999)9999-99999" />
+											<p:inputText value="#{ntMB.npBEAN.emailProcurador}"
+												style="width:320px;margin-left:20px;" maxlength="75" />
+										</h:panelGrid>
+									</p:panelGrid>
+									<br />
+									<p:panelGrid columns="1" styleClass="gridFiltro">
+										<f:facet name="header">Banco</f:facet>
+										<h:panelGrid columns="4">
+											<p:outputLabel value="Banco:" />
+											<p:outputLabel value="Nome Agência:"
+												style="margin-left:185px;" />
+											<p:outputLabel value="Agência nº:" style="margin-left:120px;" />
+											<p:outputLabel value="Conta Corrente:"
+												style="margin-left:150px;" />
+										</h:panelGrid>
+										<h:panelGrid columns="4" style="margin-bottom:10px;">
+											<p:inputText value="#{ntMB.npBEAN.banco}"
+												style="width:200px;" />
+											<p:inputText value="#{ntMB.npBEAN.nomeAgencia}"
+												style="width:200px;margin-left:15px;" />
+											<p:inputText value="#{ntMB.npBEAN.agencia}"
+												style="width:200px;margin-left:15px;" />
+											<p:inputText value="#{ntMB.npBEAN.contaCorrente}"
+												style="width:200px;margin-left:15px;" />
+										</h:panelGrid>
+										<h:panelGrid columns="2">
+											<p:outputLabel value="Praça:" />
+											<p:outputLabel value="Correntista/ Favorecido:"
+												style="margin-left:430px;" />
+										</h:panelGrid>
+										<h:panelGrid columns="2" style="margin-bottom:10px;">
+											<p:inputText value="#{ntMB.npBEAN.praca}"
+												style="width:320px;" />
+											<p:inputText value="#{ntMB.npBEAN.correntista}"
+												style="width:320px;margin-left:135px;" />
+										</h:panelGrid>
+									</p:panelGrid>
+									<br />
+									<p:panelGrid columns="1" styleClass="gridFiltro">
+										<f:facet name="header">Contrato</f:facet>
+										<h:panelGrid columns="4">
+											<p:outputLabel value="Prazo de Contrato:" />
+											<p:outputLabel value="Forma de Reajuste:"
+												style="margin-left:105px;" />
+											<p:outputLabel value="Taxa Adm (%):"
+												style="margin-left:85px;" />
+											<p:outputLabel value="% Propriedade:"
+												style="margin-left:135px;" />
+										</h:panelGrid>
+										<h:panelGrid columns="4" style="margin-bottom:10px;">
+											<p:inputText value="#{ntMB.npBEAN.prazoContrato}"
+												style="width:200px;" />
+											<p:inputText value="#{ntMB.npBEAN.reajuste}"
+												style="width:200px;margin-left:15px;" />
+											<p:inputText value="#{ntMB.npBEAN.taxaAdm}"
+												style="width:200px;margin-left:15px;" />
+											<p:inputText value="#{ntMB.npBEAN.porcPropriedade}"
+												style="width:200px;margin-left:15px;" />
+										</h:panelGrid>
+										<h:panelGrid columns="3">
+											<p:outputLabel value="Taxa de Contrato(%):" />
+											<p:outputLabel value="Ass Jurídica?"
+												style="margin-left:90px;" />
+											<p:outputLabel value="Valor Venal (Seguro c/ incêndio):"
+												style="margin-left:135px;" />
+										</h:panelGrid>
+										<h:panelGrid columns="3" style="margin-bottom:10px;">
+											<p:inputText value="#{ntMB.npBEAN.taxaContrato}"
+												style="width:200px;" />
+											<p:inputText value="#{ntMB.npBEAN.assJuridica}"
+												style="width:200px;margin-left:15px;" />
+											<p:inputText value="#{ntMB.npBEAN.valorVenal}"
+												style="width:200px;margin-left:15px;" />
+										</h:panelGrid>
+										<h:panelGrid columns="4">
+											<p:outputLabel value="Contr. Remoto Garagem/ Qtos?" />
+											<p:outputLabel value="Marca:" />
+											<p:outputLabel value="O imóvel poderá ser anunciado?"
+												style="margin-left:185px;" />
+											<p:outputLabel value="Paga PA?" style="margin-left:15px;" />
+										</h:panelGrid>
+										<h:panelGrid columns="4" style="margin-bottom:10px;">
+											<p:inputText value="#{ntMB.npBEAN.controleGaragem}"
+												style="width:200px;" />
+											<p:inputText value="#{ntMB.npBEAN.marca}"
+												style="width:200px;margin-left:15px;" />
+											<p:selectBooleanCheckbox value="#{ntMB.npBEAN.imovelAnuncio}"
+												style="margin-left:115px;" />
+											<p:selectBooleanCheckbox value="#{ntMB.npBEAN.pagaPA}"
+												style="margin-left:150px;" />
+										</h:panelGrid>
+									</p:panelGrid>
+									<br />
+									<h:panelGrid columns="1">
+										<p:outputLabel value="Observações Internas:" />
+										<p:inputTextarea value="#{ntMB.npBEAN.observacao}"
+											style="width:680px;" maxlength="350" />
+									</h:panelGrid>
+
+								</p:tab>
+							</p:accordionPanel>
+							<br />
+							<h:panelGrid width="100%" style="text-align:right">
+								<p:commandButton value="Salvar" icon="fa fa-check Fs16 white"
+									action="#{ntMB.salvar()}" />
+							</h:panelGrid>
+						</p:panel>
+					</h:form>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+
+</ui:composition>

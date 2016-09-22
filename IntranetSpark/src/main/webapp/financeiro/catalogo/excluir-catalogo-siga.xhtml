@@ -1,0 +1,28 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+	<h:form id="frmCatalogo">
+		<p:messages id="msg" showDetail="true" autoUpdate="false" closable="true" escape="true" showSummary="false"/>
+		<h:panelGrid columns="3">
+			<p:outputLabel value="Número da Etiqueta" />
+			<p:inputText value="#{catalogoMB.codigoEtiqueta}" onkeypress="validate(event)" />
+			<p:commandButton value="Excluir" actionListener="#{catalogoMB.excluir()}" update="msg" icon="fa fa-close Fs16 white">
+				<p:confirm header="Confirmação" message="Confirma a Exclusão?"
+					icon="ui-icon-alert" />
+			</p:commandButton>
+
+		</h:panelGrid>
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+			<p:commandButton value="Não" type="button" 
+				styleClass="ui-confirmdialog-no" icon="fa fa-close Fs16 white" />
+			<p:commandButton value="Sim" type="button" 
+				styleClass="ui-confirmdialog-yes" icon="fa fa-check Fs16 white" />
+		</p:confirmDialog>
+	</h:form>
+
+</ui:composition>

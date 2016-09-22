@@ -1,0 +1,63 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<h:form id="frmProjecao">
+		
+			<p:messages id="msg" showDetail="true" autoUpdate="false" closable="true" escape="true" showSummary="false"/>	
+	<h:panelGrid columns="5" >
+    
+     <p:outputLabel value="Gerente:" />
+     <p:selectOneMenu id="somGerentes" value="#{projetarMB.gerenteMB.codigo}" filter="true" filterMatchMode="contains">
+     	<f:selectItems value="#{projetarMB.listaDeGerentes}" var="item" itemLabel="#{item.nome}" itemValue="#{item.codigo}"/>
+     	<p:ajax  update="console"/>
+     </p:selectOneMenu>       
+	
+        <p:outputLabel for="console" value="Condomínio:" />
+        <p:selectOneMenu id="console" value="#{projetarMB.icBEAN.codigo}" style="width:90px;" filter="true" filterMatchMode="contains" > 
+        	<f:selectItem itemLabel="Selecione" itemValue="0"/>
+            <f:selectItems value="#{projetarMB.listaDeCondominio}" var="item" itemLabel="#{item.codigo}" itemValue="#{item.codigo}"/>
+            <p:ajax listener="#{projetarMB.retornaNomeCondominio()}" update="tbvPrevisao:frmProjecao:oplNomeCondo"/>
+            <p:ajax listener="#{projetarMB.carregarProjecao()}" />
+        </p:selectOneMenu>
+        	
+     <p:outputLabel id="oplNomeCondo" value="#{projetarMB.nomeCondo}"/>
+     </h:panelGrid>
+	<h:panelGrid id="plgMedia" columns="8">
+        <p:outputLabel value="Projetar apartir do mês: "/>
+		<p:inputMask mask="99/9999" value="#{projetarMB.mesProjecao}" style="width:80px !important;" required="true"/>
+
+	</h:panelGrid>
+	<h:panelGrid columns="4" id="plgReferencia" >
+			<p:outputLabel value="Usar média do (s) Último (s):"/>
+			  <h:selectOneRadio value="#{projetarMB.media}" disabled="#{projetarMB.reutilizarPrevisao eq true ? true : false}">
+            	<f:selectItem itemLabel="1 Mês" itemValue="1"/>
+            	<f:selectItem itemLabel="3 Meses" itemValue="3"/>
+            	<f:selectItem itemLabel="6 Meses" itemValue="6"/>
+            	<f:selectItem itemLabel="12 Meses" itemValue="12"/>
+           		<p:ajax listener="#{projetarMB.carregarPrevisaoProjecao()}" update="tbvPrevisao:frmProjecao:dtProjecao" />
+        </h:selectOneRadio>
+	</h:panelGrid>
+	
+	<p:dataTable id="dtProjecao" var="p" value="#{projetarMB.listaDePrevisaoCapa}" selection="#{projetarMB.previsaoCapaAUXBEAN}">
+	
+		<p:column>
+			#{p.capa}
+		</p:column>
+		
+		<p:column>
+			#{p.despesa}
+		</p:column>
+		
+		<p:column>
+			#{p.valor}
+		</p:column>
+		
+	
+	</p:dataTable>
+	
+	</h:form>
+</ui:composition>

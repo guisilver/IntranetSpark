@@ -1,0 +1,124 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+	<style>
+.msg {
+	color: #FFF;
+	font-size: 20px;
+}
+</style>
+	<h:form id="frmRequisicao" target="_blank"
+		rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysJuridico}">
+		<p:growl autoUpdate="true" id="growl" widgetVar="growl" />
+		<p:messages id="msg" showDetail="true" autoUpdate="false"
+			closable="true" escape="true" showSummary="false" styleClass="msg" />
+
+		<h:panelGrid id="plgCondominio" columns="3" cellpadding="5">
+			<p:outputLabel for="console" value="Condomínio:"
+				style="margin-bottom:10px" />
+			<p:selectOneMenu id="console" value="#{pjMB.condominio}"
+				style="width:100px; margin-left:10px;" filter="true"
+				filterMatchMode="contains">
+				<f:selectItem itemLabel="Selecione" itemValue="0" />
+				<f:selectItems value="#{SessaoMB.listaDeCondominios}" var="item"
+					itemLabel="#{item.cndCodNome}" itemValue="#{item.codigo}" />
+				<p:ajax
+					update="frmRequisicao:somBloco, 
+					frmRequisicao:somUnidade, frmRequisicao:endCondominio, frmRequisicao:opldiaMalote, frmRequisicao:selectCorreio"
+					listener="#{pjMB.retornaNomeCondominio}" />
+				<p:ajax
+					update="frmRequisicao:somBloco, 
+					frmRequisicao:somUnidade, frmRequisicao:endCondominio, frmRequisicao:opldiaMalote, frmRequisicao:selectCorreio"
+					listener="#{pjMB.selecionarLocal}" />
+			</p:selectOneMenu>
+		</h:panelGrid>
+
+		<hr />
+
+		<h:panelGrid columns="2" cellpadding="5" id="gridTorre">
+			<p:outputLabel value="Torre:" style="margin-bottom:10px" />
+			<p:selectOneMenu id="somBloco" value="#{pjMB.bloco}"
+				style="width:100px; text-align:center !important; margin-left:60px;">
+				<f:selectItem itemLabel="Bloco" itemValue="" />
+				<f:selectItems value="#{pjMB.listaDeBloco}" var="items"
+					itemValue="#{items.bloco}" itemLabel="#{items.bloco}" />
+				<p:ajax update="frmRequisicao:somUnidade" />
+			</p:selectOneMenu>
+		</h:panelGrid>
+		<h:panelGrid columns="3" cellpadding="5" id="gridUnidade">
+			<p:outputLabel value="Unidade:" style="margin-bottom:10px" />
+			<p:selectOneMenu id="somUnidade" value="#{pjMB.unidade}"
+				filter="true" filterMatchMode="contains"
+				style="width:100px; margin-left:35px;">
+				<f:selectItem itemLabel="Unidade" />
+				<f:selectItems value="#{pjMB.listaDeUnidade}" var="items"
+					itemValue="#{items.unidade}" itemLabel="#{items.unidade}" />
+				<p:ajax update="frmRequisicao:ipNomeCliente"
+					listener="#{pjMB.nomeCliente}" />
+			</p:selectOneMenu>
+			<p:outputLabel id="oplNomeCliente" value="#{pjMB.amBEAN.nome}" />
+		</h:panelGrid>
+
+		<h:panelGrid columns="2" cellpadding="3">
+			<p:outputLabel value="Sexo:" style="font-size:18px;" />
+			<p:selectOneRadio id="console2" value="#{pjMB.rpBEAN.sexo}"
+				style="font-size:18px;margin-left:60px;">
+				<f:selectItem itemLabel="F" itemValue="F" />
+				<f:selectItem itemLabel="M" itemValue="M" />
+			</p:selectOneRadio>
+
+
+		</h:panelGrid>
+		<h:panelGrid columns="2" cellpadding="3">
+			<p:outputLabel value="Aos Cuidados:" />
+			<p:inputText id="ipNomeCliente" value="#{pjMB.rpBEAN.sindico}"
+				style="font-size:14px;width:403px;margin-left:2px; text-transform:uppercase;"
+				maxlength="54" />
+		</h:panelGrid>
+
+		<h:panelGrid columns="3" cellpadding="3">
+			<p:outputLabel value="Correio:" />
+			<p:selectOneMenu id="selectCorreio" value="#{pjMB.rpBEAN.correio}"
+				style="margin-left:50px; width:100px;">
+				<f:selectItem itemLabel="Selecione" itemValue="0" />
+				<f:selectItem itemLabel="Malote" itemValue="Malote" />
+				<f:selectItem itemLabel="Simples" itemValue="Simples" />
+				<f:selectItem itemLabel="AR - End:" itemValue="AR" />
+				<f:selectItem itemLabel="Sedex" itemValue="Sedex" />
+				<p:ajax listener="#{pjMB.selecionarLocal()}"
+					update="frmRequisicao:endCondominio, frmRequisicao:opldiaMalote"
+					resetValues="true" />
+			</p:selectOneMenu>
+
+			<p:outputLabel id="opldiaMalote" value="#{pjMB.rpBEAN.diaMalote}" />
+
+		</h:panelGrid>
+
+		<h:panelGrid columns="2" cellpadding="3">
+			<p:outputLabel value="Endereço:" />
+			<p:inputText id="endCondominio" value="#{pjMB.rpBEAN.endereco}"
+				style="font-size:14px;width:403px;margin-left:30px; text-transform:uppercase;"
+				maxlength="100" />
+
+			<p:outputLabel value="Referente:" />
+			<p:inputText required="true" value="#{pjMB.cabecalho}"
+				id="ipNomeCabecalho" requiredMessage="Insira uma referência!"
+				style="font-size:14px;width:403px;margin-left:30px; text-transform:uppercase;"
+				maxlength="130" counterTemplate="{0} caracteres restantes." />
+
+		</h:panelGrid>
+
+		<hr />
+
+		<h:panelGrid>
+			<p:commandButton icon="fa fa-check Fs16 white" value="Salvar"
+				style="float:right;" action="#{pjMB.salvarProtocolo()}"
+				update=":tbvRP:frmRequisicao :tbvRP:frmHistorico:dtHistorico" />
+		</h:panelGrid>
+
+	</h:form>
+</ui:composition>
+

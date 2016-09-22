@@ -1,0 +1,73 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<div class="layout-portlets-box">
+			<div class="Fleft">
+				<h2 class="black Fs24 FontRalewayMedium">Documentos OMA</h2>
+			</div>
+			<div class="Seperator"></div>
+			<div class="Container100 Responsive100">
+				<div class="ContainerIndent">
+					<p:messages autoUpdate="true" />
+					<h:form>
+						<h:panelGrid columns="1">
+							<p:outputLabel value="Tamanho máx. por arquivo: 10MB."
+								style="font-size:18px;font-weight:bold;" />
+							<br />
+							<p:fileUpload
+								fileUploadListener="#{documentosOmaMB.handleFileUpload}"
+								mode="advanced" dragDropSupport="false" multiple="true"
+								sizeLimit="10000000" allowTypes="/(\.|\/)(pdf)$/"
+								label="Selecionar Arquivo" uploadLabel="Enviar"
+								invalidFileMessage="Tipo de arquivo inválido! Insira somente arquivos pdf."
+								invalidSizeMessage="Tamanho de arquivo inválido! O máximo é 10MB."
+								cancelLabel="Cancelar" update="@form,:frmTblDocumentos"
+								style="margin-bottom:20px;" />
+						</h:panelGrid>
+					</h:form>
+
+					<h:form id="frmTblDocumentos" target="_blank">
+						<p:dataTable value="#{documentosOmaMB.arquivos}" var="arquivo">
+							<p:column headerText="Arquivo">
+								<p:outputLabel value="#{arquivo}" />
+							</p:column>
+							<p:column width="120" style="text-align:center;">
+								<h:panelGrid columns="2">
+									<h:outputLink
+										value="#{documentosOmaMB.redirecionaParaArquivo(arquivo)}"
+										target="_blank">
+										<p:graphicImage library="imagens" name="PdfIcon.png"
+											width="40" height="40" title="Abrir" />
+									</h:outputLink>
+									<p:commandButton icon="fa fa-trash Fs16 white"
+										actionListener="#{documentosOmaMB.excluirArquivo(arquivo)}"
+										update="@form" title="Excluir">
+										<p:confirm header="Confirmação"
+											message="Você confirma a exclusão?" icon="ui-icon-alert" />
+									</p:commandButton>
+								</h:panelGrid>
+							</p:column>
+						</p:dataTable>
+						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+							<p:commandButton value="Não" type="button"
+								styleClass="ui-confirmdialog-no" icon="fa fa-close Fs16 white" />
+							<p:commandButton value="Sim" type="button"
+								styleClass="ui-confirmdialog-yes" icon="fa fa-check Fs16 white" />
+						</p:confirmDialog>
+					</h:form>
+					<p:ajaxStatus onstart="PF('statusDialog').show()"
+						onsuccess="PF('statusDialog').hide()" />
+					<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+						closable="false" resizable="false" showHeader="false">
+					Aguarde...<br />
+						<br />
+						<p:graphicImage library="imagens" name="loader.gif" />
+					</p:dialog>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,49 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+
+	<h:form id="frmTributos">
+		<p:dialog id="dlgTributos" header="Tributos do Lançamento"
+			widgetVar="tributos" resizable="false" responsive="true"
+			closeOnEscape="true">
+
+			<p:dataTable id="dtTributos" var="p" value="#{ged.listaDeTributos}"
+				style="width: 600px !important;">
+				<p:column headerText="Nro. Lancto" styleClass="fontSize"
+					style="text-align: center !important;">
+					#{p.nrolancto}
+				</p:column>
+				<p:column headerText="Tipo Imp." styleClass="fontSize"
+					style="text-align: center !important;">
+					#{p.tipo_imposto == 1 ? 'INSS' : p.tipo_imposto == 2 ? 'ISS' : p.tipo_imposto == 3 ? 'IRRF' : p.tipo_imposto == 4 ? 'PCC' : ''}
+				</p:column>
+				<p:column headerText="Valor bruto" styleClass="fontSize">
+					<p:outputLabel value="R$ " styleClass="fontSize" />
+					<p:outputLabel value="#{p.valor}" styleClass="fontSize">
+						<f:convertNumber pattern="#,##0.00" locale="pt" />
+					</p:outputLabel>
+				</p:column>
+				<p:column headerText="Valor a Pagar" styleClass="fontSize" >
+					<p:outputLabel value="R$ " styleClass="fontSize" />
+					<p:outputLabel id="oplValor" value="#{p.valor_a_pagar}"
+						styleClass="fontSize">
+						<f:convertNumber pattern="#,##0.00" locale="pt" />
+					</p:outputLabel>
+				</p:column>
+				<p:column headerText="Vencto." styleClass="fontSize" 
+						style="text-align: center !important;">
+					<p:outputLabel value="#{p.vencto}" styleClass="fontSize">
+						<f:convertDateTime pattern="dd/MM/yy" />
+					</p:outputLabel>
+				</p:column>
+			</p:dataTable>
+
+		</p:dialog>
+	</h:form>
+
+</ui:composition>

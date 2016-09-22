@@ -1,0 +1,282 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<style>
+#frmFoto\3a j_idt144>div:nth-child(2) {
+	display: none;
+}
+</style>
+		<div class="layout-portlets-box">
+			<div class="DispInlBlock TexAlLeft">
+				<div class="Fleft">
+					<c:if
+						test="#{!SessaoMB.igp.sysAdmin and !SessaoMB.verificaDepto('Marketing')}">
+						<h2 class="black Fs24 FontRalewayMedium">Álbum</h2>
+					</c:if>
+					<c:if
+						test="#{SessaoMB.igp.sysAdmin or SessaoMB.verificaDepto('Marketing')}">
+						<h2 class="black Fs24 FontRalewayMedium">Editar Álbum</h2>
+					</c:if>
+				</div>
+			</div>
+			<div class="Seperator"></div>
+
+			<p:growl autoUpdate="true" showDetail="true" />
+			<div class="Container100 Responsive100">
+				<div class="ContainerIndent">
+					<h:form>
+						<h:panelGrid columns="1">
+							<p:commandButton value="Voltar para lista de álbuns"
+								action="/fotos-oma.xhtml?faces-redirect=true;" ajax="false"
+								icon="fa fa-arrow-left Fs16 white" />
+						</h:panelGrid>
+
+						<h:panelGrid columns="10"
+							style="margin-bottom:20px;margin-top:20px;">
+							<p:outputLabel value="Título: " style="font-size:22px;" />
+							<p:outputLabel value="#{fotosOmaMB.albumSelecionado.nome}"
+								style="font-size:22px;color:red;margin-left:10px;" />
+						</h:panelGrid>
+
+
+						<h:panelGrid columns="2" style="float:right;">
+							<p:commandButton value="Alterar Nome"
+								onclick="PF('dlgAltrNomeAlbum').show();"
+								icon="fa fa-pencil Fs16 white"
+								rendered="#{SessaoMB.igp.sysAdmin or SessaoMB.verificaDepto('Marketing')}"
+								update=":frmNovoNome">
+								<f:setPropertyActionListener target="#{fotosOmaMB.novoNome}"
+									value="#{fotosOmaMB.albumSelecionado.nome}" />
+							</p:commandButton>
+
+							<p:commandButton value="Excluir este álbum"
+								onclick="PF('dlgExcAlbum').show();"
+								icon="fa fa-trash Fs16 white"
+								rendered="#{SessaoMB.igp.sysAdmin or SessaoMB.verificaDepto('Marketing')}" />
+						</h:panelGrid>
+
+
+						<p:outputLabel value="Tamanho máx. por foto: 1MB."
+							style="font-size:18px;font-weight:bold;" />
+						<br />
+						<br />
+						<p:fileUpload fileUploadListener="#{fotosOmaMB.handleFileUpload}"
+							mode="advanced" dragDropSupport="false" multiple="true"
+							sizeLimit="1000000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+							label="Selecionar Fotos" uploadLabel="Enviar"
+							cancelLabel="Cancelar" update="@form,:frmFotos"
+							style="margin-bottom:20px;"
+							rendered="#{SessaoMB.igp.sysAdmin or SessaoMB.verificaDepto('Marketing')}" />
+
+					</h:form>
+					<h:form id="frmFotos">
+
+						<center>
+							<ui:repeat value="#{fotosOmaMB.fotos}" var="foto">
+								<p:commandLink oncomplete="teste(event);" rel="modal"
+									update=":frmFoto">
+									<p:graphicImage
+										value="#{fotosOmaMB.enderecoServidorImagens}/#{fotosOmaMB.albumSelecionado.nome}/#{foto}"
+										width="240" height="180" class="foto" style="margin:40px;" />
+									<f:setPropertyActionListener
+										target="#{fotosOmaMB.fotoSelecionada}" value="#{foto}" />
+								</p:commandLink>
+							</ui:repeat>
+						</center>
+
+						<h:panelGrid columns="1">
+							<p:commandButton value="Voltar para lista de álbuns"
+								action="/fotos-oma.xhtml?faces-redirect=true;" ajax="false"
+								icon="fa fa-arrow-left Fs16 white" />
+						</h:panelGrid>
+
+					</h:form>
+				</div>
+			</div>
+
+			<p:dialog widgetVar="dlgExcAlbum" header="Excluir" showEffect="fade"
+				hideEffect="fade" modal="true" resizable="false">
+				<h:form>
+					<p:outputLabel value="Você confirma a exclusão deste álbum?" />
+					<h:panelGrid columns="2" style="margin-top:20px;width:100%;">
+						<p:commandButton value="Não" styleClass="ui-confirmdialog-no"
+							onclick="PF('dlgExcAlbum').hide();"
+							icon="ui-icon-close fa fa-close Fs14 white" />
+						<p:commandButton value="Sim" styleClass="ui-confirmdialog-yes"
+							action="#{fotosOmaMB.excluirAlbum()}"
+							icon="ui-icon-check fa fa-check Fs14 white" ajax="false"
+							style="float:right;" />
+					</h:panelGrid>
+				</h:form>
+			</p:dialog>
+
+			<p:dialog widgetVar="dlgAltrNomeAlbum" header="Alterar Nome do Álbum"
+				showEffect="fade" hideEffect="fade" modal="true" resizable="false">
+				<h:form id="frmNovoNome">
+					<h:panelGrid columns="2">
+						<p:outputLabel value="Novo Nome:" />
+						<p:inputText value="#{fotosOmaMB.novoNome}" style="width:300px;" />
+					</h:panelGrid>
+					<h:panelGrid columns="2" style="margin-top:20px;width:100%;">
+						<p:commandButton value="Cancelar"
+							onclick="PF('dlgAltrNomeAlbum').hide();"
+							icon="ui-icon-close fa fa-close Fs14 white" />
+						<p:commandButton value="Salvar"
+							action="#{fotosOmaMB.alterarNomeAlbum()}"
+							icon="ui-icon-check fa fa-check Fs14 white" ajax="false"
+							style="float:right;" />
+					</h:panelGrid>
+				</h:form>
+			</p:dialog>
+
+			<div id="mascara"></div>
+			<div class="window" id="janela1">
+				<a href="#" class="fechar"><span
+					class="ui-button-icon-left ui-icon ui-c fa fa-close Fs16 white"></span></a>
+				<h:form id="frmFoto">
+					<h:panelGrid columns="3">
+						<p:column style="width:100px!important;">
+							<p:commandButton icon="fa fa-arrow-circle-left Fs16 white"
+								actionListener="#{fotosOmaMB.selecionaFotoAnterior()}"
+								update="@form"
+								style="border-radius:10px!important;font-size:26px;" />
+						</p:column>
+						<p:commandLink
+							actionListener="#{fotosOmaMB.selecionaFotoProxima()}"
+							update="@form">
+							<p:graphicImage style="height:500px;max-width:900px;"
+								value="#{fotosOmaMB.enderecoServidorImagens}/#{fotosOmaMB.albumSelecionado.nome}/#{fotosOmaMB.fotoSelecionada}"
+								styleClass="fotoSelecionada" />
+						</p:commandLink>
+						<p:column style="width:100px!important;">
+							<p:commandButton icon="fa fa-arrow-circle-right Fs16 white"
+								actionListener="#{fotosOmaMB.selecionaFotoProxima()}"
+								update="@form"
+								style="border-radius:10px!important;font-size:26px;" />
+						</p:column>
+					</h:panelGrid>
+					<p:commandButton value="Excluir" icon="fa fa-trash Fs16 white"
+						actionListener="#{fotosOmaMB.excluirFoto()}"
+						update="@form, :frmFotos" onstart="PF('statusDialog').show()"
+						oncomplete="PF('statusDialog').hide();"
+						rendered="#{SessaoMB.igp.sysAdmin or SessaoMB.verificaDepto('Marketing')}" />
+				</h:form>
+			</div>
+		</div>
+
+		<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+			closable="false" resizable="false" showHeader="false"
+			style="z-index:9999;" styleClass="statusDialog">
+					Aguarde...<br />
+			<br />
+			<p:graphicImage library="imagens" name="loader.gif" />
+		</p:dialog>
+
+		<script>
+			$(document).ready(function() {
+				$("#mascara").click(function() {
+					$(this).hide();
+					$(".window").hide();
+				});
+
+				$('.fechar').click(function(ev) {
+					ev.preventDefault();
+					$("#mascara").hide();
+					$(".window").hide();
+				});
+			});
+
+			function teste(event) {
+				event.preventDefault();
+				var id = $(this).attr("href");
+				var alturaTela = $(document).height();
+				var larguraTela = $(window).width();
+
+				$('.window').css("display", "block");
+				$('.window').appendTo("html");
+
+				//colocando o fundo preto
+				$('#mascara').css({
+					'width' : larguraTela,
+					'height' : alturaTela
+				});
+				$('#mascara').fadeTo("slow", 0.8);
+
+				var left = ($(window).width() / 2) - ($(id).width() / 2);
+				var top = ($(window).height() / 2) - ($(id).height() / 2);
+
+				$(id).css({
+					'top' : top,
+					'left' : left
+				});
+				$(id).show();
+			}
+		</script>
+
+		<style>
+.window {
+	display: none;
+	width: 100%;
+	height: 50%;
+	position: fixed;
+	z-index: 500;
+	padding: 0px;
+	top: 2%;
+	text-align: center;
+}
+
+#mascara {
+	display: none;
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 400;
+	background-color: #000;
+}
+
+.fechar {
+	display: block;
+	text-align: right;
+	background: #D0525D;
+	border-radius: 30px;
+	padding: 8px;
+	text-align: center;
+	width: 30px;
+	margin-right: 30px;
+	float: right;
+	margin-top: 50px;
+}
+
+.fechar:hover {
+	background: #c3303d;
+}
+
+#frmFoto>table {
+	margin-left: auto;
+	margin-right: auto;
+	width: 100%;
+}
+
+@media only screen and (min-width: 1500px) {
+	.window {
+		width: 100%;
+		text-align: center;
+	}
+	.fotoSelecionada {
+		max-width: 1200px !important;
+		height: 710px !important;
+	}
+}
+
+.statusDialog {
+	z-index: 99999;
+}
+</style>
+	</ui:define>
+</ui:composition>

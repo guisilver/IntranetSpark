@@ -1,0 +1,41 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<h:form id="frmAnalitico">
+		<p:dialog id="dlgPaperAnalitico" widgetVar="dglAnalitico" responsive="true" resizable="false" modal="true" closeOnEscape="true">
+			<p:panel header="Relatório Analitico">
+				<p:dataTable id="tblAnalitico" var="p" style="width: 800px !important;"
+					value="#{papercut.listaPapercutAnalitico}" rows="5"
+					paginator="true" emptyMessage="Nenhum item encontrado...">
+					
+					<p:column headerText="Data">
+						<p:outputLabel value="#{p.data}">
+							<f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+						</p:outputLabel>
+					</p:column>
+					<p:column headerText="Usuário">
+						#{p.usuario}
+					</p:column>
+					
+					
+					<p:column headerText="Debito">
+						#{p.nome}
+					</p:column>
+					<p:column headerText="Tipo" width="auto">
+						#{p.subNome}
+					</p:column>
+					<p:column headerText="Descrição" width="auto">
+						#{p.documentoNome}
+					</p:column>
+					<p:column headerText="Total" width="100" style="text-align:center;">
+						#{p.totalPage}
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+		</p:dialog>
+	</h:form>
+</ui:composition>

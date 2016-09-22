@@ -1,0 +1,49 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<style>
+.botaoLink {
+	background-color: #D0525D;
+	display: inline-block;
+	position: relative;
+	padding: 0;
+	margin-right: .1em;
+	text-decoration: none !important;
+	cursor: pointer;
+	text-align: center;
+	zoom: 1;
+	overflow: visible;
+	padding: 8px 20px 8px 20px !important;
+	border-radius: 3px;
+}
+
+.botaoLink:hover {
+	background-color: #B1434C;
+	transition: all 0.5s ease;
+}
+</style>
+
+	<script>
+		function clicaBotao() {
+			$("[id='frmAssembleia:botao_word']").click();
+			$("[id='frmAlterarAssembleia:botao_word']").click();
+		}
+	</script>
+
+	<p:commandButton id="botao_word" ajax="false"
+		style="visibility:hidden!important;">
+		<p:fileDownload value="#{assembleiaMB.stream}" />
+	</p:commandButton>
+
+	<p:dialog widgetVar="dlgTipoEdital" resizable="false" modal="true"
+		hideEffect="explode" header="Abrir Edital">
+		<h:panelGrid columns="2">
+			<h:commandLink value="PDF" action="#{assembleiaMB.geraEditalPdf()}"
+				target="_blank" styleClass="botaoLink" />
+			<h:commandLink value="WORD"
+				actionListener="#{assembleiaMB.geraWord()}" styleClass="botaoLink" />
+		</h:panelGrid>
+	</p:dialog>
+</ui:composition>

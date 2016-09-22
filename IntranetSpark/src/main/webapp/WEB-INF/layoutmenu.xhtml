@@ -1,0 +1,735 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ps="http://primefaces.org/spark"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	<h:form id="frmMainMenu">
+		<style>
+@media only screen and (min-width: 960px) {
+	#frmMainMenu .menuCnd ul {
+		position: absolute;
+		margin-left: 200px;
+		float: left;
+		top: 0px !important;
+		border-radius: 3px;
+		width: 200px !important;
+		border-bottom: solid 5px #CA220A;
+	}
+	.menuDepartamentos ul {
+		width: 200px !important;
+	}
+}
+
+#layout-menu>li a {
+	font-size: 12px !important;
+}
+</style>
+		<ps:menu>
+			<f:facet name="options">
+			</f:facet>
+			<p:submenu label="Home" icon="fa fa-home" styleClass="subMenuHome" />
+			<p:separator />
+			<p:submenu label="Departamentos" icon="fa fa-sitemap"
+				styleClass="menuDepartamentos">
+				<c:if
+					test="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.verificaDepto('Cobranca') || SessaoMB.igp.sysCobranca}">
+					<p:submenu label="Cobrança" icon="fa fa-folder"
+						styleClass="menuCnd">
+						<p:submenu label="Protocolos" icon="fa fa-folder"
+							styleClass="menuCnd">
+							<p:menuitem value="Requisição de Malote" class="fa fa-chain"
+								url="/requisicao-cobranca.xhtml" style="color: red;" />
+							<p:menuitem value="Protocolo de Malote" class="fa fa-chain"
+								url="/cobranca/protocolos/protocolo-malote.xhtml"
+								style="color: red;" />
+						</p:submenu>
+						<p:submenu label="Procuração" icon="fa fa-folder"
+							styleClass="menuCnd">
+							<p:menuitem value="Consulta de Cotas em Aberto"
+								class="fa fa-chain" style="color: red;"
+								url="/juridico/procuracoes/cotas-em-aberto.xhtml" />
+							<p:menuitem value="Tabela Procuração" class="fa fa-chain"
+								style="color: red;" url="/procuracao-juridico.xhtml" />
+						</p:submenu>
+					</p:submenu>
+				</c:if>
+
+				<c:if
+					test="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.verificaDepto('Comercial')}">
+					<p:submenu label="Comercial" icon="fa fa-folder"
+						styleClass="menuCnd">
+						<p:menuitem value="Atendimento" class="fa fa-chain"
+							url="/comercial/atendimento/tabela-de-atendimento.xhtml" />
+						<p:menuitem value="Condomínio" class="fa fa-chain"
+							url="/comercial/condominio/tabela-de-condominios.xhtml" />
+						<p:menuitem value="Construtora" class="fa fa-chain"
+							url="/comercial/construtora/tabela-de-construtoras.xhtml" />
+						<p:menuitem value="Imagens" class="fa fa-chain"
+							url="/comercial/condominio/tabela-de-imagens.xhtml" />
+					</p:submenu>
+				</c:if>
+
+				<c:if
+					test="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.verificaDepto('Condominio') || SessaoMB.igp.sysCondominio}">
+					<p:submenu label="Condomínio" icon="fa fa-folder"
+						styleClass="menuCnd">
+						<p:menuitem value="Assembleias" class="fa fa-chain"
+							url="/assembleias.xhtml" />
+						<p:menuitem value="Global" class="fa fa-chain" url="/global.xhtml" />
+						<p:menuitem value="Protocolos de Assembleia" class="fa fa-chain"
+							url="/protocolos-pendentes.xhtml" />
+						<p:menuitem value="Protocolos de Entrega" class="fa fa-chain"
+							url="/condominio/protocolos/protocolo-entrega.xhtml" />
+						<p:menuitem value="Protocolos de Malote" class="fa fa-chain"
+							url="/condominio/protocolos/protocolo-malote.xhtml" />
+						<p:menuitem value="Recadastramento" class="fa fa-chain"
+							url="/recadastramento.xhtml" />
+						<p:menuitem value="Tabela Emissão" class="fa fa-chain"
+							url="/emissao/emissao/tabela-emissoes.xhtml" />
+					</p:submenu>
+				</c:if>
+
+				<c:if
+					test="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.verificaDepto('Contabilidade')}">
+					<p:submenu label="Contabilidade" icon="fa fa-folder"
+						styleClass="menuCnd">
+						<p:menuitem value="Recebto. Doctos." class="fa fa-chain"
+							url="/relatorio-ged.xhtml" />
+						<p:submenu label="Gráficos" icon="fa fa-folder"
+							styleClass="menuCnd">
+							<p:menuitem value="Evolutivo" class="fa fa-chain"
+								url="/grafico-evolutivo.xhtml" style="color: red;" />
+							<p:menuitem value="Comparativo" class="fa fa-chain"
+								url="/grafico-comparativo.xhtml" style="color: red;" />
+						</p:submenu>
+						<p:menuitem value="Pasta Digital" class="fa fa-chain"
+							url="/pastadigital.xhtml" />
+						<p:menuitem value="Troca de Imagem" class="fa fa-chain"
+							url="/troca-de-imagem.xhtml" />
+					</p:submenu>
+				</c:if>
+
+				<c:if
+					test="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.verificaDepto('Contas a Pagar') || SessaoMB.igp.sysContas}">
+					<p:submenu label="Contas" icon="fa fa-folder" styleClass="menuCnd">
+						<p:submenu label="GED" icon="fa fa-folder" styleClass="menuCnd">
+							<p:menuitem value="Consultar Lanctos." class="fa fa-chain"
+								url="/financeiro.xhtml" style="color: red;" />
+							<p:menuitem value="Lanctos. Aprovados" class="fa fa-chain"
+								url="/lanctos-aprovados.xhtml" style="color: red;" />
+							<p:menuitem value="Excluir Etiqueta Siga" class="fa fa-chain"
+								url="/excluir-etiqueta-siga.xhtml" style="color: red;" />
+						</p:submenu>
+						<p:submenu label="SIP"
+							rendered="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.igp.sysSip}"
+							icon="fa fa-folder" styleClass="menuCnd">
+							<p:menuitem value="Pré-Lançamentos" class="fa fa-chain"
+								url="/sip/pre-lancamento/pre-lancamentos.xhtml" />
+							<p:submenu label="Fiscal" icon="fa fa-folder"
+								styleClass="menuCnd"
+								rendered="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.igp.sysSipFiscal}">
+								<p:menuitem value="Lançamentos Fiscal" class="fa fa-chain"
+									url="/sip/fiscal/pre-lancamentos.xhtml" />
+								<p:menuitem value="Parâmetros" class="fa fa-chain"
+									url="/sip/fiscal/parametros-fiscal.xhtml" />
+							</p:submenu>
+							<p:menuitem value="Lançamento" class="fa fa-chain"
+								url="/lancamento-contas.xhtml" style="color: red;" />
+						</p:submenu>
+
+					</p:submenu>
+				</c:if>
+				<c:if
+					test="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.igp.sysDiretoria}">
+					<p:submenu label="Diretoria" icon="fa fa-folder"
+						styleClass="menuCnd">
+						<p:submenu label="Relatório Mensal" styleClass="menuCnd"
+							icon="fa fa-folder">
+							<p:menuitem value="Taxa Administrativa" class="fa fa-chain"
+								url="/diretoria/relatorios-mensais/taxas-administrativas.xhtml"
+								style="color: red;" />
+							<p:menuitem value="Taxa Bancária" class="fa fa-chain"
+								url="/diretoria/relatorios-mensais/taxas-bancarias.xhtml"
+								style="color: red;" />
+						</p:submenu>
+						<p:submenu label="Serviços" styleClass="menuCnd"
+							icon="fa fa-folder">
+							<c:if
+								test="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.igp.sysPapercut}">
+								<p:menuitem value="Papercut" class="fa fa-chain"
+									url="/papercut.xhtml" style="color: red;" />
+								<p:menuitem value="Papercut Isentar" class="fa fa-chain"
+									url="/papercut-isencao.xhtml" style="color: red;" />
+							</c:if>
+							<c:if
+								test="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.igp.sysServicos}">
+								<p:menuitem value="Repasse de Serviços" class="fa fa-chain"
+									url="/servicos.xhtml" style="color: red;" />
+							</c:if>
+						</p:submenu>
+						<p:submenu label="Financeiro" icon="fa fa-folder"
+							styleClass="menuCnd">
+							<p:menuitem value="Baixa Débito Automático" class="fa fa-chain"
+								url="/sip/gerencia/csv/baixa-debito-automatico.xhtml" />
+							<p:menuitem value="Baixa Lançamentos Futuros" class="fa fa-chain"
+								url="/sip/gerencia/csv/baixa-lancamentos-futuros.xhtml" />
+							<p:menuitem value="Conciliados DA" class="fa fa-chain"
+								url="/sip/gerencia/csv/conciliados-da.xhtml" />
+							<p:menuitem value="Conciliados LF" class="fa fa-chain"
+								url="/sip/gerencia/csv/conciliados-lf.xhtml" />
+							<p:menuitem value="Pagamento Eletrônico" class="fa fa-chain"
+								url="/sip/financeiro/pagamento-eletronico.xhtml" />
+							<p:menuitem value="Saída de Condomínios" class="fa fa-chain"
+								url="/sip/gerencia/csv/saida-de-condominios.xhtml" />
+						</p:submenu>
+						<p:menuitem value="Seguro Conteúdo" class="fa fa-chain"
+							url="/seguroconteudo.xhtml" />
+					</p:submenu>
+				</c:if>
+				<c:if
+					test="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.verificaDepto('DP') || SessaoMB.igp.sysDP}">
+					<p:submenu label="DP" icon="fa fa-folder" styleClass="menuCnd">
+						<p:menuitem value="Advertência/ Suspensão" class="fa fa-chain"
+							url="/dp/advert-susp/tabela-advertencia.xhtml" />
+						<p:menuitem value="Escala de Folga" class="fa fa-chain"
+							url="/escala-de-folga.xhtml" />
+						<p:submenu label="Prepax" icon="fa fa-folder" styleClass="menuCnd">
+							<p:menuitem value="Prepax" class="fa fa-chain"
+								url="/prepax.xhtml" style="color: red;" />
+							<p:menuitem value="Lançamentos" class="fa fa-chain"
+								url="/dp/prepax/dados-lancamento.xhtml" style="color: red;" />
+						</p:submenu>
+						<p:menuitem value="Query E-mail" class="fa fa-chain"
+							url="/query.xhtml" />
+					</p:submenu>
+				</c:if>
+
+				<c:if
+					test="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.verificaDepto('Emissao') || SessaoMB.igp.sysEmissao}">
+					<p:submenu label="Emissão" icon="fa fa-folder" styleClass="menuCnd">
+						<p:submenu label="Emissão" icon="fa fa-folder"
+							styleClass="menuCnd">
+							<p:menuitem value="Cadastro de Tipos" class="fa fa-chain"
+								url="/emissao/emissao/parametros-de-rateio.xhtml"
+								style="color:red;" />
+							<p:menuitem value="Cancelamento de Boleto" class="fa fa-chain"
+								url="/emissao/emissao/cancelamento-de-boleto.xhtml"
+								style="color: red;" />
+							<p:menuitem value="Tabela Emissão" class="fa fa-chain"
+								url="/emissao/emissao/tabela-emissoes.xhtml" style="color: red;" />
+						</p:submenu>
+						<p:menuitem value="Global" class="fa fa-chain" url="/global.xhtml" />
+					</p:submenu>
+				</c:if>
+
+				<c:if
+					test="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.verificaDepto('Expedicao')}">
+					<p:submenu label="Expedição" icon="fa fa-folder"
+						styleClass="menuCnd">
+						<p:menuitem value="Tabela Emissão" class="fa fa-chain"
+							url="/emissao/emissao/tabela-emissoes.xhtml" />
+					</p:submenu>
+				</c:if>
+
+				<c:if
+					test="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.verificaDepto('GED')}">
+					<p:submenu label="GED" icon="fa fa-folder" styleClass="menuCnd"
+						rendered="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.igp.sysSipGed}">
+						<p:menuitem value="Imagens" class="fa fa-chain"
+							url="/sip/ged/tabela-ged" />
+					</p:submenu>
+				</c:if>
+
+				<c:if
+					test="#{SessaoMB.verificaDepto(' Todos') 
+					|| SessaoMB.verificaDepto('Gerencia') 
+					|| SessaoMB.igp.sysAssembleia 
+					|| SessaoMB.igp.sysControleContas 
+					|| SessaoMB.igp.sysES 
+					|| SessaoMB.igp.sysEmissor 
+					|| SessaoMB.igp.sysGlobal 
+					|| SessaoMB.igp.sysRelatorioSemanal 
+					|| SessaoMB.igp.sysTaxaInadimplencia
+					|| SessaoMB.igp.syslistaPresenca 
+					|| SessaoMB.igp.sysQuerym
+					|| SessaoMB.igp.sysPrevisao
+					|| SessaoMB.igp.sysCorpoDiretivo}">
+					<p:submenu label="Gerência" icon="fa fa-folder"
+						styleClass="menuCnd">
+
+						<p:submenu label="Assembleias" icon="fa fa-folder"
+							styleClass="menuCnd">
+							<p:menuitem value="Assembleias" class="fa fa-chain"
+								url="/assembleias.xhtml"
+								rendered="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.igp.sysAssembleia}" />
+							<p:menuitem value="Emissor" class="fa fa-chain"
+								url="/emissor.xhtml"
+								rendered="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.igp.sysEmissor}" />
+							<p:menuitem value="Lista de Presença" class="fa fa-chain"
+								url="/lista-de-presenca.xhtml"
+								rendered="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.igp.syslistaPresenca}" />
+						</p:submenu>
+
+						<p:submenu label="Contábil" icon="fa fa-folder"
+							styleClass="menuCnd">
+							<p:menuitem value="Gráfico Evolutivo" class="fa fa-chain"
+								url="/grafico-evolutivo.xhtml" style="color: red;" />
+							<p:menuitem value="Gráfico Comparativo" class="fa fa-chain"
+								url="/grafico-comparativo.xhtml" style="color: red;" />
+							<p:menuitem value="Pasta Digital" class="fa fa-chain"
+								url="/pastadigital.xhtml" style="color: red;" />
+						</p:submenu>
+
+						<p:submenu label="Emissão" icon="fa fa-folder"
+							styleClass="menuCnd">
+							<p:menuitem value="Nova Emissão" class="fa fa-chain"
+								url="/emissao/gerencia/nova-emissao.xhtml"
+								rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysSEM}"
+								style="color: red;" />
+							<p:menuitem value="Tabela Emissão" class="fa fa-chain"
+								url="/emissao.xhtml"
+								rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysSEM}"
+								style="color: red;" />
+						</p:submenu>
+
+						<p:submenu label="GED"
+							rendered="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.igp.sysFinanceiro}"
+							icon="fa fa-folder" styleClass="menuCnd">
+							<p:menuitem value="Consultar Lanctos." class="fa fa-chain"
+								url="/financeiro.xhtml" style="color: red;" />
+							<p:menuitem value="Lanctos. Aprovados" class="fa fa-chain"
+								url="/lanctos-aprovados.xhtml" style="color: red;" />
+							<p:menuitem value="Novo Lançamento" class="fa fa-chain"
+								url="/lancamento.xhtml" style="color: red;" />
+							<p:menuitem value="Protocolo" class="fa fa-chain"
+								url="/protocolo-lancamentos.xhtml" style="color: red;" />
+						</p:submenu>
+
+						<p:submenu label="Quiz" icon="fa fa-folder" styleClass="menuCnd">
+							<p:menuitem value="Perguntas" class="fa fa-chain"
+								url="/quiz/perguntas.xhtml" style="color: red;" />
+							<p:menuitem value="Relatório Gráfico" class="fa fa-chain"
+								url="/quiz/relatorio.xhtml" style="color: red;" />
+							<p:menuitem value="Envio de Quiz" class="fa fa-chain"
+								url="/quiz/envio-quiz.xhtml" style="color: red;" />
+							<p:menuitem value="Parâmetros" class="fa fa-chain"
+								url="/quiz/parametros.xhtml" style="color: red;" />
+						</p:submenu>
+
+						<p:submenu label="SIP"
+							rendered="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.igp.sysSip}"
+							icon="fa fa-folder" styleClass="menuCnd">
+							<p:menuitem value="Lançamento" class="fa fa-chain"
+								url="/gerente-lancamento.xhtml" style="color: red;" />
+							<p:menuitem value="Concessionárias" class="fa fa-chain"
+								url="/sip/gerencia/concessionaria/controle-concessionarias.xhtml" />
+							<p:menuitem value="Vencimento DA" class="fa fa-chain"
+								url="/sip/gerencia/da/vencimento-da.xhtml" />
+						</p:submenu>
+
+						<p:menuitem value="Advertência / Multa" class="fa fa-chain"
+							url="/advMul.xhtml"
+							rendered="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.igp.sysAdvertMult}" />
+
+						<p:menuitem value="Contabilizador" class="fa fa-chain"
+							url="/contabilizador.xhtml"
+							rendered="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.igp.sysContabilizador}" />
+
+						<p:menuitem value="Controle de Contas" class="fa fa-chain"
+							url="/controleContas.xhtml"
+							rendered="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.igp.sysControleContas}" />
+
+						<p:menuitem value="Corpo Diretivo" class="fa fa-chain"
+							url="/corpo-diretivo.xhtml"
+							rendered="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.igp.sysCorpoDiretivo}" />
+
+						<p:menuitem value="Entrada/Saída" class="fa fa-chain"
+							url="/entrada-saida.xhtml"
+							rendered="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.igp.sysES}" />
+
+						<p:menuitem value="Global" class="fa fa-chain" url="/global.xhtml"
+							rendered="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.igp.sysGlobal}" />
+
+						<p:menuitem value="Query E-mail" class="fa fa-chain"
+							url="/query-ger.xhtml"
+							rendered="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.igp.sysQuerym}" />
+
+						<p:menuitem value="Relatório Semanal" class="fa fa-chain"
+							url="/relatorioSemanal.xhtml"
+							rendered="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.igp.sysRelatorioSemanal}" />
+
+						<p:menuitem value="Requisição de Malote" class="fa fa-chain"
+							url="/requisicao-protocolo.xhtml" />
+
+						<p:menuitem value="Taxa de Inadimplência" class="fa fa-chain"
+							url="/taxa-de-inadimplencia.xhtml"
+							rendered="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.igp.sysTaxaInadimplencia}" />
+
+						<p:menuitem value="Tabela Procuração" class="fa fa-chain"
+							url="/procuracao-juridico.xhtml" />
+
+						<p:menuitem value="Previsão Orçamentaria" class="fa fa-chain"
+							url="/previsao.xhtml"
+							rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysPrevisao}" />
+
+					</p:submenu>
+				</c:if>
+				<c:if
+					test="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.verificaDepto('Juridico')}">
+					<p:submenu label="Juridico" icon="fa fa-folder"
+						styleClass="menuCnd">
+						<p:submenu label="Protocolos" icon="fa fa-folder"
+							rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysJuridico}"
+							styleClass="menuCnd">
+							<p:menuitem value="Requisição de Malote" class="fa fa-chain"
+								url="/requisicao-juridico.xhtml" style="color: red;" />
+							<p:menuitem value="Protocolos de Malote" class="fa fa-chain"
+								url="/juridico/protocolos/protocolo-malote.xhtml"
+								style="color: red;" />
+						</p:submenu>
+						<p:menuitem value="Tabela Procuração" class="fa fa-chain"
+							url="/procuracao-juridico.xhtml" />
+					</p:submenu>
+				</c:if>
+				<c:if
+					test="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.verificaDepto('Marketing')}">
+					<p:submenu label="Marketing" icon="fa fa-folder"
+						styleClass="menuCnd">
+						<p:menuitem value="Notícias" class="fa fa-chain"
+							url="/noticias.xhtml" />
+						<p:menuitem value="Query E-mail" class="fa fa-chain"
+							url="/query.xhtml" />
+					</p:submenu>
+				</c:if>
+
+				<c:if
+					test="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.verificaDepto('NetImoveis')}">
+					<p:submenu label="Netimóveis" icon="fa fa-folder"
+						styleClass="menuCnd">
+						<p:menuitem value="Captação" class="fa fa-chain"
+							url="/netimoveis/captacao/tabela-de-captacao.xhtml" />
+					</p:submenu>
+				</c:if>
+
+				<c:if
+					test="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.verificaDepto('RH')}">
+					<p:submenu label="RH" icon="fa fa-folder" styleClass="menuCnd">
+						<p:submenu label="SBC" icon="fa fa-folder" styleClass="menuCnd">
+							<p:menuitem value="Candidatos" class="fa fa-chain"
+								url="/rh/candidatos.xhtml" />
+							<p:menuitem value="Entrevistas" class="fa fa-chain"
+								url="/rh/entrevistas.xhtml" />
+							<p:menuitem value="Pré Cadastro" class="fa fa-chain"
+								url="/rh/candidatos/pre-cadastro.xhtml" />
+							<p:menuitem value="Vagas" class="fa fa-chain"
+								url="/rh/vagas.xhtml" />
+							<p:menuitem value="Relatório de Vagas" class="fa fa-chain"
+								url="/rh/vagas/relatorio-vagas.xhtml" />
+						</p:submenu>
+						<p:menuitem value="Notícias" class="fa fa-chain"
+							url="/noticias.xhtml" />
+					</p:submenu>
+				</c:if>
+
+				<c:if
+					test="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.verificaDepto('RH')}">
+					<p:submenu label="Recepção" icon="fa fa-folder"
+						styleClass="menuCnd">
+						<p:menuitem value="Cadastro" class="fa fa-chain"
+							url="/cadastro.xhtml" />
+						<p:menuitem value="Entrevistas" class="fa fa-chain"
+							url="/rh/entrevistas.xhtml" />
+						<p:menuitem value="Relatório de Visitantes" class="fa fa-chain"
+							url="/recepcao/relatorio-recepcao.xhtml" />
+					</p:submenu>
+				</c:if>
+
+				<c:if
+					test="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.verificaDepto('PABX')}">
+					<p:submenu label="PABX" icon="fa fa-folder" rendered="false"
+						styleClass="menuCnd">
+						<p:menuitem value="PABX" class="fa fa-chain" url="/pabx.xhtml" />
+					</p:submenu>
+				</c:if>
+
+				<!-- 			<c:if
+					test="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.verificaDepto('SIP')}">
+					<p:submenu label="SIP" icon="fa fa-folder" styleClass="menuCnd">
+						<p:submenu label="GED" icon="fa fa-folder" styleClass="menuCnd"
+							rendered="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.igp.sysSipGed}">
+							<p:menuitem value="Imagens" class="fa fa-chain"
+								url="/sip/ged/tabela-ged" />
+							<p:menuitem value="Novo Pré-Lançamento" class="fa fa-chain"
+								url="/sip/pre-lancamento/novo-pre-lancamento.xhtml" />
+							<p:menuitem value="Concessionárias" class="fa fa-chain"
+								url="/sip/pre-lancamento/concessionaria/controle-concessionarias.xhtml" />
+						</p:submenu>
+
+						<p:submenu label="Gerência" icon="fa fa-folder"
+							styleClass="menuCnd"
+							rendered="#{SessaoMB.verificaDepto(' Todos')  || SessaoMB.igp.sysSipGerencia}">
+							<p:menuitem value="Concessionárias" class="fa fa-chain"
+								url="/sip/gerencia/concessionaria/controle-concessionarias.xhtml" />
+							<p:menuitem value="Lançamentos Futuros" class="fa fa-chain"
+								url="/sip/gerencia/csv/baixa-lancamentos-futuros.xhtml" />
+							<p:menuitem value="Baixa Débito Automático" class="fa fa-chain"
+								url="/sip/gerencia/csv/baixa-debito-automatico.xhtml" />
+							<p:menuitem value="Conciliados" class="fa fa-chain"
+								url="/sip/gerencia/csv/conciliados.xhtml" />
+						</p:submenu>
+						<p:submenu label="Financeiro" icon="fa fa-folder"
+							styleClass="menuCnd">
+							<p:menuitem value="Pagamento Eletrônico" class="fa fa-chain"
+								url="/sip/financeiro/pagamento-eletronico.xhtml" />
+						</p:submenu>
+					</p:submenu>
+				</c:if> -->
+
+				<c:if
+					test="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.verificaDepto('TI')}">
+					<p:submenu label="TI" icon="fa fa-folder" styleClass="menuCnd">
+						<p:menuitem value="Reserva de Equipamentos" class="fa fa-chain"
+							url="/reserva-de-equipamentos.xhtml" />
+						<p:menuitem value="Gráficos(BETA)" class="fa fa-chain"
+							url="/grafico-evolutivo-ti.xhtml" style="color: red;" />
+					</p:submenu>
+				</c:if>
+			</p:submenu>
+
+			<!-- 	<p:separator rendered="#{SessaoMB.verificaDepto(' Todos')}" />
+
+			<c:if test="#{SessaoMB.verificaDepto(' Todos')}">
+				<p:submenu label="Administrador" icon="fa fa-user"
+					rendered="#{SessaoMB.igp.sysAdmin}">
+					<p:submenu label="Configurações" icon="fa fa-gear"
+						actionListener="#{themeView.change('green')}" ajax="false">
+						<p:submenu label="Usuários" icon="fa fa-user">
+							<p:menuitem value="Novo Usuário" icon="fa fa-gear"
+								url="/usuarioNovo.xhtml"
+								actionListener="#{themeView.change('green')}" ajax="false" />
+							<p:submenu label="Manutenção" icon="fa fa-users">
+								<p:menuitem value="Usuário" icon="fa fa-user"
+									url="/usuarioManut.xhtml"
+									actionListener="#{themeView.change('green')}" ajax="false" />
+								<p:menuitem value="Gerencia" icon="fa fa-user"
+									url="/gerenteManut.xhtml"
+									actionListener="#{themeView.change('green')}" ajax="false" />
+							</p:submenu>
+						</p:submenu>
+						<p:submenu label="Grupos" icon="fa fa-sitemap">
+							<p:menuitem value="Novos Grupos" icon="fa fa-cogs"
+								url="/grupoNovo.xhtml"
+								actionListener="#{themeView.change('green')}" ajax="false" />
+							<p:submenu label="Manutenção" icon="fa fa-gear">
+								<p:menuitem value="Departamento" icon="fa fa-gear"
+									url="/grupoManutDepto.xhtml"
+									actionListener="#{themeView.change('green')}" ajax="false" />
+								<p:menuitem value="Permissão" icon="fa fa-gear"
+									url="/grupoManutPerm.xhtml"
+									actionListener="#{themeView.change('green')}" ajax="false" />
+							</p:submenu>
+						</p:submenu>
+						<p:submenu label="Atualizações">
+							<p:menuitem value="Intranet" icon="fa fa-gear"
+								url="/update-sistemas.xhtml"
+								actionListener="#{themeView.change('green')}" ajax="false" />
+						</p:submenu>
+					</p:submenu>
+				</p:submenu>
+			</c:if>
+ -->
+			<p:separator />
+
+			<p:submenu label="Mídias" icon="fa fa-image">
+				<p:menuitem value="Fotos OMA" icon="fa fa-image"
+					url="/fotos-oma.xhtml" />
+				<p:menuitem value="Videos OMA" icon="fa fa-film"
+					url="/videos-oma.xhtml" />
+			</p:submenu>
+
+			<p:separator />
+
+			<p:submenu label="Documentos" icon="fa fa-folder-open-o">
+				<p:menuitem value="Manuais / Requisições" class="fa fa-chain"
+					url="/manuais-requisicoes.xhtml" />
+				<p:menuitem value="Documentos OMA" class="fa fa-chain"
+					url="/documentos-oma.xhtml" />
+			</p:submenu>
+
+			<p:separator />
+
+			<p:submenu label="Links Úteis" icon="fa fa-folder-open-o">
+				<p:menuitem value="Consulta CNPJ" class="fa fa-chain"
+					onclick="window.open('http://www.receita.fazenda.gov.br/PessoaJuridica/CNPJ/cnpjreva/Cnpjreva_Solicitacao.asp', 'newwindow', 'width=800, height=600'); return false;" />
+				<p:menuitem value="CPOM" class="fa fa-chain"
+					onclick="window.open('https://www3.prefeitura.sp.gov.br/cpom2/consulta_tomador.aspx', 'newwindow', 'width=800, height=600'); return false;" />
+				<p:menuitem value="Consulta Simples Nacional" class="fa fa-chain"
+					onclick="window.open('http://www8.receita.fazenda.gov.br/simplesnacional/aplicacoes.aspx?id=21', 'newwindow', 'width=800, height=600'); return false;" />
+				<p:menuitem value="NFe Paulistana - PMSP" class="fa fa-chain"
+					onclick="window.open('https://nfe.prefeitura.sp.gov.br/login.aspx?ReturnUrl=%2fcontribuinte%2finicio.aspx', 'newwindow', 'width=800, height=600'); return false;" />
+				<p:menuitem value="FDC - PMSP" class="fa fa-chain"
+					onclick="window.open('https://www3.prefeitura.sp.gov.br/fdc/fdc_imp02_cgc.asp', 'newwindow', 'width=800, height=600'); return false;" />
+				<p:menuitem value="Sintegra - Cadastros Estaduais"
+					class="fa fa-chain"
+					onclick="window.open('http://www.sintegra.gov.br/', 'newwindow', 'width=800, height=600'); return false;" />
+			</p:submenu>
+
+			<!-- 			<p:submenu label="Contabilizador" icon="fa fa-comments Fs16 white"
+				rendered="#{SessaoMB.igp.sysAdmin}" styleClass="contab" /> -->
+
+			<p:separator />
+
+			<p:submenu label="Condomínio WEB" icon="fa fa-cloud"
+				styleClass="condWeb" />
+
+			<p:separator />
+
+			<p:submenu label="Folha WEB" icon="fa fa-cloud" styleClass="folhaWeb" />
+
+			<p:separator />
+
+			<p:submenu label="Site OMA" icon="fa fa-cloud" styleClass="siteOma" />
+
+			<p:submenu label="Colors" icon="fa fa-paint-brush" rendered="false">
+				<p:menuitem value="Green" icon="fa fa-paint-brush"
+					actionListener="#{themeView.change('green')}" ajax="false" />
+				<p:menuitem value="Blue" icon="fa fa-paint-brush"
+					actionListener="#{themeView.change('blue')}" ajax="false" />
+				<p:menuitem value="Orange" icon="fa fa-paint-brush"
+					actionListener="#{themeView.change('orange')}" ajax="false" />
+				<p:menuitem value="Red" icon="fa fa-paint-brush"
+					actionListener="#{themeView.change('red')}" ajax="false" />
+
+			</p:submenu>
+
+			<f:facet name="options">
+				<p:selectOneMenu id="gerentePrincipal" filter="true"
+					requiredMessage="Selecione um gerente!" filterMatchMode="contains"
+					required="true" value="#{SessaoMB.gerenteSelecionado}"
+					converter="omnifaces.SelectItemsConverter"
+					style="width:130px;float:right;font-size:10px!important;">
+					<p:ajax listener="#{SessaoMB.listarCondominios()}"
+						oncomplete="atualizaAll();" />
+					<f:selectItems var="gerente" value="#{SessaoMB.listaGerentes}"
+						itemLabel="#{gerente.nome}" itemValue="#{gerente}" />
+				</p:selectOneMenu>
+			</f:facet>
+		</ps:menu>
+
+		<style>
+#frmMainMenu\3a gerentePrincipal_label {
+	background-color: #EDF3F6 !important;
+	font-size: 14px !important;
+	margin-top: 0px !important;
+	padding-left: 3px !important;
+}
+
+#layout-menu>li:nth-child(16) {
+	margin-top: 4px !important;
+}
+
+#frmMainMenu\3a gerentePrincipal_label {
+	color: #778D9B !important;
+}
+</style>
+
+		<script>
+			$(document)
+					.ready(
+							function() {
+								$(".subMenuHome")
+										.find("a")
+										.attr("href",
+												"#{facesContext.externalContext.applicationContextPath}/dashboard.xhtml");
+								$(".subMenuHome").find("a").attr("onclick", "");
+
+								$(".condWeb")
+										.find("a")
+										.attr("href",
+												"http://192.1.7.9/condominioweb/default.aspx");
+								$(".condWeb").find("a")
+										.attr("target", "_blank");
+								$(".condWeb").find("a").attr("onclick", "");
+
+								$(".folhaWeb")
+										.find("a")
+										.attr("href",
+												"http://192.1.7.9/folhaweb/default.aspx");
+								$(".folhaWeb").find("a").attr("target",
+										"_blank");
+								$(".folhaWeb").find("a").attr("onclick", "");
+
+								$(".siteOma").find("a").attr("href",
+										"http://www.oma.com.br");
+								$(".siteOma").find("a")
+										.attr("target", "_blank");
+								$(".siteOma").find("a").attr("onclick", "");
+							});
+			$(".contab").click(function() {
+				$(".boxContabilizacaoHoras").show();
+				$(".boxContabilizacaoHoras").draggable();
+			});
+		</script>
+	</h:form>
+	<style>
+.frmMainMenu {
+	position: fixed;
+	top: 25px;
+	width: 100%;
+	z-index: 999;
+}
+
+.largura100 {
+	width: 100% !important;
+}
+
+.boxContabilizacaoHoras {
+	right: 480px;
+	top: 150px;
+	width: 400px;
+	height: 500px;
+	z-index: 9999;
+}
+
+.ui-dialog-minimized {
+	float: left !important;
+	left: 0px !important;
+	z-index: 9999;
+}
+</style>
+	<script>
+		$("document").ready(
+				function($) {
+					var nav = $('#frmMainMenu');
+					var elem = $(this);
+					$(window).scroll(function() {
+						if (elem.width() >= 944) {
+							if ($(this).scrollTop() > 54) {
+								nav.addClass("frmMainMenu");
+							} else {
+								nav.removeClass("frmMainMenu");
+							}
+						}
+					});
+
+					if (elem.width() >= 944) {
+						$(".menuCnd > a > .fa-chevron-down").addClass(
+								"fa-chevron-right");
+						$(".menuCnd  > a > .fa-chevron-down").removeClass(
+								"fa-chevron-down");
+
+						$(".liMenu > a > .fa-chevron-down").addClass(
+								"fa-chevron-right");
+						$(".liMenu  > a > .fa-chevron-down").removeClass(
+								"fa-chevron-down");
+					}
+				});
+
+		function atualizaAll() {
+			location.assign(location.href);
+		}
+	</script>
+	<ui:include src="/includes/mascara.xhtml" />
+</ui:composition>

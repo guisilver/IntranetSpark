@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="graficos" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7a9d582e-c225-48ff-b374-310cf2882d27">
+	<property name="ireport.zoom" value="1.0000000000000004"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="9"/>
+	<parameter name="mes1" class="java.lang.String"/>
+	<parameter name="mes2" class="java.lang.String"/>
+	<parameter name="mes3" class="java.lang.String"/>
+	<parameter name="mes4" class="java.lang.String"/>
+	<parameter name="mes5" class="java.lang.String"/>
+	<parameter name="mes6" class="java.lang.String"/>
+	<parameter name="mes7" class="java.lang.String"/>
+	<parameter name="mes8" class="java.lang.String"/>
+	<parameter name="mes9" class="java.lang.String"/>
+	<parameter name="mes10" class="java.lang.String"/>
+	<parameter name="mes11" class="java.lang.String"/>
+	<parameter name="mes12" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="p_capa" class="java.lang.String"/>
+	<field name="p_mes_projecao" class="java.sql.Timestamp"/>
+	<field name="p_mes1" class="java.lang.Double"/>
+	<field name="p_mes2" class="java.lang.Double"/>
+	<field name="p_mes3" class="java.lang.Double"/>
+	<field name="p_mes4" class="java.lang.Double"/>
+	<field name="p_mes5" class="java.lang.Double"/>
+	<field name="p_mes6" class="java.lang.Double"/>
+	<field name="p_mes7" class="java.lang.Double"/>
+	<field name="p_mes8" class="java.lang.Double"/>
+	<field name="p_mes9" class="java.lang.Double"/>
+	<field name="p_mes10" class="java.lang.Double"/>
+	<field name="p_mes11" class="java.lang.Double"/>
+	<field name="p_mes12" class="java.lang.Double"/>
+	<field name="p_media" class="java.lang.Double"/>
+	<field name="c_nomeCondominio" class="java.lang.String"/>
+	<group name="sub">
+		<groupFooter>
+			<band height="433">
+				<pieChart>
+					<chart>
+						<reportElement x="64" y="33" width="683" height="400" uuid="2227a9a5-a19f-43bc-96e1-b32f83b99cd9"/>
+						<box>
+							<pen lineWidth="0.25" lineStyle="Dotted"/>
+							<topPen lineWidth="0.25" lineStyle="Dotted"/>
+							<leftPen lineWidth="0.25" lineStyle="Dotted"/>
+							<bottomPen lineWidth="0.25" lineStyle="Dotted"/>
+							<rightPen lineWidth="0.25" lineStyle="Dotted"/>
+						</box>
+						<chartTitle>
+							<titleExpression><![CDATA["Média das Despesas"]]></titleExpression>
+						</chartTitle>
+						<chartSubtitle>
+							<font isBold="true"/>
+						</chartSubtitle>
+						<chartLegend position="Right"/>
+					</chart>
+					<pieDataset>
+						<keyExpression><![CDATA[$F{p_capa}]]></keyExpression>
+						<valueExpression><![CDATA[$F{p_media}]]></valueExpression>
+					</pieDataset>
+					<piePlot isShowLabels="false" labelFormat="{2}">
+						<plot/>
+						<itemLabel/>
+					</piePlot>
+				</pieChart>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="sub2">
+		<groupFooter>
+			<band height="319">
+				<bar3DChart>
+					<chart>
+						<reportElement x="0" y="36" width="802" height="283" uuid="e823a8c3-183a-4e31-9996-3ba23ca046f9"/>
+						<box>
+							<pen lineWidth="0.25" lineStyle="Dotted"/>
+							<topPen lineWidth="0.25" lineStyle="Dotted"/>
+							<leftPen lineWidth="0.25" lineStyle="Dotted"/>
+							<bottomPen lineWidth="0.25" lineStyle="Dotted"/>
+							<rightPen lineWidth="0.25" lineStyle="Dotted"/>
+						</box>
+						<chartTitle>
+							<font isBold="true"/>
+							<titleExpression><![CDATA["Evolução das despesas mês a mês"]]></titleExpression>
+						</chartTitle>
+						<chartSubtitle/>
+						<chartLegend/>
+					</chart>
+					<categoryDataset>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{p_capa}]]></seriesExpression>
+							<categoryExpression><![CDATA[$P{mes1}]]></categoryExpression>
+							<valueExpression><![CDATA[$F{p_mes1}]]></valueExpression>
+						</categorySeries>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{p_capa}]]></seriesExpression>
+							<categoryExpression><![CDATA[$P{mes2}]]></categoryExpression>
+							<valueExpression><![CDATA[$F{p_mes2}]]></valueExpression>
+						</categorySeries>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{p_capa}]]></seriesExpression>
+							<categoryExpression><![CDATA[$P{mes3}]]></categoryExpression>
+							<valueExpression><![CDATA[$F{p_mes3}]]></valueExpression>
+						</categorySeries>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{p_capa}]]></seriesExpression>
+							<categoryExpression><![CDATA[$P{mes4}]]></categoryExpression>
+							<valueExpression><![CDATA[$F{p_mes4}]]></valueExpression>
+						</categorySeries>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{p_capa}]]></seriesExpression>
+							<categoryExpression><![CDATA[$P{mes5}]]></categoryExpression>
+							<valueExpression><![CDATA[$F{p_mes5}]]></valueExpression>
+						</categorySeries>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{p_capa}]]></seriesExpression>
+							<categoryExpression><![CDATA[$P{mes6}]]></categoryExpression>
+							<valueExpression><![CDATA[$F{p_mes6}]]></valueExpression>
+						</categorySeries>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{p_capa}]]></seriesExpression>
+							<categoryExpression><![CDATA[$P{mes7}]]></categoryExpression>
+							<valueExpression><![CDATA[$F{p_mes7}]]></valueExpression>
+						</categorySeries>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{p_capa}]]></seriesExpression>
+							<categoryExpression><![CDATA[$P{mes8}]]></categoryExpression>
+							<valueExpression><![CDATA[$F{p_mes8}]]></valueExpression>
+						</categorySeries>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{p_capa}]]></seriesExpression>
+							<categoryExpression><![CDATA[$P{mes9}]]></categoryExpression>
+							<valueExpression><![CDATA[$F{p_mes9}]]></valueExpression>
+						</categorySeries>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{p_capa}]]></seriesExpression>
+							<categoryExpression><![CDATA[$P{mes10}]]></categoryExpression>
+							<valueExpression><![CDATA[$F{p_mes10}]]></valueExpression>
+						</categorySeries>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{p_capa}]]></seriesExpression>
+							<categoryExpression><![CDATA[$P{mes11}]]></categoryExpression>
+							<valueExpression><![CDATA[$F{p_mes11}]]></valueExpression>
+						</categorySeries>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{p_capa}]]></seriesExpression>
+							<categoryExpression><![CDATA[$P{mes12}]]></categoryExpression>
+							<valueExpression><![CDATA[$F{p_mes12}]]></valueExpression>
+						</categorySeries>
+					</categoryDataset>
+					<bar3DPlot>
+						<plot/>
+						<itemLabel/>
+						<categoryAxisFormat>
+							<axisFormat/>
+						</categoryAxisFormat>
+						<valueAxisFormat>
+							<axisFormat verticalTickLabels="false"/>
+						</valueAxisFormat>
+						<rangeAxisMinValueExpression><![CDATA[0]]></rangeAxisMinValueExpression>
+					</bar3DPlot>
+				</bar3DChart>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="sub3"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="46" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="26" width="802" height="20" uuid="4743393e-4620-42f9-9f6b-8aa10858f55d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[PREVISÃO ORÇAMENTÁRIA ORDINÁRIA PARA OS PRÓXIMOS 12 MESES]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Opaque" x="0" y="0" width="802" height="21" backcolor="#CCCCCC" uuid="749913d3-d060-4cab-908a-21fd4358f429"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="12" isBold="true" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["CONDOMÍNIO EDIFÍCIO "+$F{c_nomeCondominio}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

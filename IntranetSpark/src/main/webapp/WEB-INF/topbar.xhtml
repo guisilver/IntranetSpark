@@ -1,0 +1,265 @@
+	<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+	<style>
+.ui-commandlink {
+	styleClass: Animated05 fa fa-sign-in;
+}
+
+#layout-topbar-menu {
+	max-width: 1000px !important;
+}
+</style>
+
+	<div id="layout-topbar" class="ShadowGray">
+
+		<div id="layout-topbar-indent">
+
+			<h:link outcome="/dashboard.xhtml?faces-redirect=true;">
+				<h:graphicImage name="logo2.png" styleClass="Fleft"
+					library="imagens" id="logo" class="Fleft" />
+			</h:link>
+			<a href="#" id="mobile-menu-button"
+				class="BordRad3 white ShowOnMobile"><i class="fa fa-bars"></i>
+				Menu</a> <a href="#" id="mobile-menu-button-gray"
+				class="BordRad3 white ShowOnMobile"><i class="fa fa-caret-down"></i>
+				Top Menu</a>
+
+
+			<h:panelGroup id="topBarMenu" layout="block">
+
+				<ul id="layout-topbar-menu">
+
+
+					<c:if test="#{!SessaoMB.logado}">
+						<li><a
+							href="#{facesContext.externalContext.applicationContextPath}/login.xhtml"
+							class="Animated05"><i class="fa fa-sign-in"> </i> Login </a></li>
+					</c:if>
+
+					<c:if test="#{SessaoMB.logado}">
+						<li><a href="#" onclick="return logout();" class="Animated05"><i
+								class="fa fa-sign-in"> </i> Logout </a></li>
+					</c:if>
+
+
+					<!-- 				<li class="fa fa-ellipsis-v menu-separator"></li>
+                <li>
+                	<a href="#" class="Animated05"><i class="fa fa-gear fa-spin"></i> Configurações</a>
+                </li>
+                <li class="fa fa-ellipsis-v menu-separator"></li>
+                <li>
+                	<a class="Animated05 CursPointer"><i class="fa fa-bell animated swing infinite red"></i> Mensagens <span class="notification-bubble BordRad3 animated rubberBand">24</span> <i class="fa fa-chevron-down Fs14 Fright ShowOnMobile"></i></a>
+                    <ul style="width:200px; margin-left:-45px;" class="Animated03 submenu">
+                    	<li><a href="#" class="Animated05"><i class="fa fa-envelope Fs18 blue"></i> <span class="Fright Fs16 TexAlRight">Brian Connely<span class="Fs10 DispBlock">Sales Reports</span></span></a></li>
+                        <li><a href="#" class="Animated05"><i class="fa fa-envelope Fs18"></i> <span class="Fright Fs16 TexAlRight">Jack O'Neill<span class="Fs10 DispBlock">Last Meeting Notes</span></span></a></li>
+                        <li><a href="#" class="Animated05"><i class="fa fa-envelope Fs18 blue"></i> <span class="Fright Fs16 TexAlRight">Tony Parker<span class="Fs10 DispBlock">Web Site Visitors</span></span></a></li>
+                        <li><a href="#" class="Animated05"><i class="fa fa-envelope Fs18 red animated infinite rubberBand"></i> <span class="Fright Fs16 TexAlRight">Bob Ross<span class="Fs10 DispBlock">IK Reports</span></span></a></li>
+                        <li><a href="#" class="Animated05"><i class="fa fa-envelope Fs18 orange"></i> <span class="Fright Fs16 TexAlRight">Sarah White<span class="Fs10 DispBlock">Marketing News</span></span></a></li>
+                    </ul>
+                </li> -->
+					<!--                 <li class="fa fa-ellipsis-v menu-separator"></li>
+           		 <li>
+                	<a href="login.xhtml" class="Animated05"><i class="fa fa-sign-in"> </i> Login </a>
+                </li> -->
+
+
+					<c:if test="#{SessaoMB.logado}">
+						<li class="fa fa-ellipsis-v menu-separator"></li>
+						<li><a class="Animated05 CursPointer"> <i
+								class="fa fa-user"></i> #{SessaoMB.usuario.nome}, Bem vindo <i
+								class="fa fa-chevron-down Fs14 Fright ShowOnMobile"></i></a>
+							<ul style="width: 175px; margin-left: -10px;"
+								class="Animated03 submenu">
+								<li><a
+									href="#{facesContext.externalContext.applicationContextPath}/usuarioDados.xhtml"
+									class="Animated05"><i class="fa fa-magic"></i> Alterar
+										Senha </a></li>
+							</ul></li>
+					</c:if>
+
+					<c:if test="#{SessaoMB.verificaDepto(' Todos')}">
+						<li class="fa fa-ellipsis-v menu-separator"></li>
+
+						<li class="liAdmin"><a class="Animated05 CursPointer"> <i
+								class="fa fa-gear"></i> Administrador <i
+								class="fa fa-chevron-down Fs14 Fright ShowOnMobile"></i>
+						</a>
+							<ul style="width: 175px; margin-left: -10px;"
+								class="Animated03 submenu">
+
+								<li class="liMenu"><a class="Animated05 CursPointer"
+									href="#" onclick="return false;"> <i class="fa fa-user"></i>
+										Usuários<i class="fa Fs12 Fright fa-chevron-down"></i>
+								</a>
+									<ul class="sub-menu openSubMenu">
+										<li><a
+											href="#{facesContext.externalContext.applicationContextPath}/usuarioNovo.xhtml"
+											class="Animated05"><i class="fa fa-user-plus"></i> Novo
+												Usuário </a></li>
+
+										<li><a
+											href="#{facesContext.externalContext.applicationContextPath}/usuarioManut.xhtml"
+											class="Animated05"><i class="fa fa-users"></i> Usuários </a></li>
+
+										<li><a
+											href="#{facesContext.externalContext.applicationContextPath}/gerenteManut.xhtml"
+											class="Animated05"><i class="fa fa-users"></i> Gerência </a></li>
+
+									</ul></li>
+
+								<li class="liMenu"><a class="Animated05 CursPointer"
+									href="#" onclick="return false;"><i class="fa fa-sitemap"></i>
+										Grupos <i class="fa Fs12 Fright fa-chevron-down"></i></a>
+									<ul class="sub-menu openSubMenu">
+										<li><a
+											href="#{facesContext.externalContext.applicationContextPath}/grupoNovo.xhtml"
+											class="Animated05"><i class="fa fa-plus"></i> Novos
+												Grupos </a></li>
+
+										<li><a
+											href="#{facesContext.externalContext.applicationContextPath}/grupoManutDepto.xhtml"
+											class="Animated05"><i class="fa fa-sitemap"></i>
+												Departamentos </a></li>
+
+										<li><a
+											href="#{facesContext.externalContext.applicationContextPath}/grupoManutPerm.xhtml"
+											class="Animated05"><i class="fa fa-eye"></i> Permissões </a></li>
+									</ul></li>
+
+								<li class="liMenu"><a href="#" onclick="return false;"
+									class="Animated05"><i class="fa fa-refresh"></i>
+										Atualizações <i class="fa Fs12 Fright fa-chevron-down"></i></a>
+									<ul class="sub-menu openSubMenu">
+										<li><a
+											href="#{facesContext.externalContext.applicationContextPath}//update-sistemas.xhtml"
+											class="Animated05"><i class="fa fa-gear"></i> Intranet </a></li>
+									</ul></li>
+
+							</ul></li>
+					</c:if>
+
+					<c:if test="#{SessaoMB.igp.sysAdmin || SessaoMB.verificaDepto('Gerencia')}">
+
+
+						<li class="fa fa-ellipsis-v menu-separator"></li>
+						<li><a class="Animated05 CursPointer">
+								<div class="fa fa-bell animated swing infinite"
+									style="float: left; margin-right: 5px; color: red !important"></div>
+								<div class="fa fa-bell animated swing infinite"
+									style="float: left; margin-right: 5px; color: orange !important"></div>Vencimento <p:spacer
+												width="10" height="10" /><span
+											class="notification-bubble BordRad3 animated rubberBand Fs16">#{ged.quantidadeVenctoGerente()}</span>
+						</a>
+							<ul style="width: 150px; margin-left: -45px;"
+								class="Animated03 submenu">
+								<!-- <li><a
+									href="#{facesContext.externalContext.applicationContextPath}/sip/fiscal/pre-lancamentos.xhtml"
+									class="Animated05"> <span class="Fleft Fs14">Fiscal<p:spacer
+												width="10" height="10" /><span
+											class="notification-bubble BordRad3 animated rubberBand">#{consultaPreLancamentosMB.quantidadeVencimento()}</span></span></a></li>
+								<li><a
+									href="#{facesContext.externalContext.applicationContextPath}/lancamento-contas.xhtml"
+									class="Animated05"> <span class="Fleft Fs14">Lançamento<p:spacer
+												width="10" height="10" /><span
+											class="notification-bubble BordRad3 animated rubberBand">#{ged.quantidadeVenctoLancto()}</span></span></a></li> -->
+								<li><a
+									href="#{facesContext.externalContext.applicationContextPath}/gerente-lancamento.xhtml"
+									class="Animated05"> <span class="Fleft Fs14">Gerência<p:spacer
+												width="10" height="10" /><span
+											class="notification-bubble BordRad3 animated rubberBand">#{ged.quantidadeVenctoGerente()}</span></span></a></li>
+							</ul></li>
+
+					</c:if>
+					<c:if test="#{SessaoMB.igp.sysAdmin || SessaoMB.verificaDepto('Contas a Pagar') || SessaoMB.verificaDepto('Gerencia')}">
+						<li class="fa fa-ellipsis-v menu-separator"></li>
+
+						<li><a class="Animated05 CursPointer"><div
+									class="fa fa-bell animated swing infinite"
+									style="float: left; margin-right: 5px; color: black !important;"></div>Suspenso<p:spacer
+												width="10" height="10" /><span
+											class="notification-bubble BordRad3 animated rubberBand Fs16"> #{alertaSIP.getRetornaQtdaSuspenso(SessaoMB.usuario.grupoDepto)} </span>
+						</a>
+							<ul style="width: 150px; margin-left: -45px;"
+								class="Animated03 submenu">
+								<c:if test="#{SessaoMB.igp.sysAdmin || SessaoMB.verificaDepto('Contas a Pagar')}">
+								<li><a
+									href="#{facesContext.externalContext.applicationContextPath}/sip/fiscal/pre-lancamentos.xhtml?opcaoFiltro=3"
+									class="Animated05"> <span class="Fleft Fs14">Fiscal<p:spacer
+												width="10" height="10" /><span
+											class="notification-bubble BordRad3 animated rubberBand"> #{consultaPreLancamentosMB.quantidadeSuspenso()} </span></span></a></li>
+									</c:if>
+									<c:if test="#{SessaoMB.igp.sysAdmin || SessaoMB.verificaDepto('Contas a Pagar')}">
+								<li><a
+									href="#{facesContext.externalContext.applicationContextPath}/lancamento-contas.xhtml?opcaoLancto=3"
+									class="Animated05"> <span class="Fleft Fs14">Lançamento<p:spacer
+												width="10" height="10" /><span
+											class="notification-bubble BordRad3 animated rubberBand"> #{ged.quantidadeSuspensoLancto()} </span></span></a></li>
+									</c:if>		
+								<c:if test="#{SessaoMB.igp.sysAdmin || SessaoMB.verificaDepto('Gerencia')}">
+								<li><a
+									href="#{facesContext.externalContext.applicationContextPath}/gerente-lancamento.xhtml?opcaoGerente=3"
+									class="Animated05"> <span class="Fleft Fs14">Gerência<p:spacer
+												width="10" height="10" /><span
+											class="notification-bubble BordRad3 animated rubberBand"> #{ged.quantidadeSuspensoGerente()} </span></span></a></li>
+									</c:if>											
+							</ul></li>
+					</c:if>
+
+					<c:if
+						test="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.verificaDepto('Gerencia') || SessaoMB.verificaDepto('Contabilidade')}">
+							<li class="fa fa-ellipsis-v menu-separator"></li>
+							
+							<li><a class="Animated05 CursPointer">
+									<div class="fa fa-bell animated swing infinite"
+										style="float: left; margin-right: 5px; color: #b366b3 !important"></div>D.A.<p:spacer
+												width="10" height="10" /><span
+											class="notification-bubble BordRad3 animated rubberBand Fs16">#{alertaSIP.getRetornaQtdaDA()}</span>
+							</a>
+								<ul style="width: 150px; margin-left: -45px;"
+									class="Animated03 submenu">
+									<li><a
+										href="#{facesContext.externalContext.applicationContextPath}/sip/gerencia/da/vencimento-da"
+										class="Animated05"> <span class="Fleft Fs14">D.A<p:spacer
+												width="10" height="10" /><span
+											class="notification-bubble BordRad3 animated rubberBand Fs16">#{alertaSIP.getRetornaQtdaDA()} 
+											</span>
+										</span></a></li>
+								</ul> </li>
+					</c:if>
+
+				</ul>
+
+			</h:panelGroup>
+
+		</div>
+	</div>
+
+	<style>
+.sub-menu {
+	margin-top: -44px !important;
+	display: none;
+	margin-left: 175px;
+	width: 175px;
+}
+
+.sub-menu>li {
+	background: #F1F6F9;
+	width: 175px;
+}
+
+#layout-topbar-menu>li:nth-child(5)>ul>li:hover>.sub-menu {
+	display: block;
+	opacity: 1 !important;
+	overflow: visible !important;
+}
+</style>
+
+	<h:form>
+		<p:remoteCommand name="logout" actionListener="#{login.logout()}"
+			update="@all" />
+	</h:form>
+</ui:composition>

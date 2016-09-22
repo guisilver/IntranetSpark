@@ -1,0 +1,79 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<style>
+#frmGrupoGeren\:tblGeren {
+	border: 0px !important;
+}
+.fontSize {
+	font-size: 12px !important;
+}
+#frmGrupoGeren\:tblGeren\:clCodigo\:filter{
+	width: 30px !important;
+}
+</style>
+	<h:form id="frmGrupoGeren" rendered="#{SessaoMB.igp.sysAdmin}">
+		<p:commandButton id="btnNovoGerente" value="Novo Gerente"
+			oncomplete="PF('dialogGeren').show()"
+			action="#{grupo.limparGerente()}"
+			update=":frmDialogGeren:gridNovoGeren" />
+		<br />
+		<hr />
+		<p:messages showDetail="true" autoUpdate="true" closable="true"
+			escape="true" showSummary="false" />
+		<p:dataTable id="tblGeren" var="p" value="#{grupo.listaGeren}"
+			selection="#{grupo.gerenBean}" rowKey="#{p.codigo}" style="width: 730px !important;"
+			filteredValue="#{grupo.filtroGeren}" rows="5" paginator="true"
+			rowsPerPageTemplate="10,15,30"
+			emptyMessage="Nenhum registro encontrado...">
+			<f:facet name="header">
+				<p:commandButton value="Alterar"
+					oncomplete="PF('dialogGeren').show();"
+					update=":frmDialogGeren:gridNovoGeren" />
+				<p:spacer width="10" />
+				<p:commandButton value="Excluir" oncomplete="PF('confirm').show();"
+					icon="fa fa-close Fs16 white"
+					actionListener="#{grupo.excluirGerente}" update=":frmGrupoGeren">
+					<p:confirm header="Confirmation" message="Confirma a exclusão ?"
+						icon="fa fa-alert Fs16 white" />
+				</p:commandButton>
+			</f:facet>
+
+			<p:column selectionMode="single" style="width:16px;text-align:center" />
+			<p:column id="clCodigo" headerText="Codigo" filterBy="#{p.codigo}" style="width: 50px !important;text-align: center;">
+				#{p.codigo}
+			</p:column>
+			<p:column headerText="Nome" filterBy="#{p.nome}">
+				#{p.nome}
+			</p:column>
+			<p:column headerText="E-mail" filterBy="#{p.email}">
+				#{p.email}
+			</p:column>
+		
+
+			<p:column headerText="Situação" styleClass="fontSize"
+				style="text-align: center !important;width: 100px !important;">
+				<p:outputLabel rendered="#{p.codigo > 1}"
+					value="#{p.baixar == false ? 'Ativo' : 'Desativado'}"
+					style="color: #{p.baixar == false ? 'green' : 'red'}; "
+					styleClass="fontSize" />
+				<p:selectBooleanCheckbox value="#{p.baixar}" rendered="#{p.codigo > 1}"
+					styleClass="fontSize" style="margin-left:7px !important;">
+					<p:ajax event="change"	listener="#{grupo.desativar(p)}"
+						update=":frmGrupoGeren" />
+				</p:selectBooleanCheckbox>
+			</p:column>
+
+		</p:dataTable>
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
+			widgetVar="confirm">
+			<p:commandButton value="Não" type="button"
+				styleClass="ui-confirmdialog-no" icon="fa fa-close Fs16 white" />
+			<p:commandButton value="Sim" type="button"
+				styleClass="ui-confirmdialog-yes" icon="fa fa-check Fs16 white" />
+		</p:confirmDialog>
+	</h:form>
+</ui:composition>

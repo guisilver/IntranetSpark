@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ControleCelular" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty" uuid="46c77428-c655-4459-8127-aaab099f7e66">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="condominio" class="java.lang.Integer"/>
+	<field name="solicitante" class="java.lang.String"/>
+	<field name="celular" class="java.lang.String"/>
+	<field name="data" class="java.sql.Timestamp"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="72" splitType="Stretch">
+			<staticText>
+				<reportElement x="164" y="13" width="253" height="39" uuid="c56cb660-0bc2-4f1d-a7dd-e1be643806e0"/>
+				<textElement>
+					<font fontName="SansSerif" size="24"/>
+				</textElement>
+				<text><![CDATA[Relatório de Celulares]]></text>
+			</staticText>
+			<image>
+				<reportElement x="0" y="0" width="101" height="62" uuid="ebbe7e6b-695d-47cd-a5ba-9e50885db482"/>
+				<imageExpression><![CDATA["http://10.1.1.20:8080//imagens//omatim.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="0" width="555" height="20" forecolor="#666666" backcolor="#666666" uuid="debdfa8c-18ed-4944-89ff-ab122b5d47d6"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="4" y="0" width="97" height="20" forecolor="#FFFFFF" uuid="62a746ed-342a-48d3-a848-3ce79c3aeb54"/>
+				<textElement>
+					<font fontName="SansSerif" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[condominio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="113" y="0" width="189" height="20" forecolor="#FFFFFF" uuid="a93b937a-c7f3-4a03-9a07-c8aaa04ad9cb"/>
+				<textElement>
+					<font fontName="SansSerif" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[solicitante]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="317" y="0" width="100" height="20" forecolor="#FFFFFF" uuid="ab1de340-0859-4c63-a5d3-86667a5475fc"/>
+				<textElement>
+					<font fontName="SansSerif" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[celular]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="449" y="0" width="100" height="20" forecolor="#FFFFFF" uuid="c4b10837-21b0-460b-93e8-7d10c221eac6"/>
+				<textElement>
+					<font fontName="SansSerif" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[data]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="22" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="113" y="2" width="189" height="20" isRemoveLineWhenBlank="true" uuid="1de8b286-7d63-4787-a079-710041cb42f7"/>
+				<textElement>
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{solicitante}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="4" y="2" width="97" height="20" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="75a931b8-b835-4dbe-a4e5-37b698e64a25"/>
+				<textElement>
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{condominio}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="317" y="2" width="100" height="20" isRemoveLineWhenBlank="true" uuid="aeeea763-607c-44a7-a13c-0be958e2d4fa"/>
+				<textElement>
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{celular}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="449" y="2" width="100" height="20" isRemoveLineWhenBlank="true" uuid="5d630a8f-6dc7-49d6-a77d-33927bfe7c5e"/>
+				<textElement>
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{data}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="1" width="555" height="1" uuid="1558f976-1ee7-438f-8bef-5c94137d6e3c"/>
+			</line>
+		</band>
+	</detail>
+</jasperReport>

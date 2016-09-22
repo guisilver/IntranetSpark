@@ -1,0 +1,79 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<style>
+.msg {
+	color: #FFF;
+	font-size: 20px;
+}
+
+#frmFiltro table td {
+	border: 0px !important;
+}
+
+.ui-selectoneradio tbody tr td {
+	border: 0px !important;
+}
+
+.gridFiltro tbody tr td {
+	border: 0px !important;
+}
+</style>
+		<div class="layout-portlets-box"
+			style="padding-top: 0px !important; padding-bottom: 0px !important;">
+			<p:breadCrumb>
+				<p:menuitem value="Home" url="/dashboard.xhtml" />
+				<p:menuitem value="Tabela de Emissões"
+					url="/emissao/emissao/tabela-emissoes" />
+			</p:breadCrumb>
+		</div>
+		<div class="layout-portlets-box">
+			<div class="DispInlBlock TexAlLeft">
+				<div class="Fleft">
+					<h2 class="black Fs24 FontRalewayMedium">Tabela Emissões
+						Canceladas</h2>
+				</div>
+			</div>
+			<div class="Seperator"></div>
+			<div class="Container100 Responsive100">
+				<div class="ContainerIndent">
+					<h:form id="frmTblDEmissao"
+						rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysSEM}">
+						<br />
+						<p:dataTable id="tblDEmissao" var="emissao"
+							value="#{emMB.listaEmissoesCanceladas}" rows="50"
+							paginator="true" rowsPerPageTemplate="50,100,200,500"
+							style="font-size:12px; text-align:center;heigth:600px;"
+							emptyMessage="Nenhuma emissão cancelada para este período!">
+							<f:facet name="header"> Emissões Canceladas</f:facet>
+							<p:column headerText="Condomínio" style="width:150px;"
+								filterBy="#{emissao.codigo_condominio}"
+								sortBy="#{emissao.codigo_condominio}">
+								<h:outputText value="#{emissao.codigo_condominio}" />
+							</p:column>
+							<p:column headerText="Data de Cancelamento" style="width:200px;"
+								filterBy="#{emissao.data_impressao}"
+								sortBy="#{emissao.data_impressao}">
+								<h:outputText value="#{emissao.data_impressao}">
+									<f:convertDateTime locale="pt" pattern="dd/MM/yyyy"
+										timeZone="America/Sao_Paulo" />
+								</h:outputText>
+							</p:column>
+							<p:column headerText="Feito Por" style="width:200px;">
+								<h:outputText value="#{emissao.observacao}" />
+							</p:column>
+							<p:column headerText="Motivo">
+								<h:outputText value="#{emissao.motivo}" style="color:red;" />
+							</p:column>
+						</p:dataTable>
+					</h:form>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

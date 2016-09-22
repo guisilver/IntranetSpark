@@ -1,0 +1,15 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:dialog header="Confirmar Exclusão" widgetVar="excluirDepto" resizable="false" closeOnEscape="true">
+		<h:panelGrid id="pnlExcluirDepto" columns="2">
+			<p:outputLabel id="iptExcluir" value="#{grupo.deptoTblBean.nome}"/>
+		</h:panelGrid>
+		<hr/>
+		<p:commandButton action="#{grupo.excluirDepto}" immediate="true" value="Sim" oncomplete="PF('excluirDepto').hide();" update=":frmGrupoDepto:tblDeptoManut" style="float: right;"/>
+	</p:dialog>
+	
+</ui:composition>

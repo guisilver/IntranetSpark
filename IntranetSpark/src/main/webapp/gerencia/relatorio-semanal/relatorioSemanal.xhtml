@@ -1,0 +1,113 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<h:form id="frmRelSem"
+		rendered="#{SessaoMB.verificaDepto(' Todos') or SessaoMB.igp.sysRelatorioSemanal}"
+		target="_blank">
+		<p:messages id="msg" showDetail="true" autoUpdate="true"
+			closable="true" escape="true" showSummary="false" />
+
+		<h:panelGrid id="plgCondominio" columns="3" style="margin-bottom:10px"
+			cellpadding="5">
+			<p:outputLabel for="console" value="Condomínio:" />
+			<p:selectOneMenu id="console" value="#{rsMB.icBean.codigo}"
+				requiredMessage="teste" style="width:300px;" filter="true"
+				filterMatchMode="contains">
+				<f:selectItem itemLabel="Selecione" />
+				<f:selectItems value="#{SessaoMB.listaCondominios}" var="item"
+					itemLabel="#{item.cndCodNome}" itemValue="#{item.codigo}" />
+				<p:ajax listener="#{rsMB.retornaNomeCondominio}"
+					update=":frmRelSem:plgForm1 :frmRelSem:plgForm2 :frmRelSem:plgForm3 :frmRelSem:plgInfo" />
+			</p:selectOneMenu>
+		</h:panelGrid>
+
+		<hr />
+		<h:panelGrid id="plgForm1" columns="2" cellpadding="5">
+			<p:outputLabel value="Síndico:" style="font-weight:bold;" />
+			<p:outputLabel
+				value="#{(rsMB.rsBean.nomeSindico eq null or rsMB.rsBean.nomeSindico eq '') ? 'Não Cadastrado!' : rsMB.rsBean.nomeSindico}" />
+
+			<p:outputLabel value="Zelador:" />
+			<p:outputLabel
+				value="#{(rsMB.rsBean.nomeZelador eq null or rsBean.rsMB.nomeZelador eq '') ? 'Não Cadastrado!' : rsMB.rsBean.nomeZelador}" />
+
+			<p:outputLabel value="Mandato:" />
+			<p:outputLabel
+				value="#{(rsMB.rsBean.finalMandato eq null) ? 'Não Cadastrado!' : rsMB.rsBean.finalMandato}">
+				<f:convertDateTime pattern="dd/MM/yyyy" />
+			</p:outputLabel>
+
+			<p:outputLabel value="Honor. Adm.:" />
+			<p:outputLabel value="#{rsMB.rsBean.taxaAdm}">
+				<f:convertNumber pattern="#,##0.00" locale="pt" />
+			</p:outputLabel>
+		</h:panelGrid>
+
+		<hr />
+		<h:panelGrid id="plgForm2" columns="2">
+			<p:outputLabel value="É responsável na Receita Federal:" />
+			<p:selectOneRadio value="#{rsMB.rsBean.receitaFederal}">
+				<f:selectItem itemLabel="Sim" itemValue="1" />
+				<f:selectItem itemLabel="Não" itemValue="0" />
+			</p:selectOneRadio>
+
+			<p:outputLabel value="Grau de Satisfação do Cliente:" />
+			<p:selectOneRadio value="#{rsMB.rsBean.satisfacao}">
+				<f:selectItem itemLabel="Ruim" itemValue="1" />
+				<f:selectItem itemLabel="Bom" itemValue="2" />
+				<f:selectItem itemLabel="Ótimo" itemValue="3" />
+			</p:selectOneRadio>
+
+		</h:panelGrid>
+
+		<h:panelGrid columns="4" id="plgForm3">
+			<p:outputLabel value="Obrigatório Contato Semanal:"
+				style="font-weight:bold;" />
+			<p:selectBooleanCheckbox value="#{rsMB.rsBean.contatoPessoal}"
+				itemLabel="Pessoal" />
+			<p:selectBooleanCheckbox value="#{rsMB.rsBean.contatoTel}"
+				itemLabel="Telefone" />
+			<p:selectBooleanCheckbox value="#{rsMB.rsBean.contatoEmail}"
+				itemLabel="E-mail" />
+		</h:panelGrid>
+		<br />
+		<h:panelGrid id="plgInfo" columns="4">
+			<h:panelGrid columns="2">
+				<p:outputLabel value="Pendência:"
+					style="font-weight: bold !important;" />
+				<p:column />
+				<p:inputTextarea id="itaObs" value="#{rsMB.rsBean.obs}" rows="3"
+					cols="40" autoResize="false" style="font-size:14px !important;" />
+			</h:panelGrid>
+			<p:column />
+			<p:column />
+			<h:panelGrid columns="2">
+				<p:outputLabel value="Ideia vista no Condomínio:"
+					style="font-weight: bold !important;" />
+				<p:column />
+				<p:inputTextarea id="itaIdeia"
+					value="#{rsMB.rsBean.ideiaCondominio}" rows="3" cols="40"
+					autoResize="false" style="font-size:14px !important;" />
+			</h:panelGrid>
+
+		</h:panelGrid>
+
+		<hr />
+		<p:commandButton value="Histórico"
+			oncomplete="PF('historico').show();" update=":frmTableHistorico"
+			action="#{rsMB.listarHistorioSemanal()}"
+			rendered="#{SessaoMB.verificaDepto(' Todos')}" />
+		<p:commandButton value="Gerar Relatório" icon="fa fa-print Fs16 white"
+			rendered="#{SessaoMB.igp.sysAdmin or SessaoMB.igp.relatorioSemanalConsult}"
+			oncomplete="PF('imprimir').show();" />
+		<p:commandButton value="Salvar" action="#{rsMB.salvarRelSem}"
+			icon="fa fa-save Fs16 white"
+			rendered="#{SessaoMB.igp.sysAdmin or SessaoMB.igp.relatorioSemanalAdd}" />
+
+	</h:form>
+
+</ui:composition>

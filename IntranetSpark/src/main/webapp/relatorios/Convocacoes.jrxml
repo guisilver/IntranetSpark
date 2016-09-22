@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="convocacoes" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5738bc8f-36df-4d3f-a593-37f68a93c361">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="41"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="dataHoje" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="risco" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[risco]]></fieldDescription>
+	</field>
+	<field name="localAssembleia" class="java.lang.String">
+		<fieldDescription><![CDATA[localAssembleia]]></fieldDescription>
+	</field>
+	<field name="tipo" class="java.lang.String">
+		<fieldDescription><![CDATA[tipo]]></fieldDescription>
+	</field>
+	<field name="protocolo" class="java.util.Date">
+		<fieldDescription><![CDATA[protocolo]]></fieldDescription>
+	</field>
+	<field name="gerente" class="br.com.oma.intranet.entidades.intra_grupo_gerente">
+		<fieldDescription><![CDATA[gerente]]></fieldDescription>
+	</field>
+	<field name="codigo" class="java.lang.Integer">
+		<fieldDescription><![CDATA[codigo]]></fieldDescription>
+	</field>
+	<field name="riscoObs" class="java.lang.String">
+		<fieldDescription><![CDATA[riscoObs]]></fieldDescription>
+	</field>
+	<field name="reserva" class="br.com.oma.intranet.entidades.intra_reservas_ti">
+		<fieldDescription><![CDATA[reserva]]></fieldDescription>
+	</field>
+	<field name="obsHorario2" class="java.lang.String">
+		<fieldDescription><![CDATA[obsHorario2]]></fieldDescription>
+	</field>
+	<field name="numPautas" class="java.lang.Integer">
+		<fieldDescription><![CDATA[numPautas]]></fieldDescription>
+	</field>
+	<field name="advogado" class="java.util.Date">
+		<fieldDescription><![CDATA[advogado]]></fieldDescription>
+	</field>
+	<field name="horario1" class="java.util.Date">
+		<fieldDescription><![CDATA[horario1]]></fieldDescription>
+	</field>
+	<field name="eleicaoSindico" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[eleicaoSindico]]></fieldDescription>
+	</field>
+	<field name="obsHorario1" class="java.lang.String">
+		<fieldDescription><![CDATA[obsHorario1]]></fieldDescription>
+	</field>
+	<field name="enviadoTi" class="java.util.Date">
+		<fieldDescription><![CDATA[enviadoTi]]></fieldDescription>
+	</field>
+	<field name="enviado" class="java.util.Date">
+		<fieldDescription><![CDATA[enviado]]></fieldDescription>
+	</field>
+	<field name="sexo" class="java.lang.String">
+		<fieldDescription><![CDATA[sexo]]></fieldDescription>
+	</field>
+	<field name="obs" class="java.lang.String">
+		<fieldDescription><![CDATA[obs]]></fieldDescription>
+	</field>
+	<field name="digitacao" class="java.util.Date">
+		<fieldDescription><![CDATA[digitacao]]></fieldDescription>
+	</field>
+	<field name="enderecoLocal" class="java.lang.String">
+		<fieldDescription><![CDATA[enderecoLocal]]></fieldDescription>
+	</field>
+	<field name="assinada" class="java.util.Date">
+		<fieldDescription><![CDATA[assinada]]></fieldDescription>
+	</field>
+	<field name="publicacaoAta" class="java.util.Date">
+		<fieldDescription><![CDATA[publicacaoAta]]></fieldDescription>
+	</field>
+	<field name="distribuicao" class="java.util.Date">
+		<fieldDescription><![CDATA[distribuicao]]></fieldDescription>
+	</field>
+	<field name="horario2" class="java.util.Date">
+		<fieldDescription><![CDATA[horario2]]></fieldDescription>
+	</field>
+	<field name="enviadoPresidente" class="java.lang.String">
+		<fieldDescription><![CDATA[enviadoPresidente]]></fieldDescription>
+	</field>
+	<field name="contas" class="java.lang.String">
+		<fieldDescription><![CDATA[contas]]></fieldDescription>
+	</field>
+	<field name="naoReceberEmail" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[naoReceberEmail]]></fieldDescription>
+	</field>
+	<field name="condominio" class="br.com.oma.intranet.entidades.intra_condominios">
+		<fieldDescription><![CDATA[condominio]]></fieldDescription>
+	</field>
+	<field name="dataInserido" class="java.util.Date">
+		<fieldDescription><![CDATA[dataInserido]]></fieldDescription>
+	</field>
+	<field name="cartorio" class="java.util.Date">
+		<fieldDescription><![CDATA[cartorio]]></fieldDescription>
+	</field>
+	<field name="protocoloRecebido" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[protocoloRecebido]]></fieldDescription>
+	</field>
+	<field name="dataAssembleia" class="java.util.Date">
+		<fieldDescription><![CDATA[dataAssembleia]]></fieldDescription>
+	</field>
+	<field name="publicacaoConvocacao" class="java.util.Date">
+		<fieldDescription><![CDATA[publicacaoConvocacao]]></fieldDescription>
+	</field>
+	<field name="ordem" class="java.lang.String">
+		<fieldDescription><![CDATA[ordem]]></fieldDescription>
+	</field>
+	<field name="devolvido" class="java.util.Date">
+		<fieldDescription><![CDATA[devolvido]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="25">
+			<staticText>
+				<reportElement x="290" y="0" width="229" height="25" uuid="755b0d2d-e5dc-4433-b07d-b6b378474fb1"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CONVOCAÇÕES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="748" y="0" width="53" height="9" uuid="54bfae37-6f1e-41c9-8a1f-1270d7991166"/>
+				<textElement textAlignment="Center" rotation="None">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[OMA INTRANET]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="16" splitType="Stretch">
+			<rectangle>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="0" width="802" height="16" forecolor="#666666" backcolor="#666666" uuid="0b62ce33-d11c-4fc2-9a7d-a3c039f6aa24"/>
+			</rectangle>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="95" y="0" width="100" height="16" isPrintWhenDetailOverflows="true" forecolor="#FFFFFF" uuid="1b92575a-3fd7-4be6-b107-859a13d8f6ba"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[GERENTE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="259" y="0" width="115" height="16" isPrintWhenDetailOverflows="true" forecolor="#FFFFFF" uuid="306f8168-5d8e-46a9-ad2f-3653ebabf46e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CONDOMÍNIO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="385" y="0" width="50" height="16" isPrintWhenDetailOverflows="true" forecolor="#FFFFFF" uuid="43ee0f25-7b8c-4756-bc2e-2430c1bb49bd"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TIPO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="553" y="0" width="51" height="16" isPrintWhenDetailOverflows="true" forecolor="#FFFFFF" uuid="064273dc-e5dc-472a-acc9-cb1c54e84779"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[LOCAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="693" y="0" width="109" height="16" isPrintWhenDetailOverflows="true" forecolor="#FFFFFF" uuid="899ae5a6-a80f-4f22-afe8-9152490f3d0b"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CONTAS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="618" y="0" width="64" height="16" isPrintWhenDetailOverflows="true" forecolor="#FFFFFF" uuid="34c20b0e-9651-4d52-83a9-bbbf128fcd5c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[HORÁRIO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="446" y="0" width="91" height="16" isPrintWhenDetailOverflows="true" forecolor="#FFFFFF" uuid="98cf95e5-9d64-4f8c-9372-cf7d3582f678"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[ELEI. / SIND.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="203" y="0" width="47" height="16" forecolor="#FFFFFF" uuid="25466e2d-ae26-48a3-9720-ab829dae4521"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="6" y="0" width="79" height="16" isPrintWhenDetailOverflows="true" forecolor="#FFFFFF" uuid="1b0eeb05-45d2-4127-90af-9d6d49b3ac67"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DATA]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="18" splitType="Stretch">
+			<rectangle>
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="802" height="18" forecolor="#E2DFDF" backcolor="#E2DFDF" uuid="cbf897b9-5819-473f-8846-ef15b3c4c511">
+					<printWhenExpression><![CDATA[(($V{COLUMN_COUNT}.intValue() % 2) == 0)]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="95" y="0" width="100" height="18" uuid="06a04a00-6116-4bc2-8912-0d10b2f99f86"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{gerente}.getNome()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="259" y="0" width="115" height="18" uuid="75b2a195-a1d3-47fb-9a30-beb5e3372d01"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{condominio}.getNome()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="385" y="0" width="50" height="18" uuid="66af0f93-2f7a-42d5-877e-d619b34c9cd7"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipo}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="446" y="0" width="91" height="18" uuid="154bd7f2-34b7-474d-9735-832a6fd05c24"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{eleicaoSindico} == true ? "Sim" : "Não")]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="553" y="0" width="51" height="18" uuid="03962908-5828-4eed-a0b9-a0348d54cf84"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{localAssembleia}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="618" y="0" width="64" height="18" uuid="7463f576-8eea-40d9-9600-bede5c5c95b3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("HH:mm").format($F{horario1})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="693" y="0" width="108" height="18" uuid="37478cde-c2b2-4dd1-8632-48c3a73a5ce8"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{contas}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="203" y="0" width="47" height="18" uuid="d7bb9986-4bdc-490f-9ac2-0250e46c7f33"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{condominio}.getCodigo()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="6" y="0" width="79" height="18" uuid="76156fb0-b69c-45f4-b19a-a1c4d9aeaf43"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("dd/MM/yyyy").format($F{dataAssembleia})]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="20">
+			<textField isStretchWithOverflow="true">
+				<reportElement x="729" y="0" width="32" height="20" uuid="8afc5675-5628-4ba0-acc0-1e80d135bc83"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" evaluationTime="Report">
+				<reportElement x="776" y="0" width="26" height="20" uuid="3838546c-1f83-4e3c-890b-a6f12bbf8a0a"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="761" y="0" width="15" height="20" uuid="806254ed-3c13-4e7d-b68d-787c58465bb4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[/]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

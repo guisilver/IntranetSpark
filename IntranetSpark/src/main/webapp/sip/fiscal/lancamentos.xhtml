@@ -1,0 +1,56 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<div class="layout-portlets-box">
+			<div class="DispInlBlock TexAlLeft">
+				<div class="Fleft">
+					<h2 class="black Fs24 FontRalewayMedium">Lançamentos</h2>
+				</div>
+			</div>
+			<div class="Seperator"></div>
+			<div class="Container100 Responsive100">
+				<h:form
+					rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysSipFiscal}">
+					<p:dataTable value="#{consultaLancamentosMB.listaLancamentos}"
+						var="lancamento" paginator="true" rows="15">
+						<p:column headerText="Cnd"
+							filterBy="#{consultaLancamentosMB.getNomeCondominio(lancamento.condominio)}"
+							sortBy="#{consultaLancamentosMB.getNomeCondominio(lancamento.condominio)}">
+							<p:outputLabel
+								value="#{consultaLancamentosMB.getNomeCondominio(lancamento.condominio)}" />
+						</p:column>
+						<p:column headerText="Vencimento" style="width:80px;"
+							filterBy="#{lancamento.vencimento}"
+							sortBy="#{lancamento.vencimento}">
+							<h:outputText value="#{lancamento.vencimento}">
+								<f:convertDateTime pattern="dd/MM/yyyy" locale="pt"
+									timeZone="America/Sao_Paulo" />
+							</h:outputText>
+						</p:column>
+						<p:column headerText="Valor" filterBy="#{lancamento.valor}"
+							sortBy="#{lancamento.valor}" filterMatchMode="exact"
+							style="width:120px;">
+							<h:outputText value="#{lancamento.valor}">
+								<f:convertNumber currencySymbol="R$" minFractionDigits="2" />
+							</h:outputText>
+						</p:column>
+						<p:column style="width:100px;">
+							<h:panelGrid columns="2">
+								<p:commandButton icon="fa fa-trash Fs16 white" title="Excluir" />
+								<p:commandButton icon="fa fa-search Fs16 white"
+									action="#{consultaLancamentosMB.abreLancamento(lancamento.codigo)}"
+									ajax="false" title="Visualizar" />
+							</h:panelGrid>
+						</p:column>
+					</p:dataTable>
+				</h:form>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

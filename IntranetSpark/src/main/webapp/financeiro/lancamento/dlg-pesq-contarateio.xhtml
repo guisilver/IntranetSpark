@@ -1,0 +1,270 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+	<p:dialog widgetVar="dlgPesqContaRat1" resizable="false" modal="true" closeOnEscape="true"
+		width="300" header="Pesquisar Conta" hideEffect="explode">
+		<h:form id="frmPesqContaRat1">
+			<h:panelGrid columns="2">
+				<p:outputLabel value="Nome:" />
+				<p:inputText value="#{ged.nomeConta}" />
+			</h:panelGrid>
+			<hr />
+			<p:commandButton value="Cancelar"
+				onclick="PF('dlgPesqContaRat').hide();" icon="ui-icon-close"
+				style="float:left;" />
+			<p:commandButton value="Pesquisar" icon="ui-icon-search"
+				style="float:right;"
+				actionListener="#{ged.pesquisaContaRat(1)}"
+				update=":frmResultadoContaRat1" />
+		</h:form>
+	</p:dialog>
+
+	<p:dialog widgetVar="dlgResultadoContaRat1" resizable="false" modal="true"
+		width="500" header="Resultado de pesquisa" hideEffect="explode">
+		<h:form id="frmResultadoContaRat1">
+			<p:dataTable id="tblResultadoConta1" var="item"
+				selection="#{ged.cndplano}" selectionMode="single"
+				value="#{ged.lstConta}" rowKey="#{item.cod_reduzido}"
+				emptyMessage="Nenhum resultado encontrado." rows="10"
+				paginator="true">
+				<p:ajax event="rowSelect"
+					listener="#{ged.selecionarContaContabilRat(1)}"
+					update=":frmValRat:nomeContaContabil1,:frmValRat:txtContaContabil1" />
+				<p:column headerText="Conta" sortBy="#{item.cod_reduzido}" filterBy="#{item.cod_reduzido}">
+					<h:outputText value="#{item.cod_reduzido}" />
+				</p:column>
+				<p:column headerText="Nome" sortBy="#{item.nome}" filterBy="#{item.nome}">
+					<h:outputText value="#{item.nome}" />
+				</p:column>
+			</p:dataTable>
+			<p:commandButton value="Fechar"
+				onclick="PF('dlgResultadoContaRat1').hide();" icon="ui-icon-close"
+				style="float:left;margin-top:15px;" />
+		</h:form>
+	</p:dialog>
+	<!-- segundo******************************************************************************** -->
+		
+		<p:dialog widgetVar="dlgPesqContaRat2" resizable="false" modal="true"
+		width="300" header="Pesquisar Conta" hideEffect="explode">
+		<h:form id="frmPesqContaRat2">
+			<h:panelGrid columns="2">
+				<p:outputLabel value="Nome:" />
+				<p:inputText value="#{ged.nomeConta}" />
+			</h:panelGrid>
+			<hr />
+			<p:commandButton value="Cancelar"
+				onclick="PF('dlgPesqContaRat2').hide();" icon="ui-icon-close"
+				style="float:left;" />
+			<p:commandButton value="Pesquisar" icon="ui-icon-search"
+				style="float:right;"
+				actionListener="#{ged.pesquisaContaRat(2)}"
+				update=":frmResultadoContaRat2" />
+		</h:form>
+	</p:dialog>
+
+	<p:dialog widgetVar="dlgResultadoContaRat2" resizable="false" modal="true"
+		width="500" header="Resultado de pesquisa" hideEffect="explode">
+		<h:form id="frmResultadoContaRat2">
+			<p:dataTable id="tblResultadoConta2" var="item"
+				selection="#{ged.cndplano}" selectionMode="single"
+				value="#{ged.lstConta}" rowKey="#{item.cod_reduzido}"
+				emptyMessage="Nenhum resultado encontrado." rows="10"
+				paginator="true">
+				<p:ajax event="rowSelect"
+					listener="#{ged.selecionarContaContabilRat(2)}"
+					update=":frmValRat:nomeContaContabil2,:frmValRat:txtContaContabil2" />
+				<p:column headerText="Conta" sortBy="#{item.cod_reduzido}" filterBy="#{item.cod_reduzido}">
+					<h:outputText value="#{item.cod_reduzido}" />
+				</p:column>
+				<p:column headerText="Nome" sortBy="#{item.nome}" filterBy="#{item.nome}">
+					<h:outputText value="#{item.nome}" />
+				</p:column>
+			</p:dataTable>
+			<p:commandButton value="Fechar"
+				onclick="PF('dlgResultadoContaRat2').hide();" icon="ui-icon-close"
+				style="float:left;margin-top:15px;" />
+		</h:form>
+	</p:dialog>
+	
+		<!-- terceiro******************************************************************************** -->
+		
+		<p:dialog widgetVar="dlgPesqContaRat3" resizable="false" modal="true"
+		width="300" header="Pesquisar Conta" hideEffect="explode">
+		<h:form id="frmPesqContaRat3">
+			<h:panelGrid columns="3">
+				<p:outputLabel value="Nome:" />
+				<p:inputText value="#{ged.nomeConta}" />
+			</h:panelGrid>
+			<hr />
+			<p:commandButton value="Cancelar"
+				onclick="PF('dlgPesqContaRat3').hide();" icon="ui-icon-close"
+				style="float:left;" />
+			<p:commandButton value="Pesquisar" icon="ui-icon-search"
+				style="float:right;"
+				actionListener="#{ged.pesquisaContaRat(3)}"
+				update=":frmResultadoContaRat3" />
+		</h:form>
+	</p:dialog>
+
+	<p:dialog widgetVar="dlgResultadoContaRat3" resizable="false" modal="true"
+		width="500" header="Resultado de pesquisa" hideEffect="explode">
+		<h:form id="frmResultadoContaRat3">
+			<p:dataTable id="tblResultadoConta3" var="item"
+				selection="#{ged.cndplano}" selectionMode="single"
+				value="#{ged.lstConta}" rowKey="#{item.cod_reduzido}"
+				emptyMessage="Nenhum resultado encontrado." rows="10"
+				paginator="true">
+				<p:ajax event="rowSelect"
+					listener="#{ged.selecionarContaContabilRat(3)}"
+					update=":frmValRat:nomeContaContabil3,:frmValRat:txtContaContabil3" />
+				<p:column headerText="Conta" sortBy="#{item.cod_reduzido}" filterBy="#{item.cod_reduzido}">
+					<h:outputText value="#{item.cod_reduzido}" />
+				</p:column>
+				<p:column headerText="Nome" sortBy="#{item.nome}" filterBy="#{item.nome}">
+					<h:outputText value="#{item.nome}" />
+				</p:column>
+			</p:dataTable>
+			<p:commandButton value="Fechar"
+				onclick="PF('dlgResultadoContaRat3').hide();" icon="ui-icon-close"
+				style="float:left;margin-top:15px;" />
+		</h:form>
+	</p:dialog>
+	
+			<!-- quarto******************************************************************************** -->
+		
+		<p:dialog widgetVar="dlgPesqContaRat4" resizable="false" modal="true"
+		width="300" header="Pesquisar Conta" hideEffect="explode">
+		<h:form id="frmPesqContaRat4">
+			<h:panelGrid columns="3">
+				<p:outputLabel value="Nome:" />
+				<p:inputText value="#{ged.nomeConta}" />
+			</h:panelGrid>
+			<hr />
+			<p:commandButton value="Cancelar"
+				onclick="PF('dlgPesqContaRat4').hide();" icon="ui-icon-close"
+				style="float:left;" />
+			<p:commandButton value="Pesquisar" icon="ui-icon-search"
+				style="float:right;"
+				actionListener="#{ged.pesquisaContaRat(4)}"
+				update=":frmResultadoContaRat4" />
+		</h:form>
+	</p:dialog>
+
+	<p:dialog widgetVar="dlgResultadoContaRat4" resizable="false" modal="true"
+		width="500" header="Resultado de pesquisa" hideEffect="explode">
+		<h:form id="frmResultadoContaRat4">
+			<p:dataTable id="tblResultadoConta4" var="item"
+				selection="#{ged.cndplano}" selectionMode="single"
+				value="#{ged.lstConta}" rowKey="#{item.cod_reduzido}"
+				emptyMessage="Nenhum resultado encontrado." rows="10"
+				paginator="true">
+				<p:ajax event="rowSelect"
+					listener="#{ged.selecionarContaContabilRat(4)}"
+					update=":frmValRat:nomeContaContabil4,:frmValRat:txtContaContabil4" />
+				<p:column headerText="Conta" sortBy="#{item.cod_reduzido}" filterBy="#{item.cod_reduzido}">
+					<h:outputText value="#{item.cod_reduzido}" />
+				</p:column>
+				<p:column headerText="Nome" sortBy="#{item.nome}" filterBy="#{item.nome}">
+					<h:outputText value="#{item.nome}" />
+				</p:column>
+			</p:dataTable>
+			<p:commandButton value="Fechar"
+				onclick="PF('dlgResultadoContaRat4').hide();" icon="ui-icon-close"
+				style="float:left;margin-top:15px;" />
+		</h:form>
+	</p:dialog>
+		
+			<!-- quinto******************************************************************************** -->
+		
+		<p:dialog widgetVar="dlgPesqContaRat5" resizable="false" modal="true"
+		width="300" header="Pesquisar Conta" hideEffect="explode">
+		<h:form id="frmPesqContaRat5">
+			<h:panelGrid columns="3">
+				<p:outputLabel value="Nome:" />
+				<p:inputText value="#{ged.nomeConta}" />
+			</h:panelGrid>
+			<hr />
+			<p:commandButton value="Cancelar"
+				onclick="PF('dlgPesqContaRat5').hide();" icon="ui-icon-close"
+				style="float:left;" />
+			<p:commandButton value="Pesquisar" icon="ui-icon-search"
+				style="float:right;"
+				actionListener="#{ged.pesquisaContaRat(5)}"
+				update=":frmResultadoContaRat5" />
+		</h:form>
+	</p:dialog>
+
+	<p:dialog widgetVar="dlgResultadoContaRat5" resizable="false" modal="true"
+		width="500" header="Resultado de pesquisa" hideEffect="explode">
+		<h:form id="frmResultadoContaRat5">
+			<p:dataTable id="tblResultadoConta5" var="item"
+				selection="#{ged.cndplano}" selectionMode="single"
+				value="#{ged.lstConta}" rowKey="#{item.cod_reduzido}"
+				emptyMessage="Nenhum resultado encontrado." rows="10"
+				paginator="true">
+				<p:ajax event="rowSelect"
+					listener="#{ged.selecionarContaContabilRat(5)}"
+					update=":frmValRat:nomeContaContabil5,:frmValRat:txtContaContabil5" />
+				<p:column headerText="Conta" sortBy="#{item.cod_reduzido}" filterBy="#{item.cod_reduzido}">
+					<h:outputText value="#{item.cod_reduzido}" />
+				</p:column>
+				<p:column headerText="Nome" sortBy="#{item.nome}" filterBy="#{item.nome}">
+					<h:outputText value="#{item.nome}" />
+				</p:column>
+			</p:dataTable>
+			<p:commandButton value="Fechar"
+				onclick="PF('dlgResultadoContaRat5').hide();" icon="ui-icon-close"
+				style="float:left;margin-top:15px;" />
+		</h:form>
+	</p:dialog>
+	
+	<!-- sexto******************************************************************************** -->
+		
+		<p:dialog widgetVar="dlgPesqContaRat6" resizable="false" modal="true"
+		width="300" header="Pesquisar Conta" hideEffect="explode">
+		<h:form id="frmPesqContaRat6">
+			<h:panelGrid columns="3">
+				<p:outputLabel value="Nome:" />
+				<p:inputText value="#{ged.nomeConta}" />
+			</h:panelGrid>
+			<hr />
+			<p:commandButton value="Cancelar"
+				onclick="PF('dlgPesqContaRat6').hide();" icon="ui-icon-close"
+				style="float:left;" />
+			<p:commandButton value="Pesquisar" icon="ui-icon-search"
+				style="float:right;"
+				actionListener="#{ged.pesquisaContaRat(6)}"
+				update=":frmResultadoContaRat6" />
+		</h:form>
+	</p:dialog>
+
+	<p:dialog widgetVar="dlgResultadoContaRat6" resizable="false" modal="true"
+		width="500" header="Resultado de pesquisa" hideEffect="explode">
+		<h:form id="frmResultadoContaRat6">
+			<p:dataTable id="tblResultadoConta6" var="item"
+				selection="#{ged.cndplano}" selectionMode="single"
+				value="#{ged.lstConta}" rowKey="#{item.cod_reduzido}"
+				emptyMessage="Nenhum resultado encontrado." rows="10"
+				paginator="true">
+				<p:ajax event="rowSelect"
+					listener="#{ged.selecionarContaContabilRat(6)}"
+					update=":frmValRat:nomeContaContabil6,:frmValRat:txtContaContabil6" />
+				<p:column headerText="Conta" sortBy="#{item.cod_reduzido}" filterBy="#{item.cod_reduzido}">
+					<h:outputText value="#{item.cod_reduzido}" />
+				</p:column>
+				<p:column headerText="Nome" sortBy="#{item.nome}" filterBy="#{item.nome}">
+					<h:outputText value="#{item.nome}" />
+				</p:column>
+			</p:dataTable>
+			<p:commandButton value="Fechar"
+				onclick="PF('dlgResultadoContaRat6').hide();" icon="ui-icon-close"
+				style="float:left;margin-top:15px;" />
+		</h:form>
+	</p:dialog>
+	
+</ui:composition>

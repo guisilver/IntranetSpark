@@ -1,0 +1,621 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<style>
+.direita {
+	float: right !important;
+}
+
+.esquerda {
+	float: left !important;
+}
+</style>
+	<h:form id="frmCD">
+		<h:panelGrid id="plgCondominio" columns="3" style="margin-bottom:10px"
+			cellpadding="5">
+			<p:outputLabel value="Condomínio:" />
+			<p:selectOneMenu id="somCondominio" value="#{cdMB.condominio}"
+				style="width:300px;" filter="true" filterMatchMode="contains">
+				<f:selectItem itemLabel="Selecione" itemValue="0" />
+				<f:selectItems value="#{SessaoMB.listaCondominios}" var="item"
+					itemLabel="#{item.cndCodNome}" itemValue="#{item.codigo}" />
+				<p:ajax
+					update=":frmCD:plgDados :frmCD:plgDadosObs :frmCD:plgGrid1 :frmCD:plgGrid2 :frmCD:plgGrid3 :frmCD:dttCorpoDiretivo"
+					listener="#{cdMB.retornaNomeCondominio}" />
+			</p:selectOneMenu>
+		</h:panelGrid>
+		<p:separator />
+
+		<p:panel id="teste" header="Dados Gerais" style="width:750px !important;"
+			rendered="#{cdMB.pagina1 eq 1 ? true : false}">
+			<p:separator />
+			<b> Dados Gerais </b>
+			<p:messages id="msg" showDetail="true" autoUpdate="false"
+				closable="true" escape="true" showSummary="false" />
+			<br />
+			<h:panelGrid id="plgDados" columns="4">
+				<p:outputLabel value="Inicio mandato:" />
+				<p:calendar value="#{cdMB.inicioMandato}" pattern="dd/MM/yyyy"
+					mask="99/99/9999" navigator="true" yearRange="c-3:c+5"
+					showButtonPanel="true" effect="slide" locale="pt"
+					timeZone="America/Sao_Paulo" />
+				<p:outputLabel value="Final mandato:" />
+				<p:calendar value="#{cdMB.finalMandato}" pattern="dd/MM/yyyy"
+					mask="99/99/9999" navigator="true" yearRange="c-3:c+5"
+					showButtonPanel="true" effect="slide" locale="pt"
+					timeZone="America/Sao_Paulo" />
+				<p:outputLabel value="Convocação Assembleia:" />
+				<p:inputText value="#{cdMB.prazoAssembleia}" maxlength="30" />
+				<p:outputLabel value="Quorum:" />
+				<p:inputText value="#{cdMB.quorumPrimeira}" maxlength="20" />
+				<p:outputLabel value="Segunda chamada:" />
+				<p:inputText value="#{cdMB.segundaChamada}" maxlength="20" />
+				<p:outputLabel value="Quorum:" />
+				<p:inputText value="#{cdMB.quorumSegunda}" maxlength="20" />
+				<p:outputLabel value="Ultima aprovação:" />
+				<p:calendar value="#{cdMB.dtAprovacao}" pattern="dd/MM/yyyy"
+					mask="99/99/9999" navigator="true" yearRange="c-3:c+5"
+					showButtonPanel="true" effect="slide" locale="pt"
+					timeZone="America/Sao_Paulo" />
+				<p:outputLabel value="Próxima aprovação:" />
+				<p:calendar value="#{cdMB.prxAprovacao}" pattern="dd/MM/yyyy"
+					mask="99/99/9999" navigator="true" yearRange="c-3:c+5"
+					showButtonPanel="true" effect="slide" locale="pt"
+					timeZone="America/Sao_Paulo" />
+			</h:panelGrid>
+			<h:panelGrid id="plgDadosObs" columns="2">
+				<p:outputLabel value="Obs:" />
+				<p:inputTextarea id="itaObs" value="#{cdMB.obs1}"
+					style="margin-left:155px !important;width: 400px;" rows="3"
+					maxlength="512" />
+			</h:panelGrid>
+			<hr />
+			<p:commandButton value="Salvar" action="#{cdMB.salvarDadosGerais()}"
+				rendered="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.igp.corpoDiretivoAdd}"
+				update="msg :frmCD:plgDados" styleClass="esquerda" />
+			<p:commandButton value="Próximo" action="#{cdMB.proximo1}"
+				update=":frmCD" styleClass="direita" />
+			<br />
+			<br />
+			<br />
+		</p:panel>
+		<p:panel header="Corpo Diretivo" style="width:800px !important;"
+			rendered="#{cdMB.pagina2 eq 2 ? true : false}">
+			<p:messages id="msg3" showDetail="true" autoUpdate="false"
+				closable="true" escape="true" showSummary="false" />
+			<h:panelGrid id="plgGrid1">
+				<h:panelGrid>
+					<p:dataTable id="dttCorpoDiretivo" var="p"
+						value="#{cdMB.listaDeCorpoDiretivo}"
+						selection="#{cdMB.corpoDiretivoBEAN}"
+						emptyMessage="Nenhum cliente adicionado!!!">
+						<p:column visible="false">
+						#{p.codigoCargo}
+					</p:column>
+						<p:column visible="false">
+						#{p.codigoCliente}
+					</p:column>
+						<p:column headerText="Cargo" style="width: 120px !important;">
+						#{p.nomeCargo}
+					</p:column>
+						<p:column headerText="Nome" style="width: 100%;">
+						#{p.nomeCliente}
+					</p:column>
+						<p:column headerText="Bloco"
+							style="width: 70px !important;text-align:center;">
+						#{p.bloco}
+					</p:column>
+						<p:column headerText="Unidade"
+							style="width: 70px !important;text-align:center;">
+						#{p.unidade}
+					</p:column>
+						<p:column style="width:90px;text-align: center">
+							<p:commandButton icon="fa fa-pencil Fs16 white" title="Alterar"
+								action="#{cdMB.alterar}" update=":frmCD"
+								rendered="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.igp.corpoDiretivoChange || SessaoMB.igp.corpoDiretivoConsult}">
+								<f:setPropertyActionListener target="#{cdMB.corpoDiretivoBEAN}"
+									value="#{p}" />
+							</p:commandButton>
+							<p:commandButton oncomplete="PF('corpoDiretivo').show();"
+								icon="fa fa-close Fs16 white" title="Excluir"
+								style="margin-left:10px !important;"
+								rendered="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.igp.corpoDiretivoRemove}">
+								<f:setPropertyActionListener target="#{cdMB.corpoDiretivoBEAN}"
+									value="#{p}" />
+							</p:commandButton>
+						</p:column>
+					</p:dataTable>
+					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+						<p:commandButton value="Sim" type="button"
+							styleClass="ui-confirmdialog-yes" icon="fa fa-check Fs16 white" />
+						<p:commandButton value="Não" type="button"
+							styleClass="ui-confirmdialog-no" icon="fa fa-close Fs16 white" />
+					</p:confirmDialog>
+				</h:panelGrid>
+			</h:panelGrid>
+			<hr />
+			<p:commandButton id="cmbVoltar1" value="Voltar"
+				action="#{cdMB.voltar1}" update=":frmCD" styleClass="esquerda" />
+			<p:commandButton id="cmbProximo4" value="Adicionar Novo"
+				action="#{cdMB.proximo3}" update=":frmCD" styleClass="direita"
+				rendered="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.igp.corpoDiretivoAdd}" />
+		</p:panel>
+		<p:panel header="Alterar Dados" style="width:800px !important;"
+			rendered="#{cdMB.pagina3 eq 3 ? true : false}">
+
+			<h:panelGrid id="plgGrid2">
+				<h:panelGrid>
+					<b> Função </b>
+					<h:panelGrid>
+						<p:selectOneMenu value="#{cdMB.funcao}"
+							style="width:150px; text-align:center !important;">
+							<f:selectItems value="#{cdMB.listaDeCargo}" var="item"
+								itemLabel="#{item.nome}" itemValue="#{item.codigo}" />
+							<p:ajax update=":frmCD:plgTorUni" />
+						</p:selectOneMenu>
+					</h:panelGrid>
+					<p:separator />
+					<h:panelGrid id="plgTorUni">
+						<b> Dados </b>
+						<br />
+						<h:panelGrid columns="2">
+							<p:outputLabel value="Bloco:" />
+							<p:outputLabel value="#{cdMB.bloco}"
+								style="size: 14px; color: black;" />
+							<p:outputLabel value="Unidade:" />
+							<p:outputLabel value="#{cdMB.unidade}"
+								style="size: 14px; color: black;" />
+							<p:outputLabel value="Nome: *" />
+							<p:inputText id="nomeCli" value="#{cdMB.clienteBEAN.nome}"
+								maxlength="35" style="width:400px !important;" disabled="true" />
+						</h:panelGrid>
+
+						<p:messages id="msg6" showDetail="true" autoUpdate="false"
+							closable="true" escape="true" showSummary="false" />
+
+						<h:panelGrid columns="2">
+							<h:panelGrid columns="2">
+								<p:outputLabel value="Tipo:" />
+								<p:selectOneMenu id="somTipo"
+									style="width:100px; text-align:center !important;margin-left:28px;"
+									value="#{cdMB.clienteBEAN.tipoPessoa}">
+									<f:selectItem itemLabel="Fisico" itemValue="F" />
+									<f:selectItem itemLabel="Juridico" itemValue="J" />
+									<p:ajax update=":frmCD:plgCpf :frmCD:plgDadosTipo"
+										listener="#{cdMB.limparCPFCNPJ()}" />
+								</p:selectOneMenu>
+							</h:panelGrid>
+							<h:panelGrid id="plgCpf" columns="4">
+								<p:outputLabel id="oplCPF" value="CPF:"
+									rendered="#{cdMB.clienteBEAN.tipoPessoa eq 'F'}" />
+								<p:inputMask id="iptmCPF" mask="999.999.999-99"
+									rendered="#{cdMB.clienteBEAN.tipoPessoa eq 'F'}"
+									value="#{cdMB.cpf}">
+									<p:ajax event="blur" listener="#{cdMB.validaCPFAlterar}" />
+								</p:inputMask>
+								<p:outputLabel id="oplCNPJ" value="CNPJ:"
+									rendered="#{cdMB.clienteBEAN.tipoPessoa eq 'J'}" />
+								<p:inputMask id="iptmCNPJ" mask="99.999.999/9999-99"
+									rendered="#{cdMB.clienteBEAN.tipoPessoa eq 'J'}"
+									value="#{cdMB.cnpj}">
+									<p:ajax event="blur" listener="#{cdMB.validaCPFAlterar}" />
+								</p:inputMask>
+							</h:panelGrid>
+						</h:panelGrid>
+
+
+						<h:panelGrid id="plgDadosTipo" columns="2">
+							<p:outputLabel value="RG:" />
+							<p:inputText value="#{cdMB.clienteBEAN.nroIdentidade}"
+								maxlength="15" disabled="#{cdMB.clienteBEAN.tipoPessoa eq 'J'}" />
+							<p:outputLabel value="Profissão:" />
+							<p:inputText value="#{cdMB.clienteBEAN.profissao}" maxlength="20"
+								disabled="#{cdMB.clienteBEAN.tipoPessoa eq 'J'}" />
+							<p:outputLabel value="Estado Civil:" />
+							<p:selectOneMenu id="somEstadoCivel"
+								value="#{cdMB.clienteBEAN.estadoCivil}"
+								style="width:100px; text-align:center !important;"
+								disabled="#{cdMB.clienteBEAN.tipoPessoa eq 'J'}">
+								<f:selectItem itemLabel="Pessoa Jurídica" itemValue="1" />
+								<f:selectItem itemLabel="Solteiro(a)" itemValue="2" />
+								<f:selectItem itemLabel="Casado(a)" itemValue="3" />
+								<f:selectItem itemLabel="Viúvo(a)" itemValue="4" />
+								<f:selectItem itemLabel="Separado(a) Judicialmente"
+									itemValue="5" />
+								<f:selectItem itemLabel="Divorciado(a)" itemValue="6" />
+							</p:selectOneMenu>
+							<p:outputLabel value="Data Nasc.:" />
+							<p:calendar value="#{cdMB.clienteBEAN.dataNascimento}"
+								pattern="dd/MM/yyyy" mask="99/99/9999" locale="pt"
+								timeZone="America/Sao_Paulo"
+								disabled="#{cdMB.clienteBEAN.tipoPessoa eq 'J'}"></p:calendar>
+						</h:panelGrid>
+						<hr />
+						<b>Endereço</b>
+						<h:panelGrid columns="4">
+							<p:outputLabel value="Logradouro: *" />
+							<p:selectOneMenu id="somLogradouro"
+								value="#{cdMB.logradouroBEAN.codigo}"
+								style="width:100px; text-align:center !important;">
+								<f:selectItem itemLabel="Selecione" />
+								<f:selectItems value="#{cdMB.listaDeLogradouro}" var="item"
+									itemLabel="#{item.descricao}" itemValue="#{item.codigo}" />
+							</p:selectOneMenu>
+							<p:outputLabel value="Endereço: *" />
+							<p:inputText value="#{cdMB.clienteBEAN.endereco}" maxlength="35"
+								style="width:250px !important;" />
+							<p:outputLabel value="Número:" />
+							<p:inputText value="#{cdMB.clienteBEAN.nroEnd}" maxlength="10"
+								style="width:50px !important;" />
+							<p:outputLabel value="Complemento:" />
+							<p:inputText value="#{cdMB.clienteBEAN.complemento}"
+								maxlength="35" style="width:250px !important;" />
+							<p:outputLabel value="Cidade: *" />
+							<p:selectOneMenu value="#{cdMB.cidadeBEAN.codigo}"
+								style="width:100px; text-align:center !important;"
+								filterMatchMode="contains" filter="true">
+								<f:selectItems value="#{cdMB.listaDeCidade}" var="item"
+									itemLabel="#{item.cidade}" itemValue="#{item.codigo}"
+									itemDescription="#{item.estado}" />
+							</p:selectOneMenu>
+							<p:outputLabel value="CEP: *" />
+							<p:inputMask value="#{cdMB.cep}" mask="99999-999"></p:inputMask>
+						</h:panelGrid>
+						<hr />
+						<b>Cartorios</b>
+						<h:panelGrid columns="2">
+							<p:outputLabel value="1º:" />
+							<p:inputText value="#{cdMB.clienteBEAN.cartorio1}" maxlength="50"
+								style="width:350px !important;" />
+							<p:outputLabel value="2º:" />
+							<p:inputText value="#{cdMB.clienteBEAN.cartorio2}" maxlength="50"
+								style="width:350px !important;" />
+						</h:panelGrid>
+						<hr />
+						<b>Contatos</b>
+						<p:commandButton value="Adicionar"
+							oncomplete="PF('adicionarContato').show();"
+							icon="fa fa-plus Fs16 white"
+							rendered="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.igp.corpoDiretivoAdd}" />
+
+						<p:messages id="msgTelcli" showDetail="true" autoUpdate="false"
+							closable="true" escape="true" showSummary="false" />
+						<p:dataTable id="dttTelCli" var="p" value="#{cdMB.listaDeTelcli}"
+							rowKey="#{p.dfrecnum}" selection="#{cdMB.telcliBEAN}"
+							emptyMessage="Nenhum item encontrado!!!">
+
+							<f:facet name="header">
+								<p:commandButton value="Alterar"
+									oncomplete="PF('contatosCliente').show();"
+									rendered="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.igp.corpoDiretivoChange}"
+									update=":frmCDAlterar:dlgAlterar"
+									icon="fa fa-pencil Fs16 white" title="Alterar" />
+
+								<p:commandButton value="Excluir"
+									actionListener="#{cdMB.excluirContatoTelcli}"
+									rendered="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.igp.corpoDiretivoRemove}"
+									update=":frmCD:dttTelCli :frmCD:msgTelcli"
+									icon="fa fa-close Fs16 white" title="Excluir">
+									<p:confirm header="Confirmação" message="Confirma a Exclusão?"
+										icon="ui-icon-alert" />
+								</p:commandButton>
+							</f:facet>
+
+							<p:column selectionMode="single"
+								style="width:16px;text-align:center" />
+							<p:column visible="false">
+									#{p.cliente}
+								</p:column>
+							<p:column headerText="Descrição" style="width:100%">
+									#{cdMB.listarDescricao(p.tipo)}
+								</p:column>
+							<p:column headerText="Contatos" style="width: 100%">
+									#{p.telEmail}
+								</p:column>
+							<p:column headerText="Obs." style="width: 100%">
+									#{p.observacao}
+								</p:column>
+						</p:dataTable>
+						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+							<p:commandButton value="Sim" type="button"
+								styleClass="ui-confirmdialog-yes" icon="fa fa-check Fs16 white" />
+							<p:commandButton value="Não" type="button"
+								styleClass="ui-confirmdialog-no" icon="fa fa-close Fs16 white" />
+						</p:confirmDialog>
+					</h:panelGrid>
+				</h:panelGrid>
+			</h:panelGrid>
+			<p:messages id="msg4" showDetail="true" autoUpdate="false"
+				closable="true" escape="true" showSummary="false" />
+			<p:commandButton value="Salvar" styleClass="direita"
+				rendered="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.igp.corpoDiretivoAdd}"
+				action="#{cdMB.alterarIlclient}" update=":frmCD:msg4" />
+			<p:commandButton value="Voltar" action="#{cdMB.voltar2}"
+				update=":frmCD" styleClass="esquerda" />
+		</p:panel>
+		<p:panel header="Adicionar Novo" style="width:800px !important;"
+			rendered="#{cdMB.pagina4 eq 4 ? true : false}">
+			<h:panelGrid id="plgGrid3">
+				<h:panelGrid>
+					<b> Função </b>
+					<h:panelGrid columns="4">
+						<p:selectOneMenu value="#{cdMB.funcao}"
+							style="width:150px; text-align:center !important;">
+							<f:selectItem itemLabel="Selecione:" noSelectionOption="true" />
+							<f:selectItem itemLabel="Sindico Profissional" itemValue="0" />
+							<f:selectItems value="#{cdMB.listaDeCargo}" var="item"
+								itemLabel="#{item.nome}" itemValue="#{item.codigo}" />
+							<p:ajax update=":frmCD:plgTorUni3 :frmCD:plgExistente"
+								listener="#{cdMB.nomeUnidade}" />
+						</p:selectOneMenu>
+						<h:panelGrid id="plgExistente" columns="3">
+							<p:outputLabel id="oplSindicoExistente"
+								value="Sindico Existente?" style="margin-left: 20px !important;"
+								rendered="#{cdMB.funcao eq 0}" />
+							<p:selectOneRadio value="#{cdMB.sindicoExistente}"
+								rendered="#{cdMB.funcao eq 0}">
+								<f:selectItem itemLabel="Não" itemValue="1" />
+								<f:selectItem itemLabel="Sim" itemValue="2" />
+								<p:ajax update=":frmCD:plgExistente :frmCD:plgNomeCli"
+									listener="#{cdMB.sindicoExistenteNao}" />
+							</p:selectOneRadio>
+							<p:commandButton id="btnSindicoExistente"
+								oncomplete="PF('pesquisarSindico').show();" value="Pesquisar"
+								rendered="#{cdMB.sindicoExistente eq 2 and cdMB.valida eq false}" />
+						</h:panelGrid>
+					</h:panelGrid>
+					<p:separator />
+					<h:panelGrid id="plgTorUni3">
+						<b> Dados </b>
+						<br />
+						<h:panelGrid columns="4"
+							rendered="#{cdMB.funcao eq 0 ? false : true}">
+							<p:outputLabel value="Bloco:" />
+							<p:selectOneMenu value="#{cdMB.bloco}"
+								style="width:70px; text-align:center !important;">
+								<f:selectItem itemLabel="Selecione:" />
+								<f:selectItems value="#{cdMB.listaDeBloco}" var="item"
+									itemLabel="#{item.bloco}" itemValue="#{item.bloco}" />
+								<p:ajax update=":frmCD:somUnidade3" />
+							</p:selectOneMenu>
+							<p:outputLabel value="Unidade:" />
+							<p:selectOneMenu id="somUnidade3" value="#{cdMB.unidade}"
+								style="width:150px; text-align:center !important;" filter="true"
+								filterMatchMode="contains">
+								<f:selectItem itemLabel="Selecione:" />
+								<p:ajax update=":frmCD:plgTorUni3" listener="#{cdMB.alterar2}" />
+								<f:selectItems value="#{cdMB.listaDeUnidade}" var="item"
+									itemLabel="#{item.unidade}" itemValue="#{item.unidade}" />
+							</p:selectOneMenu>
+						</h:panelGrid>
+						<h:panelGrid>
+							<p:outputLabel value="Usar Nome da Unidade?"
+								rendered="#{cdMB.funcao > 0}" />
+							<p:selectOneRadio value="#{cdMB.validaNome}"
+								rendered="#{cdMB.funcao > 0}">
+								<f:selectItem itemLabel="Sim" itemValue="1" />
+								<f:selectItem itemLabel="Não" itemValue="2" />
+								<p:ajax
+									update="plgNomeCli plg4 plg5 plg6 plgDadosTipo3 dttTelCli3"
+									listener="#{cdMB.alteraNome}" />
+							</p:selectOneRadio>
+						</h:panelGrid>
+						<h:panelGrid id="plgNomeCli" columns="2">
+							<p:outputLabel value="Nome: *" rendered="#{cdMB.validaNome eq 1}" />
+							<p:inputText id="nomeCli3" value="#{cdMB.clienteBEAN.nome}"
+								rendered="#{cdMB.validaNome eq 1}" maxlength="35"
+								style="width:400px !important;margin-left:20px !important;"
+								disabled="#{cdMB.validaNomeSindico()}" />
+
+							<p:outputLabel value="Nome: *" rendered="#{cdMB.validaNome eq 2}" />
+							<p:inputText id="nomeCliOutro" value="#{cdMB.outroNome}"
+								rendered="#{cdMB.validaNome eq 2}" maxlength="35"
+								style="width:400px !important;margin-left:20px !important;" />
+
+							<p:outputLabel value="Sexo: *" />
+							<p:selectOneMenu id="somSexo3" value="#{cdMB.clienteBEAN.sexo}"
+								style="margin-left:20px !important;">
+								<f:selectItem itemLabel="Masculino" itemValue="M" />
+								<f:selectItem itemLabel="Feminino" itemValue="F" />
+							</p:selectOneMenu>
+						</h:panelGrid>
+
+						<p:messages id="msg5" showDetail="true" autoUpdate="false"
+							closable="true" escape="true" showSummary="false" />
+						<h:panelGrid id="plg4" columns="2">
+							<h:panelGrid columns="2">
+								<p:outputLabel id="somTipo3" value="Pessoa: *" />
+								<p:selectOneMenu
+									style="width:100px; text-align:center !important;margin-left:20px;"
+									value="#{cdMB.clienteBEAN.tipoPessoa}">
+									<f:selectItem itemLabel="Selecione:" />
+									<f:selectItem itemLabel="Fisica" itemValue="F" />
+									<f:selectItem itemLabel="Juridica" itemValue="J" />
+									<p:ajax update=":frmCD:plgCpf3 :frmCD:plgDadosTipo3" />
+								</p:selectOneMenu>
+							</h:panelGrid>
+
+							<h:panelGrid id="plgCpf3" columns="4">
+								<p:outputLabel id="oplCPF3" value="CPF:"
+									rendered="#{cdMB.clienteBEAN.tipoPessoa eq 'F'}" />
+								<p:inputMask id="iptmCPF3" mask="999.999.999-99"
+									rendered="#{cdMB.clienteBEAN.tipoPessoa eq 'F'}"
+									value="#{cdMB.cpf}">
+									<p:ajax event="change" listener="#{cdMB.validaCPF}" />
+								</p:inputMask>
+								<p:outputLabel id="oplCNPJ3" value="CNPJ:"
+									rendered="#{cdMB.clienteBEAN.tipoPessoa eq 'J'}" />
+								<p:inputMask id="iptmCNPJ3" mask="99.999.999/9999-99"
+									rendered="#{cdMB.clienteBEAN.tipoPessoa eq 'J'}"
+									value="#{cdMB.cnpj}">
+									<p:ajax event="change" listener="#{cdMB.validaCPF}" />
+								</p:inputMask>
+							</h:panelGrid>
+						</h:panelGrid>
+
+
+						<h:panelGrid id="plgDadosTipo3" columns="2">
+							<p:outputLabel value="RG:" />
+							<p:inputText value="#{cdMB.clienteBEAN.nroIdentidade}"
+								maxlength="15" disabled="#{cdMB.clienteBEAN.tipoPessoa eq 'J'}" />
+							<p:outputLabel value="Profissão:" />
+							<p:inputText value="#{cdMB.clienteBEAN.profissao}" maxlength="20"
+								disabled="#{cdMB.clienteBEAN.tipoPessoa eq 'J'}" />
+							<p:outputLabel value="Estado Civil:" />
+							<p:selectOneMenu id="somEstadoCivel3"
+								value="#{cdMB.clienteBEAN.estadoCivil}"
+								style="width:100px; text-align:center !important;"
+								disabled="#{cdMB.clienteBEAN.tipoPessoa eq 'J'}">
+								<f:selectItem itemLabel="Pessoa Jurídica" itemValue="1" />
+								<f:selectItem itemLabel="Solteiro(a)" itemValue="2" />
+								<f:selectItem itemLabel="Casado(a)" itemValue="3" />
+								<f:selectItem itemLabel="Viúvo(a)" itemValue="4" />
+								<f:selectItem itemLabel="Separado(a) Judicialmente"
+									itemValue="5" />
+								<f:selectItem itemLabel="Divorciado(a)" itemValue="6" />
+							</p:selectOneMenu>
+							<p:outputLabel value="Data Nasc.:" />
+							<p:calendar value="#{cdMB.clienteBEAN.dataNascimento}"
+								pattern="dd/MM/yyyy" mask="99/99/9999" locale="pt"
+								timeZone="America/Sao_Paulo"
+								disabled="#{cdMB.clienteBEAN.tipoPessoa eq 'J'}"></p:calendar>
+						</h:panelGrid>
+						<hr />
+						<b>Endereço</b>
+						<h:panelGrid columns="4">
+							<p:outputLabel value="Logradouro: *" />
+							<p:selectOneMenu id="somLogradouro3"
+								value="#{cdMB.logradouroBEAN.codigo}"
+								style="width:100px; text-align:center !important;" filter="true"
+								filterMatchMode="contains">
+								<f:selectItem itemLabel="Selecione" />
+								<f:selectItems value="#{cdMB.listaDeLogradouro}" var="item"
+									itemLabel="#{item.descricao}" itemValue="#{item.codigo}" />
+							</p:selectOneMenu>
+							<p:outputLabel value="Endereço: *" />
+							<p:inputText id="ipEndereco3"
+								value="#{cdMB.clienteBEAN.endereco}" maxlength="35"
+								style="width:250px !important;" />
+							<p:outputLabel value="Número:" />
+							<p:inputText value="#{cdMB.clienteBEAN.nroEnd}" maxlength="10"
+								style="width:50px !important;" />
+							<p:outputLabel value="Complemento:" />
+							<p:inputText value="#{cdMB.clienteBEAN.complemento}"
+								maxlength="35" style="width:250px !important;" />
+							<p:outputLabel value="Cidade: *" />
+							<p:selectOneMenu id="somCidade3"
+								value="#{cdMB.cidadeBEAN.codigo}"
+								style="width:100px; text-align:center !important;" filter="true"
+								filterMatchMode="contains">
+								<f:selectItems value="#{cdMB.listaDeCidade}" var="item"
+									itemLabel="#{item.cidade}" itemValue="#{item.codigo}"
+									itemDescription="#{item.estado}" />
+							</p:selectOneMenu>
+							<p:outputLabel value="CEP: *" />
+							<p:inputMask id="ipmCep3" value="#{cdMB.cep}" mask="99999-999"></p:inputMask>
+						</h:panelGrid>
+						<hr />
+						<b>Cartorios</b>
+						<h:panelGrid id="plg5" columns="2">
+							<p:outputLabel value="1º:" />
+							<p:inputText value="#{cdMB.clienteBEAN.cartorio1}" maxlength="50"
+								style="width:350px !important;" />
+							<p:outputLabel value="2º:" />
+							<p:inputText value="#{cdMB.clienteBEAN.cartorio2}" maxlength="50"
+								style="width:350px !important;" />
+						</h:panelGrid>
+						<hr />
+						<b>Contatos</b>
+						<h:panelGrid id="plg6">
+							<p:commandButton value="Adicionar"
+								oncomplete="PF('adicionarContato').show();"
+								icon="fa fa-plus Fs16 white" rendered="#{cdMB.validaNome eq 1}" />
+							<p:commandButton value="Adicionar"
+								oncomplete="PF('adicionarContato2').show();"
+								icon="fa fa-plus Fs16 white" rendered="#{cdMB.validaNome eq 2}" />
+						</h:panelGrid>
+						<p:messages id="msgTelcli3" showDetail="true" autoUpdate="false"
+							closable="true" escape="true" showSummary="false" />
+						<p:dataTable id="dttTelCli3" var="p" value="#{cdMB.listaDeTelcli}"
+							rowKey="#{p.dfrecnum}" selection="#{cdMB.telcliBEAN}"
+							emptyMessage="Nenhum item encontrado!!!">
+
+							<f:facet name="header">
+								<p:commandButton value="Alterar"
+									oncomplete="PF('contatosCliente').show();"
+									update=":frmCDAlterar:dlgAlterar"
+									icon="fa fa-pencil Fs16 white" title="Alterar"
+									rendered="#{cdMB.validaNome eq 1}" />
+								<p:commandButton value="Alterar"
+									oncomplete="PF('contatosCliente2').show();"
+									update=":frmAlterarTelcli:dlgAlterar2"
+									icon="fa fa-pencil Fs16 white" title="Alterar"
+									rendered="#{cdMB.validaNome eq 2}" />
+
+								<p:commandButton value="Excluir"
+									actionListener="#{cdMB.excluirContatoTelcli}"
+									rendered="#{cdMB.validaNome eq 1}"
+									update=":frmCD:dttTelCli3 :frmCD:msgTelcli3"
+									icon="fa fa-close Fs16 white" title="Excluir">
+									<p:confirm header="Confirmação" message="Confirma a Exclusão?"
+										icon="ui-icon-alert" />
+								</p:commandButton>
+								<p:commandButton value="Excluir"
+									actionListener="#{cdMB.excluirContatoTelcli2}"
+									rendered="#{cdMB.validaNome eq 2}"
+									update=":frmCD:dttTelCli3 :frmCD:msgTelcli3"
+									icon="fa fa-close Fs16 white" title="Excluir">
+									<p:confirm header="Confirmação" message="Confirma a Exclusão?"
+										icon="ui-icon-alert" />
+								</p:commandButton>
+							</f:facet>
+
+							<p:column selectionMode="single"
+								style="width:16px;text-align:center" />
+							<p:column visible="false">
+									#{p.cliente}
+								</p:column>
+							<p:column headerText="Descrição" style="width:100%">
+									#{cdMB.listarDescricao(p.tipo)}
+								</p:column>
+							<p:column headerText="Contatos" style="width: 100%">
+									#{p.telEmail}
+								</p:column>
+							<p:column headerText="Obs." style="width: 100%">
+									#{p.observacao}
+								</p:column>
+						</p:dataTable>
+						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+							<p:commandButton value="Sim" type="button"
+								styleClass="ui-confirmdialog-yes" icon="fa fa-check Fs16 white" />
+							<p:commandButton value="Não" type="button"
+								styleClass="ui-confirmdialog-no" icon="fa fa-close Fs16 white" />
+						</p:confirmDialog>
+					</h:panelGrid>
+				</h:panelGrid>
+			</h:panelGrid>
+
+			<p:commandButton value="Voltar" action="#{cdMB.voltar2}"
+				update=":frmCD" styleClass="esquerda" />
+			<p:commandButton value="Salvar"
+				action="#{cdMB.addNovoMembroCorpoDiretivo}"
+				onstart="PF('status').show();" onsuccess="PF('status').hide();"
+				update=":frmCD :frmCDAdicionar frmCDAdicionar2 msg"
+				styleClass="direita" />
+		</p:panel>
+	</h:form>
+	<h:form id="frmStatus">
+		<p:dialog id="dlgPesquisar" modal="true" widgetVar="status"
+			header="Aguarde..." draggable="false" resizable="false"
+			closable="false">
+			<center>
+				<p:graphicImage name="loader.gif" library="imagens" width="250"
+					height="25" />
+			</center>
+		</p:dialog>
+	</h:form>
+</ui:composition>

@@ -1,0 +1,60 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<div class="layout-portlets-box">
+			<div class="DispInlBlock TexAlLeft">
+				<div class="Fleft">
+					<h2 class="black Fs24 FontRalewayMedium">Novo Lançamento</h2>
+				</div>
+			</div>
+			<div class="Seperator"></div>
+			<div class="Container100 Responsive100">
+				<div class="ContainerIndent">
+					<h:form id="frmGerente">
+						<h:panelGrid id="pnlGeren" columns="3" cellpadding="5">
+							<p:outputLabel value="Gerente:" />
+							<p:selectOneMenu id="somGerentes"
+								value="#{ged.gerente}" filter="true"
+								filterMatchMode="contains" style="width:200px;">
+								<f:selectItems value="#{ged.listaDeGerentes}" var="item" itemLabel="#{item.nome}" itemValue="#{item.codigo}" />
+								<p:ajax update=":frmCondominio:plgCondominio" />
+							</p:selectOneMenu>
+						</h:panelGrid>
+					</h:form>
+					<h:form id="frmCondominio">
+						<h:panelGrid id="plgCondominio" columns="3"
+							style="margin-bottom:10px" cellpadding="5">
+							<p:outputLabel for="console" value="Condomínio:" />
+							<p:selectOneMenu id="console" value="#{ged.condominio}" required="true" requiredMessage="Informe o condomínio!"
+								style="width:90px;" filter="true" filterMatchMode="contains">
+								<f:selectItem itemLabel="Selecione" itemValue="0" />
+								<f:selectItems value="#{ged.listaDeCondominio}" var="item"
+									itemLabel="#{item.codigo}" itemValue="#{item.codigo}" />
+								<p:ajax update=":frmCondominio:oplNomeCondo"
+									listener="#{ged.retornaNomeCondominio}" />
+							</p:selectOneMenu>
+							<p:outputLabel id="oplNomeCondo" value="#{ged.nomeCondo}" />
+						</h:panelGrid>
+					</h:form>
+					<p:messages id="msg" showDetail="true" autoUpdate="false"
+								closable="true" escape="true" showSummary="false" />
+						<ui:include src="financeiro/lancamento/frm-lancamento.xhtml" />
+						<ui:include src="financeiro/lancamento/dlg-pesq-conta.xhtml" />
+						<ui:include src="financeiro/lancamento/dlg-pesq-fornecedor.xhtml" />
+						<ui:include src="financeiro/lancamento/dlg-pesq-favorecido.xhtml" />
+						<ui:include	src="financeiro/lancamento/dlg-valida-lancamento.xhtml" />
+						<ui:include src="financeiro/lancamento/dlg-upload.xhtml" />
+						<ui:include src="financeiro/lancamento/dlg-pesq-banco.xhtml" />
+						<ui:include src="financeiro/lancamento/dlg-rateio.xhtml" />
+						<ui:include src="financeiro/lancamento/dlg-pesq-contarateio.xhtml" />
+						<ui:include src="financeiro/lancamento/dlg-obs-lancamento1.xhtml" />
+						<ui:include src="financeiro/lancamento/dlg-obs-lancamento2.xhtml" />
+						<ui:include src="financeiro/lancamento/style.xhtml" />
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

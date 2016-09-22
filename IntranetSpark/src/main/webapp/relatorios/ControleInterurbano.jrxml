@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ControleInterurbano" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0bbefeb6-3382-4db1-b03c-f2f544c3c784">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="condominio" class="java.lang.Integer"/>
+	<field name="solicitante" class="java.lang.String"/>
+	<field name="ddd" class="java.lang.Integer"/>
+	<field name="numero" class="java.lang.String"/>
+	<field name="data" class="java.sql.Timestamp"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="72" splitType="Stretch">
+			<staticText>
+				<reportElement x="161" y="18" width="286" height="34" uuid="2e198e67-9792-47ec-8353-3b9c9554b73b"/>
+				<textElement>
+					<font fontName="SansSerif" size="24"/>
+				</textElement>
+				<text><![CDATA[Relatório de Interurbano]]></text>
+			</staticText>
+			<image>
+				<reportElement x="0" y="0" width="101" height="62" uuid="9539f15a-3523-4393-820c-5c57847da56a"/>
+				<imageExpression><![CDATA["http://10.1.1.20:8080//imagens//omatim.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="0" width="555" height="20" forecolor="#666666" backcolor="#666666" uuid="f048fa7a-b989-4a4c-91de-a0c9d11d4503"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="3" y="0" width="101" height="20" forecolor="#FFFFFF" uuid="0aade6c8-5484-4423-aa27-58d783cf8201"/>
+				<textElement>
+					<font fontName="SansSerif" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[condominio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="104" y="0" width="156" height="20" forecolor="#FFFFFF" uuid="fe3caed9-9f8e-480f-9860-638a9e536208"/>
+				<textElement>
+					<font fontName="SansSerif" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[solicitante]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="297" y="0" width="39" height="20" forecolor="#FFFFFF" uuid="0be91803-8287-4885-b041-04e00e024e0a"/>
+				<textElement>
+					<font fontName="SansSerif" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ddd]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="336" y="0" width="111" height="20" forecolor="#FFFFFF" uuid="92555675-aeda-439c-afab-d270d640cc91"/>
+				<textElement>
+					<font fontName="SansSerif" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[numero]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="447" y="0" width="111" height="20" forecolor="#FFFFFF" uuid="7ff50146-b37a-4bab-8790-b5af77624af0"/>
+				<textElement>
+					<font fontName="SansSerif" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[data]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="24" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="3" y="2" width="98" height="20" isRemoveLineWhenBlank="true" uuid="d59ffed6-2c04-4a16-b7e0-c5c2ac7e57f7"/>
+				<textElement>
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{condominio}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="101" y="2" width="159" height="20" isRemoveLineWhenBlank="true" uuid="8f92c3df-2ca7-4ebe-a4b2-f30fc77ea8b5"/>
+				<textElement>
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{solicitante}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="297" y="2" width="39" height="20" isRemoveLineWhenBlank="true" uuid="2b0ea8be-a126-477d-92f1-b5a560a2b82d"/>
+				<textElement>
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ddd}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="336" y="2" width="111" height="20" isRemoveLineWhenBlank="true" uuid="abf4d044-36bf-4ef5-9639-884689c6f48f"/>
+				<textElement>
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numero}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="447" y="2" width="111" height="20" isRemoveLineWhenBlank="true" uuid="d6d7e881-2d91-4532-9fb4-82c51fb2a661"/>
+				<textElement>
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{data}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="3" y="1" width="552" height="1" uuid="d4a072fc-3ce4-4e7c-bb9f-11b717eedbad"/>
+			</line>
+		</band>
+	</detail>
+</jasperReport>

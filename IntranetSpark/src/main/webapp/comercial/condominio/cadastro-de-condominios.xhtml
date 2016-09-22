@@ -1,0 +1,572 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<style>
+.msg {
+	color: #FFF;
+	font-size: 20px;
+}
+
+#frmFiltro table td {
+	border: 0px !important;
+}
+
+.ui-selectoneradio tbody tr td {
+	border: 0px !important;
+}
+
+.gridFiltro tbody tr td {
+	border: 0px !important;
+}
+</style>
+		<div class="layout-portlets-box">
+			<div class="DispInlBlock TexAlLeft">
+				<div class="Fleft">
+					<h2 class="black Fs24 FontRalewayMedium">Cadastro de
+						Condomínio</h2>
+				</div>
+			</div>
+			<div class="Seperator"></div>
+			<div class="Container100 Responsive100">
+				<div class="ContainerIndent">
+					<h:form id="frmCadastroCondominio"
+						rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.verificaDepto('Comercial')}">
+						<p:messages autoUpdate="true" id="msg" showDetail="true"
+							showSummary="true" />
+						<br />
+						<p:panelGrid columns="1" styleClass="gridFiltro">
+							<h:panelGrid columns="2">
+								<p:outputLabel value="Nome:" />
+								<p:inputText value="#{cmcoMB.icBEAN.nome}" maxlength="150"
+									style="width:400px;" />
+								<p:outputLabel value="CNPJ:" />
+								<p:inputMask value="#{cmcoMB.icBEAN.cnpj}" size="20"
+									mask="99.999.999/9999-99" />
+							</h:panelGrid>
+						</p:panelGrid>
+						<br />
+						<p:accordionPanel multiple="false" id="accordion">
+							<p:tab title="Identificação" id="tabIdentificacao">
+								<p:panelGrid columns="1" layout="grid" styleClass="gridFiltro">
+									<h:panelGrid columns="2">
+										<p:outputLabel value="Logradouro:" />
+										<p:selectOneMenu value="#{cmcoMB.logradouro}" filter="true"
+											filterMatchMode="contains" style="width:200px;">
+											<p:ajax update="selectEndereco"
+												listener="#{cmcoMB.logradouro()}" />
+											<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+											<f:selectItems value="#{cmcoMB.listaLogradouro}"
+												var="logradouro" itemLabel="#{logradouro}"
+												itemValue="#{logradouro}" />
+										</p:selectOneMenu>
+										<p:outputLabel value="Endereço:" />
+										<p:inputText value="#{cmcoMB.icBEAN.endereco}"
+											style="width:400px;" id="selectEndereco" maxlength="100" />
+										<p:outputLabel value="Bairro:" />
+										<p:inputText value="#{cmcoMB.icBEAN.bairro}"
+											style="width:400px;" maxlength="50" />
+										<p:outputLabel value="Estado:" />
+										<p:selectOneMenu value="#{cmcoMB.estado1}" filter="true"
+											filterMatchMode="contains" style="width:200px;">
+											<p:ajax update="selectCidade"
+												listener="#{cmcoMB.alterarEstado1()}" />
+											<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+											<f:selectItems value="#{cmcoMB.listaEstado}" var="estado"
+												itemLabel="#{estado}" itemValue="#{estado}" />
+										</p:selectOneMenu>
+										<p:outputLabel value="Cidade:" />
+										<p:selectOneMenu id="selectCidade"
+											converter="omnifaces.SelectItemsConverter"
+											value="#{cmcoMB.icBEAN.cidade}" filter="true"
+											filterMatchMode="contains" style="width:200px;">
+											<f:selectItem itemLabel="Selecione" itemValue="" />
+											<f:selectItems value="#{cmcoMB.listaCidades2}" var="cidade"
+												itemLabel="#{cidade}" itemValue="#{cidade}" />
+										</p:selectOneMenu>
+										<p:outputLabel value="CEP:" />
+										<p:inputMask value="#{cmcoMB.icBEAN.cep}" mask="99999-999"
+											style="width:195px;" />
+										<p:outputLabel value="Telefone da Portaria:" />
+										<p:inputMask value="#{cmcoMB.icBEAN.telPortaria}"
+											mask="(999)9999-9999" style="width:195px;" />
+									</h:panelGrid>
+									<br />
+									<p:panelGrid columns="1" styleClass="gridFiltro">
+										<f:facet name="header"> Incorporadora/ Construtora </f:facet>
+										<h:panelGrid columns="2">
+											<p:outputLabel value="Código:" />
+											<p:selectOneMenu value="#{cmcoMB.icBEAN.construtora}"
+												filter="true" filterMatchMode="contains"
+												style="width:170px;margin-left:140px;">
+												<f:selectItem itemLabel="Selecione" itemValue="0" />
+												<f:selectItems value="#{cmcoMB.listaConstrutora2}" var="id"
+													itemLabel="#{id.id} - #{id.nome}" itemValue="#{id.id}" />
+												<p:ajax update="nome" listener="#{cmcoMB.nomeEngenheiro()}" />
+											</p:selectOneMenu>
+										</h:panelGrid>
+										<h:panelGrid id="nome" columns="2">
+											<p:outputLabel value="Nome:" />
+											<p:inputText value="#{cmcoMB.icBEAN.nomeConstrutora}"
+												style="width:340px;margin-left:10px;" maxlength="100" />
+											<p:outputLabel value="Engenheiro Responsável:" />
+											<p:inputText value="#{cmcoMB.icBEAN.nomeEngenheiro}"
+												style="width:340px;margin-left:10px;" maxlength="75" />
+										</h:panelGrid>
+										<h:panelGrid columns="2">
+											<p:outputLabel value="Data Prevista para Entrega:" />
+											<p:calendar value="#{cmcoMB.icBEAN.dataEntrega}"
+												pattern="dd/MM/yyyy" locale="pt"
+												timeZone="America/Sao_Paulo" styleClass="calendario"
+												yearRange="c-3:c+5" />
+										</h:panelGrid>
+									</p:panelGrid>
+								</p:panelGrid>
+							</p:tab>
+							<p:tab title="Características" id="tabCaracteristicas">
+								<p:panelGrid columns="1" layout="grid" styleClass="gridFiltro">
+									<p:panelGrid columns="1" styleClass="gridFiltro">
+										<f:facet name="header">Classificação</f:facet>
+										<h:panelGrid columns="2">
+											<p:outputLabel value="Código:" />
+											<p:selectOneMenu value="#{cmcoMB.icBEAN.classificacao}"
+												style="width:200px;">
+												<f:selectItem itemLabel="Selecione" itemValue="0" />
+												<f:selectItem itemLabel="Alto" itemValue="ALTO" />
+												<f:selectItem itemLabel="Médio" itemValue="MÉDIO" />
+												<f:selectItem itemLabel="Baixo" itemValue="BAIXO" />
+												<f:selectItem itemLabel="Não Classificado"
+													itemValue="NÃO CLASSIFICADO" />
+											</p:selectOneMenu>
+										</h:panelGrid>
+									</p:panelGrid>
+									<br />
+									<h:panelGrid columns="2">
+										<p:panelGrid columns="1" styleClass="gridFiltro">
+											<f:facet name="header">Quantidades</f:facet>
+											<h:panelGrid columns="4">
+												<p:outputLabel value="Torre:" />
+												<p:inputText value="#{cmcoMB.icBEAN.bloco}"
+													style="width:50px;" filter="true"
+													filterMatchMode="contains" />
+												<p:outputLabel value="Func. do Condomínio:"
+													style="margin-left:10px;" />
+												<p:inputText value="#{cmcoMB.icBEAN.funcCondominio}"
+													style="width:50px; " />
+												<p:outputLabel value="Andares:" />
+												<p:inputText value="#{cmcoMB.icBEAN.andar}"
+													style="width:50px;" />
+												<p:outputLabel value="Func. Terceirizados:"
+													style="margin-left:10px;" />
+												<p:inputText value="#{cmcoMB.icBEAN.funcTerceirizado}"
+													style="width:50px;" />
+												<p:outputLabel value="Apartamentos:" />
+												<p:inputText value="#{cmcoMB.icBEAN.apartamento}"
+													style="width:50px;" />
+												<p:outputLabel value="Elevadores:" style="margin-left:10px;" />
+												<p:inputText value="#{cmcoMB.icBEAN.elevador}"
+													style="width:50px;" />
+												<p:outputLabel value="Aptos. por Andar:" />
+												<p:inputText value="#{cmcoMB.icBEAN.aptosPorAndar}"
+													style="width:50px;" />
+											</h:panelGrid>
+										</p:panelGrid>
+										<p:panelGrid columns="1" styleClass="gridFiltro"
+											style="margin-left:50px;margin-top:-22px;">
+											<f:facet name="header">Área de Lazer</f:facet>
+											<h:panelGrid columns="4">
+												<p:selectBooleanCheckbox value="#{cmcoMB.icBEAN.piscina}" />
+												<p:outputLabel value="Piscina" />
+												<p:selectBooleanCheckbox value="#{cmcoMB.icBEAN.quadra}" />
+												<p:outputLabel value="Quadra" />
+												<p:selectBooleanCheckbox value="#{cmcoMB.icBEAN.playground}" />
+												<p:outputLabel value="Playground" />
+												<p:selectBooleanCheckbox
+													value="#{cmcoMB.icBEAN.churrasqueira}" />
+												<p:outputLabel value="Churrasqueira" />
+												<p:selectBooleanCheckbox value="#{cmcoMB.icBEAN.sauna}" />
+												<p:outputLabel value="Sauna" />
+												<p:selectBooleanCheckbox
+													value="#{cmcoMB.icBEAN.salaoFestas}" />
+												<p:outputLabel value="Salão de Festas" />
+												<p:selectBooleanCheckbox value="#{cmcoMB.icBEAN.jogos}" />
+												<p:outputLabel value="Jogos" />
+												<p:selectBooleanCheckbox value="#{cmcoMB.icBEAN.ginastica}" />
+												<p:outputLabel value="Ginástica" />
+												<p:selectBooleanCheckbox value="#{cmcoMB.icBEAN.gourmet}" />
+												<p:outputLabel value="Gourmet" />
+												<p:selectBooleanCheckbox value="#{cmcoMB.icBEAN.jardim}" />
+												<p:outputLabel value="Jardim" />
+											</h:panelGrid>
+										</p:panelGrid>
+									</h:panelGrid>
+									<br />
+									<h:panelGrid columns="2">
+										<p:outputLabel value="Tipo:" />
+										<p:selectOneMenu value="#{cmcoMB.icBEAN.tipo}" filter="true"
+											filterMatchMode="contains" style="width:200px;">
+											<f:selectItem itemLabel="Selecione" itemValue="" />
+											<f:selectItem itemLabel="Residencial" itemValue="Residencial" />
+											<f:selectItem itemLabel="Comercial" itemValue="Comercial" />
+											<f:selectItem itemLabel="Misto" itemValue="Misto" />
+										</p:selectOneMenu>
+										<p:outputLabel value="Característica:" />
+										<p:selectOneMenu value="#{cmcoMB.icBEAN.caracteristica}"
+											filter="true" filterMatchMode="contains" style="width:200px;">
+											<f:selectItem itemLabel="Selecione" itemValue="" />
+											<f:selectItem itemLabel="Horizontal" itemValue="Horizontal" />
+											<f:selectItem itemLabel="Vertical" itemValue="Vertical" />
+										</p:selectOneMenu>
+										<p:outputLabel value="Marca dos Elevadores:" />
+										<p:inputText value="#{cmcoMB.icBEAN.marcaElevador}"
+											style="width:400px;" maxlength="50" />
+										<p:outputLabel value="Observaçao:" />
+										<p:inputText value="#{cmcoMB.icBEAN.obsCondominio}"
+											style="width:400px;" maxlength="200" />
+										<p:outputLabel value="Outras Características:" />
+										<p:inputTextarea
+											value="#{cmcoMB.icBEAN.outrasCaracteristicas}"
+											style="width:400px;" maxlength="300" />
+									</h:panelGrid>
+								</p:panelGrid>
+							</p:tab>
+							<p:tab title="Síndico" id="tabSindicos">
+								<p:panelGrid columns="1" layout="grid" styleClass="gridFiltro">
+									<p:panelGrid columns="1" styleClass="gridFiltro">
+										<f:facet name="header">Endereço do Síndico</f:facet>
+										<h:panelGrid columns="2">
+											<p:outputLabel value="Nome:" />
+											<p:inputText value="#{cmcoMB.sindBEAN.nome}"
+												style="width:400px;" maxlength="100" />
+											<p:outputLabel value="Logradouro:" />
+											<p:selectOneMenu value="#{cmcoMB.logradouro}" filter="true"
+												filterMatchMode="contains" style="width:200px;">
+												<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+												<f:selectItems value="#{cmcoMB.listaLogradouro}"
+													var="logradouro" itemLabel="#{logradouro}"
+													itemValue="#{logradouro}" />
+												<p:ajax update="selectEndereco2"
+													listener="#{cmcoMB.logradouro()}" />
+											</p:selectOneMenu>
+											<p:outputLabel value="Endereço:" />
+											<p:inputText value="#{cmcoMB.sindBEAN.endereco}"
+												style="width:400px;" id="selectEndereco2" maxlength="100" />
+											<p:outputLabel value="Bairro:" />
+											<p:inputText value="#{cmcoMB.sindBEAN.bairro}"
+												style="width:400px;" maxlength="50" />
+											<p:outputLabel value="Estado:" />
+											<p:selectOneMenu value="#{cmcoMB.estado2}" filter="true"
+												filterMatchMode="contains" style="width:200px;">
+												<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+												<f:selectItems value="#{cmcoMB.listaEstado}" var="estado"
+													itemLabel="#{estado}" itemValue="#{estado}" />
+												<p:ajax update="selectCidade3"
+													listener="#{cmcoMB.alterarEstado2()}" />
+											</p:selectOneMenu>
+											<p:outputLabel value="Cidade:" />
+											<p:selectOneMenu id="selectCidade3"
+												value="#{cmcoMB.sindBEAN.cidade}" filter="true"
+												filterMatchMode="contains" style="width:200px;">
+												<f:selectItem itemLabel="Selecione" itemValue="" />
+												<f:selectItems value="#{cmcoMB.listaCidades3}" var="cidade"
+													itemLabel="#{cidade}" itemValue="#{cidade}" />
+											</p:selectOneMenu>
+											<p:outputLabel value="Cep:" />
+											<p:inputMask value="#{cmcoMB.sindBEAN.cep}"
+												style="width:195px;" mask="99999-999" />
+											<p:outputLabel value="Apartamento:" />
+											<p:inputText value="#{cmcoMB.sindBEAN.apartamento}"
+												style="width:195px;" maxlength="30" />
+										</h:panelGrid>
+									</p:panelGrid>
+									<br />
+									<p:panelGrid columns="1" styleClass="gridFiltro">
+										<f:facet name="header"> Contatos</f:facet>
+										<h:panelGrid columns="4">
+											<p:outputLabel value="Residencial:" />
+											<p:inputMask value="#{cmcoMB.sindBEAN.telResidencial}"
+												mask="(999)9999-9999" style="width:195px;margin-left:10px;" />
+											<p:outputLabel value="Celular:" style="margin-left:10px;" />
+											<p:inputMask value="#{cmcoMB.sindBEAN.celular}"
+												mask="(999)99999-9999" style="width:195px;" />
+											<p:outputLabel value="Comercial:" />
+											<p:inputMask value="#{cmcoMB.sindBEAN.telComercial}"
+												mask="(999)9999-9999" style="width:195px;margin-left:10px;" />
+											<p:outputLabel value="Fax:" style="margin-left:10px;" />
+											<p:inputMask value="#{cmcoMB.sindBEAN.fax}"
+												mask="(999)9999-9999" style="width:195px;" />
+										</h:panelGrid>
+										<h:panelGrid columns="2">
+											<p:outputLabel value="E-mail:" />
+											<p:inputText value="#{cmcoMB.sindBEAN.e_mail}"
+												style="margin-left:7px; width:400px;" maxlength="75" />
+											<p:outputLabel value="Observação:" />
+											<p:inputText value="#{cmcoMB.sindBEAN.obsSindico}"
+												style="margin-left:7px; width:400px;" maxlength="200" />
+										</h:panelGrid>
+									</p:panelGrid>
+								</p:panelGrid>
+							</p:tab>
+							<p:tab title="Administração Atual" id="tabAdministracao">
+								<p:panelGrid columns="1" layout="grid" styleClass="gridFiltro">
+									<h:panelGrid columns="2">
+										<p:panelGrid columns="1" styleClass="gridFiltro">
+											<f:facet name="header"> Dados Cadastrais </f:facet>
+											<h:panelGrid columns="2">
+												<p:outputLabel value="Nome:" />
+												<p:inputText value="#{cmcoMB.admBEAN.nome}"
+													style="width:400px;" maxlength="100" />
+												<p:outputLabel value="Logradouro:" />
+												<p:selectOneMenu value="#{cmcoMB.logradouro}" filter="true"
+													filterMatchMode="contains" style="width:200px;">
+													<f:selectItem itemLabel="Selecione"
+														noSelectionOption="true" />
+													<f:selectItems value="#{cmcoMB.listaLogradouro}"
+														var="logradouro" itemLabel="#{logradouro}"
+														itemValue="#{logradouro}" />
+													<p:ajax update="selectEndereco3"
+														listener="#{cmcoMB.logradouro()}" />
+												</p:selectOneMenu>
+												<p:outputLabel value="Endereço:" />
+												<p:inputText value="#{cmcoMB.admBEAN.endereco}"
+													style="width:400px;" id="selectEndereco3" maxlength="100" />
+												<p:outputLabel value="Bairro:" />
+												<p:inputText value="#{cmcoMB.admBEAN.bairro}"
+													style="width:400px;" maxlength="50" />
+												<p:outputLabel value="Estado:" />
+												<p:selectOneMenu value="#{cmcoMB.estado3}" filter="true"
+													filterMatchMode="contains" style="width:200px;">
+													<f:selectItem itemLabel="Selecione"
+														noSelectionOption="true" />
+													<f:selectItems value="#{cmcoMB.listaEstado}" var="estado"
+														itemLabel="#{estado}" itemValue="#{estado}" />
+													<p:ajax update="selectCidade4"
+														listener="#{cmcoMB.alterarEstado3()}" />
+												</p:selectOneMenu>
+												<p:outputLabel value="Cidade:" />
+												<p:selectOneMenu id="selectCidade4"
+													value="#{cmcoMB.admBEAN.cidade}" filter="true"
+													filterMatchMode="contains" style="width:200px;">
+													<f:selectItem itemLabel="Selecione" itemValue="" />
+													<f:selectItems value="#{cmcoMB.listaCidades4}" var="cidade"
+														itemLabel="#{cidade}" itemValue="#{cidade}" />
+												</p:selectOneMenu>
+												<p:outputLabel value="Cep:" />
+												<p:inputMask value="#{cmcoMB.admBEAN.cep}"
+													style="width:195px;" mask="99999-999" />
+												<p:outputLabel value="Telefone:" />
+												<p:inputMask value="#{cmcoMB.admBEAN.telefone}"
+													mask="(999)9999-9999" style="width:195px;" />
+												<p:outputLabel value="E-mail:" />
+												<p:inputText value="#{cmcoMB.admBEAN.e_mail}"
+													style="width:400px;" maxlength="75" />
+											</h:panelGrid>
+										</p:panelGrid>
+										<p:panelGrid columns="1" styleClass="gridFiltro"
+											style="margin-left:50px;margin-top:-134px;">
+											<f:facet name="header"> Valores Atuais </f:facet>
+											<h:panelGrid columns="2">
+												<p:outputLabel value="Valor do Condomínio:" />
+												<pe:inputNumber value="#{cmcoMB.admBEAN.valorCondominio}"
+													decimalPlaces="2" thousandSeparator="." minValue="0"
+													maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+												<p:outputLabel value="Vencimento:" />
+												<p:inputText value="#{cmcoMB.admBEAN.vencimento}" />
+												<p:outputLabel value="Valor Arrecadado:" />
+												<pe:inputNumber value="#{cmcoMB.admBEAN.valorArrecadado}"
+													decimalPlaces="2" thousandSeparator="." minValue="0"
+													maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+												<p:outputLabel value="Início Contrato Atual:" />
+												<p:calendar value="#{cmcoMB.admBEAN.inicioContrato}"
+													pattern="dd/MM/yyyy" locale="pt"
+													timeZone="America/Sao_Paulo" styleClass="calendario"
+													yearRange="c-3:c+5" />
+												<p:outputLabel value="Grau de Satisfação:" />
+												<p:selectOneMenu value="#{cmcoMB.admBEAN.grauSatisfacao}"
+													filter="true" filterMatchMode="contains"
+													style="width:170px;">
+													<f:selectItem itemLabel="Selecione" itemValue="" />
+													<f:selectItem itemLabel="Ótimo" itemValue="Ótimo" />
+													<f:selectItem itemLabel="Bom" itemValue="Bom" />
+													<f:selectItem itemLabel="Regular" itemValue="Regular" />
+													<f:selectItem itemLabel="Ruim" itemValue="Ruim" />
+												</p:selectOneMenu>
+												<p:outputLabel value="Taxa:" />
+												<pe:inputNumber value="#{cmcoMB.admBEAN.taxa}"
+													decimalPlaces="2" thousandSeparator="." minValue="0"
+													maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+											</h:panelGrid>
+										</p:panelGrid>
+									</h:panelGrid>
+									<br />
+									<h:panelGrid columns="2">
+										<p:panelGrid columns="1" styleClass="gridFiltro">
+											<f:facet name="header"> Deficiências Apontadas </f:facet>
+											<h:panelGrid columns="6">
+												<p:selectBooleanCheckbox
+													value="#{cmcoMB.admBEAN.atendimento}" />
+												<p:outputLabel value="Atendimento" />
+												<p:selectBooleanCheckbox
+													value="#{cmcoMB.admBEAN.sistOperacional}" />
+												<p:outputLabel value="Sist. Operacional" />
+												<p:selectBooleanCheckbox value="#{cmcoMB.admBEAN.vistoria}" />
+												<p:outputLabel value="Vistoria" />
+												<p:selectBooleanCheckbox value="#{cmcoMB.admBEAN.selecao}" />
+												<p:outputLabel value="Seleção" />
+												<p:selectBooleanCheckbox
+													value="#{cmcoMB.admBEAN.manutencao}" />
+												<p:outputLabel value="Manutenção" />
+												<p:selectBooleanCheckbox value="#{cmcoMB.admBEAN.custo}" />
+												<p:outputLabel value="Custos" />
+												<p:selectBooleanCheckbox value="#{cmcoMB.admBEAN.taxaB}" />
+												<p:outputLabel value="Taxa" />
+												<p:selectBooleanCheckbox value="#{cmcoMB.admBEAN.malote}" />
+												<p:outputLabel value="Malote" />
+												<p:selectBooleanCheckbox
+													value="#{cmcoMB.admBEAN.providenciasLentas}" />
+												<p:outputLabel value="Providências Lentas" />
+												<p:selectBooleanCheckbox value="#{cmcoMB.admBEAN.telefoneB}" />
+												<p:outputLabel value="Telefone" />
+												<p:selectBooleanCheckbox value="#{cmcoMB.admBEAN.gerencia}" />
+												<p:outputLabel value="Gerência" />
+												<p:selectBooleanCheckbox
+													value="#{cmcoMB.admBEAN.deptoJuridico}" />
+												<p:outputLabel value="Depto. Jurídico" />
+												<p:selectBooleanCheckbox
+													value="#{cmcoMB.admBEAN.flexibilidade}" />
+												<p:outputLabel value="Flexibilidade" />
+												<p:selectBooleanCheckbox value="#{cmcoMB.admBEAN.pessoal}" />
+												<p:outputLabel value="Pessoal" />
+											</h:panelGrid>
+										</p:panelGrid>
+										<p:panelGrid columns="1" styleClass="gridFiltro"
+											style="margin-left:90px;margin-top:-74px;">
+											<f:facet name="header">Observações</f:facet>
+											<h:panelGrid columns="1">
+												<p:inputTextarea value="#{cmcoMB.admBEAN.observacao}"
+													style="width:400px;" maxlength="500" />
+											</h:panelGrid>
+										</p:panelGrid>
+									</h:panelGrid>
+								</p:panelGrid>
+							</p:tab>
+							<p:tab title="Proposta" id="tabProposta">
+								<p:panelGrid columns="1" layout="grid" styleClass="gridFiltro">
+									<p:panelGrid columns="1" styleClass="gridFiltro">
+										<f:facet name="header"> Dados Cadastrais </f:facet>
+										<h:panelGrid columns="2">
+											<p:outputLabel value="Indicado Por:" />
+											<p:inputText value="#{cmcoMB.propBEAN.indicadoPor}"
+												style="width:400px;" maxlength="100" />
+											<p:outputLabel value="Solicitado Por:" />
+											<p:inputText value="#{cmcoMB.propBEAN.solicitadoPor}"
+												style="width:400px;" maxlength="100" />
+											<p:outputLabel value="Logradouro:" />
+											<p:selectOneMenu value="#{cmcoMB.logradouro}" filter="true"
+												filterMatchMode="contains" style="width:200px;">
+												<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+												<f:selectItems value="#{cmcoMB.listaLogradouro}"
+													var="logradouro" itemLabel="#{logradouro}"
+													itemValue="#{logradouro}" />
+												<p:ajax update="selectEndereco4"
+													listener="#{cmcoMB.logradouro()}" />
+											</p:selectOneMenu>
+											<p:outputLabel value="Endereço:" />
+											<p:inputText value="#{cmcoMB.propBEAN.endereco}"
+												style="width:400px;" id="selectEndereco4" maxlength="100" />
+											<p:outputLabel value="Apartamento:" />
+											<p:inputText value="#{cmcoMB.propBEAN.apartamento}"
+												style="width:195px;" maxlength="30" />
+											<p:outputLabel value="Bairro:" />
+											<p:inputText value="#{cmcoMB.propBEAN.bairro}"
+												style="width:400px;" maxlength="50" />
+											<p:outputLabel value="Estado:" />
+											<p:selectOneMenu value="#{cmcoMB.estado4}" filter="true"
+												filterMatchMode="contains" style="width:200px;">
+												<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+												<f:selectItems value="#{cmcoMB.listaEstado}" var="estado"
+													itemLabel="#{estado}" itemValue="#{estado}" />
+												<p:ajax update="selectCidade5"
+													listener="#{cmcoMB.alterarEstado4()}" />
+											</p:selectOneMenu>
+											<p:outputLabel value="Cidade:" />
+											<p:selectOneMenu id="selectCidade5"
+												value="#{cmcoMB.propBEAN.cidade}" filter="true"
+												filterMatchMode="contains" style="width:200px;">
+												<f:selectItem itemLabel="Selecione" itemValue="" />
+												<f:selectItems value="#{cmcoMB.listaCidades5}" var="cidade"
+													itemLabel="#{cidade}" itemValue="#{cidade}" />
+											</p:selectOneMenu>
+											<p:outputLabel value="Cep:" />
+											<p:inputMask value="#{cmcoMB.propBEAN.cep}"
+												style="width:195px;" mask="99999-999" />
+										</h:panelGrid>
+									</p:panelGrid>
+									<br />
+									<p:panelGrid columns="1" styleClass="gridFiltro">
+										<f:facet name="header"> Contatos </f:facet>
+										<h:panelGrid columns="4">
+											<p:outputLabel value="Residencial:" />
+											<p:inputMask value="#{cmcoMB.propBEAN.telResidencial}"
+												mask="(999)9999-9999" style="width:195px;margin-left:15px;" />
+											<p:outputLabel value="Celular:" style="margin-left:10px;" />
+											<p:inputMask value="#{cmcoMB.propBEAN.celular}"
+												mask="(999)99999-9999" style="width:195px;" />
+											<p:outputLabel value="Comercial:" />
+											<p:inputMask value="#{cmcoMB.propBEAN.telComercial}"
+												mask="(999)9999-9999" style="width:195px;margin-left:15px;" />
+											<p:outputLabel value="Fax:" style="margin-left:10px;" />
+											<p:inputMask value="#{cmcoMB.propBEAN.fax}"
+												mask="(999)9999-9999" style="width:195px;" />
+										</h:panelGrid>
+										<h:panelGrid columns="2">
+											<p:outputLabel value="E-mail:" />
+											<p:inputText value="#{cmcoMB.propBEAN.e_mail}"
+												style="width:400px; margin-left:50px;" maxlength="100" />
+										</h:panelGrid>
+									</p:panelGrid>
+									<br />
+									<h:panelGrid columns="2">
+										<p:outputLabel value="Entregue Por:" />
+										<p:inputText value="#{cmcoMB.propBEAN.entreguePor}"
+											style="width:400px;margin-left:10px;" maxlenght="100" />
+									</h:panelGrid>
+									<h:panelGrid columns="6">
+										<p:outputLabel value="Data da Proposta:" />
+										<p:calendar value="#{cmcoMB.propBEAN.dataProposta}"
+											pattern="dd/MM/yyyy" locale="pt" timeZone="America/Sao_Paulo"
+											styleClass="calendario" yearRange="c-3:c+5" />
+										<p:outputLabel value="Início de Contrato:"
+											style="margin-left:10px;" />
+										<p:calendar value="#{cmcoMB.propBEAN.inicioContrato}"
+											pattern="dd/MM/yyyy" locale="pt" timeZone="America/Sao_Paulo"
+											styleClass="calendario" yearRange="c-3:c+5" />
+										<p:outputLabel value="Taxa:" style="margin-left:10px;" />
+										<pe:inputNumber value="#{cmcoMB.propBEAN.taxa}"
+											decimalPlaces="2" thousandSeparator="." minValue="0"
+											maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+									</h:panelGrid>
+									<h:panelGrid columns="2">
+										<p:outputLabel value="Observação:" />
+										<p:inputText value="#{cmcoMB.propBEAN.observacao}"
+											style="width:400px;margin-left:20px;" maxlength="300" />
+									</h:panelGrid>
+								</p:panelGrid>
+							</p:tab>
+						</p:accordionPanel>
+						<br />
+						<h:panelGrid>
+							<p:commandButton value="Salvar" icon="fa fa-check Fs16 white"
+								action="#{cmcoMB.salvarCondominio()}" ajax="false" />
+						</h:panelGrid>
+					</h:form>
+				</div>
+			</div>
+		</div>
+
+	</ui:define>
+</ui:composition>

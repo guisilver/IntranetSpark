@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Analitico" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8c2db7e3-80aa-4613-9fd5-2617f96405bd">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="dataInicial" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="dataFinal" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[select * from omacorp.dbo.intra_contabilizador where condominio_codigo between 111 and 4241 order by condominio_codigo]]>
+	</queryString>
+	<field name="codigo" class="java.lang.Integer"/>
+	<field name="condominio_codigo" class="java.lang.Integer"/>
+	<field name="condominio_nome" class="java.lang.String"/>
+	<field name="dataInserido" class="java.sql.Timestamp"/>
+	<field name="minutos" class="java.lang.Integer"/>
+	<field name="nomeGerente" class="java.lang.String"/>
+	<field name="obs" class="java.lang.String"/>
+	<field name="usuario" class="java.lang.String"/>
+	<field name="usuario_email" class="java.lang.String"/>
+	<title>
+		<band height="81" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement x="0" y="10" width="83" height="60" uuid="251e2874-2e29-4dae-a545-cb167e34f4f0">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<imageExpression><![CDATA["http://10.1.1.20:8080//imagens//logo45pb.bmp"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="179" y="45" width="184" height="30" uuid="ee884585-fd87-4cfa-ac0c-cda209bea42b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Contabilizador]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement mode="Opaque" x="424" y="5" width="131" height="16" uuid="4ecd0dc6-3f4c-47a1-8066-e2cb6fa2b059"/>
+				<textElement textAlignment="Right">
+					<font fontName="Verdana" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="186" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<rectangle>
+				<reportElement x="0" y="5" width="555" height="150" uuid="e185ea10-641d-4b5e-8ee9-f3e897af20f2">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+			</rectangle>
+			<line>
+				<reportElement x="0" y="35" width="555" height="1" uuid="e0028a31-b0ec-4c38-931b-83ddaaaac698"/>
+			</line>
+			<line>
+				<reportElement x="0" y="90" width="555" height="1" uuid="a78373fc-8d47-46e6-a7ce-64aa5db4c38f"/>
+			</line>
+			<staticText>
+				<reportElement x="5" y="100" width="87" height="20" uuid="aedd4a75-0b27-4c33-b358-8fd555ec5a71"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Verdana" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Observações:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="92" y="100" width="457" height="50" uuid="633ece34-72a5-4771-a592-bb70577ed4a3"/>
+				<textElement>
+					<font fontName="Verdana" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{obs}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="70" y="65" width="479" height="17" uuid="9328f713-d7b1-4856-adaf-d4c22a3dc138"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{usuario} + " - " + $F{usuario_email}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="5" y="65" width="65" height="17" uuid="5e73a30b-6e04-4115-998b-4742461aaf4d"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Gerência:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="40" width="87" height="17" uuid="47cf183c-4826-4a4e-beb5-eb42a55cf2bf">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Condomínio:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="92" y="40" width="24" height="17" uuid="66ac4a76-865d-4715-8166-d9beaa8098ad">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Verdana" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{condominio_codigo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="116" y="40" width="433" height="17" uuid="65efc87b-49f1-43cc-ad18-3925e3c8cf03"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" - " + $F{condominio_nome}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="302" y="13" width="122" height="17" uuid="a959b747-4245-4156-a425-03414504130b"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tempo de Serviço:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="44" y="13" width="121" height="17" uuid="3e435946-3047-479b-8cdd-b98055e5dacb"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dataInserido}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="5" y="13" width="39" height="17" uuid="daa83607-18aa-4ce9-b4d6-b0d41f09cb11"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="424" y="13" width="20" height="17" uuid="a2d21477-636b-4105-8144-b6feea027948"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{minutos}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="444" y="13" width="105" height="17" uuid="0af9d204-e37b-445c-9cb6-2bcea68ef067"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Verdana" size="11"/>
+				</textElement>
+				<text><![CDATA[ minutos]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

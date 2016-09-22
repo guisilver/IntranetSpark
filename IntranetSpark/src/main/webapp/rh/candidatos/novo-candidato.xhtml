@@ -1,0 +1,663 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<h:outputScript library="js" name="ws-cep.js" />
+		<style>
+.ui-selectoneradio tbody tr td {
+	border: 0px !important;
+}
+
+@media only screen and (max-width: 790px) {
+	#frmNovoCandidato\3a wizard>ul>li:nth-child(4) {
+		margin-top: 10px;
+	}
+}
+
+.ui-datatable table tbody tr td {
+	word-wrap: break-word !important;
+}
+</style>
+		<div class="layout-portlets-box">
+			<div class="DispInlBlock TexAlLeft">
+				<div class="Fleft">
+					<h2 class="black Fs24 FontRalewayMedium">Novo Candidato</h2>
+				</div>
+			</div>
+			<div class="Seperator"></div>
+			<div class="Container100 Responsive100">
+				<div class="ContainerIndent"></div>
+				<h:form id="frmNovoCandidato">
+					<p:messages autoUpdate="true" id="msg" showDetail="true"
+						showSummary="true" />
+					<p:wizard id="wizard" styleClass="FormContent" nextLabel="Próximo"
+						backLabel="Voltar" onnext="scrollTop();">
+						<p:tab title="Dados do Candidato" id="tabDadosCandidato">
+							<p:panelGrid columns="1" layout="grid"
+								style="border:0px !important;margin-top:20px;margin-bottom:20px;background:none;"
+								styleClass="FormContent">
+
+								<p:outputLabel value="Cargo Pretendido" for="cargoPretendido" />
+								<p:selectOneMenu id="cargoPretendido"
+									value="#{candidatosMB.candidato.cargoPretendido}"
+									style="min-width:200px;width:300px;" filter="true"
+									filterMatchMode="contains" required="true"
+									requiredMessage="Insira o cargo pretendido!">
+									<p:ajax
+										update=":frmNovoCandidato:lblResidir,:frmNovoCandidato:txtResidir" />
+									<f:selectItem itemLabel="Selecionar" noSelectionOption="true" />
+									<f:selectItems value="#{candidatosMB.listaCargoPretendido}"
+										var="cargo" itemLabel="#{cargo}" itemValue="#{cargo}" />
+								</p:selectOneMenu>
+
+								<p:outputLabel value="Demais Cargos:" for="dCargos" />
+								<p:inputTextarea value="#{candidatosMB.candidato.demaisCargos}"
+									id="dCargos" maxlength="500" styleClass="Wid90" />
+
+								<p:outputLabel value="Pretensão Salarial" />
+								<pe:inputNumber id="ipnValor" style="font-size: 14px;"
+									decimalPlaces="2"
+									value="#{candidatosMB.candidato.pretensaoSalarial}"
+									thousandSeparator="." minValue="0" maxValue="999999999"
+									decimalSeparator="," emptyValue="0,00" styleClass="Wid90" />
+
+								<p:outputLabel value="Nome" for="nome" />
+								<p:inputText value="#{candidatosMB.candidato.nome}" id="nome"
+									maxlength="50" styleClass="Wid90" required="true"
+									requiredMessage="O nome deve ser informado!" />
+
+								<p:outputLabel value="Sexo" for="sexo" />
+								<p:selectOneRadio value="#{candidatosMB.candidato.sexo}"
+									id="sexo" styleClass="radioOma">
+									<f:selectItem itemLabel="M" itemValue="M" />
+									<f:selectItem itemLabel="F" itemValue="F" />
+								</p:selectOneRadio>
+
+								<p:outputLabel value="Estado Civil" />
+								<p:selectOneMenu value="#{candidatosMB.candidato.estadoCivil}"
+									style="min-width:200px;width:300px;">
+									<f:selectItem itemLabel="Solteiro(a)" itemValue="Solteiro(a)" />
+									<f:selectItem itemLabel="Casado(a)" itemValue="Casado(a)" />
+									<f:selectItem itemLabel="Convive com companheiro(a)"
+										itemValue="Convive com companheiro(a)" />
+									<f:selectItem itemLabel="Separado(a)" itemValue="Separado(a)" />
+									<f:selectItem itemLabel="Divorciado(a)"
+										itemValue="Divorciado(a)" />
+								</p:selectOneMenu>
+
+								<p:outputLabel value="Nacionalidade" />
+								<p:inputText value="#{candidatosMB.candidato.nacionalidade}"
+									maxlength="50" styleClass="Wid90" />
+
+								<p:outputLabel value="Local de Nascimento" />
+								<p:inputText value="#{candidatosMB.candidato.localNascimento}"
+									maxlength="50" styleClass="Wid90" />
+
+								<p:outputLabel value="Data de Nascimento" for="nascimento" />
+								<p:calendar value="#{candidatosMB.candidato.dataNascimento}"
+									yearRange="1901:2016" pattern="dd/MM/yyyy" mask="true"
+									type="date" locale="pt" timeZone="America/Sao_Paulo"
+									navigator="true" id="nascimento"
+									styleClass="Wid90 calendarResp" />
+
+								<p:outputLabel value="CEP" />
+								<p:inputText id="cep" maxlength="10"
+									value="#{candidatosMB.candidato.cep}" styleClass="Wid90">
+									<p:ajax process="@form:cidadeAux,@form:cep"
+										listener="#{candidatosMB.retornaZona(candidatosMB.candidato.cep)}"
+										update="@form:cidadeAux,@form:cidade,@form:zonaBairro" />
+								</p:inputText>
+
+								<p:outputLabel value="Endereço" />
+								<p:inputText id="rua" value="#{candidatosMB.candidato.endereco}"
+									maxlength="100" styleClass="Wid90" />
+
+								<p:outputLabel value="Nº" />
+								<p:inputText value="#{candidatosMB.candidato.numeroEndereco}"
+									maxlength="20" styleClass="Wid90" />
+
+								<p:outputLabel value="Complemento" />
+								<p:inputText value="#{candidatosMB.candidato.complemento}"
+									maxlength="10" styleClass="Wid90" />
+
+								<p:outputLabel value="Bairro" />
+								<p:inputText id="bairro"
+									value="#{candidatosMB.candidato.bairro}" maxlength="30"
+									styleClass="Wid90" />
+
+								<p:outputLabel value="Zona do bairro" />
+								<p:selectOneRadio id="zonaBairro"
+									value="#{candidatosMB.candidato.zonaBairro}">
+									<f:selectItem itemLabel="Norte" itemValue="Norte" />
+									<f:selectItem itemLabel="Sul" itemValue="Sul" />
+									<f:selectItem itemLabel="Centro" itemValue="Centro" />
+									<f:selectItem itemLabel="Leste" itemValue="Leste" />
+									<f:selectItem itemLabel="Oeste" itemValue="Oeste" />
+								</p:selectOneRadio>
+
+								<h:inputHidden id="cidadeAux"
+									value="#{candidatosMB.candidato.cidade}" />
+
+								<p:outputLabel value="Cidade" />
+								<p:selectOneMenu id="cidade"
+									value="#{candidatosMB.candidato.cidade}" filter="true"
+									filterMatchMode="contains" style="width:250px;"
+									styleClass="frmNovoCandidato:cidade">
+									<f:selectItems value="#{candidatosMB.listaCidades}"
+										var="cidade" itemLabel="#{cidade}" itemValue="#{cidade}" />
+								</p:selectOneMenu>
+
+								<p:outputLabel value="Tel. Residencial" for="telResidencial" />
+								<p:inputMask value="#{candidatosMB.candidato.telResidencial}"
+									mask="(99) 9999-9999?9" styleClass="Wid90" maxlength="15"
+									id="telResidencial" />
+
+								<p:outputLabel value="Celular" />
+								<p:inputMask value="#{candidatosMB.candidato.telCelular}"
+									mask="(99) 9999-9999?9" maxlength="15" styleClass="Wid90" />
+
+								<p:outputLabel value="Tel. Recado" />
+								<p:inputMask value="#{candidatosMB.candidato.telRecado}"
+									mask="(99) 9999-9999?9" maxlength="15" styleClass="Wid90" />
+
+								<p:outputLabel value="Email" />
+								<p:inputText value="#{candidatosMB.candidato.email}"
+									maxlength="30" styleClass="Wid90" />
+
+								<p:outputLabel value="Nº RG" for="rg" />
+								<p:inputText id="rg" value="#{candidatosMB.candidato.rg}"
+									maxlength="15" styleClass="Wid90" />
+
+								<p:outputLabel value="Data de Expedição" />
+								<p:calendar value="#{candidatosMB.candidato.dataExpedicaoRG}"
+									yearRange="1901:2016" pattern="dd/MM/yyyy" mask="true"
+									type="date" locale="pt" timeZone="America/Sao_Paulo"
+									navigator="true" styleClass="Wid90" />
+
+								<p:outputLabel value="Nº CPF" for="cpf" />
+								<p:inputMask value="#{candidatosMB.candidatoCPF}" id="cpf"
+									validator="ValidadorCPF" styleClass="Wid90"
+									mask="999.999.999-99" />
+
+								<p:outputLabel value="Possui Nº de PIS" />
+								<p:selectOneRadio value="#{candidatosMB.candidato.possuiPis}">
+									<f:selectItem itemLabel="Sim" itemValue="true" />
+									<f:selectItem itemLabel="Não" itemValue="false" />
+								</p:selectOneRadio>
+
+								<p:outputLabel value="Informe o Nº do PIS" />
+								<p:inputText value="#{candidatosMB.candidato.numeroPis}"
+									maxlength="14" styleClass="Wid90">
+									<pe:keyFilter regEx="/[0123456789]/i" />
+								</p:inputText>
+
+								<p:outputLabel value="Possui Título de Eleitor" />
+								<p:selectOneRadio
+									value="#{candidatosMB.candidato.possuiTituloEleitor}">
+									<f:selectItem itemLabel="Sim" itemValue="true" />
+									<f:selectItem itemLabel="Não" itemValue="false" />
+								</p:selectOneRadio>
+
+								<p:outputLabel value="Possui Certificado Militar" />
+								<p:selectOneRadio
+									value="#{candidatosMB.candidato.possuiCertificadoMilitar}">
+									<f:selectItem itemLabel="Sim" itemValue="true" />
+									<f:selectItem itemLabel="Não" itemValue="false" />
+								</p:selectOneRadio>
+
+								<p:outputLabel value="Nº CTPS / Série" />
+								<p:column>
+									<p:inputText value="#{candidatosMB.candidato.numeroCtps}"
+										maxlength="14" styleClass="Wid90" style="width:40%;">
+										<pe:keyFilter regEx="/[0123456789]/i" />
+									</p:inputText>
+									<p:inputText value="#{candidatosMB.candidato.serieCtps}"
+										maxlength="5" style="width:5%;margin-left:10px;" />
+								</p:column>
+
+								<p:outputLabel value="Data de Expedição" />
+								<p:calendar value="#{candidatosMB.candidato.dataExpedicaoCtps}"
+									yearRange="1901:2016" pattern="dd/MM/yyyy" mask="true"
+									type="date" locale="pt" timeZone="America/Sao_Paulo"
+									navigator="true" styleClass="Wid90" />
+
+								<p:outputLabel value="Dispensado do Serviço Militar" />
+								<p:selectOneRadio
+									value="#{candidatosMB.candidato.dispensadoServicoMilitar}">
+									<f:selectItem itemLabel="Sim" itemValue="true" />
+									<f:selectItem itemLabel="Não" itemValue="false" />
+								</p:selectOneRadio>
+
+								<p:outputLabel value="Período de Trabalho" />
+								<p:selectManyCheckbox value="#{candidatosMB.periodoTrabalho}">
+									<f:selectItem itemLabel="Matutino" itemValue="M" />
+									<f:selectItem itemLabel="Vespertino" itemValue="V" />
+									<f:selectItem itemLabel="Nortuno" itemValue="N" />
+									<f:selectItem itemLabel="Rotativo" itemValue="R" />
+								</p:selectManyCheckbox>
+
+								<p:outputLabel value="Pretende Residir no Prédio"
+									id="lblResidir" />
+								<p:selectOneRadio
+									value="#{candidatosMB.candidato.pretendeResidirNoPredio}"
+									id="txtResidir"
+									disabled="#{candidatosMB.candidato.cargoPretendido != 'ZELADOR'}">
+									<f:selectItem itemLabel="Sim" itemValue="Sim" />
+									<f:selectItem itemLabel="Não" itemValue="Não" />
+									<f:selectItem itemLabel="Indiferente" itemValue="Indiferente" />
+								</p:selectOneRadio>
+
+								<p:outputLabel value="CNH" />
+								<p:inputText maxlength="15"
+									value="#{candidatosMB.candidato.cnh}" styleClass="Wid90">
+									<pe:keyFilter regEx="/[0123456789]/i" />
+								</p:inputText>
+
+								<p:outputLabel value="Categoria CNH" />
+								<p:selectManyCheckbox id="basic"
+									value="#{candidatosMB.categoriaCNH}">
+									<f:selectItem itemLabel="A" itemValue="A" />
+									<f:selectItem itemLabel="B" itemValue="B" />
+									<f:selectItem itemLabel="C" itemValue="C" />
+									<f:selectItem itemLabel="D" itemValue="D" />
+									<f:selectItem itemLabel="E" itemValue="E" />
+								</p:selectManyCheckbox>
+
+								<p:outputLabel value="Data de Validade" />
+								<p:calendar value="#{candidatosMB.candidato.dataValidadeCnh}"
+									yearRange="1901:2050" pattern="dd/MM/yyyy" mask="true"
+									type="date" locale="pt" timeZone="America/Sao_Paulo"
+									navigator="true" styleClass="Wid90" />
+								<p:outputLabel value="Possui alguma deficiência?" />
+								<p:selectOneRadio
+									value="#{candidatosMB.candidato.possuiDeficiencia}">
+									<f:selectItem itemLabel="Sim" itemValue="true" />
+									<f:selectItem itemLabel="Não" itemValue="false" />
+								</p:selectOneRadio>
+								<p:outputLabel value="Tipo de deficiência" />
+								<p:selectOneRadio
+									value="#{candidatosMB.candidato.tipoDeficiencia}">
+									<f:selectItem itemLabel="Física" itemValue="Física" />
+									<f:selectItem itemLabel="Auditiva" itemValue="Auditiva" />
+									<f:selectItem itemLabel="Visual" itemValue="Visual" />
+									<f:selectItem itemLabel="Mental" itemValue="Mental" />
+								</p:selectOneRadio>
+								<p:outputLabel value="Fumante" />
+								<p:selectOneRadio value="#{candidatosMB.candidato.fumante}">
+									<f:selectItem itemLabel="Sim" itemValue="true" />
+									<f:selectItem itemLabel="Não" itemValue="false" />
+								</p:selectOneRadio>
+
+								<p:outputLabel value="Formação Escolar" />
+								<p:selectOneMenu value="#{candidatosMB.candidato.formacao}"
+									style="width:250px;">
+									<f:selectItem itemLabel="Não Informado"
+										itemValue="Não Informado" />
+									<f:selectItem itemLabel="Fundamental Incompleto"
+										itemValue="Fundamental Incompleto" />
+									<f:selectItem itemLabel="Fundamental Completo"
+										itemValue="Fundamental Completo" />
+									<f:selectItem itemLabel="Médio Incompleto"
+										itemValue="Medio Incompleto" />
+									<f:selectItem itemLabel="Médio Completo"
+										itemValue="Medio Completo" />
+									<f:selectItem itemLabel="Superior Incompleto"
+										itemValue="Superior Incompleto" />
+									<f:selectItem itemLabel="Superior Completo"
+										itemValue="Superior Completo" />
+								</p:selectOneMenu>
+
+								<p:outputLabel value="Cursos" />
+								<p:inputTextarea value="#{candidatosMB.candidato.cursos}"
+									styleClass="Wid90" />
+
+								<p:outputLabel value="Estuda Atualmente" />
+								<p:selectOneRadio
+									value="#{candidatosMB.candidato.estudaAtualmente}">
+									<f:selectItem itemLabel="Sim" itemValue="true" />
+									<f:selectItem itemLabel="Não" itemValue="false" />
+								</p:selectOneRadio>
+
+								<p:outputLabel value="Conhecimento em informática:" />
+								<p:selectOneRadio
+									value="#{candidatosMB.candidato.conhecimentoInformatica}">
+									<f:selectItem itemLabel="Nenhum" itemValue="Nenhum" />
+									<f:selectItem itemLabel="Básico" itemValue="Basico" />
+									<f:selectItem itemLabel="Intermediário"
+										itemValue="Intermediário" />
+									<f:selectItem itemLabel="Avançado" itemValue="Avançado" />
+								</p:selectOneRadio>
+
+								<p:outputLabel value="Preenchimento da Ficha" />
+								<p:calendar
+									value="#{candidatosMB.candidato.dataPreenchimentoFicha}"
+									yearRange="1901:2016" pattern="dd/MM/yyyy" mask="true"
+									type="date" locale="pt" timeZone="America/Sao_Paulo"
+									navigator="true" styleClass="Wid90" />
+							</p:panelGrid>
+
+						</p:tab>
+						<p:tab title="Dados Bancários" id="tabDadosBancarios">
+							<p:panelGrid columns="1" layout="grid"
+								style="border:0px !important;margin-top:20px;margin-bottom:20px;background:none;"
+								styleClass="FormContent">
+								<p:outputLabel value="Possui conta no banco?" />
+								<p:selectOneRadio
+									value="#{candidatosMB.candidato.possuiContaBancaria}">
+									<f:selectItem itemLabel="Sim" itemValue="true" />
+									<f:selectItem itemLabel="Não" itemValue="false" />
+								</p:selectOneRadio>
+								<p:outputLabel value="Nome do Banco" />
+								<p:inputText value="#{candidatosMB.candidato.nomeBanco}"
+									maxlength="30" styleClass="Wid90" />
+								<p:outputLabel value="Tipo de conta" />
+								<p:selectOneRadio value="#{candidatosMB.candidato.tipoConta}">
+									<f:selectItem itemLabel="Corrente" itemValue="C" />
+									<f:selectItem itemLabel="Poupança" itemValue="P" />
+								</p:selectOneRadio>
+								<p:outputLabel value="Nº Agência" />
+								<p:inputText value="#{candidatosMB.candidato.numeroAgencia}"
+									maxlength="10" styleClass="Wid90" />
+								<p:outputLabel value="Nº Conta" />
+								<p:inputText value="#{candidatosMB.candidato.numeroConta}"
+									maxlength="10" styleClass="Wid90" />
+							</p:panelGrid>
+						</p:tab>
+						<p:tab title="Situação Familiar" id="tabSituacaoFamiliar">
+							<p:panelGrid columns="1" layout="grid"
+								style="border:0px !important;margin-top:20px;margin-bottom:20px;background:none;"
+								styleClass="FormContent">
+
+								<p:outputLabel value="Nome da Mãe" />
+								<p:inputText value="#{candidatosMB.candidato.nomeMae}"
+									maxlength="50" styleClass="Wid90" />
+
+								<p:outputLabel value="Mãe Trabalha?" />
+								<p:selectOneRadio value="#{candidatosMB.candidato.maeTrabalha}">
+									<f:selectItem itemLabel="Sim" itemValue="true" />
+									<f:selectItem itemLabel="Não" itemValue="false" />
+								</p:selectOneRadio>
+
+								<p:outputLabel value="Profissão da Mãe" />
+								<p:inputText value="#{candidatosMB.candidato.profissaoMae}"
+									maxlength="50" styleClass="Wid90" />
+
+								<p:outputLabel value="Nome do Pai" />
+								<p:inputText value="#{candidatosMB.candidato.nomePai}"
+									maxlength="50" styleClass="Wid90" />
+
+								<p:outputLabel value="Pai Trabalha?" />
+								<p:selectOneRadio value="#{candidatosMB.candidato.paiTrabalha}">
+									<f:selectItem itemLabel="Sim" itemValue="true" />
+									<f:selectItem itemLabel="Não" itemValue="false" />
+								</p:selectOneRadio>
+
+								<p:outputLabel value="Profissão do Pai" />
+								<p:inputText value="#{candidatosMB.candidato.profissaoPai}"
+									maxlength="50" styleClass="Wid90" />
+
+								<p:outputLabel value="Nome da(o) Esposa(o)" />
+								<p:inputText value="#{candidatosMB.candidato.nomeConjuge}"
+									maxlength="50" styleClass="Wid90" />
+
+								<p:outputLabel value="Esposa(o) Trabalha?" />
+								<p:selectOneRadio
+									value="#{candidatosMB.candidato.conjugeTrabalha}">
+									<f:selectItem itemLabel="Sim" itemValue="true" />
+									<f:selectItem itemLabel="Não" itemValue="false" />
+								</p:selectOneRadio>
+
+								<p:outputLabel value="Profissão da(o) Esposa(o)" />
+								<p:inputText value="#{candidatosMB.candidato.profissaoConjuge}"
+									maxlength="50" styleClass="Wid90" />
+
+								<p:outputLabel value="Possui Filhos" />
+								<p:selectOneRadio value="#{candidatosMB.candidato.possuiFilhos}">
+									<f:selectItem itemLabel="Sim" itemValue="true" />
+									<f:selectItem itemLabel="Não" itemValue="false" />
+								</p:selectOneRadio>
+
+								<p:outputLabel value="Quantos?" />
+								<p:inputText value="#{candidatosMB.candidato.qtdFilhos}"
+									maxlength="1" styleClass="Wid10" style="width:20px;">
+									<pe:keyFilter regEx="/[0123456789]/i" />
+								</p:inputText>
+
+								<p:panelGrid columns="2" id="gridDependente">
+
+									<p:outputLabel value="Nome do Dependente" />
+									<p:inputText value="#{candidatosMB.dependente.nome}"
+										maxlength="50" style="width:400px;" />
+
+									<p:outputLabel value="Parentesco" />
+									<p:inputText value="#{candidatosMB.dependente.parentesco}"
+										maxlength="50" style="width:400px;" />
+
+									<p:outputLabel value="Data de Nascimento" />
+									<p:calendar yearRange="1901:2016" pattern="dd/MM/yyyy"
+										mask="true" locale="pt" type="date"
+										timeZone="America/Sao_Paulo" navigator="true"
+										value="#{candidatosMB.dependente.dataNascimento}"
+										styleClass="Wid90" />
+
+									<p:outputLabel value="Imposto de Renda" />
+									<p:selectOneRadio
+										value="#{candidatosMB.dependente.impostoRenda}">
+										<f:selectItem itemLabel="Sim" itemValuze="true" />
+										<f:selectItem itemLabel="Não" itemValue="false" />
+									</p:selectOneRadio>
+
+								</p:panelGrid>
+
+								<p:commandButton icon="fa fa-plus Fs16 white" value="Adicionar"
+									actionListener="#{candidatosMB.adicionarDependente()}"
+									update=":frmNovoCandidato:tblDependentes,:frmNovoCandidato:gridDependente" />
+
+								<p:dataTable value="#{candidatosMB.listaDependentes}"
+									id="tblDependentes" var="dependente"
+									rowKey="#{dependente.codigo}" reflow="true">
+									<p:column headerText="Nome">
+										<p:outputLabel value="#{dependente.nome}" />
+									</p:column>
+									<p:column headerText="Parentesco">
+										<p:outputLabel value="#{dependente.parentesco}" />
+									</p:column>
+									<p:column headerText="Data de Nascimento">
+										<h:outputText value="#{dependente.dataNascimento}">
+											<f:convertDateTime pattern="dd/MM/yyyy" locale="pt"
+												timeZone="America/Sao_Paulo" />
+										</h:outputText>
+									</p:column>
+									<p:column headerText="Imposto de Renda">
+										<p:outputLabel
+											value="#{dependente.impostoRenda ? 'Sim' : 'Não'}" />
+									</p:column>
+									<p:column style="text-align:center;">
+										<p:commandButton icon="fa fa-close Fs16 white"
+											actionListener="#{candidatosMB.excluirDependente(dependente)}"
+											update=":frmNovoCandidato:tblDependentes" />
+									</p:column>
+								</p:dataTable>
+							</p:panelGrid>
+						</p:tab>
+
+						<p:tab title="Histórico Profissional"
+							id="tabHistoricoProfissional">
+							<p:panelGrid columns="1" layout="grid"
+								style="border:0px !important;margin-top:20px;margin-bottom:20px;background:none;"
+								styleClass="FormContent">
+								<p:panelGrid columns="2" id="gridHistorico"
+									style="width:100%;max-width:600px;">
+
+									<p:outputLabel value="Empresa" />
+									<p:inputText
+										value="#{candidatosMB.historicoProfissional.condominio}"
+										maxlength="50" styleClass="Wid90" />
+
+									<p:outputLabel value="Endereço" />
+									<p:inputText
+										value="#{candidatosMB.historicoProfissional.endereco}"
+										maxlength="100" styleClass="Wid90" />
+
+									<p:outputLabel value="Telefone" />
+									<p:inputMask maxlength="15" mask="(99) 9999-9999?9"
+										value="#{candidatosMB.historicoProfissional.telefone}"
+										styleClass="Wid90" />
+
+									<p:outputLabel value="Gestor" />
+									<p:inputText
+										value="#{candidatosMB.historicoProfissional.gestor}"
+										maxlength="50" styleClass="Wid90" />
+
+									<p:outputLabel value="Cargo" />
+									<p:inputText
+										value="#{candidatosMB.historicoProfissional.cargo}"
+										maxlength="50" styleClass="Wid90" />
+
+									<p:outputLabel value="Salário" />
+									<pe:inputNumber id="salario" style="font-size: 14px;"
+										decimalPlaces="2"
+										value="#{candidatosMB.historicoProfissional.salario}"
+										thousandSeparator="." minValue="-999999999" maxlength="12"
+										maxValue="999999999" decimalSeparator="," emptyValue="0,00"
+										styleClass="Wid90" />
+
+									<p:outputLabel value="Data de Adimissão" />
+									<p:calendar yearRange="1901:2016" pattern="dd/MM/yyyy"
+										mask="true" locale="pt" type="date"
+										timeZone="America/Sao_Paulo" navigator="true"
+										value="#{candidatosMB.historicoProfissional.dataAdimissao}"
+										styleClass="Wid90" />
+
+									<p:outputLabel value="Data de Demissão" />
+									<p:calendar yearRange="1901:2016" pattern="dd/MM/yyyy"
+										mask="true" locale="pt" type="date"
+										timeZone="America/Sao_Paulo" navigator="true"
+										value="#{candidatosMB.historicoProfissional.dataDemissao}"
+										styleClass="Wid90" />
+
+									<p:outputLabel value="Motivo" />
+									<p:inputTextarea
+										value="#{candidatosMB.historicoProfissional.motivo}"
+										maxlength="500" styleClass="Wid90" />
+
+								</p:panelGrid>
+								<p:commandButton value="Adicionar" icon="fa fa-plus Fs16 white"
+									actionListener="#{candidatosMB.adicionarHistorico()}"
+									update=":frmNovoCandidato:tblHistorico,:frmNovoCandidato:gridHistorico" />
+
+								<p:dataTable value="#{candidatosMB.listaHistorico}"
+									id="tblHistorico" var="historico" rowKey="#{historico.codigo}"
+									scrollWidth="100%" scrollable="true" style="min-width:1200px;">
+									<p:column style="text-align:center;">
+										<p:commandButton icon="fa fa-close Fs16 white"
+											actionListener="#{candidatosMB.excluirHistorico(historico)}"
+											update=":frmNovoCandidato:tblHistorico" />
+									</p:column>
+									<p:column headerText="Empr.">
+										<p:outputLabel value="#{historico.condominio}" />
+									</p:column>
+									<p:column headerText="End.">
+										<p:outputLabel value="#{historico.endereco}" />
+									</p:column>
+									<p:column headerText="Tel.">
+										<p:outputLabel value="#{historico.telefone}" />
+									</p:column>
+									<p:column headerText="Gestor">
+										<p:outputLabel value="#{historico.condominio}" />
+									</p:column>
+									<p:column headerText="Cargo">
+										<p:outputLabel value="#{historico.cargo}" />
+									</p:column>
+									<p:column headerText="Salário">
+										<p:outputLabel value="#{historico.salario}" />
+									</p:column>
+									<p:column headerText="Admss.">
+										<p:outputLabel value="#{historico.dataAdimissao}">
+											<f:convertDateTime pattern="dd/MM/yyyy" locale="pt"
+												timeZone="America/Sao_Paulo" />
+										</p:outputLabel>
+									</p:column>
+									<p:column headerText="Demiss.">
+										<p:outputLabel value="#{historico.dataDemissao}">
+											<f:convertDateTime pattern="dd/MM/yyyy" locale="pt"
+												timeZone="America/Sao_Paulo" />
+										</p:outputLabel>
+									</p:column>
+									<p:column headerText="Motivo">
+										<p:outputLabel value="#{historico.motivo}" />
+									</p:column>
+								</p:dataTable>
+							</p:panelGrid>
+							<p:commandButton value="Salvar" icon="fa fa-check Fs16 white"
+								ajax="false" action="#{candidatosMB.salvarNovoCandidato()}"
+								style="float:right;" />
+						</p:tab>
+					</p:wizard>
+				</h:form>
+			</div>
+		</div>
+		<h:outputScript library="javascript/maskMoney"
+			name="jquery.maskMoney.js" />
+		<script>
+			//<![CDATA[
+			$(document)
+					.ready(
+							function() {
+								$(
+										PrimeFaces
+												.escapeClientId('frmNovoCandidato:txtPretensaoSalarial'))
+										.maskMoney({
+											prefix : 'R$ ',
+											thousands : '.',
+											decimal : ',',
+											affixesStay : true
+										});
+								$(
+										PrimeFaces
+												.escapeClientId('frmNovoCandidato:salario'))
+										.maskMoney({
+											prefix : 'R$ ',
+											thousands : '.',
+											decimal : ',',
+											affixesStay : true
+										});
+
+								$('.dataResp').attr('type', 'date');
+
+								$('.numero').attr('pattern',
+										'^\d+(\.|\,)\d{2}$');
+
+							}); //]]>
+		</script>
+
+		<script>
+			function scrollTop() {
+				$(window).scrollTop(0);
+			}
+
+			$(document).load(function() {
+				$(".ui-inputfield").on('input', function(evt) {
+					var input = $(this);
+					var start = input[0].selectionStart;
+					$(this).val(function(_, val) {
+						return val.toUpperCase();
+					});
+					input[0].selectionStart = input[0].selectionEnd = start;
+				});
+			});
+		</script>
+		<p:ajaxStatus onstart="PF('statusDialog').show()"
+			onsuccess="PF('statusDialog').hide()" />
+		<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+			closable="false" resizable="false" showHeader="false">
+					Aguarde...<br />
+			<br />
+			<p:graphicImage library="imagens" name="loader.gif" />
+		</p:dialog>
+	</ui:define>
+</ui:composition>

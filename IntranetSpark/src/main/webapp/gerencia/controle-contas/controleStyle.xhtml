@@ -1,0 +1,198 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+<style>
+
+.white {
+	color: #D9E3E8;
+}
+
+.verde {
+	background-color: green;
+	color: green;
+}
+
+.laranja {
+	background-color: orange;
+	color: orange;
+}
+
+.vermelho {
+	background-color: red;
+	color: red;
+}
+
+.preto {
+	background-color: black;
+	color: black;
+}
+
+.branco {
+	color: white;
+}
+
+#frmLegenda\:spnStatus_input{
+	width: 70px !important;
+}
+
+#frmTabelaContas\:dtControlContas\:colTitleGeren > span:nth-child(1){
+	font-size: 12px !important;
+}
+
+#frmTabelaContas\:dtControlContas\:colTitleDesp > span:nth-child(1){
+	font-size: 12px !important;
+}
+
+#frmTabelaContas\:dtControlContas\:colTitleObs > span:nth-child(1){
+	font-size: 12px !important;
+}
+
+#frmTabelaContas\:dtControlContas\:colTitleVenc > span:nth-child(1){
+	font-size: 12px !important;
+}
+
+#frmTabelaContas\:dtControlContas\:colTitleCondo > span:nth-child(1){
+	font-size: 12px !important;
+}
+
+#frmTabelaContas\:dtControlContas\:colTitleConta > span:nth-child(1){
+	font-size: 12px !important;
+}
+
+#frmTabelaContas\:dtControlContas\:colTitleVenc\:filter{
+	width: 30px !important;
+}
+
+#frmTabelaContas\:dtControlContas\:colVinculado\:filter{
+	width: 30px !important;
+}
+
+#frmTabelaContas\:dtControlContas\:colTitleCondo\:filter{
+	width: 30px !important;
+}
+
+#frmTabelaContas\:dtControlContas\:colTitleConta\:filter{
+	width: 30px !important;
+}
+
+#frmTabelaContas\:dtControlContas\:colFilterJan\:filter{
+	width: 30px !important;
+}
+
+#frmTabelaContas\:dtControlContas\:colTitleJan > span:nth-child(1){
+	font-size: 12px !important;
+}
+
+#frmTabelaContas\:dtControlContas\:colFilterFev\:filter{
+	width: 30px !important;
+}
+
+#frmTabelaContas\:dtControlContas\:colTitleFev > span:nth-child(1){
+	font-size: 12px !important;
+}
+
+#frmTabelaContas\:dtControlContas\:colFilterMar\:filter{
+	width: 30px !important;
+}
+
+#frmTabelaContas\:dtControlContas\:colTitleMar > span:nth-child(1){
+	font-size: 12px !important;
+}
+
+#frmTabelaContas\:dtControlContas\:colFilterAbr\:filter{
+	width: 30px !important;
+}
+
+#frmTabelaContas\:dtControlContas\:colTitleAbr > span:nth-child(1){
+	font-size: 12px !important;
+}
+
+#frmTabelaContas\:dtControlContas\:colFilterMai\:filter{
+	width: 30px !important;
+}
+
+#frmTabelaContas\:dtControlContas\:colTitleMai > span:nth-child(1){
+	font-size: 12px !important;
+}
+
+#frmTabelaContas\:dtControlContas\:colFilterJun\:filter{
+	width: 30px !important;
+}
+
+#frmTabelaContas\:dtControlContas\:colTitleJun > span:nth-child(1){
+	font-size: 12px !important;
+}
+
+#frmTabelaContas\:dtControlContas\:colFilterJul\:filter{
+	width: 30px !important;
+}
+
+#frmTabelaContas\:dtControlContas\:colTitleJul > span:nth-child(1){
+	font-size: 12px !important;
+}
+
+#frmTabelaContas\:dtControlContas\:colFilterAgo\:filter{
+	width: 30px !important;
+}
+
+#frmTabelaContas\:dtControlContas\:colTitleAgo > span:nth-child(1){
+	font-size: 12px !important;
+}
+
+#frmTabelaContas\:dtControlContas\:colFilterSet\:filter{
+	width: 30px !important;
+}
+
+#frmTabelaContas\:dtControlContas\:colTitleSet > span:nth-child(1){
+	font-size: 12px !important;
+}
+
+#frmTabelaContas\:dtControlContas\:colFilterOut\:filter{
+	width: 30px !important;
+}
+
+#frmTabelaContas\:dtControlContas\:colTitleOut > span:nth-child(1){
+	font-size: 12px !important;
+}
+
+#frmTabelaContas\:dtControlContas\:colFilterNov\:filter{
+	width: 30px !important;
+}
+
+#frmTabelaContas\:dtControlContas\:colTitleNov > span:nth-child(1){
+	font-size: 12px !important;
+}
+#frmTabelaContas\:dtControlContas\:colFilterDez\:filter{
+	width: 30px !important;
+}
+
+#frmTabelaContas\:dtControlContas\:colTitleDez > span:nth-child(1){
+	font-size: 12px !important;
+}
+
+#frmControleExclusao\:dtControleExclusao\:clCondoExcluir\:filter{
+	width: 30px !important;
+}
+
+#frmControleExclusao\:dtControleExclusao\:clVencExcluir\:filter{
+	width: 15px !important;
+}
+
+</style>
+	<script>
+		$(document).ready(function() {
+			$(".ui-column-filter").keydown(function(e) {
+				e = e || window.event;
+				var keyCode = e.keyCode;
+				if (keyCode == 13) {
+					e.preventDefault();
+					return false;
+				}
+			});
+		});
+	</script>
+</ui:composition>

@@ -1,0 +1,209 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+	<style>
+.calendar input {
+	width: 90px;
+}
+</style>
+	<p:dialog id="dlgAltrVaga" widgetVar="dlgAltrVaga" modal="true"
+		width="700" header="Alterar Vaga" resizable="false">
+		<h:form id="frmAltrVaga">
+			<p:messages id="msgAltr" />
+			<h:panelGrid columns="2">
+				<p:outputLabel value="Código da Vaga:" />
+				<p:outputLabel value="#{vagasMB.vagaSelecionada.codigo}"
+					style="color:red;" />
+			</h:panelGrid>
+			<p:scrollPanel mode="native" style="width:650px;height:500px">
+				<p:tabView id="tabView" style="margin-top:10px;">
+					<p:tab title="Vaga">
+						<h:panelGrid columns="8">
+							<p:selectOneRadio value="#{vagasMB.vagaSelecionada.situacao}"
+								styleClass="situacao">
+								<p:ajax listener="#{vagasMB.verificaSituacao()}"
+									update=":frmAltrVaga:tabView:dtEncerramento" />
+								<f:selectItem itemLabel="Pendente" itemValue="0" />
+								<f:selectItem itemLabel="Em Andamento" itemValue="1" />
+								<f:selectItem itemLabel="Stand By" itemValue="2" />
+								<f:selectItem itemLabel="Cancelada" itemValue="3" />
+								<f:selectItem itemLabel="Concluída" itemValue="4" />
+							</p:selectOneRadio>
+						</h:panelGrid>
+
+						<p:panelGrid columns="2">
+							<p:outputLabel value="Responsável: " />
+							<p:selectOneMenu id="selectResponsavel" filter="true"
+								filterMatchMode="contains" required="true"
+								requiredMessage="O responsável deve ser informado!"
+								value="#{vagasMB.vagaSelecionada.responsavelVaga}"
+								converter="omnifaces.SelectItemsConverter" style="width:300px;">
+								<f:selectItem itemLabel="Todos" noSelectionOption="true" />
+								<f:selectItems var="responsavel"
+									value="#{vagasMB.listaUsuarioRH}" itemLabel="#{responsavel}"
+									itemValue="#{responsavel}" />
+							</p:selectOneMenu>
+
+							<p:outputLabel value="Condomínio: " />
+							<p:selectOneMenu id="selectCondominio" filter="true"
+								filterMatchMode="contains" required="true"
+								requiredMessage="O condomínio deve ser informado!"
+								value="#{vagasMB.vagaSelecionada.codigoCondominio}"
+								converter="omnifaces.SelectItemsConverter" style="width:300px;">
+								<p:ajax
+									listener="#{vagasMB.vagaSelecionada.setNomeCondominio(vagasMB.recuperaNomeCnd(vagasMB.vagaSelecionada.codigoCondominio))}" />
+								<p:ajax
+									listener="#{vagasMB.vagaSelecionada.setNomeGerente(vagasMB.recuperaNomeGerente(vagasMB.vagaSelecionada.codigoCondominio))}"
+									update=":frmAltrVaga:tabView:nomeGerente" />
+								<f:selectItem itemLabel="Nenhum" noSelectionOption="true" />
+								<f:selectItems var="condominio"
+									value="#{vagasMB.listaCondominios}"
+									itemLabel="#{condominio.cndCodNome}"
+									itemValue="#{condominio.codigo}" />
+							</p:selectOneMenu>
+
+							<p:outputLabel value="Gerente" />
+							<p:outputLabel id="nomeGerente"
+								value="#{vagasMB.vagaSelecionada.nomeGerente}" />
+
+							<p:outputLabel value="Cargo:" />
+							<p:selectOneMenu value="#{vagasMB.vagaSelecionada.cargo}"
+								filter="true" filterMatchMode="contains" style="width:300px;">
+								<f:selectItems value="#{vagasMB.listaCargos}" var="cargo"
+									itemValue="#{cargo}" itemLabel="#{cargo}" />
+							</p:selectOneMenu>
+
+							<p:outputLabel value="Salário:" />
+							<pe:inputNumber id="salario"
+								value="#{vagasMB.vagaSelecionada.salario}"
+								style="font-size: 14px;" decimalPlaces="2" thousandSeparator="."
+								minValue="-999999999" maxlength="12" maxValue="999999999"
+								decimalSeparator="," emptyValue="0,00" styleClass="Wid90" />
+
+							<p:outputLabel value="Data abertura:" />
+							<p:calendar value="#{vagasMB.vagaSelecionada.dataAbertura}"
+								mask="true" locale="pt" timeZone="America/Sao_Paulo"
+								showButtonPanel="true" pattern="dd/MM/yyyy" navigator="true" />
+
+							<p:outputLabel value="Data encerramento:" />
+							<p:calendar id="dtEncerramento"
+								value="#{vagasMB.vagaSelecionada.dataEncerramento}" locale="pt"
+								mask="true" timeZone="America/Sao_Paulo" showButtonPanel="true"
+								pattern="dd/MM/yyyy" navigator="true" />
+
+							<p:outputLabel value="Solicitante:" />
+							<p:inputText value="#{vagasMB.vagaSelecionada.solicitante}"
+								maxlength="50" style="width:90%;" />
+
+							<p:outputLabel value="Obs:" />
+							<p:inputTextarea value="#{vagasMB.vagaSelecionada.obs}"
+								maxlength="400" style="width:90%;" />
+						</p:panelGrid>
+					</p:tab>
+					<p:tab title="Histórico">
+						<p:panelGrid id="gridHist" columns="5" style="margin-top:10px;">
+							<p:outputLabel value="Texto" />
+							<p:inputText id="txtHist" value="#{vagasMB.historico.texto}" />
+							<p:outputLabel value="Data" />
+							<p:calendar id="dtHist" mask="true" pattern="dd/MM/yyyy"
+								locale="pt" timeZone="America/Sao_Paulo"
+								value="#{vagasMB.historico.data}" styleClass="calendar" />
+							<p:commandButton icon="fa fa-check Fs16 white"
+								actionListener="#{vagasMB.salvarHistorico()}"
+								process="@form:tabView:gridHist"
+								update="@form:tabView:txtHist,@form:tabView:dtHist,@form:tabView:tblHistorico,:frmTblVagas"
+								style="margin-left:5px;" />
+						</p:panelGrid>
+
+						<p:dataTable id="tblHistorico" var="historico"
+							styleClass="tblHistorico" paginator="true" rows="10"
+							value="#{vagasMB.vagaSelecionada.historico}" rowStyleClass="foco"
+							editable="true" editMode="cell" style="margin-top:10px;">
+							<p:column width="27">
+								<p:commandButton icon="fa fa-trash Fs16 white" title="Excluir"
+									process="@this"
+									actionListener="#{vagasMB.excluirHistorico(historico)}"
+									update="@form:tabView:tblHistorico,:frmTblVagas"
+									styleClass="btnLittle" />
+							</p:column>
+							<p:column width="100" style="text-align:center;">
+								<p:cellEditor>
+									<f:facet name="output">
+										<p:outputLabel value="#{historico.data}">
+											<f:convertDateTime pattern="dd/MM/yyyy" locale="pt"
+												timeZone="America/Sao_Paulo" />
+										</p:outputLabel>
+									</f:facet>
+									<f:facet name="input">
+										<p:calendar yearRange="1901:2016" pattern="dd/MM/yyyy"
+											mask="true" effect="slide" locale="pt"
+											timeZone="America/Sao_Paulo" navigator="true"
+											value="#{historico.data}" styleClass="calendar">
+											<p:ajax event="dateSelect" process="@this"
+												listener="#{vagasMB.salvarAlteracoesHistorico()}"
+												update="@form:tabView:tblHistorico,:frmTblVagas" />
+										</p:calendar>
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+							<p:column>
+								<p:cellEditor>
+									<f:facet name="output">
+										<p:outputLabel value="#{historico.texto}" />
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{historico.texto}" style="width:95%;">
+											<p:ajax event="blur"
+												listener="#{vagasMB.salvarAlteracoesHistorico()}"
+												update="@form:tabView:tblHistorico,:frmTblVagas" />
+										</p:inputText>
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+						</p:dataTable>
+					</p:tab>
+					<p:tab title="Candidatos">
+						<p:dataTable value="#{vagasMB.listaCandidatos}" rows="10"
+							paginator="true" var="candidato" style="margin-top:20px;">
+							<p:column headerText="Nome">
+								<p:outputLabel value="#{candidato.nome}" />
+							</p:column>
+							<p:column width="30">
+								<p:commandButton icon="fa fa-search Fs16 white" process="@this"
+									oncomplete="abrirCandidato();" title="Abrir Ficha">
+									<f:setPropertyActionListener value="#{candidato.codigo}"
+										target="#{vagasMB.codigoCandidato}" />
+								</p:commandButton>
+							</p:column>
+						</p:dataTable>
+					</p:tab>
+				</p:tabView>
+			</p:scrollPanel>
+			<h:panelGrid style="margin-top:10px;width:100%;" columns="2">
+				<p:commandButton value="Fechar" onclick="PF('dlgAltrVaga').hide();"
+					icon="fa fa-close Fs16 white" process="@this" style="float:left;" />
+				<p:commandButton value="Salvar" icon="fa fa-check Fs16 white"
+					actionListener="#{vagasMB.salvarAlteracoesVaga()}"
+					update="@form,:frmTblVagas,:frmAltrVaga:msgAltr"
+					oncomplete="scrolllDialog();" style="float:right;" />
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
+	<h:form id="frmAbrirCdt" target="_blank">
+		<p:commandButton id="btnAbrirCdt"
+			action="#{vagasMB.abrirCandidatoSelecionado()}" ajax="false"
+			style="display:none;" />
+	</h:form>
+	<script>
+		function scrolllDialog() {
+			$(".ui-dialog-content").scrollTop("0");
+		}
+
+		function abrirCandidato() {
+			$("[id='frmAbrirCdt:btnAbrirCdt']").click();
+		}
+	</script>
+</ui:composition>

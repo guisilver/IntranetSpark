@@ -1,0 +1,96 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<h:form id="frmDlgAlter">
+		<p:dialog id="dlgAlter" header="Alterar Previsão Orçamentaria"
+			widgetVar="prevAlter" resizable="false" modal="true">
+
+			<p:panelGrid id="plgDespesa">
+				<p:outputLabel value="Despesa: " />
+				<p:outputLabel value="#{previsaoMB.ipoAlterBEAN.despesas}" />
+			</p:panelGrid>
+<br/>
+			<p:panel header="Inadimplência" style="border:0px;" rendered="#{previsaoMB.ipoAlterBEAN.capa eq 'Inadimplência' ? true : false}">
+
+				<h:panelGrid columns="4" >
+					<p:outputLabel value="Indice:" />
+					<pe:inputNumber value="#{previsaoMB.ipoAlterBEAN.inadimplencia}"
+						decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+						maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+				</h:panelGrid>
+			</p:panel>
+			
+			<p:panel header="Meses" style="border:0px;" rendered="#{previsaoMB.ipoAlterBEAN.capa eq 'Inadimplência' ? false : true}">
+				<h:panelGrid columns="4">
+					<p:outputLabel value="Jan.:" />
+					<pe:inputNumber value="#{previsaoMB.ipoAlterBEAN.mesJaneiro}"
+						decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+						maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+					<p:outputLabel value="Fev.:" />
+					<pe:inputNumber value="#{previsaoMB.ipoAlterBEAN.mesFevereiro}"
+						decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+						maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+					<p:outputLabel value="Mar.:" />
+					<pe:inputNumber value="#{previsaoMB.ipoAlterBEAN.mesMarco}"
+						decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+						maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+					<p:outputLabel value="Abr.:" />
+					<pe:inputNumber value="#{previsaoMB.ipoAlterBEAN.mesAbril}"
+						decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+						maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+					<p:outputLabel value="Mai.:" />
+					<pe:inputNumber value="#{previsaoMB.ipoAlterBEAN.mesMaio}"
+						decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+						maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+					<p:outputLabel value="Jun.:" />
+					<pe:inputNumber value="#{previsaoMB.ipoAlterBEAN.mesJunho}"
+						decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+						maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+					<p:outputLabel value="Jul.:" />
+					<pe:inputNumber value="#{previsaoMB.ipoAlterBEAN.mesJulho}"
+						decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+						maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+					<p:outputLabel value="Ago.:" />
+					<pe:inputNumber value="#{previsaoMB.ipoAlterBEAN.mesAgosto}"
+						decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+						maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+					<p:outputLabel value="Set.:" />
+					<pe:inputNumber value="#{previsaoMB.ipoAlterBEAN.mesSetembro}"
+						decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+						maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+					<p:outputLabel value="Out.:" />
+					<pe:inputNumber value="#{previsaoMB.ipoAlterBEAN.mesOutubro}"
+						decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+						maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+					<p:outputLabel value="Nov.:" />
+					<pe:inputNumber value="#{previsaoMB.ipoAlterBEAN.mesNovembro}"
+						decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+						maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+					<p:outputLabel value="Dez.:" />
+					<pe:inputNumber value="#{previsaoMB.ipoAlterBEAN.mesDezembro}"
+						decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+						maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+				</h:panelGrid>
+			</p:panel>
+			<hr/>
+				<p:commandButton value="Alterar" style="float:right;" icon="fa fa-plus Fs16 white" action="#{previsaoMB.alterarPrevisao}"
+					oncomplete="PF('prevAlter').hide();" update="tbvPrevisao:frmPrevisao tbvPrevisao:frmDlgTblAlter:plgAlterPrevisao"/>
+			<p:commandButton value="Excluir" actionListener="#{previsaoMB.excluirPrevisao}"
+				style="float:right;margin-right:25px;" icon="ui-icon-close" oncomplete="PF('prevAlter').hide();" update="tbvPrevisao:frmPrevisao tbvPrevisao:frmDlgTblAlter:plgAlterPrevisao">
+			<p:confirm header="Confirmation" message="Corfirma a Exclusão?" icon="fa fa-alert Fs16 white" />
+			</p:commandButton>
+		</p:dialog>
+
+
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+			<p:commandButton value="Sim" type="button"
+				styleClass="ui-confirmdialog-yes" icon="fa fa-check Fs16 white" />
+			<p:commandButton value="Não" type="button"
+				styleClass="ui-confirmdialog-no" icon="fa fa-close Fs16 white" />
+		</p:confirmDialog>
+	</h:form>
+</ui:composition>

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.2.0.final using JasperReports Library version 6.2.0  -->
+<!-- 2016-08-17T16:38:19 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6e8f5147-2937-4211-ae98-84ab9c38b256">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="condominio_num" class="java.lang.Short">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="mensagem" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select u.condominio, u.nome AS nomeunidade, c.nome AS nomecondo, u.bloco, u.unidade  from cndunida u inner join cndcondo c
+on u.condominio = c.codigo
+where c.codigo = $P{condominio_num}
+order by u.condominio, u.bloco, u.unidade]]>
+	</queryString>
+	<field name="condominio" class="java.lang.Short"/>
+	<field name="nomeunidade" class="java.lang.String"/>
+	<field name="nomecondo" class="java.lang.String"/>
+	<field name="bloco" class="java.lang.String"/>
+	<field name="unidade" class="java.lang.String"/>
+	<variable name="Data" class="java.lang.String"/>
+	<pageHeader>
+		<band height="93" splitType="Stretch">
+			<frame>
+				<reportElement x="0" y="0" width="555" height="93" uuid="136efd19-773f-443b-96c0-c76dfdef9c72"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<frame>
+					<reportElement x="0" y="0" width="555" height="73" uuid="faf4664e-a3c4-4582-aff3-99d2f365a286"/>
+					<box>
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+				</frame>
+				<staticText>
+					<reportElement x="5" y="73" width="68" height="20" uuid="5bea6640-1023-42d2-b5a8-51005c9a9e98"/>
+					<text><![CDATA[Condomínio:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="69" y="73" width="36" height="20" uuid="8f0c210d-20a8-4072-84f9-70a5efe67422"/>
+					<textFieldExpression><![CDATA[$P{condominio_num}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="5" y="13" width="163" height="22" uuid="2a841692-04e7-4a82-ab1f-0de442625a69"/>
+					<textElement>
+						<font size="16" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Lista de Presença]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="491" y="73" width="40" height="20" uuid="55205769-b5d4-46f8-be25-dd6b22d7a1c3"/>
+					<text><![CDATA[Página:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="531" y="73" width="24" height="20" uuid="8d56c8ff-ac58-4600-b7f1-0f6a14c7534d"/>
+					<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="94" y="73" width="380" height="20" uuid="0938a039-4157-4474-8565-440ff84e12b2"/>
+					<textFieldExpression><![CDATA[$F{nomecondo}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="155" y="5" width="394" height="68" uuid="b87c6deb-1791-4724-a103-d857573c6889"/>
+					<textFieldExpression><![CDATA[$P{mensagem}]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement x="358" y="73" width="133" height="20" uuid="75f3ff6b-1312-419d-b47b-668bbb3b9307"/>
+					<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("dd 'de' MMMM 'de' yyyy", new Locale("pt","BR")).format(new Date())]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="29" splitType="Stretch">
+			<frame>
+				<reportElement x="0" y="0" width="555" height="28" uuid="20691bc3-8c2a-4a79-a70f-c32687eeb73e"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<staticText>
+					<reportElement x="5" y="8" width="45" height="20" uuid="de869a3c-fbd0-4a1b-b51b-32348263aefb"/>
+					<textElement>
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Bloco]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="50" y="8" width="55" height="20" uuid="3456f288-d068-4864-958b-404be73f5ce9"/>
+					<textElement>
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Unidade]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="105" y="8" width="50" height="20" uuid="4cbd36c8-dd52-4ea5-a744-ac5f8a50dba4"/>
+					<textElement>
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Nome]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="331" y="8" width="100" height="20" uuid="98432c38-9da7-4903-bfc3-3a5ab7a0ba06"/>
+					<textElement>
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Assinatura]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="33" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<line>
+				<reportElement x="331" y="28" width="218" height="1" uuid="f3ddb00d-e051-4e15-ac61-e5650a5851f7"/>
+			</line>
+			<textField>
+				<reportElement x="5" y="9" width="34" height="19" uuid="d5ecf20c-34ef-4b29-9dd2-09d87cf33e1f"/>
+				<textFieldExpression><![CDATA[$F{bloco}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="50" y="9" width="44" height="19" uuid="b82d5eaa-febe-4dea-a72b-a0431dd1a163"/>
+				<textFieldExpression><![CDATA[$F{unidade}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="105" y="9" width="226" height="19" uuid="4b0045c1-9373-400f-9962-8d4731fb94e6"/>
+				<textFieldExpression><![CDATA[$F{nomeunidade}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

@@ -1,0 +1,26 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<style>
+.Publicado {
+	color: blue !important;
+}
+
+.tblAcoes td {
+	border: 0px !important;
+}
+</style>
+	<div class="Container100 Responsive100">
+		<div class="ContainerIndent">
+			<h:form>
+				<h:panelGrid columns="2">
+					<p:commandButton value="Criar Álbum" icon="fa fa-plus Fs16 white"
+						onclick="PF('dlgNovoAlbum').show();"
+						rendered="#{SessaoMB.igp.sysAdmin or SessaoMB.verificaDepto('Marketing')}" />
+				</h:panelGrid>
+			</h:form>
+		</div>
+	</div>
+</ui:composition>

@@ -1,0 +1,181 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<div class="layout-portlets-box">
+			<div class="Container100 Responsive100">
+				<div class="ContainerIndent">
+					<div class="Fleft">
+						<h2 class="black Fs24 FontRalewayMedium">Novo Contato</h2>
+					</div>
+					<div class="Seperator"></div>
+					<p:growl autoUpdate="true" life="3000" id="growl" />
+					<div class="Wid100" style="margin-top: 20px; margin-bottom: 20px;">
+						<h:form id="frmTblContatos">
+							<p:wizard id="wizard" styleClass="FormContent"
+								nextLabel="Próximo" backLabel="Voltar">
+								<p:tab title="Informações" id="tabInformacoes">
+									<p:messages />
+									<h:panelGrid columns="2" style="margin:20px;">
+										<h:panelGrid columns="2">
+											<p:outputLabel value="Origem: " />
+											<p:selectOneMenu value="#{ContatosBean.codigo_origem}"
+												id="menu_index" style="width:200px;">
+												<f:selectItem itemLabel="Nenhum" noSelectionOption="true" />
+												<f:selectItems var="items"
+													value="#{ContatosBean.lista_origem}"
+													itemLabel="#{items.origem}" itemValue="#{items.codigo}" />
+											</p:selectOneMenu>
+
+											<p:outputLabel value="Condomínio: " />
+											<p:selectOneMenu value="#{ContatosBean.contato.condominio}"
+												filter="true" filterMatchMode="startsWith"
+												style="width:200px;">
+												<f:selectItem itemLabel="Nenhum" noSelectionOption="true" />
+												<f:selectItems var="items"
+													value="#{ContatosBean.lista_condominios}"
+													itemLabel="#{items.codigo}" itemValue="#{items.codigo}" />
+											</p:selectOneMenu>
+
+											<p:outputLabel value="Departamento: " />
+											<p:selectOneMenu value="#{ContatosBean.codigo_depto}"
+												filter="true" filterMatchMode="startsWith"
+												style="width:200px;">
+												<f:selectItem itemLabel="Nenhum" noSelectionOption="true" />
+												<f:selectItems var="items"
+													value="#{ContatosBean.lista_deptos}"
+													itemLabel="#{items.departamento}"
+													itemValue="#{items.codigo}" />
+											</p:selectOneMenu>
+
+											<p:outputLabel id="labelFuncao" value="Assistente: " />
+											<p:selectBooleanCheckbox id="menuFuncao"
+												value="#{ContatosBean.assistente}">
+											</p:selectBooleanCheckbox>
+
+											<p:outputLabel value="Encarregado: " />
+											<p:selectBooleanCheckbox id="boolEncarregado"
+												disabled="#{ContatosBean.assistente == false ? false : true}"
+												value="#{ContatosBean.contato.encarregado}" />
+
+											<p:outputLabel value="Gerente: "
+												style="margin:0px!important;padding:0px!important;" />
+											<p:outputLabel value="Cod. Gerente: " rendered="false"
+												style="margin:0px!important;padding:0px!important;" />
+
+											<p:selectOneMenu value="#{ContatosBean.cod_gerente}"
+												filter="true" filterMatchMode="startsWith"
+												style="margin:0px!important;padding:0px!important;">
+												<f:selectItem itemLabel="Nenhum" noSelectionOption="true" />
+												<f:selectItems var="items"
+													value="#{ContatosBean.lista_gerentes}"
+													itemLabel="#{items.nome}" itemValue="#{items.codigo}" />
+											</p:selectOneMenu>
+											<p:inputText value="#{ContatosBean.cod_gerente}"
+												rendered="false" style="margin:0px!important;width:25px;" />
+
+											<p:outputLabel value="Nome: " />
+											<p:inputText value="#{ContatosBean.contato.nome}"
+												id="nome_contato" style="width:200px" />
+
+											<p:outputLabel value="UF: " />
+											<p:selectOneMenu value="#{ContatosBean.contato.uf}"
+												filter="true" filterMatchMode="startsWith"
+												style="width:200px;">
+												<f:selectItem itemLabel="Nenhum" noSelectionOption="true" />
+												<f:selectItems var="items" value="#{ContatosBean.lista_uf}"
+													itemLabel="#{items.uf}" itemValue="#{items.uf}" />
+											</p:selectOneMenu>
+
+											<p:outputLabel value="Cidade: " />
+											<p:inputText value="#{ContatosBean.contato.cidade}"
+												style="font-size: 12px;" />
+
+											<p:outputLabel value="CEP: " />
+											<p:inputMask value="#{ContatosBean.contato.cep}"
+												style="font-size: 12px;" />
+
+											<p:outputLabel value="Bairro: " />
+											<p:inputText value="#{ContatosBean.contato.bairro}"
+												style="width:200px;" />
+
+											<p:outputLabel value="Endereço: " />
+											<p:inputText value="#{ContatosBean.contato.endereco}"
+												style="width:200px;" />
+
+
+											<p:outputLabel value="Obs: " />
+											<p:inputTextarea value="#{ContatosBean.contato.obs}"
+												style="width:200px;" />
+										</h:panelGrid>
+
+										<p:commandButton value="Voltar para PABX"
+											icon="fa fa-arrow-left Fs16 white" style="float:left;" />
+									</h:panelGrid>
+								</p:tab>
+
+								<p:tab title="Telefones">
+									<h:panelGrid columns="2" style="margin:20px;">
+										<p:outputLabel value="Residencial: " />
+										<p:inputMask value="#{ContatosBean.contato.residencial}"
+											mask="(99) 9999-9999" />
+
+										<p:outputLabel value="Comercial: " />
+										<p:inputMask value="#{ContatosBean.contato.comercial}"
+											mask="(99) 9999-9999" />
+
+										<p:outputLabel value="Celular: " />
+										<p:inputMask value="#{ContatosBean.contato.celular}"
+											mask="(99) 99999-999?9" />
+
+										<p:outputLabel value="Outro: " />
+										<p:inputMask value="#{ContatosBean.contato.outros}"
+											mask="(99) 9999-9999" />
+
+										<p:outputLabel value="Ramal: " />
+										<p:inputText value="#{ContatosBean.contato.ramal}" />
+
+										<p:outputLabel value="E-mail: " />
+										<p:inputText value="#{ContatosBean.contato.email}" />
+
+										<p:outputLabel value="E-mail OMA: " />
+										<p:inputText value="#{ContatosBean.contato.email_oma}" />
+									</h:panelGrid>
+
+									<h:panelGrid columns="2">
+										<p:outputLabel value="Ordem:" style="font-size:14px;" />
+										<p:inputTextarea value="#{assembleiaMB.assembleia.ordem}"
+											style="width:518px;min-height:200px;" />
+
+										<p:outputLabel value="Obs: " style="font-size:14px;" />
+										<p:inputTextarea value="#{assembleiaMB.assembleia.obs}"
+											style="font-size:14px;width:518px;height:50px!important;"
+											maxlength="500" />
+									</h:panelGrid>
+								</p:tab>
+
+								<p:tab title="Confirmar">
+									<p:panel header="Informações">
+										<p:panelGrid columns="2" style="margin:20px;">
+
+										</p:panelGrid>
+									</p:panel>
+									<p:panel header="Telefones">
+										<p:panelGrid columns="2" style="margin:20px;">
+										</p:panelGrid>
+									</p:panel>
+
+									<br />
+									<p:commandButton value="Salvar" ajax="false"
+										style="float:right;" />
+								</p:tab>
+							</p:wizard>
+						</h:form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

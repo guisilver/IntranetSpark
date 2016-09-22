@@ -1,0 +1,27 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<div class="layout-portlets-box">
+
+			<div class="DispInlBlock TexAlLeft">
+				<div class="Fleft">
+					<h2 class="black Fs24 FontRalewayMedium">Atualização de Corpo
+						Diretivo</h2>
+				</div>
+			</div>
+			<div class="Seperator"></div>
+
+			<div class="Container100">
+					<ui:include src="gerencia/corpo-diretivo/corpo-diretivo.xhtml" />
+					<ui:include src="gerencia/corpo-diretivo/alterar-contato.xhtml" />
+					<ui:include src="gerencia/corpo-diretivo/excluir-contato.xhtml" />
+					<ui:include src="gerencia/corpo-diretivo/adicionar-contato.xhtml" />
+					<ui:include src="gerencia/corpo-diretivo/adicionar-novo.xhtml"/>
+					<ui:include src="gerencia/corpo-diretivo/pesquisar-sindico.xhtml"/>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,143 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<style>
+#frmFiltroEmissor td {
+	border-width: 0 !important;
+}
+
+#frmFiltroEmissor input {
+	width: 85px !important;
+}
+
+.tblAcoes tbody td {
+	border: 0px;
+}
+</style>
+
+	<div class="Container50 Responsive50">
+		<div class="ContainerIndent">
+			<h:form>
+				<h:panelGrid>
+					<p:commandButton value=" Novo Emissor" icon="fa fa-plus Fs16 white"
+						oncomplete="PF('dlgNovoEmissor').show();" update=":frmNovoEmissor" />
+				</h:panelGrid>
+			</h:form>
+		</div>
+	</div>
+
+	<div class="Container100 Responsive100">
+		<div class="ContainerIndent">
+			<h:form id="frmFiltroEmissor">
+				<p:panelGrid id="gridFiltro" columns="1" style="margin-bottom:20px;">
+					<f:facet name="header">
+						<h:outputText value="Filtros" />
+					</f:facet>
+					<h:panelGrid columns="2" border="0">
+						<p:outputLabel value="Gerente: " />
+						<p:selectOneMenu id="selectGerente" filter="true"
+							filterMatchMode="contains" value="#{emissorMB.gerente}"
+							converter="omnifaces.SelectItemsConverter">
+							<p:ajax listener="#{emissorMB.pesquisaEmissores}"
+								update=":frmTblEmissor" resetValues="true" />
+							<f:selectItem itemLabel="Nenhum" noSelectionOption="true" />
+							<f:selectItems var="gerente"
+								value="#{assembleiaMB.listaGerentes}"
+								itemLabel="#{gerente.nome}" itemValue="#{gerente}" />
+						</p:selectOneMenu>
+					</h:panelGrid>
+					<h:panelGrid columns="4" border="0">
+						<p:outputLabel value="Período" />
+						<p:calendar value="#{emissorMB.dataInicio}" pattern="dd/MM/yyyy"
+							locale="pt" timeZone="America/Sao_Paulo" styleClass="calendario" />
+						<p:calendar value="#{emissorMB.dataFim}" pattern="dd/MM/yyyy"
+							locale="pt" timeZone="America/Sao_Paulo" styleClass="calendario" />
+						<p:commandButton value="Filtrar"
+							action="#{emissorMB.filtrarListaEmissores}"
+							icon="fa fa-search Fs16 white" update=":frmTblEmissor:tblEmissor" />
+					</h:panelGrid>
+				</p:panelGrid>
+			</h:form>
+		</div>
+	</div>
+
+	<div class="Container100 TexAlCenter">
+		<div class="ContainerIndent">
+			<h:form id="frmTblEmissor">
+				<p:dataTable id="tblEmissor" var="emissor"
+					value="#{emissorMB.lstEmissor}"
+					filteredValue="#{emissorMB.fltrEmissor}" rows="10" paginator="true"
+					style="font-size: 13px;">
+					<f:facet name="header">
+						Emissores
+					</f:facet>
+					<p:column headerText="Cod. CND" filterBy="codCondominio}"
+						sortBy="codCondominio}">
+						<h:outputText value="#{emissor.codCondominio}" />
+					</p:column>
+					<p:column headerText="Nome CND"
+						filterBy="#{emissor.nomeCondominio}"
+						sortBy="#{emissor.nomeCondominio}">
+						<h:outputText value="#{emissor.nomeCondominio}" />
+					</p:column>
+					<p:column headerText="Referência" filterBy="#{emissor.referencia}"
+						sortBy="#{emissor.referencia}">
+						<h:outputText value="#{emissor.referencia}" />
+					</p:column>
+					<p:column headerText="Data Enviado" sortBy="#{emissor.dataEnviado}">
+						<h:outputText value="#{emissor.dataEnviado}">
+							<f:convertDateTime locale="pt" pattern="dd/MM/yyyy HH:mm"
+								timeZone="America/Sao_Paulo" />
+						</h:outputText>
+					</p:column>
+					<p:column headerText="Data Conferido"
+						sortBy="#{emissor.dataConferido}">
+						<h:outputText value="#{emissor.dataConferido}"
+							rendered="#{emissor.dataConferido != null}">
+							<f:convertDateTime locale="pt" pattern="dd/MM/yyyy HH:mm"
+								timeZone="America/Sao_Paulo" />
+						</h:outputText>
+					</p:column>
+					<p:column headerText="Situação" sortBy="#{emissor.situacao}">
+						<h:outputText value="#{emissor.situacao}"
+							styleClass="#{emissor.situacao}" />
+					</p:column>
+					<p:column headerText="Ações">
+						<h:panelGrid styleClass="tblAcoes" border="0"
+							style="border:0px white;">
+							<p:column>
+								<p:commandButton oncomplete="PF('dlgDetalhesEmissor').show();"
+									icon="fa fa-search Fs16 white" update=":frmDetalhesEmissor">
+									<f:setPropertyActionListener
+										target="#{emissorMB.emissorSelecionado}" value="#{emissor}" />
+								</p:commandButton>
+								<p:commandButton oncomplete="PF('dlgExclusao').show();"
+									icon="fa fa-trash Fs16 white" style="margin-left:5px;">
+									<f:setPropertyActionListener
+										target="#{emissorMB.emissorSelecionado}" value="#{emissor}" />
+								</p:commandButton>
+							</p:column>
+						</h:panelGrid>
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</div>
+	</div>
+
+	<p:dialog widgetVar="dlgExclusao" modal="true" resizable="false">
+		<h:form>
+			<h:panelGrid columns="2">
+				<p:outputLabel value="Você confirma a exclusão?"
+					style="font-size:14px;" />
+				<p:column />
+				<p:commandButton value="Não" oncomplete="PF('dlgExclusao').hide();"
+					icon="fa fa-close Fs16 white" />
+				<p:commandButton value="Sim" action="#{emissorMB.excluir()}"
+					update=":frmTblEmissor:tblEmissor" icon="fa fa-check Fs16 white" />
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
+
+</ui:composition>

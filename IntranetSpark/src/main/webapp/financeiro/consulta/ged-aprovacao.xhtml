@@ -1,0 +1,170 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+ 	 
+ 	<meta http-equiv="refresh" content="600" /> 
+	
+	<h:form id="frmGerCondo" rendered="#{SessaoMB.verificaDepto('Contas a Pagar') ? false : SessaoMB.verificaDepto(' Todos') ? false : true}" >
+	<h:panelGrid columns="3" cellpadding="5">
+		<p:outputLabel value="Gerente:" />
+		<p:selectOneMenu id="somGerentes" value="#{ged.gerente}"
+			filter="true" filterMatchMode="contains">
+			<f:selectItems value="#{ged.listaDeGerentes}" var="item"
+				itemLabel="#{item.nome}" itemValue="#{item.codigo}" />
+			<p:ajax	update=":frmGed :frmFinanceiroGed" />
+		</p:selectOneMenu>
+		</h:panelGrid>
+	</h:form>
+
+	<h:form id="frmMsg"> 
+		<p:messages id="msg" showDetail="true" autoUpdate="false" closable="true" escape="true" showSummary="false"/>
+	</h:form>
+<!-- 	<hr style="display:#{ged.alteracao == false? 'block' : 'none'};"/> -->
+	<h:form id="frmGed" style="display:#{ged.alteracao == false? 'block' : 'none'};">
+		<p:dataList id="dtPagar" value="#{ged.listarGed}" var="p" itemType="none" paginator="true" rows="15" emptyMessage="Sem Lançamentos...">
+		<f:facet name="header">
+			Condomínios com Lançamentos no GED
+		</f:facet>
+			<h:panelGrid columns="12"> 
+			<c:if test="#{p.qtdPendente > 0}">
+			</c:if>
+			<p:commandButton action="#{ged.listarContas(p.condominio)}" update="frmFinanceiroGed" icon="fa fa-search Fs16 white" style="font-size: 10px !important;" rendered="#{p.qtdPendente > 0 or p.qtdAguardando > 0 or p.qtdReprovado > 0}">
+				   <f:setPropertyActionListener value="#{p}" target="#{ged.pagar}" />
+			</p:commandButton>
+				<h:outputText value="Condomínio - " style="display:inline-block" rendered="#{p.qtdPendente > 0 or p.qtdAguardando > 0 or p.qtdReprovado > 0}"/>
+				<h:outputText value="#{p.condominio}" style="display:inline-block;color: black;" rendered="#{p.qtdPendente > 0 or p.qtdAguardando > 0 or p.qtdReprovado > 0}"/>
+				<h:outputText value="Pendentes: " style="display:inline-block; margin-left:40px !important; color: blue !important;" rendered="#{p.qtdPendente > 0}"/>
+				<h:outputText value="#{p.qtdPendente}" style="display:inline-block; color: black;" rendered="#{p.qtdPendente > 0}"/>
+				<h:outputText value="Aguardando Aprovação: " style="display:inline-block; margin-left:40px !important; color: orange;" rendered="#{p.qtdAguardando > 0}" />
+				<h:outputText value="#{p.qtdAguardando}" style="display:inline-block; color: black;" rendered="#{p.qtdAguardando > 0}"/>
+				<h:outputText value="Reprovados: " style="display:inline-block; margin-left:40px !important; color: red;" rendered="#{p.qtdReprovado > 0}"/>
+				<h:outputText value="#{p.qtdReprovado}" style="display:inline-block; color: black;" rendered="#{p.qtdReprovado > 0}"/>
+			</h:panelGrid>
+		</p:dataList>
+	</h:form>
+	<hr style="display:#{ged.alteracao == false? 'block' : 'none'};"/>
+	<h:form id="frmFinanceiroGed" style="display:#{ged.alteracao == false? 'block' : 'none'};">
+		<p:dataTable var="item" emptyMessage="Não há registros."
+				rowKey="#{item.codigo}" value="#{ged.listaDePagar}"
+				filteredValue="#{ged.filtroDePagar}"
+				id="tblLancamentos" rows="10" scrollable="true" nativeElements="true"
+				style="font-size:12px;text-align:center;"
+				rowsPerPageTemplate="5,10,15,20,25,30,50,100" paginator="true">
+				
+				<f:facet name="header">
+					CONDOMÍNIO - #{ged.nomeCondominio}
+				</f:facet>
+
+				<p:column id="clNroLanctoPagar" headerText="Nª Lancto" filterBy="#{item.codigo}" style="width: 70px !important;">
+					<h:outputText value="#{item.codigo}" />
+				</p:column>
+				
+				<p:column id="clFeitoEm" headerText="Feito em:" style="width: 80px !important;">
+					<h:outputText value="#{item.dataInclusao}" >
+						<f:convertDateTime pattern="dd/MM/yyyy HH:mm" locale="pt"
+							timeZone="America/Sao_Paulo"/>
+					</h:outputText>
+				</p:column>
+
+				<p:column id="clRateado" headerText="Rateado" style="width: 60px !important;"
+					filterBy="#{item.rateado}" filterMatchMode="contains">
+					<h:outputText value="#{item.rateado}"
+						styleClass="#{item.rateado == 'S' ? 'AlertaObs' : null}" />
+				</p:column>
+
+				<p:column id="clParcelado" headerText="Parcelado" style="width: 70px !important;"
+					filterBy="#{item.parcelado}" filterMatchMode="contains">
+					<h:outputText value="#{item.parcelado}"
+						styleClass="#{item.parcelado == 'S' ? 'AlertaObs' : null}" />
+				</p:column>
+
+				<p:column id="clObs" headerText="OBS" style="width: 50px !important;"
+					filterBy="#{item.obs}" filterMatchMode="contains">
+					<h:outputText value="#{item.obs}"
+						styleClass="#{item.obs == 'S' ? 'AlertaObs' : null}" />
+				</p:column>
+
+				<p:column id="clVencimento" headerText="Vencimento" sortBy="#{item.vencimento}" style="width: 90px !important;">
+					<h:outputText value="#{item.vencimento}">
+						<f:convertDateTime pattern="dd/MM/yyyy" locale="pt"
+							timeZone="America/Sao_Paulo" />
+					</h:outputText>
+				</p:column>
+
+				<p:column id="clValor" headerText="Valor" filterBy="#{item.valor}" style="width: 90px !important;">
+					<h:outputText value="#{item.valor}">
+						<f:convertNumber type="currency" minFractionDigits="2"
+							currencySymbol="R$" locale="pt" />
+					</h:outputText>
+				</p:column>
+
+				<p:column id="clConta" headerText="Conta" style="width: 60px !important;"
+					filterBy="#{item.conta}" filterMatchMode="contains">
+					<h:outputText
+						value="#{item.conta > 100000 ? item.conta - 100000 : item.conta}" />
+				</p:column>
+
+				<p:column id="clTipoPagto" headerText="Tipo Pag." style="width: 70px !important;"
+					filterBy="#{item.tipoPagto}" filterMatchMode="contains">
+					<h:outputText value="#{item.tipoPagto}" />
+				</p:column>
+
+				<p:column id="clHistorico" headerText="Histórico" sortBy="#{item.historico}" style="width: 120px !important;"
+					filterBy="#{item.historico}" filterMatchMode="contains">
+					<h:outputText value="#{item.historico}" />
+				</p:column>
+
+				<p:column id="clClassificacao" headerText="Classif." sortBy="#{item.classificacao}" style="width: 70px !important;">
+					<h:outputText value="#{item.classificacao == 'V' ? 'Venda' : null}"
+						rendered="#{item.classificacao == 'V'}" />
+					<h:outputText
+						value="#{item.classificacao == 'S' ? 'Serviços' : null}"
+						rendered="#{item.classificacao == 'S'}" />
+					<h:outputText
+						value="#{item.classificacao == 'VS' ? 'Venda / Serviços' : null}"
+						rendered="#{item.classificacao == 'VS'}" />
+				</p:column>
+
+				<p:column id="clTipoDoc" headerText="Tipo Doc." sortBy="#{item.tipoDocumento}" style="width: 70px !important;">
+					<h:outputText
+						value="#{item.tipoDocumento == 'NF' ? 'Nota Fiscal' : item.tipoDocumento == 'N. Debito' ? 'Nota Débito' : item.tipoDocumento == 'REC.' ? 'Recibo' : item.tipoDocumento == 'Fatura' ? 'Fatura' : ''}" />
+				</p:column>
+
+				<p:column id="clFeitoPor" headerText="Feito por"  style="width: 70px !important;"
+					filterBy="#{item.adicionadoPor}" filterMatchMode="contains">
+					<h:outputText value="#{item.adicionadoPor}"
+						style="word-wrap:break-word;" />
+				</p:column>
+
+				<p:column id="clSituacao" headerText="Situação" sortBy="#{item.status}" style="width: 80px !important;">
+					<h:outputText value="Aguardando Aprovação" styleClass="Aguardando"
+						rendered="#{item.status == 'Z'}" />
+
+					<h:outputText value="Pendente" styleClass="Pendente"
+						rendered="#{item.status == 'P'}" />
+
+					<h:outputText value="Aprovado" styleClass="Aprovado"
+						rendered="#{item.status == 'A'}" />
+
+					<h:outputText value="Reprovado" styleClass="Reprovado"
+						rendered="#{item.status == 'R'}" />
+				</p:column>
+				<p:column id="clAbrir" style="width: 80px !important;">
+					<p:commandButton value="Abrir" action="#{ged.abrirLancamento(item)}" update=":frmDetalhesLancamento" oncomplete="PF('detalhesLancto').show();"/>
+				</p:column>
+			</p:dataTable>
+			
+			<p:dialog modal="false" widgetVar="statusDialog1"
+			header="Aguarde..." draggable="false" resizable="false"
+			closable="false">
+			<center>
+				<p:graphicImage name="loader.gif" library="imagens" width="200"
+					height="25" />
+			</center>
+		</p:dialog>
+	</h:form>
+</ui:composition>

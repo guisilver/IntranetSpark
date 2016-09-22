@@ -1,0 +1,394 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	<style>
+.ui-datatable table tbody tr td .ui-outputlabel {
+	font-size: 12px !important;
+}
+
+.cmdLink {
+	margin-right: 0px !important;
+	float: left;
+}
+
+.tblVagas table tbody tr td .ui-outputlabel {
+	color: black !important;
+}
+
+.ui-column-filter {
+	width: 70px !important;
+}
+
+.colCod input {
+	width: 30px !important;
+}
+
+#frmTblVagas\3a tblVagas_data>tr>td:last-child {
+	cursor: pointer;
+}
+
+#frmTblVagas\3a tblVagas_data>tr>td:last-child:hover {
+	background-color: #D0525D;
+}
+</style>
+
+	<div class="layout-portlets-box trilha"
+		style="padding-top: 0px !important; padding-bottom: 0px !important;">
+		<p:breadCrumb>
+			<p:menuitem value="Home" url="/dashboard.xhtml" />
+			<p:menuitem value="Entrevistas" url="/rh/entrevistas" />
+			<p:menuitem value="Lista Candidatos" url="/rh/candidatos" />
+			<p:menuitem value="Novo Candidato"
+				url="/rh/candidatos/novo-candidato.xhtml" />
+			<p:menuitem value="Pré Cadastro" url="/rh/candidatos/pre-cadastro" />
+			<p:menuitem value="Relatório Vagas" url="/rh/vagas/relatorio-vagas" />
+		</p:breadCrumb>
+	</div>
+
+	<div class="layout-portlets-box">
+		<div class="DispInlBlock TexAlLeft">
+			<div class="Fleft">
+				<h2 class="black Fs24 FontRalewayMedium">Vagas</h2>
+			</div>
+		</div>
+		<div class="Seperator"></div>
+		<div class="Container100 Responsive100">
+			<p:messages id="msgs" />
+			<h:form>
+
+				<h:panelGrid columns="2">
+					<p:commandButton value="Nova Vaga" icon="fa fa-plus Fs16 white"
+						ajax="false"
+						rendered="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.verificaDepto('RH')}"
+						action="vagas/nova-vaga?faces-redirect=true;" />
+
+					<p:commandButton value="Relatório Vagas"
+						icon="fa fa-file-text-o Fs16 white"
+						rendered="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.verificaDepto('RH')}"
+						action="vagas/relatorio-vagas?faces-redirect=true;" />
+				</h:panelGrid>
+
+			</h:form>
+
+			<h:form id="frmFiltro">
+
+				<p:panelGrid id="gridFiltro" columns="2" style="margin-top:10px;">
+					<f:facet name="header">
+						<h:outputText value="Filtros" />
+					</f:facet>
+					<p:outputLabel value="Situação:" />
+					<p:selectManyCheckbox id="boxSituacao"
+						value="#{vagasMB.situacaoFiltro}" styleClass="situacao">
+						<p:ajax listener="#{vagasMB.pesquisaVagas()}" process="@this"
+							update=":frmTblVagas,:frmFiltro:boxSituacao" />
+						<f:selectItem itemLabel="Pendente" itemValue="0" />
+						<f:selectItem itemLabel="Em Andamento" itemValue="1" />
+						<f:selectItem itemLabel="Stand By" itemValue="2" />
+						<f:selectItem itemLabel="Cancelada" itemValue="3" />
+						<f:selectItem itemLabel="Concluída" itemValue="4" />
+						<f:selectItem itemLabel="Todas" itemValue="5" />
+					</p:selectManyCheckbox>
+
+					<p:outputLabel value="Responsável:" />
+					<p:selectOneMenu id="selectResponsavel" filter="true"
+						filterMatchMode="contains" required="true"
+						value="#{vagasMB.vaga.responsavelVaga}"
+						converter="omnifaces.SelectItemsConverter" style="width:300px;">
+						<p:ajax listener="#{vagasMB.pesquisaVagas()}"
+							update=":frmTblVagas" />
+						<f:selectItem itemLabel="Todos" itemValue="Todos" />
+						<f:selectItems var="responsavel" value="#{vagasMB.listaUsuarioRH}"
+							itemLabel="#{responsavel}" itemValue="#{responsavel}" />
+					</p:selectOneMenu>
+
+					<p:outputLabel value="Período:" />
+					<p:column>
+						<p:calendar mask="true" pattern="dd/MM/yyyy" locale="pt"
+							timeZone="America/Sao_Paulo" value="#{vagasMB.dataInicio}"
+							navigator="true" yearRange="c-5:c+1" styleClass="calendar">
+							<p:ajax event="dateSelect" listener="#{vagasMB.pesquisaVagas()}"
+								update=":frmTblVagas" />
+							<p:ajax event="change" listener="#{vagasMB.pesquisaVagas()}"
+								update=":frmTblVagas" />
+						</p:calendar>
+						<p:outputLabel value="à" style="margin-left:5px;" />
+						<p:calendar mask="true" pattern="dd/MM/yyyy" locale="pt"
+							timeZone="America/Sao_Paulo" value="#{vagasMB.dataFim}"
+							navigator="true" yearRange="c-5:c+1" style="margin-left:5px;"
+							styleClass="calendar">
+							<p:ajax event="dateSelect" listener="#{vagasMB.pesquisaVagas()}"
+								update=":frmTblVagas" />
+							<p:ajax event="change" listener="#{vagasMB.pesquisaVagas()}"
+								update=":frmTblVagas" />
+						</p:calendar>
+					</p:column>
+				</p:panelGrid>
+
+				<h:panelGrid columns="10" style="font-size:12px;margin-top:20px;">
+					<div
+						style="width: 15px; height: 15px; background: #CCCCCC; border: 1px solid black;" />
+					<p:outputLabel value="Pendente" />
+					<div
+						style="width: 15px; height: 15px; background: #CCFFCC; border: 1px solid black;" />
+					<p:outputLabel value="Em Andamento" />
+					<div
+						style="width: 15px; height: 15px; background: #FFC000; border: 1px solid black;" />
+					<p:outputLabel value="Stand By" />
+					<div
+						style="width: 15px; height: 15px; background: #FFFF99; border: 1px solid black;" />
+					<p:outputLabel value="Cancelada" />
+					<div
+						style="width: 15px; height: 15px; background: #99CCFF; border: 1px solid black;" />
+					<p:outputLabel value="Concluída" />
+				</h:panelGrid>
+
+			</h:form>
+
+			<h:form id="frmTblVagas" style="margin-top:20px;">
+
+				<p:outputLabel value="Total:" />
+				<p:outputLabel value=" #{vagasMB.totalVagas}"
+					style="color:red;margin-right:20px;" />
+
+				<c:forEach items="#{vagasMB.rv}" var="rv">
+					<p:outputLabel value="#{rv.nome}:" />
+					<p:outputLabel value=" #{rv.qtd}"
+						style="color:red;margin-right:20px;" />
+				</c:forEach>
+
+				<p:dataTable value="#{vagasMB.listaVagas}" id="tblVagas"
+					widgetVar="tblVagas" var="vaga" rows="50" paginator="true"
+					rowStyleClass="lbl#{vaga.situacao} foco"
+					rowsPerPageTemplate="15,30,50,100"
+					style="text-align:center;margin-top:20px;" styleClass="tblVagas">
+					<p:column width="30">
+						<p:commandButton icon="fa fa-pencil Fs16 white"
+							actionListener="#{vagasMB.abrirAlterarVaga(vaga.codigo)}"
+							oncomplete="PF('dlgAltrVaga').show();"
+							update=":msgs,:frmAltrVaga" title="Alterar"
+							styleClass="btnLittle" />
+					</p:column>
+					<p:column headerText="Cód." width="50" filterBy="#{vaga.codigo}"
+						styleClass="colCod" style="display:none;">
+						<p:outputLabel value="#{vaga.codigo}" />
+					</p:column>
+					<p:column headerText="Abertura" filterBy="#{vaga.dataAberturaStr}"
+						sortBy="#{vaga.dataAbertura}" width="100">
+						<p:outputLabel value="#{vaga.dataAberturaStr}" />
+					</p:column>
+					<p:column headerText="Encerramento"
+						filterBy="#{vaga.dataEncerramentoStr}"
+						sortBy="#{vaga.dataEncerramento}"
+						rendered="#{vagasMB.renderizaEnc}" width="110">
+						<p:outputLabel value="#{vaga.dataEncerramentoStr}" />
+					</p:column>
+					<p:column headerText="Gerente" sortBy="#{vaga.nomeGerente}"
+						filterBy="#{vaga.nomeGerente}" filterMatchMode="contains">
+						<p:outputLabel value="#{vaga.nomeGerente}" />
+					</p:column>
+					<p:column headerText="Condomínio" sortBy="#{vaga.cndCodNome}"
+						filterBy="#{vaga.cndCodNome}" filterMatchMode="contains">
+						<p:outputLabel value="#{vaga.cndCodNome}" />
+					</p:column>
+					<p:column headerText="Cargo" sortBy="#{vaga.cargo}"
+						filterBy="#{vaga.cargo}" filterMatchMode="contains">
+						<p:outputLabel value="#{vaga.cargo}" />
+					</p:column>
+					<p:column headerText="Salário" sortBy="#{vaga.salario}"
+						filterBy="#{vaga.salario}" filterMatchMode="contains">
+						<p:outputLabel value="#{vaga.salario}">
+							<f:convertNumber currencySymbol="R$" minFractionDigits="2" />
+						</p:outputLabel>
+					</p:column>
+					<p:column headerText="Responsável"
+						filterBy="#{vaga.responsavelVaga}"
+						sortBy="#{vaga.responsavelVaga}" filterMatchMode="contains">
+						<p:outputLabel value="#{vaga.responsavelVaga}" />
+					</p:column>
+					<p:column headerText="Situação" rendered="false">
+						<p:outputLabel value="#{vagasMB.situacaoEmTexto(vaga.situacao)}" />
+					</p:column>
+					<p:column headerText="Últ. Hist." style="text-align:left;"
+						styleClass="colHist">
+						<p:commandLink id="btnHist" title="Histórico"
+							value="#{vagasMB.retornaUltimoHist(vaga)}"
+							oncomplete="PF('dlgHistorico').show();" update=":frmHistorico"
+							style="text-decoration:none;color:black!important;
+							font-size:12px!important;font-family:'ralewayregular';">
+							<f:setPropertyActionListener value="#{vaga}"
+								target="#{vagasMB.vagaSelecionada}" />
+						</p:commandLink>
+					</p:column>
+				</p:dataTable>
+
+				<pe:remoteCommand name="pesqHistCelula"
+					actionListener="#{vagasMB.pesquisaHistCelula}"
+					update=":frmHistorico" oncomplete="PF('dlgHistorico').show();">
+					<pe:methodSignature parameters="java.lang.String" />
+					<pe:methodParam name="codigo" />
+				</pe:remoteCommand>
+
+				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+					<p:commandButton value="Não" type="button"
+						styleClass="ui-confirmdialog-no" icon="fa fa-close Fs16 white" />
+					<p:commandButton value="Sim" type="button"
+						styleClass="ui-confirmdialog-yes" icon="fa fa-check Fs16 white" />
+				</p:confirmDialog>
+
+			</h:form>
+		</div>
+	</div>
+
+	<p:dialog header="Candidatos à Vaga" widgetVar="dlgCandidatosVaga"
+		modal="true" width="500" resizable="false">
+		<h:form id="frmCandidatosVaga" target="_blank">
+			<p:panelGrid columns="2">
+				<p:outputLabel value="Código da Vaga:" />
+				<p:outputLabel value="#{vagasMB.vagaSelecionada.codigo}" />
+				<p:outputLabel value="Condomínio:" />
+				<p:outputLabel
+					value="#{vagasMB.vagaSelecionada.codigoCondominio} - #{vagasMB.vagaSelecionada.nomeCondominio}" />
+				<p:outputLabel value="Cargo:" />
+				<p:outputLabel value="#{vagasMB.vagaSelecionada.cargo}"
+					style="color:red;" />
+			</p:panelGrid>
+			<p:dataTable value="#{vagasMB.listaCandidatos}" rows="10"
+				paginator="true" var="candidato" style="margin-top:20px;">
+				<p:column headerText="Nome">
+					<p:outputLabel value="#{candidato.nome}" />
+				</p:column>
+				<p:column width="30">
+					<p:commandButton icon="fa fa-search Fs16 white"
+						action="#{candidatosMB.abreAlteraCandidatos(candidato.codigo)}"
+						ajax="false" title="Abrir Ficha" />
+				</p:column>
+			</p:dataTable>
+			<h:panelGrid style="margin-top:10px;width:100%;">
+				<p:commandButton value="Fechar"
+					onclick="PF('dlgCandidatosVaga').hide();"
+					icon="fa fa-close Fs16 white" process="@this" style="float:left;" />
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
+
+	<p:dialog widgetVar="dlgHistorico" header="Histórico da Vaga"
+		width="600" modal="true" resizable="false">
+		<h:form id="frmHistorico" styleClass="frmHistorico">
+			<p:panelGrid columns="2">
+				<p:outputLabel value="Código da Vaga:" />
+				<p:outputLabel value="#{vagasMB.vagaSelecionada.codigo}" />
+
+				<p:outputLabel value="Condomínio:" />
+				<p:outputLabel
+					value="#{vagasMB.vagaSelecionada.codigoCondominio} - #{vagasMB.vagaSelecionada.nomeCondominio}" />
+
+				<p:outputLabel value="Cargo:" />
+				<p:outputLabel value="#{vagasMB.vagaSelecionada.cargo}"
+					style="color:red;" />
+			</p:panelGrid>
+
+			<p:panelGrid id="gridHist" columns="5" style="margin-top:10px;">
+				<p:outputLabel value="Texto" />
+				<p:inputText id="txtHist" value="#{vagasMB.historico.texto}" />
+				<p:outputLabel value="Data" />
+				<p:calendar id="dtHist" mask="true" pattern="dd/MM/yyyy" locale="pt"
+					timeZone="America/Sao_Paulo" value="#{vagasMB.historico.data}"
+					styleClass="calendar" />
+				<p:commandButton icon="fa fa-check Fs16 white"
+					actionListener="#{vagasMB.salvarHistorico()}"
+					update="@form:txtHist,@form:dtHist,@form:tblHistorico,:frmTblVagas"
+					style="margin-left:5px;" />
+			</p:panelGrid>
+
+			<p:dataTable id="tblHistorico" var="historico"
+				styleClass="tblHistorico" paginator="true" rows="8"
+				value="#{vagasMB.vagaSelecionada.historico}" rowStyleClass="foco"
+				editable="true" editMode="cell" style="margin-top:10px;">
+				<p:column width="27">
+					<p:commandButton icon="fa fa-trash Fs16 white"
+						actionListener="#{vagasMB.excluirHistorico(historico)}"
+						update=":frmHistorico:tblHistorico,:frmTblVagas" title="Excluir"
+						styleClass="btnLittle" />
+				</p:column>
+				<p:column width="100" style="text-align:center;">
+					<p:cellEditor>
+						<f:facet name="output">
+							<p:outputLabel value="#{historico.data}">
+								<f:convertDateTime pattern="dd/MM/yyyy" locale="pt"
+									timeZone="America/Sao_Paulo" />
+							</p:outputLabel>
+						</f:facet>
+						<f:facet name="input">
+							<p:calendar yearRange="1901:2016" pattern="dd/MM/yyyy"
+								mask="true" effect="slide" locale="pt"
+								timeZone="America/Sao_Paulo" navigator="true"
+								value="#{historico.data}" styleClass="calendar">
+								<p:ajax event="dateSelect" process="@this"
+									listener="#{vagasMB.salvarAlteracoesHistorico()}"
+									update="@form:tblHistorico,:frmTblVagas" />
+							</p:calendar>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column>
+					<p:cellEditor>
+						<f:facet name="output">
+							<p:outputLabel value="#{historico.texto}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{historico.texto}" style="width:95%;">
+								<p:ajax event="blur"
+									listener="#{vagasMB.salvarAlteracoesHistorico()}"
+									update="@form:tblHistorico,:frmTblVagas" />
+							</p:inputText>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+			</p:dataTable>
+			<h:panelGrid style="margin-top:10px;width:100%;">
+				<p:commandButton value="Fechar" onclick="PF('dlgHistorico').hide();"
+					icon="fa fa-close Fs16 white" process="@this" style="float:left;" />
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
+
+	<p:ajaxStatus onstart="PF('statusDialog').show()"
+		onsuccess="PF('statusDialog').hide()" />
+	<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+		closable="false" resizable="false" showHeader="false">
+					Aguarde...<br />
+		<br />
+		<p:graphicImage library="imagens" name="loader.gif" />
+	</p:dialog>
+	<h:form>
+		<p:remoteCommand name="selectTodos"
+			actionListener="#{vagasMB.selectTodos()}"
+			update=":frmFiltro:boxSituacao" />
+		<p:remoteCommand name="deselectTodos"
+			actionListener="#{vagasMB.deselectTodos()}"
+			update=":frmFiltro:boxSituacao" />
+	</h:form>
+	<script>
+		$("body").on(
+				"click",
+				".colHist",
+				function() {
+					var valor = $(this).closest('tr').children('td:first')
+							.next().text();
+					pesqHistCelula(valor);
+				});
+
+		$("body").on("click", "[id='frmFiltro:boxSituacao:5']", function() {
+			if ($(this).is(':checked')) {
+				selectTodos();
+			} else {
+				deselectTodos();
+			}
+		});
+	</script>
+
+</ui:composition>

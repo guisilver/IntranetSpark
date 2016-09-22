@@ -1,0 +1,85 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<style>
+#frmPerguntas .ui-inputtext {
+	width: 100%;
+}
+
+#frmPerguntas>div>div>table>tbody>tr>td:nth-child(1) {
+	width: 100px !important;
+}
+
+.panelP  tbody>tr>td:nth-child(2) {
+	width: 90%;
+}
+</style>
+		<div class="layout-portlets-box">
+			<div class="DispInlBlock TexAlLeft">
+				<div class="Fleft">
+					<h2 class="black Fs24 FontRalewayMedium">Quiz - Perguntas</h2>
+				</div>
+			</div>
+			<div class="Seperator"></div>
+			<h:form id="frmPerguntas">
+				<div class="Container100 Responsive100">
+					<p:messages autoUpdate="true" />
+					<div class="ContainerIndent">
+						<h:panelGrid columns="2" styleClass="Wid90">
+							<p:outputLabel value="Gerência" />
+							<p:inputText value="#{quizMB.perguntas.pergunta1}"
+								styleClass="Wid90" />
+
+							<p:outputLabel value="Assembleias" />
+							<p:inputText value="#{quizMB.perguntas.pergunta7}"
+								styleClass="Wid90" />
+
+							<p:outputLabel value="Demandas" />
+							<p:inputText value="#{quizMB.perguntas.pergunta8}"
+								styleClass="Wid90" />
+
+							<p:outputLabel value="Obs" />
+							<p:inputText value="#{quizMB.perguntas.perguntaObs}"
+								styleClass="Wid90" />
+							<p:column />
+						</h:panelGrid>
+						<p:panel style="width:100%;">
+							<f:facet name="header">
+									Principais Serviços
+								</f:facet>
+							<h:panelGrid columns="2" styleClass="panelP">
+								<p:outputLabel value="Financeiro" />
+								<p:inputText value="#{quizMB.perguntas.pergunta2}"
+									styleClass="Wid90" />
+								<p:outputLabel value="RH" />
+								<p:inputText value="#{quizMB.perguntas.pergunta9}"
+									styleClass="Wid90" />
+								<p:outputLabel value="DP" />
+								<p:inputText value="#{quizMB.perguntas.pergunta3}"
+									styleClass="Wid90" />
+								<p:outputLabel value="Providências" />
+								<p:inputText value="#{quizMB.perguntas.pergunta4}"
+									styleClass="Wid90" />
+								<p:outputLabel value="Cobrança Amigável" />
+								<p:inputText value="#{quizMB.perguntas.pergunta5}"
+									styleClass="Wid90" />
+								<p:outputLabel value="Jurídico" />
+								<p:inputText value="#{quizMB.perguntas.pergunta6}"
+									styleClass="Wid90" />
+							</h:panelGrid>
+						</p:panel>
+						<p:commandButton value="Salvar" icon="fa fa-check Fs16 white"
+							actionListener="#{quizMB.salvarPerguntas()}"
+							style="float:right;margin-top:20px;" />
+					</div>
+				</div>
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>

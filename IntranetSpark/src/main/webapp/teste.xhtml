@@ -1,0 +1,51 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<div class="layout-portlets-box">
+			<div class="Container100 Responsive100">
+				<div class="ContainerIndent">
+					<div class="Container50 Responsive50">
+						<div class="Fleft">
+							<h2 class="black Fs24 FontRalewayMedium">Nova Assembleia</h2>
+						</div>
+						<div class="Seperator"></div>
+						<div class="Wid100" style="margin-top: 20px; margin-bottom: 20px;">
+							<h:form>
+								<p:outputLabel value="Gerente: " />
+								<p:selectOneMenu id="selectGerente" filter="true"
+									requiredMessage="Selecione um gerente!"
+									filterMatchMode="contains" required="true"
+									value="#{omnifacesMB.gerente}"
+									converter="omnifaces.SelectItemsConverter" style="width:100%;">
+									<p:ajax listener="#{omnifacesMB.listarCondominios}"
+										update="@form:selectCondominio" resetValues="true" />
+									<f:selectItem itemLabel="Nenhum" noSelectionOption="true" />
+									<f:selectItems var="gerente"
+										value="#{omnifacesMB.listaGerentes}"
+										itemLabel="#{gerente.nome}" itemValue="#{gerente}" />
+								</p:selectOneMenu>
+
+								<p:outputLabel value="Condomínio: " />
+								<p:selectOneMenu id="selectCondominio" filter="true"
+									filterMatchMode="contains" required="true"
+									requiredMessage="Selecione um condomínio!"
+									value="#{omnifacesMB.condominio}"
+									converter="omnifaces.SelectItemsConverter" style="width:100%;">
+									<f:selectItem itemLabel="Nenhum" noSelectionOption="true" />
+									<f:selectItems var="condominio"
+										value="#{omnifacesMB.listaCondominios}"
+										itemLabel="#{condominio.nome}" itemValue="#{condominio}" />
+								</p:selectOneMenu>
+								<p:commandButton value="Testar"
+									actionListener="#{omnifacesMB.teste()}" ajax="false" />
+							</h:form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

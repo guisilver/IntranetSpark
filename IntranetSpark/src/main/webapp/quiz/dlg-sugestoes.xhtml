@@ -1,0 +1,31 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	<p:dialog widgetVar="dlgSugestoes" modal="true" resizable="false"
+		header="Sugestões" style="max-width:800px;">
+		<h:form id="frmSugestoes">
+			<p:dataTable value="#{quizMB.listaSugestoes}" paginator="true"
+				var="resposta" rowKey="#{resposta.codigo}" rows="10"
+				emptyMessage="Nenhum resultado encontrado!">
+				<p:column headerText="Cnd">
+					<p:outputLabel
+						value="#{quizMB.retornaCodNomeCnd(resposta.condominio)}" />
+				</p:column>
+				<p:column headerText="Gerente">
+					<p:outputLabel
+						value="#{quizMB.retornaNomeGerente(resposta.condominio)}" />
+				</p:column>
+				<p:column headerText="Sugestão:" style="text-align:center;"
+					width="60">
+					<p:commandButton icon="fa fa-search Fs16 white"
+						actionListener="#{quizMB.setSugestaoSelecionada(resposta)}"
+						oncomplete="PF('dlgSugestao').show();" update=":frmSugestao" />
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</p:dialog>
+</ui:composition>

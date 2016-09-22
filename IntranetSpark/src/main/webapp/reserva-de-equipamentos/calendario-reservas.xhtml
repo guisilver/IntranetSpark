@@ -1,0 +1,48 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<div class="layout-portlets-box">
+		<div class="Container100">
+			<div class="DispInlBlock TexAlLeft">
+				<i class="fa fa-calendar Fs40 blue Fleft MarRight10"></i>
+				<div class="Fleft">
+					<h2 class="black Fs24 FontRalewayMedium">Reserva de
+						Equipamentos</h2>
+				</div>
+			</div>
+			<div class="Seperator"></div>
+			<div class="Wid100" style="margin-top: 20px; margin-bottom: 20px;">
+				<h:form id="formAcoes">
+					<h:panelGrid>
+						<p:commandButton value="Nova Reserva" icon="fa fa-plus Fs16 white"
+							ajax="false"
+							action="reserva-de-equipamentos/nova-reserva?faces-redirect=true;"
+							style="margin-bottom:20px;" />
+						<h:panelGrid columns="2" style="font-size:12px;">
+							<div style="width: 15px; height: 15px; background: grey;" />
+							<p:outputLabel value="PENDENTE" />
+							<div style="width: 15px; height: 15px; background: red;" />
+							<p:outputLabel value="EMPRESTADO" />
+							<div style="width: 15px; height: 15px; background: #5FCF80;" />
+							<p:outputLabel value="DEVOLVIDO" />
+						</h:panelGrid>
+					</h:panelGrid>
+				</h:form>
+			</div>
+			<div class="Wid100 Fleft" style="margin-top: 10px;">
+				<p:schedule id="schedule" tooltip="true"
+					value="#{reservaEquipamentosMB.listaReservas}"
+					widgetVar="calendario" timeZone="America/Sao_Paulo" locale="pt"
+					style="margin:0px!important;overflow: auto !important;"
+					draggable="false" resizable="false" timeFormat="HH:mm"
+					axisFormat="HH:mm" rightHeaderTemplate="false"
+					styleClass="calendario">
+					<p:ajax event="eventSelect"
+						listener="#{reservaEquipamentosMB.onEventSelect}" />
+				</p:schedule>
+			</div>
+		</div>
+	</div>
+</ui:composition>

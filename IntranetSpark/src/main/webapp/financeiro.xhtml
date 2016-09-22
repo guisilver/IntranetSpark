@@ -1,0 +1,41 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<div class="layout-portlets-box">
+
+			<div class="DispInlBlock TexAlLeft">
+				<div class="Fleft">
+					<h2 class="black Fs24 FontRalewayMedium">GED - Pendentes</h2>
+				</div>
+			</div>
+			<div class="Seperator"></div>
+
+			<div class="Container100 Responsive100">
+				<ui:include src="financeiro/consulta/ged-aprovacao.xhtml" />
+				<ui:include src="financeiro/consulta/ged-style.xhtml" />
+				<ui:include src="financeiro/consulta/detalhes-lancamento.xhtml" />
+				<ui:include src="financeiro/consulta/dlg-followup.xhtml" />
+				<ui:include src="financeiro/consulta/dlg-reprovacao.xhtml" />
+				<ui:include src="financeiro/consulta/dlg-exclui.xhtml" />
+				<ui:include src="financeiro/consulta/dlg-aprovacao1.xhtml" />
+				<ui:include src="financeiro/consulta/dlg-aprovacao2.xhtml" />
+				<ui:include src="financeiro/consulta/dlg-pre-aprovacao1.xhtml" />
+				<ui:include src="financeiro/consulta/dlg-pre-aprovacao2.xhtml" />
+				<ui:include src="financeiro/consulta/frm-lancamento-altr.xhtml" />
+				<ui:include src="financeiro/lancamento/dlg-upload.xhtml" />
+				<ui:include src="financeiro/consulta/dlg-obs-lancamento1.xhtml" />
+				<ui:include src="financeiro/consulta/dlg-obs-lancamento2.xhtml" />
+				<ui:include src="financeiro/consulta/dlg-pesq-conta2.xhtml" />
+
+				<ui:include src="financeiro/lancamento/dlg-pesq-conta.xhtml" />
+				<ui:include src="financeiro/lancamento/dlg-pesq-fornecedor.xhtml" />
+				<ui:include src="financeiro/lancamento/dlg-pesq-favorecido.xhtml" />
+				<ui:include src="financeiro/lancamento/dlg-valida-lancamento.xhtml" />
+				<ui:include src="financeiro/lancamento/dlg-pesq-banco.xhtml" />
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

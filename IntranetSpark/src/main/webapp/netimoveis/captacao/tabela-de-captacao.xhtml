@@ -1,0 +1,89 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+
+
+		<div class="layout-portlets-box">
+			<div class="DispInlBlock TexAlLeft">
+				<div class="Fleft">
+					<h2 class="black Fs24 FontRalewayMedium">Netimóveis</h2>
+				</div>
+			</div>
+			<div class="Seperator"></div>
+			<div class="Container100 Responsive100">
+				<div class="ContainerIndent">
+					<h:form id="frmCaptacao"
+						rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.verificaDepto('NetImoveis')}">
+						<h:panelGrid>
+							<p:commandButton value="Nova Captação" onclick="cadastro();"
+								icon="fa fa-plus Fs16 white" />
+						</h:panelGrid>
+						<br />
+						<p:dataTable id="singleDT" var="cap" value="#{ntMB.listaCaptacao}"
+							rows="50" paginator="true" rowsPerPageTemplate="50,100,200,500"
+							rowKey="#{cap.id}" reflow="true" style="text-align:center"
+							emptyMessage="Nenhum registro encontrado!"
+							paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+							<f:facet name="header">Captação</f:facet>
+							<p:column headerText="Código" width="80">
+								<h:outputText value="#{cap.codigoCondominio}" />
+							</p:column>
+							<p:column headerText="Endereço" width="200">
+								<h:outputText value="#{cap.endereco}" />
+							</p:column>
+							<p:column headerText="Cep" width="100">
+								<h:outputText value="#{cap.cep}" />
+							</p:column>
+							<p:column headerText="Nº" width="130">
+								<h:outputText value="#{cap.nroEndereco}" />
+							</p:column>
+							<p:column headerText="Bairro" width="130">
+								<h:outputText value="#{cap.bairro}" />
+							</p:column>
+							<p:column exportable="false" width="100">
+								<p:commandButton title="Alterar" styleClass="btnLittle"
+									icon="fa fa-pencil Fs16 white"
+									action="#{ntMB.abreAlteraCaptacao()}" ajax="false">
+									<f:setPropertyActionListener value="#{cap}"
+										target="#{ntMB.captacaoSelecionada}" />
+								</p:commandButton>
+								<p:commandButton title="Excluir"
+									style="margin-left:10px !important;" styleClass="btnLittle"
+									icon="fa fa-trash Fs16 white"
+									oncomplete="PF('dlgExcluirCaptacao').show();"
+									update=":frmExcluirCaptacao">
+									<f:setPropertyActionListener value="#{cap}"
+										target="#{ntMB.captacaoSelecionada}" />
+								</p:commandButton>
+								<p:commandButton title="Imprimir"
+									style="margin-left:10px !important;" styleClass="btnLittle"
+									icon="fa fa-print Fs16 white" update="frmCaptacao:singleDT"
+									ajax="false" action="#{ntMB.gerarRelatorio()}"
+									process="singleDT">
+									<f:setPropertyActionListener value="#{cap}"
+										target="#{ntMB.captacaoSelecionada}" />
+								</p:commandButton>
+							</p:column>
+						</p:dataTable>
+
+						<script type="text/javascript">
+						function cadastro(){
+							if(screen.width >= 800){
+								window.location.href='/Intranet/netimoveis/captacao/cadastro-de-captacao.xhtml';
+							} else {
+								window.location.href='/Intranet/netimoveis/captacao/m-cadastro-de-captacao.xhtml';
+							}
+						}
+						</script>
+					</h:form>
+				</div>
+			</div>
+		</div>
+		<ui:include src="/netimoveis/captacao/exclusao-de-captacao.xhtml" />
+	</ui:define>
+</ui:composition>

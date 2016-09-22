@@ -1,0 +1,232 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<style>
+.Baixado {
+	color: blue;
+}
+
+.Pendente {
+	color: red;
+}
+
+.col60 input {
+	width: 60px !important;
+}
+
+.estiloLinha {
+	background-color: #9ecaff !important;
+}
+
+.estiloLinha label, .estiloLinha td {
+	color: black !important;
+}
+
+#frmCSV\3a tblDacsv_data>tr>td.ui-editable-column {
+	cursor: pointer;
+}
+
+.saidaCnd {
+	background-color: #06fbe1 !important;
+}
+
+.ui-fileupload-buttonbar {
+	padding: 0px !important;
+}
+</style>
+		<div class="layout-portlets-box trilha"
+			style="padding-top: 0px !important; padding-bottom: 0px !important;">
+			<p:breadCrumb>
+				<p:menuitem value="Home" url="/dashboard.xhtml" />
+				<p:menuitem value="Saída de Condomínios"
+					url="/sip/gerencia/csv/saida-de-condominios" />
+				<p:menuitem value="Conciliados LF"
+					url="/sip/gerencia/csv/conciliados-lf" />
+			</p:breadCrumb>
+		</div>
+		<div class="layout-portlets-box">
+			<div class="DispInlBlock TexAlLeft">
+				<div class="Fleft">
+					<h2 class="black Fs24 FontRalewayMedium">Baixa - Lançamentos
+						Futuros</h2>
+				</div>
+			</div>
+			<div class="Seperator"></div>
+			<div class="Container100 Responsive100">
+				<div class="ContainerIndent">
+					<p:messages id="msg" autoUpdate="true" showSummary="true"
+						showDetail="true" />
+
+					<h:form id="frmUpload">
+						<p:fileUpload label="Importar" cancelLabel="Cancelar"
+							uploadLabel="Inserir"
+							fileUploadListener="#{lancamentosFuturosMB.upload}"
+							mode="advanced" dragDropSupport="false"
+							invalidFileMessage="Arquivo Inválido!"
+							allowTypes="/(\.|\/)(CSV)$/"
+							invalidSizeMessage="Arquivo muito grande!" sizeLimit="10000000"
+							fileLimit="3" onstart="PF('statusDialog').show()"
+							oncomplete="PF('statusDialog').hide();checkCookie();"
+							style="width:500px;word-wrap: break-word!important;"
+							update="@form,:frmCSV" />
+					</h:form>
+					<h:form id="frmCSV">
+						<p:panelGrid id="tblDesc" columns="9">
+							<p:outputLabel value="Fonte:" />
+							<p:selectOneMenu value="#{lancamentosFuturosMB.fonte}"
+								widgetVar="selectFonte" style="width:50px;"
+								onchange="changeFontSize();">
+								<p:ajax process="@this" />
+								<f:selectItem itemLabel="12" itemValue="12" />
+								<f:selectItem itemLabel="13" itemValue="13" />
+								<f:selectItem itemLabel="14" itemValue="14" />
+								<f:selectItem itemLabel="15" itemValue="15" />
+								<f:selectItem itemLabel="16" itemValue="16" />
+								<f:selectItem itemLabel="17" itemValue="17" />
+								<f:selectItem itemLabel="18" itemValue="18" />
+							</p:selectOneMenu>
+							<p:outputLabel id="txtValorTotal" value="Valor Total:"
+								style="font-size:16px!important;" />
+							<p:outputLabel value="#{lancamentosFuturosMB.valorTotal}"
+								style="font-size:16px!important;color:red;">
+								<f:convertNumber type="currency" currencySymbol="R$"
+									minFractionDigits="2" />
+							</p:outputLabel>
+							<p:outputLabel value="Encontrados:"
+								style="font-size:16px!important;margin-left: 10px;" />
+							<p:outputLabel value="#{lancamentosFuturosMB.qtdEncontrados}"
+								style="font-size:16px!important;color:red;" />
+							<div
+								style="width: 15px; height: 15px; background: #06fbe1 !important; border: 1px solid black; margin-left: 10px;" />
+							<p:outputLabel value="Condomínio saiu:"
+								style="font-size:16px!important;" />
+							<p:outputLabel value="#{lancamentosFuturosMB.qtdCndSaiu}"
+								style="font-size:16px!important;color:red;" />
+						</p:panelGrid>
+						<p:dataTable id="tblDacsv"
+							value="#{lancamentosFuturosMB.listaDACSV}" var="dacsv" rows="50"
+							paginator="true"
+							rowStyleClass="#{dacsv.baixado ? 'estiloLinha' : ''} #{dacsv.saidaCnd ? 'saidaCnd' : ''} foco"
+							editable="true" editMode="cell" style="margin-top:20px;"
+							emptyMessage="Nenhum resultado encontrado.">
+							<p:column headerText="Pagamento" width="80"
+								style="text-align:center;" filterBy="#{dacsv.dataPagtoTxt}"
+								sortBy="#{dacsv.dataPagtoTxt}" styleClass="col60">
+								<h:outputText value="#{dacsv.dataPagtoTxt}" />
+							</p:column>
+							<p:column headerText="Vencimento" width="80"
+								style="text-align:center;" filterBy="#{dacsv.vencimentoTxt}"
+								sortBy="#{dacsv.vencimentoTxt}" styleClass="col60">
+								<h:outputText value="#{dacsv.vencimentoTxt}" />
+							</p:column>
+							<p:column headerText="Condomínio"
+								sortBy="#{dacsv.cnd.cndCodNome}"
+								filterBy="#{dacsv.cnd.cndCodNome}" filterMatchMode="contains"
+								styleClass="col60" width="200">
+								<h:outputText value="#{dacsv.cnd.cndCodNome}" />
+							</p:column>
+							<p:column headerText="ID" filterBy="#{dacsv.codigoDebito}"
+								sortBy="#{dacsv.codigoDebito}" filterMatchMode="contains"
+								styleClass="col60" width="100">
+								<h:outputText value="#{dacsv.codigoDebito}" />
+							</p:column>
+							<p:column headerText="Valor" width="80"
+								filterBy="#{dacsv.valorTxt}" sortBy="#{dacsv.valorTxt}"
+								styleClass="col60">
+								<h:outputText value="#{dacsv.valorTxt}" />
+							</p:column>
+							<p:column headerText="Credor" filterBy="#{dacsv.credor}"
+								sortBy="#{dacsv.credor}" filterMatchMode="contains"
+								styleClass="col60" width="100">
+								<h:outputText value="#{dacsv.credor}" />
+							</p:column>
+							<p:column headerText="Conciliado" sortBy="#{dacsv.baixado}"
+								style="text-align:center;" width="80"
+								filterBy="#{dacsv.baixado}" styleClass="col60">
+								<h:outputText value="#{dacsv.baixado ? 'Sim' : 'Não'}"
+									styleClass="#{dacsv.baixado ? 'Baixado' : 'Pendente'}" />
+							</p:column>
+							<p:column headerText="Obs" style="text-align:center;">
+								<p:cellEditor>
+									<f:facet name="output">
+										<h:outputText value="#{dacsv.obs}" />
+									</f:facet>
+									<f:facet name="input">
+										<p:inputTextarea value="#{dacsv.obs}" maxlength="500"
+											style="width:80%;">
+											<p:ajax event="blur" process="@this" update="@this" />
+										</p:inputTextarea>
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+							<p:column width="40" style="text-align:center;">
+								<p:commandLink rendered="#{dacsv.possuiImg}">
+									<p:ajax oncomplete="clicaBtnDwld();" />
+									<f:setPropertyActionListener value="#{dacsv.nrolancto}"
+										target="#{lancamentosFuturosMB.idImg}" />
+									<p:graphicImage library="imagens" name="pdf.gif" height="13" />
+								</p:commandLink>
+							</p:column>
+							<p:column style="width:16px;text-align:center">
+								<p:selectBooleanCheckbox value="#{dacsv.baixado}">
+									<p:ajax process="@this"
+										listener="#{lancamentosFuturosMB.somaSubtraiValorTotal(dacsv.baixado,dacsv.valor)}"
+										update="@form:tblDacsv,@form:tblDesc" />
+								</p:selectBooleanCheckbox>
+							</p:column>
+						</p:dataTable>
+					</h:form>
+
+					<h:form id="frmDwld" target="_blank">
+						<p:commandButton id="btnDwldImg"
+							actionListener="#{lancamentosFuturosMB.baixarImg()}" ajax="false"
+							style="visibility:hidden;top:-100px!important;position:absolute;" />
+					</h:form>
+
+				</div>
+			</div>
+		</div>
+		<script>
+			function clicaBtnDwld() {
+				$("[id='frmDwld:btnDwldImg']").click();
+			}
+		</script>
+		<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+			closable="false" resizable="false" showHeader="false">
+					Aguarde...<br />
+			<br />
+			<p:graphicImage library="imagens" name="loader.gif" />
+		</p:dialog>
+		<style>
+.divAction {
+	width: 100%;
+	height: 80px;
+	position: fixed;
+	bottom: 0px;
+	background: rgba(51, 51, 51, 0.9);
+	z-index: 1010;
+	box-sizing: border-box;
+}
+</style>
+		<div class="divAction">
+			<div style="display: block; margin: 20px; opacity: 1; float: right;">
+				<h:form>
+					<p:commandButton value="Baixar Conciliados"
+						actionListener="#{lancamentosFuturosMB.baixarConciliados()}"
+						update="@form,:frmCSV" icon="fa fa-check Fs16 white" ajax="false" />
+				</h:form>
+			</div>
+		</div>
+		<p:ajaxStatus onsuccess="checkCookie();" />
+		<script>
+			$('.divAction').appendTo('body');
+		</script>
+		<ui:include src="/includes/fonte.xhtml" />
+	</ui:define>
+</ui:composition>

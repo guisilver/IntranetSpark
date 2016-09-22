@@ -1,0 +1,45 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<style>
+.fontSize {
+	font-size: 12px !important;
+}
+</style>
+<h:form id="frmDlgSuspender">
+
+	<p:dialog id="dlgSuspender" widgetVar="suspenderLancto" modal="true" resizable="false" closeOnEscape="true">
+		<p:outputLabel value="Deseja suspender esse lançamento?" style="color: red !important;"/>
+		<h:panelGrid columns="2">
+			<p:outputLabel value="Motivo:"/>
+			<p:inputTextarea value="#{ged.obsLancto}" required="true" requiredMessage="Obrigatório adicionar o motivo!!"/>
+		</h:panelGrid>
+		<p:separator />
+		<p:commandButton value="Não" oncomplete="PF('suspenderLancto').hide();"/>
+		<p:commandButton value="Sim" onsuccess="PF('suspenderLancto').hide();" style="float: right !important;" styleClass="fontSize"
+			 action="#{ged.suspenderLiberarLancamento(1, 2)}" update=":frmPreLancto :frmLancamento :frmImagem"/>
+	</p:dialog>
+	
+</h:form>
+	
+	<h:form id="frmDlgSuspenderContas">
+
+	<p:dialog id="dlgSuspender" widgetVar="suspenderLanctoContas" modal="true" resizable="false" closeOnEscape="true">
+		<p:outputLabel value="Deseja suspender esse lançamento?" style="color: red !important;"/>
+		<h:panelGrid columns="2">
+			<p:outputLabel value="Motivo:"/>
+			<p:inputTextarea value="#{ged.obsLancto}" required="true" requiredMessage="Obrigatório adicionar o motivo!!"/>
+		</h:panelGrid>
+		<p:separator />
+		<p:commandButton value="Não" oncomplete="PF('suspenderLanctoContas').hide();"/>
+		<p:commandButton value="Sim" onsuccess="PF('suspenderLanctoContas').hide();" style="float: right !important;" styleClass="fontSize"
+			 action="#{ged.suspenderLiberarLancamento(1, 1)}" update=":frmPreLancto :frmLancamento"/>
+	</p:dialog>
+	
+</h:form>
+</ui:composition>

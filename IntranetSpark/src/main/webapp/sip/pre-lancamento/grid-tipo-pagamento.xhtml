@@ -1,0 +1,203 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	<h:panelGrid styleClass="gridBoleto" id="gridBol" style="display:none;"
+		columns="2">
+		<p:outputLabel value="Código de barras:" />
+		<h:panelGrid columns="5">
+			<p:inputText id="ldComp1" maxlength="10" onkeyup="validaLDComp1();"
+				onkeydown="validaLDEnter(event);"
+				value="#{lancamentoMB.lv.ldCampo1}" style="width:150px;">
+				<pe:keyFilter regEx="/[0123456789]/i" />
+				<p:ajax event="keyup" listener="#{lancamentoMB.updateCamposLDBol()}"
+					process="@this" update="@form:ldInicial" />
+			</p:inputText>
+			<p:inputText id="ldComp2" maxlength="11" onkeyup="validaLDComp2();"
+				onkeydown="validaLDEnter(event);"
+				value="#{lancamentoMB.lv.ldCampo2}" style="width:150px;">
+				<pe:keyFilter regEx="/[0123456789]/i" />
+				<p:ajax process="@this" />
+			</p:inputText>
+			<p:inputText id="ldComp3" maxlength="11" onkeyup="validaLDComp3();"
+				onkeydown="validaLDEnter(event);"
+				value="#{lancamentoMB.lv.ldCampo3}" style="width:150px;">
+				<pe:keyFilter regEx="/[0123456789]/i" />
+				<p:ajax process="@this" />
+			</p:inputText>
+			<p:inputText mask="9" maxlength="1" id="ldComp4"
+				onkeyup="validaLDComp4();" onkeydown="validaLDEnter(event);"
+				value="#{lancamentoMB.lv.ldDac}" style="width:40px;">
+				<pe:keyFilter regEx="/[0123456789]/i" />
+				<p:ajax process="@this" />
+			</p:inputText>
+			<p:inputText id="ldComp5" maxlength="14" onkeyup="validaLDComp5();"
+				onkeydown="validaLDEnter(event);" value="#{lancamentoMB.lv.ldValor}"
+				style="width:150px;">
+				<pe:keyFilter regEx="/[0123456789]/i" />
+				<p:ajax process="@this" />
+				<p:ajax event="blur" listener="#{lancamentoMB.listarCodigoBarras()}"
+					update="@form:gridInfLancto,:frmDA"
+					onstart="PF('statusDialog').show();"
+					oncomplete="PF('statusDialog').hide();" />
+			</p:inputText>
+		</h:panelGrid>
+	</h:panelGrid>
+
+	<h:panelGrid styleClass="gridConcessionaria" id="gridConc"
+		style="display:none;" columns="2">
+		<p:outputLabel value="Código de barras:" />
+		<h:panelGrid columns="5" id="linhaDigConc">
+			<p:inputText id="ldConc1" maxlength="12" onkeyup="validaLDConc1();"
+				onkeydown="validaLDEnter(event);"
+				value="#{lancamentoMB.lv.concSegbarra1}" style="width:150px;">
+				<pe:keyFilter regEx="/[0123456789]/i" />
+				<p:ajax event="keyup"
+					listener="#{lancamentoMB.updateCamposLDConc()}" process="@this"
+					update="@form:ldInicial" />
+			</p:inputText>
+			<p:inputMask id="ldConc2" maxlength="12" onkeyup="validaLDConc2();"
+				onkeydown="validaLDEnter(event);"
+				value="#{lancamentoMB.lv.concSegbarra2}" style="width:150px;">
+				<pe:keyFilter regEx="/[0123456789]/i" />
+				<p:ajax process="@this" />
+			</p:inputMask>
+			<p:inputMask id="ldConc3" maxlength="12" onkeyup="validaLDConc3();"
+				onkeydown="validaLDEnter(event);"
+				value="#{lancamentoMB.lv.concSegbarra3}" style="width:150px;">
+				<pe:keyFilter regEx="/[0123456789]/i" />
+				<p:ajax process="@this" />
+			</p:inputMask>
+			<p:inputMask id="ldConc4" maxlength="12" onkeyup="validaLDConc4();"
+				onkeydown="validaLDEnter(event);"
+				value="#{lancamentoMB.lv.concSegbarra4}" style="width:150px;">
+				<pe:keyFilter regEx="/[0123456789]/i" />
+				<p:ajax process="@this" />
+				<p:ajax event="blur" listener="#{lancamentoMB.listarCodigoBarras()}"
+					update="@form:gridInfLancto,:frmDA"
+					onstart="PF('statusDialog').show();"
+					oncomplete="PF('statusDialog').hide();" />
+			</p:inputMask>
+		</h:panelGrid>
+	</h:panelGrid>
+
+	<p:remoteCommand name="validaBarrasP"
+		actionListener="#{lancamentoMB.listarLinhaDigitavel()}"
+		update=":frmNovoLancamento:gridLeitorOptico,:frmDA"
+		onstart="PF('statusDialog').show();"
+		oncomplete="PF('statusDialog').hide();" />
+
+	<p:remoteCommand name="validaLD"
+		actionListener="#{lancamentoMB.listarCodigoBarras()}"
+		oncomplete="focusProximo();PF('statusDialog').hide();"
+		update="@form:gridInfLancto,:frmDA"
+		onstart="PF('statusDialog').show();" />
+
+	<script>
+		function validaBarras(evt) {
+			var theEvent = evt || window.event;
+			var key = theEvent.keyCode || theEvent.which;
+			if (key == 13) {
+				evt.preventDefault();
+				$(evt.target).blur();
+			}
+		}
+
+		//Compensação/Boleto
+		function validaLDComp1() {
+			var valor = $("[id='frmNovoLancamento:ldComp1']").val();
+			valor = valor.replace(/\_/g, '');
+			if (valor.length == 10) {
+				$("[id='frmNovoLancamento:ldComp2']").focus();
+			}
+
+			if (valor == "") {
+				$(".gridBoleto").css("display", "none");
+				$(".gridLinhaInicial").css("display", "block");
+				$("[id='frmNovoLancamento:ldInicial']").focus();
+				$("[id='frmNovoLancamento:ldInicial']").setCursorToTextEnd();
+			}
+		}
+
+		function validaLDComp2() {
+			var valor = $("[id='frmNovoLancamento:ldComp2']").val();
+			valor = valor.replace(/\_/g, '');
+			if (valor.length == 11) {
+				$("[id='frmNovoLancamento:ldComp3']").focus();
+			}
+		}
+
+		function validaLDComp3() {
+			var valor = $("[id='frmNovoLancamento:ldComp3']").val();
+			valor = valor.replace(/\_/g, '');
+			if (valor.length == 11) {
+				$("[id='frmNovoLancamento:ldComp4']").focus();
+			}
+		}
+
+		function validaLDComp4() {
+			var valor = $("[id='frmNovoLancamento:ldComp4']").val();
+			valor = valor.replace(/\_/g, '');
+			if (valor.length == 1) {
+				$("[id='frmNovoLancamento:ldComp5']").focus();
+			}
+		}
+
+		function validaLDComp5() {
+			var valor = $("[id='frmNovoLancamento:ldComp5']").val();
+			valor = valor.replace(/\_/g, '');
+		}
+
+		function validaLDEnter(evt) {
+			var theEvent = evt || window.event;
+			var key = theEvent.keyCode || theEvent.which;
+			if (key == 13) {
+				evt.preventDefault();
+				$(evt.target).blur();
+			}
+		}
+
+		//Concessionária
+		function validaLDConc1() {
+			var valor = $("[id='frmNovoLancamento:ldConc1']").val();
+			valor = valor.replace(/\_/g, '');
+			if (valor.length == 12) {
+				$("[id='frmNovoLancamento:ldConc2']").focus();
+			}
+			if (valor == "") {
+				$(".gridConcessionaria").css("display", "none");
+				$(".gridLinhaInicial").css("display", "block");
+				$("[id='frmNovoLancamento:ldInicial']").focus();
+				$("[id='frmNovoLancamento:ldInicial']").setCursorToTextEnd();
+			}
+		}
+
+		function validaLDConc2() {
+			var valor = $("[id='frmNovoLancamento:ldConc2']").val();
+			valor = valor.replace(/\_/g, '');
+			if (valor.length == 12) {
+				$("[id='frmNovoLancamento:ldConc3']").focus();
+			}
+		}
+
+		function validaLDConc3() {
+			var valor = $("[id='frmNovoLancamento:ldConc3']").val();
+			valor = valor.replace(/\_/g, '');
+			if (valor.length == 12) {
+				$("[id='frmNovoLancamento:ldConc4']").focus();
+			}
+		}
+
+		function validaLDConc4() {
+			var valor = $("[id='frmNovoLancamento:ldConc4']").val();
+			valor = valor.replace(/\_/g, '');
+		}
+
+		function focusProximo() {
+			$("[id='frmNovoLancamento:j_idt87_input']").focus();
+		}
+	</script>
+</ui:composition>

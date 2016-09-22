@@ -1,0 +1,82 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+	<style>
+.ui-dialog-content {
+	overflow-y: scroll !important;
+	max-height: 600px !important;
+}
+
+.possuiImg {
+	background-color: #3f8c3f !important
+}
+
+.possuiImg td {
+	color: white !important;
+}
+</style>
+	<p:dialog header="Concessionárias" widgetVar="dlgDebitoAutomatico"
+		modal="true" resizable="false" closeOnEscape="true" width="80%">
+		<h:form id="frmDA">
+			<h:panelGrid columns="2">
+				<div
+					style="background-color: #3f8c3f; border-radius: 10px; width: 20px; height: 20px;" />
+				<p:outputLabel value="DOCUMENTO DIGITALIZADO"
+					style="font-weight:bold!important;" />
+			</h:panelGrid>
+
+			<p:dataTable id="tblDA" value="#{lancamentoMB.lv.listaDA}"
+				filteredValue="#{lancamentoMB.lv.fltrDA}" var="da"
+				selection="#{lancamentoMB.lv.debitoAutomatico}"
+				rowKey="#{da.nrolancto}" rows="10" selectionMode="single"
+				paginator="true" style="margin-top:10px;"
+				rowStyleClass="#{da.possuiImg == true ? 'possuiImg' : ''}">
+				<p:ajax event="rowSelect" listener="#{lancamentoMB.selecionarDA()}"
+					update=":frmNovoLancamento:gridInfLancto,:frmNovoLancamento:gridInfDA,:frmNovoLancamento:gridBtnSalvar" />
+				<f:facet name="header">
+					<h:outputText value="Débito Automático" />
+				</f:facet>
+				<p:column headerText="Credor" filterBy="#{da.credor}"
+					sortBy="#{da.credor}" filterMatchMode="contains">
+					<h:outputText value="#{da.credor}" />
+				</p:column>
+				<p:column headerText="Vencimento" style="text-align:center;"
+					sortBy="#{da.vencimento}" filterBy="#{da.vencimento}">
+					<h:outputText value="#{da.vencimento}">
+						<f:convertDateTime pattern="dd/MM/yyyy" locale="pt"
+							timeStyle="America/Sao_Paulo" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="Identificação"
+					sortBy="#{da.nro_identificacao}" filterBy="#{da.nro_identificacao}"
+					filterMatchMode="contains">
+					<h:outputText value="#{da.nro_identificacao}" />
+				</p:column>
+				<p:column headerText="Histórico" filterBy="#{da.historico}"
+					sortBy="#{da.historico}" filterMatchMode="contains">
+					<h:outputText value="#{da.historico}" />
+				</p:column>
+				<p:column headerText="Valor" style="text-align:center;"
+					sortBy="#{da.valor}" filterBy="#{da.valor}">
+					<h:outputText value="#{da.valor}">
+						<f:convertNumber minFractionDigits="2" currencySymbol="R$" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="Situação" filterBy="#{da.historico}"
+					sortBy="#{da.historico}" filterMatchMode="contains">
+					<h:outputText
+						value="#{da.aguardandoBaixa ? 'Aguardando Baixa' : lancamentoMB.verificaSituacaoDA(da.estimado)}" />
+				</p:column>
+			</p:dataTable>
+			<h:panelGrid columns="2" width="100%"
+				style="width:100%;margin-top:10px;">
+				<p:commandButton icon="fa fa-close Fs16 white" value="Fechar"
+					process="@this" oncomplete="PF('dlgDebitoAutomatico').hide();"
+					style="float:left;" />
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
+</ui:composition>

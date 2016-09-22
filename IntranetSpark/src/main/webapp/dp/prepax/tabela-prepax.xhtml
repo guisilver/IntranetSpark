@@ -1,0 +1,159 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+	<style>
+.msg {
+	color: #FFF;
+	font-size: 20px;
+}
+
+#frmFiltro table td {
+	border: 0px !important;
+}
+
+.ui-selectoneradio tbody tr td {
+	border: 0px !important;
+}
+
+.gridFiltro tbody tr td {
+	border: 0px !important;
+}
+</style>
+	<div class="layout-portlets-box">
+		<div class="DispInlBlock TexAlLeft">
+			<div class="Fleft">
+				<h2 class="black Fs24 FontRalewayMedium">Prepax</h2>
+			</div>
+		</div>
+		<div class="Seperator"></div>
+		<div class="Container50 Responsive50">
+			<div class="ContainerIndent">
+				<h:form rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysDP}">
+					<p:panelGrid columns="1" styleClass="gridFiltro">
+						<f:facet name="header">
+							<h:outputText value="Filtros" />
+						</f:facet>
+						<h:panelGrid columns="2">
+							<p:outputLabel value="Código:" />
+							<p:selectOneMenu value="#{ppMB.codigo}"
+								style="width:130px; margin-left:90px;">
+								<f:selectItem itemLabel="Selecione" itemValue="0" />
+								<f:selectItem itemLabel="Adiantamento" itemValue="123" />
+								<f:selectItem itemLabel="Salário" itemValue="900" />
+							</p:selectOneMenu>
+						</h:panelGrid>
+						<h:panelGrid columns="3">
+							<p:outputLabel value="Ref. de Pagamento:" />
+							<p:selectOneMenu value="#{ppMB.mes}"
+								style="width:95px;margin-left:5px;">
+								<f:selectItem itemLabel="Janeiro" itemValue="1" />
+								<f:selectItem itemLabel="Fevereiro" itemValue="2" />
+								<f:selectItem itemLabel="Março" itemValue="3" />
+								<f:selectItem itemLabel="Abril" itemValue="4" />
+								<f:selectItem itemLabel="Maio" itemValue="5" />
+								<f:selectItem itemLabel="Junho" itemValue="6" />
+								<f:selectItem itemLabel="Julho" itemValue="7" />
+								<f:selectItem itemLabel="Agosto" itemValue="8" />
+								<f:selectItem itemLabel="Setembro" itemValue="9" />
+								<f:selectItem itemLabel="Outubro" itemValue="10" />
+								<f:selectItem itemLabel="Novembro" itemValue="11" />
+								<f:selectItem itemLabel="Dezembro" itemValue="12" />
+							</p:selectOneMenu>
+							<p:selectOneMenu value="#{ppMB.ano}"
+								style="width:65px;margin-left:2px;">
+								<f:selectItem itemLabel="2016" itemValue="2016" />
+								<f:selectItem itemLabel="2017" itemValue="2017" />
+								<f:selectItem itemLabel="2018" itemValue="2018" />
+								<f:selectItem itemLabel="2019" itemValue="2019" />
+								<f:selectItem itemLabel="2020" itemValue="2020" />
+							</p:selectOneMenu>
+						</h:panelGrid>
+						<h:panelGrid columns="2">
+							<p:outputLabel value="Data de Pagamento:" />
+							<p:calendar value="#{ppMB.dataPagto}" pattern="dd/MM/yyyy"
+								locale="pt" timeZone="America/Sao_Paulo" styleClass="calendario" />
+						</h:panelGrid>
+						<h:panelGrid styleClass="gridFiltro" width="100%"
+							style="text-align:right">
+							<p:commandButton value="Filtrar" icon="fa fa-search Fs16 white"
+								action="#{ppMB.pesquisarPorData()}"
+								update=":frmTblPrepax:tblPrepax"
+								onstart="PF('dlgStatus').show();"
+								oncomplete="PF('dlgStatus').hide();" />
+						</h:panelGrid>
+					</p:panelGrid>
+				</h:form>
+			</div>
+		</div>
+
+		<div class="Container100 TexAlCenter">
+			<div class="ContainerIndent">
+				<h:form id="frmTblPrepax" rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysDP}">
+					<p:messages id="msg" showDetail="true" autoUpdate="false"
+						closable="true" escape="true" showSummary="false" styleClass="msg" />
+					<p:dataTable id="tblPrepax" var="prepax"
+						value="#{ppMB.listaPrepax}"
+						selection="#{ppMB.listaPrepaxSelecionada}" rows="30"
+						rowsPerPageTemplate="30,60,100,500" rowKey="#{prepax}"
+						paginator="true" emptyMessage="Nenhum registro encontrado!"
+						style="font-size:12px; text-align:center;heigth:600px;">
+						<f:facet name="header"> Prepax</f:facet>
+						<f:facet name="footer">
+							<hr />
+							<p:commandButton value="Salvar" icon="fa fa-check Fs16 white"
+								id="btnSalvar" actionListener="#{ppMB.salvar()}" ajax="false"
+								update="frmTblPrepax:tblPrepax">
+								<p:fileDownload value="#{ppMB.stream}" />
+							</p:commandButton>
+							<p:outputLabel value="Exportar para Excel: " style="margin-left:50px;"/>
+							<h:commandLink>
+								<p:graphicImage library="imagens" name="excel.png" />
+								<p:dataExporter type="xls" target=":frmTblPrepax:tblPrepax"
+									fileName="prepax" pageOnly="false"
+									postProcessor="#{exportarBean.postProcessXLS}" />
+							</h:commandLink>
+						</f:facet>
+						<p:column rendered="false" exportable="false">
+							<p:outputLabel value="#{prepax}" />
+						</p:column>
+						<p:column selectionMode="multiple"
+							style="width:16px;text-align:center;" exportable="false" />
+						<p:column headerText="Numero de Serie" style="width:200px;"
+							exportable="true">
+							<h:outputText value="#{prepax.conta_bancaria}" />
+						</p:column>
+						<p:column headerText="CPF" style="width:200px;" exportable="true">
+							<h:outputText value="#{prepax.cpf}" />
+						</p:column>
+						<p:column headerText="Valor da Carga" style="width:200px;"
+							exportable="true">
+							<h:outputText value="#{prepax.valor}">
+								<f:convertNumber type="currency" currencySymbol="" locale="pt" />
+							</h:outputText>
+						</p:column>
+						<p:column headerText="Observacao" exportable="true">
+							<h:outputText
+								value="#{prepax.empresa}  #{prepax.funcionario}  #{prepax.nome}  SALARIO  #{prepax.mesI} #{prepax.ano}"
+								rendered="#{prepax.codigo == 900}" />
+							<h:outputText
+								value="#{prepax.empresa}  #{prepax.funcionario}  #{prepax.nome}  ADIANTAMENTO  #{prepax.mesI} #{prepax.ano}"
+								rendered="#{prepax.codigo == 123}" />
+						</p:column>
+					</p:dataTable>
+					<p:dialog widgetVar="dlgStatus" id="dlgStatus" header="Status"
+						style="font-size:13px;" resizable="false" modal="true"
+						closable="false">	
+								Esta pesquisa pode levar alguns segundos.<br />
+								Carregando...<br />
+						<br />
+						<p:graphicImage library="imagens" name="loader.gif" />
+						<br />
+					</p:dialog>
+				</h:form>
+			</div>
+		</div>
+	</div>
+</ui:composition>

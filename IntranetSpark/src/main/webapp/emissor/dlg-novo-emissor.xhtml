@@ -1,0 +1,145 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<style>
+.ui-cell-editor-output {
+	word-wrap: break-word;
+	width: 140px;
+}
+</style>
+	<p:dialog widgetVar="dlgNovoEmissor" id="dlgNovoEmissor"
+		header="Novo Emissor" style="font-size:13px;" resizable="false"
+		modal="true">
+		<h:form id="frmNovoEmissor">
+			<p:messages id="msg" showDetail="true" showSummary="true" />
+			<h:panelGrid style="width:100%;">
+				<h:panelGrid columns="2">
+					<h:outputText value="Condomínio:" />
+					<p:selectOneMenu
+						style="width:268px;text-align: center; font-size: 12px"
+						filter="true" filterMatchMode="startsWith" effect="none"
+						value="#{emissorMB.condominio}" required="true"
+						requiredMessage="Insira o código do condomínio!"
+						converter="omnifaces.SelectItemsConverter">
+						<p:ajax listener="#{emissorMB.pesquisaNomeCond()}" />
+						<f:selectItem itemLabel="Código" />
+						<f:selectItems value="#{SessaoMB.listaCondominios}"
+							var="condominio" itemLabel="#{condominio.cndCodNome}"
+							itemValue="#{condominio}" />
+					</p:selectOneMenu>
+				</h:panelGrid>
+				<h:panelGrid columns="2">
+					<h:outputText value="Referência:" />
+					<p:inputText value="#{emissorMB.emissor.referencia}"
+						style="width:275px;" required="true"
+						requiredMessage="Insira a referência para o emissor!" />
+				</h:panelGrid>
+				<h:panelGrid columns="2">
+					<p:outputLabel value="Tipo do Emissor:" />
+					<p:selectOneMenu value="#{emissorMB.tipoDoEmissor}"
+						style="width:150px !important;">
+						<f:selectItem itemLabel="Atas" itemValue="3.0" />
+						<f:selectItem itemLabel="Circulares" itemValue="1.0" />
+						<f:selectItem itemLabel="Convocações" itemValue="2.0" />
+						<f:selectItem itemLabel="Comunicados / Outros" itemValue="7.0" />
+					</p:selectOneMenu>
+				</h:panelGrid>
+				<p:separator />
+				<h:panelGrid columns="3" id="gridUp">
+					<h:outputText value="Destinatário:" />
+					<p:fileUpload fileUploadListener="#{emissorMB.uploadDestinatario}"
+						label="Escolher Arquivo" mode="advanced" dragDropSupport="false"
+						auto="true" sizeLimit="5000000" fileLimit="1"
+						allowTypes="/(\.|\/)(txt|TXT)$/"
+						invalidFileMessage="O destinatário deve ser um arquivo do tipo txt!"
+						invalidSizeMessage="O tamanho do arquivo excede o permitido!Máx. 5MB"
+						update=":frmNovoEmissor:gridUp :frmNovoEmissor:plgSoma"
+						rendered="#{emissorMB.emissorArquivos.txtDest == null}" />
+					<p:column>
+						<h:outputText id="txtDest"
+							value="#{emissorMB.emissorArquivos.nomeTxtDest}"
+							style="color:red;" />
+						<p:commandButton icon="fa fa-close Fs16 white"
+							actionListener="#{emissorMB.excDestinarario()}"
+							rendered="#{emissorMB.emissorArquivos.txtDest != null}"
+							update=":frmNovoEmissor:gridUp :frmNovoEmissor:plgSoma"
+							immediate="true" style="margin-left:10px;" />
+						<p:outputLabel value="#{emissorMB.linhasTXT} linhas"
+							style="margin-left: 10px !important;color: red;" />
+					</p:column>
+					<p:column rendered="#{emissorMB.emissorArquivos.txtDest != null}" />
+					<h:outputText value="Emissor 1:" />
+					<h:panelGrid columns="2"
+						rendered="#{emissorMB.emissorArquivos.emissor1 == null}">
+						<p:fileUpload fileUploadListener="#{emissorMB.uploadEmissor1}"
+							label="Escolher Arquivo" mode="advanced" dragDropSupport="false"
+							auto="true" sizeLimit="10000000" fileLimit="1"
+							allowTypes="/(\.|\/)(pdf|doc|docx)$/"
+							invalidFileMessage="O destinatário deve ser um arquivo do tipo pdf ou word!"
+							invalidSizeMessage="O tamanho do arquivo excede o permitido!Máx. 10MB"
+							update=":frmNovoEmissor:gridUp :frmNovoEmissor:plgSoma" />
+						<br />
+						<h:outputText value="Tamanho máx:10MB" />
+					</h:panelGrid>
+					<p:column>
+						<h:outputText id="txtEm1"
+							value="#{emissorMB.emissorArquivos.nomeEmissor1}"
+							style="color:red;" />
+						<p:commandButton icon="fa fa-close Fs16 white"
+							actionListener="#{emissorMB.excEmissor1()}"
+							rendered="#{emissorMB.emissorArquivos.emissor1 != null}"
+							update=":frmNovoEmissor:gridUp :frmNovoEmissor:plgSoma"
+							immediate="true" style="margin-left:10px;" />
+						<p:outputLabel value="#{emissorMB.qtdPGEmissor1} paginas"
+							style="margin-left: 10px !important;color: red;" />
+					</p:column>
+					<p:column rendered="#{emissorMB.emissorArquivos.emissor1 != null}" />
+					<h:outputText value="Emissor 2:" />
+					<h:panelGrid columns="2"
+						rendered="#{emissorMB.emissorArquivos.emissor2 == null}">
+						<p:fileUpload fileUploadListener="#{emissorMB.uploadEmissor2}"
+							label="Escolher Arquivo" mode="advanced" dragDropSupport="false"
+							auto="true" sizeLimit="10000000" fileLimit="1"
+							allowTypes="/(\.|\/)(pdf|doc|docx)$/"
+							invalidFileMessage="O destinatário deve ser um arquivo do tipo pdf ou word!"
+							invalidSizeMessage="O tamanho do arquivo excede o permitido!Máx. 10MB"
+							update=":frmNovoEmissor:gridUp :frmNovoEmissor:plgSoma" />
+						<br />
+						<h:outputText value="Tamanho máx:10MB" />
+					</h:panelGrid>
+					<p:column>
+						<h:outputText id="txtEm2"
+							value="#{emissorMB.emissorArquivos.nomeEmissor2}"
+							style="color:red;" />
+						<p:commandButton icon="fa fa-close Fs16 white"
+							actionListener="#{emissorMB.excEmissor2()}"
+							rendered="#{emissorMB.emissorArquivos.emissor2 != null}"
+							update=":frmNovoEmissor:gridUp :frmNovoEmissor:plgSoma"
+							immediate="true" style="margin-left:10px;" />
+						<p:outputLabel value="#{emissorMB.qtdPGEmissor2} paginas"
+							style="margin-left: 10px !important;color: red;" />
+					</p:column>
+					<p:column rendered="#{emissorMB.emissorArquivos.emissor2 != null}" />
+				</h:panelGrid>
+				<p:separator />
+				<h:panelGrid id="plgSoma" columns="2">
+					<p:outputLabel value="Total que será impresso:" />
+					<p:outputLabel
+						value="#{emissorMB.linhasTXT * (emissorMB.qtdPGEmissor1 + emissorMB.qtdPGEmissor2)}" />
+				</h:panelGrid>
+				<p:separator />
+				<h:column>
+					<p:commandButton icon="fa fa-close Fs16 white" value="Cancelar"
+						oncomplete="PF('dlgNovoEmissor').hide();" style="float:left;"
+						update=":frmNovoEmissor, :frmTblEmissor:tblEmissor"
+						immediate="true" />
+					<p:commandButton icon="fa fa-check Fs16 white" value="Salvar"
+						action="#{emissorMB.salvar()}" style="float:right;"
+						update="@form:msg, :frmNovoEmissor, :frmTblEmissor:tblEmissor" />
+				</h:column>
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
+</ui:composition>

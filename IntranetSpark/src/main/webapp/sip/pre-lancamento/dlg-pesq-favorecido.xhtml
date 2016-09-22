@@ -1,0 +1,50 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	<p:dialog widgetVar="dlgPesqFavorecido" resizable="false" modal="true"
+		responsive="true" width="300" header="Pesquisar Favorecido">
+		<h:form id="frmPesqFavorecido">
+			<h:panelGrid columns="2">
+				<p:outputLabel value="Nome:" />
+				<p:inputText value="#{lancamentoMB.lv.nomeFavorecido}" />
+			</h:panelGrid>
+			<h:panelGrid columns="2" style="margin-top:20px;">
+				<p:commandButton value="Cancelar"
+					onclick="PF('dlgPesqFavorecido').hide();"
+					icon="fa fa-close Fs16 white" />
+				<p:commandButton value="Pesquisar" icon="fa fa-search Fs16 white"
+					actionListener="#{lancamentoMB.pesquisarFavorecido()}"
+					update=":frmResultadoFavorecido:tblResultadoFavorecido" />
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
+	<p:dialog widgetVar="dlgResultadoFavorecido" resizable="false"
+		responsive="true" modal="true" width="500"
+		header="Resultado de pesquisa">
+		<h:form id="frmResultadoFavorecido">
+			<p:dataTable id="tblResultadoFavorecido" var="item"
+				selection="#{lancamentoMB.lv.favorecido}" selectionMode="single"
+				value="#{lancamentoMB.lv.listaFavorecido}" rowKey="#{item.codigo}"
+				emptyMessage="Nenhum resultado encontrado." rows="8"
+				paginator="true">
+				<p:ajax event="rowSelect"
+					listener="#{lancamentoMB.selecionarFavorecido()}"
+					update=":frmNovoLancamento" />
+				<p:column headerText="Código" filterBy="#{item.codigo}">
+					<h:outputText value="#{item.codigo}" />
+				</p:column>
+				<p:column headerText="Favorecido" sortBy="#{item.favorecido}"
+					filterBy="#{item.favorecido}">
+					<h:outputText value="#{item.favorecido}" />
+				</p:column>
+			</p:dataTable>
+			<p:commandButton value="Fechara"
+				onclick="PF('dlgResultadoFavorecido').hide();"
+				icon="fa fa-close Fs16 white" style="float:left;margin-top:15px;" />
+		</h:form>
+	</p:dialog>
+</ui:composition>

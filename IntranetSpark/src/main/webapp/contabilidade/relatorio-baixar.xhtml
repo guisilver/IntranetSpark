@@ -1,0 +1,39 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<h:form id="frmDlgBaixar">
+
+		<p:dialog id="dlgBaixar" widgetVar="baixar" modal="true" closable="false" 
+		resizable="false"  position="top" responsive="true" >
+
+			<p:panel id="plImagem" header="Imagem"
+				style="width: 830px !important;">
+			<p:focus context="plImagem"/>
+				<h:panelGrid id="gridMedia">
+					<p:media player="pdf"
+						value="#{ImgServiceBean.pdfLancamentoEtiqueta}" width="800"
+						height="500" cache="false">
+						<f:param name="etiqueta" value="#{contabilBean.cdFinancImagem}" />
+					</p:media>
+				</h:panelGrid>
+				<p:separator />
+				<p:commandButton id="cbSalvar" style="float: right !important;" rendered="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.igp.imagemRecebidaAdd}"
+					value="Baixar" action="#{contabilBean.salvar()}"
+					update="frmRelatorioGed">
+				</p:commandButton>
+				<p:commandButton id="cbFechar" style="float: right !important;"
+					value="Fechar" action="#{contabilBean.fechar()}"
+					update="frmRelatorioGed">
+				</p:commandButton>
+				<p:defaultCommand target="cbSalvar"/>
+			</p:panel>
+
+		</p:dialog>
+
+	</h:form>
+
+</ui:composition>

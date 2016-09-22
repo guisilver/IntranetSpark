@@ -1,0 +1,111 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+
+		<div class="layout-portlets-box"
+			style="padding-top: 0px !important; padding-bottom: 0px !important;">
+			<p:breadCrumb>
+				<p:menuitem value="Home" url="/dashboard.xhtml" />
+				<p:menuitem value="Condomínio"
+					url="/comercial/condominio/tabela-de-condominios" />
+				<p:menuitem value="Constr. e Incorp."
+					url="/comercial/construtora/tabela-de-construtoras" />
+				<p:menuitem value="Atendimento"
+					url="/comercial/atendimento/tabela-de-atendimento" />
+			</p:breadCrumb>
+		</div>
+
+		<div class="layout-portlets-box">
+			<div class="DispInlBlock TexAlLeft">
+				<div class="Fleft">
+					<h2 class="black Fs24 FontRalewayMedium">Condomínios</h2>
+				</div>
+			</div>
+			<div class="Seperator"></div>
+			<div class="Container100 Responsive100">
+				<div class="ContainerIndent">
+					<h:form id="frmTblImagensCondominio"
+						rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.verificaDepto('Comercial')}">
+
+						<h:panelGrid>
+							<p:commandButton onclick="PF('dlgUpload').show();"
+								icon="fa fa-camera Fs16 white" process="@this"
+								value="Inserir Foto" />
+						</h:panelGrid>
+						<br />
+						<p:messages id="msg" showDetail="true" autoUpdate="false"
+							closable="true" escape="true" showSummary="false" />
+						<p:dataTable id="dtImagem" var="imagem"
+							value="#{cmcoMB.listaImagem}"
+							rowPerPageTemplate="10,20,40,60,80,100" paginator="true"
+							emptyMessage="Sem Arquivos!" rows="10"
+							style="font-size:12px; text-align:center;"
+							rowKey="#{imagem.codigo}" reflow="true">
+							<f:facet name="header">Imagens</f:facet>
+							<p:column styleClass="cl">
+								<p:graphicImage value="#{ImgServiceBean.fotoCondominio}"
+									cache="false" width="75" height="75">
+									<f:param name="id" value="#{imagem.codigoCondominio}" />
+								</p:graphicImage>
+							</p:column>
+							<p:column headerText="Condomínio"
+								sortBy="#{imagem.codigoCondominio}"
+								filterBy="#{imagem.codigoCondominio}"> #{imagem.codigoCondominio}</p:column>
+							<p:column headerText="Descrição"> #{imagem.descricao} </p:column>
+							<p:column>
+								<p:commandButton icon="fa fa-download Fs16 white"
+									action="#{cmcoMB.abrirImagem()}" ajax="false">
+									<f:setPropertyActionListener value="#{imagem}"
+										target="#{cmcoMB.fotoCondominioSelecionada}" />
+								</p:commandButton>
+							</p:column>
+						</p:dataTable>
+					</h:form>
+				</div>
+			</div>
+		</div>
+
+
+		<p:dialog widgetVar="dlgUpload" header="Inserir Foto" modal="true"
+			resizable="false">
+			<h:form id="frmUpload">
+				<p:panel styleClass="gridFiltro" style="width:400px;">
+					<h:panelGrid id="gridUpload" columns="2" cellpadding="5">
+						<f:facet name="header">
+							<center>
+								<p:outputLabel value="Importar imagem" />
+							</center>
+						</f:facet>
+						<p:outputLabel value="Condomínio:" />
+						<p:selectOneMenu value="#{cmcoMB.icBEAN.id}" filter="true"
+							filterMatchMode="contains" style="width:170px;">
+							<f:selectItem itemLabel="Selecione" itemValue="0" />
+							<f:selectItems value="#{cmcoMB.listaCondominios2}" var="id"
+								itemLabel="#{id.id} - #{id.nome}" itemValue="#{id.id}" />
+							<p:ajax process="@this" />
+						</p:selectOneMenu>
+						<p:outputLabel value="Descrição:" />
+						<p:inputText value="#{cmcoMB.descricao}">
+							<p:ajax process="@this" />
+						</p:inputText>
+					</h:panelGrid>
+					<h:panelGrid columns="4">
+						<p:fileUpload fileUploadListener="#{cmcoMB.handleFileUpload}"
+							mode="advanced" dragDropSupport="true" multiple="true"
+							invalidFileMessage="Arquivo inválido!"
+							fileLimitMessage="Ultrapassou o limite de tamanho da foto"
+							sizeLimit="5000000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+							label="Procurar" process="@this">
+						</p:fileUpload>
+						<p:column />
+					</h:panelGrid>
+				</p:panel>
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>

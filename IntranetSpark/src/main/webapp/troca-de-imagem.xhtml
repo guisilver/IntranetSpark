@@ -1,0 +1,107 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+<style>
+.tblLancamentos .ui-outputlabel {
+	font-size: 12px !important;
+}
+</style>
+		<div class="layout-portlets-box">
+			<div class="DispInlBlock TexAlLeft">
+				<div class="Fleft">
+					<h2 class="black Fs24 FontRalewayMedium">Troca de Imagem</h2>
+				</div>
+			</div>
+			<div class="Seperator"></div>
+			<div class="Container100 Responsive100">
+				<h:form id="frmTrocaDeImagem">
+					<p:panelGrid columns="7">
+						<f:facet name="header">Fitlros</f:facet>
+						<p:outputLabel value="Condomínio: " />
+						<p:selectOneMenu id="selectCondominio" filter="true"
+							filterMatchMode="contains" required="true"
+							requiredMessage="Selecione um condomínio!"
+							value="#{trocaDeImagemMB.condominio}"
+							converter="omnifaces.SelectItemsConverter" style="width:200px;">
+							<f:selectItem itemLabel="Nenhum" noSelectionOption="true" />
+							<f:selectItems var="condominio"
+								value="#{SessaoMB.listaCondominios}"
+								itemLabel="#{condominio.cndCodNome}" itemValue="#{condominio}" />
+						</p:selectOneMenu>
+						<p:outputLabel value="Conta:" />
+						<p:inputText value="#{trocaDeImagemMB.conta}" style="width:50px;" />
+						<p:outputLabel value="Período:" />
+						<p:column>
+							<p:calendar mask="true" pattern="dd/MM/yyyy" locale="pt"
+								timeZone="America/Sao_Paulo"
+								value="#{trocaDeImagemMB.dataInicio}" navigator="true"
+								yearRange="c-5:c+1" styleClass="calendar" />
+							<p:outputLabel value="à" style="margin-left:5px;" />
+							<p:calendar mask="true" pattern="dd/MM/yyyy" locale="pt"
+								timeZone="America/Sao_Paulo" value="#{trocaDeImagemMB.dataFim}"
+								navigator="true" yearRange="c-5:c+1" style="margin-left:5px;"
+								styleClass="calendar" />
+						</p:column>
+						<p:commandButton icon="fa fa-search Fs16 white"
+							actionListener="#{trocaDeImagemMB.pesquisarLancamentos()}"
+							ajax="false" />
+					</p:panelGrid>
+
+					<p:dataTable id="tblLancamentos" styleClass="tblLancamentos"
+						value="#{trocaDeImagemMB.listaLancamentos}" var="lancamento"
+						paginator="true" rows="20" rowsPerPageTemplate="5,10,15,20,30,50"
+						style="margin-top:20px;">
+						<p:column headerText="Condomínio" width="300px;"
+							sortBy="#{lancamento.cndCodNome}"
+							filterBy="#{lancamento.cndCodNome}" filterMatchMode="contains">
+							<p:outputLabel value="#{lancamento.cndCodNome}" />
+						</p:column>
+						<p:column headerText="Data" width="80" sortBy="#{lancamento.data}"
+							style="text-align:center;">
+							<p:outputLabel value="#{lancamento.data}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</p:outputLabel>
+						</p:column>
+						<p:column headerText="Conta" width="80"
+							sortBy="#{lancamento.conta}" filterBy="#{lancamento.conta}"
+							styleClass="col60">
+							<p:outputLabel value="#{lancamento.conta}" />
+						</p:column>
+						<p:column headerText="Valor" width="80"
+							sortBy="#{lancamento.valor}" filterBy="#{lancamento.valorStr}"
+							styleClass="col60">
+							<p:outputLabel value="#{lancamento.valorStr}" />
+						</p:column>
+						<p:column headerText="Histórico"
+							filterBy="#{lancamento.historico}" filterMatchMode="contains">
+							<p:outputLabel value="#{lancamento.historico}" />
+						</p:column>
+						<p:column style="width:90px;">
+							<h:panelGrid columns="2" styleClass="tblAcoes"
+								style="text-align:center;">
+								<p:commandButton id="btnAlterar" icon="fa fa-pencil Fs16 white"
+									styleClass="btnLittle"
+									action="#{trocaDeImagemMB.abreLancamentoSelecionado(lancamento.numero)}"
+									ajax="false" title="Alterar" />
+							</h:panelGrid>
+						</p:column>
+					</p:dataTable>
+				</h:form>
+			</div>
+		</div>
+		<p:ajaxStatus onstart="PF('statusDialog').show()"
+			onsuccess="PF('statusDialog').hide()" />
+		<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+			closable="false" resizable="false" showHeader="false">
+					Aguarde...<br />
+			<br />
+			<p:graphicImage library="imagens" name="loader.gif" />
+		</p:dialog>
+	</ui:define>
+</ui:composition>

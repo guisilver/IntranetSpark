@@ -1,0 +1,294 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<h:form id="frmLegenda" styleClass="Responsive50"
+		rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysControleContas}">
+		<h:panelGrid columns="10" cellpadding="5">
+			<p:commandButton value="Nova Conta" onclick="PF('novaConta').show();"
+				action="#{ccMB.limparConta}"
+				rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.controleContasAdd}"
+				update=":frmDialogNovaConta:plgDados1 :frmDialogNovaConta:plgDados2 :frmDialogNovaConta:plgMeses"
+				icon="fa fa-plus Fs16 white" />
+			<p:selectOneMenu id="somAno" value="#{ccMB.anoVigente}"
+				style="width:120px;text-align: center; font-size: 12px; width:90px;"
+				filter="true" filterMatchMode="startsWith" effect="none">
+				<p:ajax update=":frmTabelaContas :frmLegenda:pnlStatus"
+					listener="#{ccMB.mudaAno()}" />
+				<f:selectItems value="#{ccMB.listaDeAno}" var="items" />
+			</p:selectOneMenu>
+			<h:panelGrid columns="6" id="pnlStatus">
+				<p:panel>
+					<p:outputLabel value="Status Mês"
+						style="font-size:13px;font-weight:bold;" />
+					<p:spinner id="spnStatus" value="#{ccMB.mesStatus}"
+						style="font-size:13px;font-weight:bold;" maxlength="2" min="1"
+						max="12">
+						<p:ajax
+							update="oplStatusLaranja oplStatusVermelho oplStatusPreto oplStatusVerde"
+							process="@this" />
+					</p:spinner>
+					<p:outputLabel id="oplStatusVerde"
+						value="Status Qtd. #{ccMB.status(1)}"
+						style="margin-left:20px;font-size:13px;color:#008000;font-weight:bold;" />
+					<p:outputLabel id="oplStatusLaranja"
+						value="Status Qtd. #{ccMB.status(2)}"
+						style="margin-left:20px;font-size:13px;color:#FF6600;font-weight:bold;" />
+					<p:outputLabel id="oplStatusVermelho"
+						value="Status Qtd. #{ccMB.status(3)}"
+						style="margin-left:20px;font-size:13px;color:#EE0000;font-weight:bold;" />
+					<p:outputLabel id="oplStatusPreto"
+						value="Status Qtd. #{ccMB.status(4)}"
+						style="margin-left:20px;font-size:13px;font-weight:bold;" />
+				</p:panel>
+			</h:panelGrid>
+		</h:panelGrid>
+	</h:form>
+	<h:form
+		rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysControleContas}">
+		<h:panelGrid columns="2">
+			<p:commandButton value="Excluir Contas"
+				oncomplete="PF('controleExclusao').show();"
+				update=":frmControleExclusao" style="margin-left: 10px;"
+				icon="fa fa-close Fs16 white" />
+			<h:panelGrid columns="12" style="margin-left: 150px !important;">
+				<p:outputLabel id="oplWhite1"
+					style="background-color: green; color: white	">
+					<p:spacer width="10" />1<p:spacer width="10" />
+				</p:outputLabel>
+				<p:outputLabel id="oplWhite2" value="OK" style="text-size: 10px;" />
+				<p:spacer width="15" />
+				<p:outputLabel id="oplOrange1"
+					style="background-color: orange; color: white;">
+					<p:spacer width="10" height="10" />2<p:spacer width="10"
+						height="10" />
+				</p:outputLabel>
+				<p:outputLabel id="oplOrange2" value="De 10 a 6 dias"
+					style="text-size: 10px;" />
+				<p:spacer width="15" />
+				<p:outputLabel id="oplVermelho1"
+					style="background-color: red; color: white;">
+					<p:spacer width="10" height="10" />3<p:spacer width="10"
+						height="10" />
+				</p:outputLabel>
+				<p:outputLabel id="oplVermelho2" value="De 5 a 0 dias"
+					style="text-size: 10px;" />
+				<p:spacer width="15" />
+				<p:outputLabel id="oplBlack1"
+					style="background-color: black; color: white;">
+					<p:spacer width="10" height="10" />4<p:spacer width="10"
+						height="10" />
+				</p:outputLabel>
+
+				<p:outputLabel id="oplBlack2" value="Vencidos"
+					style="text-size: 10px;" />
+
+				<p:commandButton value="Gerar Relatório"
+					rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.controleContasConsult}"
+					onclick="PF('dlgRelParametros').show();" type="button"
+					style="margin-left: 20px !important;" icon="fa fa-print Fs16 white" />
+			</h:panelGrid>
+		</h:panelGrid>
+	</h:form>
+	<h:form id="frmTabelaContas" styleClass="Responsive50"
+		rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysControleContas}">
+
+		<p:dataTable id="dtControlContas" var="p" rowKey="#{p.codigo}"
+			value="#{ccMB.listarContas}" paginator="true" selectionMode="single"
+			filteredValue="#{ccMB.filtrarContas}" selection="#{ccMB.iccBEAN}"
+			rows="8" emptyMessage="Sem Registro"
+			style="border: 0px; width: 1010px !important;">
+
+			<p:ajax event="rowSelect" oncomplete="PF('alterConta').show()"
+				rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.controleContasAdd}"
+				update=":frmDialogAlterar" />
+
+			<f:facet name="header">
+					Controle de Contas
+			</f:facet>
+			<p:column headerText="Código" rendered="false">
+				<p:outputLabel value="#{p.codigo}" />
+			</p:column>
+
+			<p:column id="colVinculado" headerText="Conta Vincul."
+				style="text-align:center;width:50px;" filterMatchMode="contains"
+				filterBy="#{ccMB.contaVincualda(p.condominio) ? 'S' : 'N'}">
+				<p:outputLabel
+					value="#{ccMB.contaVincualda(p.condominio) ? 'S' : 'N'}"
+					style="color: #{ccMB.contaVincualda(p.condominio) ? 'red' : ''}" />
+
+			</p:column>
+
+			<p:column headerText="Código" rendered="false">
+				<p:outputLabel value="#{p.codigo}" />
+			</p:column>
+
+			<p:column id="colTitleDesp" headerText="DESPESA" style="width:150px;"
+				filterBy="#{p.despesa}" filterMatchMode="contains">
+				<h:outputText value="#{p.despesa}" />
+			</p:column>
+
+			<p:column id="colTitleObs" headerText="OBS" style="width:120px;"
+				filterBy="#{p.obs}" filterMatchMode="contains">
+							#{p.obs}
+				</p:column>
+
+			<p:column id="colTitleVenc" headerText="VENC."
+				filterBy="#{p.vencimento}" style="text-align:center;width:50px;">
+							#{p.vencimento}
+				</p:column>
+
+			<p:column id="colTitleCondo" headerText="COND."
+				filterBy="#{p.condominio}" style="text-align:center;width:50px;">
+							#{p.condominio}
+				</p:column>
+
+			<p:column id="colTitleConta" headerText="CONTA"
+				style="text-align:center;width:50px;" filterBy="#{p.tipo}"
+				filterMatchMode="contains">
+							#{p.tipo}
+				</p:column>
+
+
+
+			<p:column id="colFilterJan" style="width:30px;text-align:center;"
+				exportable="false" filterBy="#{p.status_jan}"
+				filterOptions="#{ccMB.status}">
+				<p:outputLabel value="p.status_jan" style="font-size: 4px;"
+					styleClass="#{ccMB.validaLegenda(p.status_jan)}" />
+			</p:column>
+			<p:column id="colTitleJan" headerText="Jan/#{ccMB.anoVigente}"
+				style="text-align:center;width:60px;">
+					#{p.mes1}
+				</p:column>
+
+			<p:column id="colFilterFev" style="width:30px;text-align:center;"
+				exportable="false" filterBy="#{p.status_fev}"
+				filterOptions="#{ccMB.status}">
+				<p:outputLabel value="p.status_fev" style="font-size: 4px;"
+					styleClass="#{ccMB.validaLegenda(p.status_fev)}" />
+			</p:column>
+			<p:column id="colTitleFev" headerText="Fev/#{ccMB.anoVigente}"
+				style="text-align:center;width:60px;">
+					#{p.mes2}
+				</p:column>
+
+			<p:column id="colFilterMar" style="width:30px;text-align:center;"
+				exportable="false" filterBy="#{p.status_mar}"
+				filterOptions="#{ccMB.status}">
+				<p:outputLabel value="p.status_mar" style="font-size: 4px;"
+					styleClass="#{ccMB.validaLegenda(p.status_mar)}" />
+			</p:column>
+			<p:column id="colTitleMar" headerText="Mar/#{ccMB.anoVigente}"
+				style="text-align:center;width:60px;">
+					#{p.mes3}
+				</p:column>
+
+			<p:column id="colFilterAbr" style="width:30px;text-align:center;"
+				exportable="false" filterBy="#{p.status_abr}"
+				filterOptions="#{ccMB.status}">
+				<p:outputLabel value="p.status_abr" style="font-size: 4px;"
+					styleClass="#{ccMB.validaLegenda(p.status_abr)}" />
+			</p:column>
+			<p:column id="colTitleAbr" headerText="Abr/#{ccMB.anoVigente}"
+				style="text-align:center;width:60px;">
+					#{p.mes4}
+				</p:column>
+
+			<p:column id="colFilterMai" style="width:30px;text-align:center;"
+				exportable="false" filterBy="#{p.status_mai}"
+				filterOptions="#{ccMB.status}">
+				<p:outputLabel value="p.status_mai" style="font-size: 4px;"
+					styleClass="#{ccMB.validaLegenda(p.status_mai)}" />
+			</p:column>
+			<p:column id="colTitleMai" headerText="Mai/#{ccMB.anoVigente}"
+				style="text-align:center;width:60px;">
+					#{p.mes5}
+				</p:column>
+
+			<p:column id="colFilterJun" style="width:30px;text-align:center;"
+				exportable="false" filterBy="#{p.status_jun}"
+				filterOptions="#{ccMB.status}">
+				<p:outputLabel value="p.status_jun" style="font-size: 4px;"
+					styleClass="#{ccMB.validaLegenda(p.status_jun)}" />
+			</p:column>
+			<p:column id="colTitleJun" headerText="Jun/#{ccMB.anoVigente}"
+				style="text-align:center;width:60px;">
+					#{p.mes6}
+				</p:column>
+
+			<p:column id="colFilterJul" style="width:30px;text-align:center;"
+				exportable="false" filterBy="#{p.status_jul}"
+				filterOptions="#{ccMB.status}">
+				<p:outputLabel value="p.status_jul" style="font-size: 4px;"
+					styleClass="#{ccMB.validaLegenda(p.status_jul)}" />
+			</p:column>
+			<p:column id="colTitleJul" headerText="Jul/#{ccMB.anoVigente}"
+				style="text-align:center;width:60px;">
+					#{p.mes7}
+				</p:column>
+
+			<p:column id="colFilterAgo" style="width:30px;text-align:center;"
+				exportable="false" filterBy="#{p.status_ago}"
+				filterOptions="#{ccMB.status}">
+				<p:outputLabel value="p.status_ago" style="font-size: 4px;"
+					styleClass="#{ccMB.validaLegenda(p.status_ago)}" />
+			</p:column>
+			<p:column id="colTitleAgo" headerText="Ago/#{ccMB.anoVigente}"
+				style="text-align:center;width:60px;">
+					#{p.mes8}
+				</p:column>
+
+			<p:column id="colFilterSet" style="width:30px;text-align:center;"
+				exportable="false" filterBy="#{p.status_set}"
+				filterOptions="#{ccMB.status}">
+				<p:outputLabel value="p.status_set" style="font-size: 4px;"
+					styleClass="#{ccMB.validaLegenda(p.status_set)}" />
+			</p:column>
+			<p:column id="colTitleSet" headerText="Set/#{ccMB.anoVigente}"
+				style="text-align:center;width:60px;">
+					#{p.mes9}
+				</p:column>
+
+			<p:column id="colFilterOut" style="width:30px;text-align:center;"
+				exportable="false" filterBy="#{p.status_out}"
+				filterOptions="#{ccMB.status}">
+				<p:outputLabel value="p.status_out" style="font-size: 4px;"
+					styleClass="#{ccMB.validaLegenda(p.status_out)}" />
+			</p:column>
+			<p:column id="colTitleOut" headerText="Out/#{ccMB.anoVigente}"
+				style="text-align:center;width:60px;">
+					#{p.mes10}
+				</p:column>
+
+			<p:column id="colFilterNov" style="width:30px;text-align:center;"
+				exportable="false" filterBy="#{p.status_nov}"
+				filterOptions="#{ccMB.status}">
+				<p:outputLabel value="p.status_nov" style="font-size: 4px;"
+					styleClass="#{ccMB.validaLegenda(p.status_nov)}" />
+			</p:column>
+			<p:column id="colTitleNov" headerText="Nov/#{ccMB.anoVigente}"
+				style="text-align:center;width:60px;">
+					#{p.mes11}
+				</p:column>
+
+			<p:column id="colFilterDez" style="width:30px;text-align:center;"
+				exportable="false" filterBy="#{p.status_dez}"
+				filterOptions="#{ccMB.status}">
+				<p:outputLabel value="p.status_dez" style="font-size: 4px;"
+					styleClass="#{ccMB.validaLegenda(p.status_dez)}" />
+			</p:column>
+			<p:column id="colTitleDez" headerText="Dez/#{ccMB.anoVigente}"
+				style="text-align:center;width:60px;">
+					#{p.mes12}
+				</p:column>
+
+		</p:dataTable>
+
+	</h:form>
+
+
+</ui:composition>

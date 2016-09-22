@@ -1,0 +1,37 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<h:form id="frmAlterarCD">
+		<p:dialog id="dlgAlterar" header="Alterar contato"
+			widgetVar="contatosCliente" showEffect="slide" hideEffect="slide"
+			resizable="false" modal="true">
+
+			<h:panelGrid id="plgContatos" columns="2">
+				<p:outputLabel value="Tipo:" />
+				<p:selectOneMenu value="#{cdMB.telcliBEAN.tipo}"
+					style="width:150px !important;">
+					<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+					<f:selectItems value="#{cdMB.listaDeContatosDescricao}" var="item"
+						itemLabel="#{item.descricao}" itemValue="#{item.codigo}" />
+				</p:selectOneMenu>
+
+
+				<p:outputLabel value="Contato:" />
+				<p:inputText value="#{cdMB.telcliBEAN.telEmail}"
+					style="width:250px !important;" maxlength="50" />
+					
+				<p:outputLabel value="Obs.:" />
+				<p:inputText value="#{cdMB.telcliBEAN.observacao}"
+					style="width:250px !important;" maxlength="50" />
+
+			</h:panelGrid>
+			<hr />
+			<p:commandButton action="#{cdMB.alterarTelcli}" oncomplete="PF('contatosCliente').hide();" update=":frmCD:dttTelCli :frmCD:msgTelcli" value="Salvar" style="float:right;"/>
+		</p:dialog>
+	</h:form>
+
+</ui:composition>

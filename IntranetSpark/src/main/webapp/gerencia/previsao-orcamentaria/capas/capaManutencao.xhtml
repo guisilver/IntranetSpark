@@ -1,0 +1,1180 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<h:panelGrid id="plgPrevisao3" columns="8">
+
+		<h:selectBooleanCheckbox id="sbcConta31"
+			value="#{projetarMB.ipoBEAN.conta31}">
+			<p:ajax update="itConta31 " />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta31" value="#{projetarMB.ipoBEAN.nomeConta31}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor31" value="Valor R$"
+			style="margin-left:20px; font-size: 12px !important;"/>
+		<pe:inputNumber id="itConta31"
+			value="#{projetarMB.ipoBEAN.valorConta31}"
+			disabled="#{projetarMB.ipoBEAN.conta31 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<p:outputLabel value="Mês / Reajuste" style="margin-left: 20px;font-size: 12px !important;" />
+		<p:selectOneMenu value="#{projetarMB.ipoBEAN.mesReajMan31}">
+			<f:selectItem itemLabel="Selecione" />
+			<f:selectItem itemLabel="Jan" itemValue="1" />
+			<f:selectItem itemLabel="Fev" itemValue="2" />
+			<f:selectItem itemLabel="Mar" itemValue="3" />
+			<f:selectItem itemLabel="Abr" itemValue="4" />
+			<f:selectItem itemLabel="Mai" itemValue="5" />
+			<f:selectItem itemLabel="Jun" itemValue="6" />
+			<f:selectItem itemLabel="Jul" itemValue="7" />
+			<f:selectItem itemLabel="Ago" itemValue="8" />
+			<f:selectItem itemLabel="Set" itemValue="9" />
+			<f:selectItem itemLabel="Out" itemValue="10" />
+			<f:selectItem itemLabel="Nov" itemValue="11" />
+			<f:selectItem itemLabel="Dez" itemValue="12" />
+			<p:ajax update="tbvPrevisao:frmProjecao:acpPresisao:imIndice31" />
+		</p:selectOneMenu>
+
+		<p:outputLabel value="Indice" style="font-size: 12px !important;"/>
+		<pe:inputNumber id="imIndice31" symbolPosition="s" symbol="%" emptyValue="zero"
+							value="#{projetarMB.ipoBEAN.indiceReajMan31}" decimalPlaces="1" style="width: 30px !important;"
+							disabled="#{projetarMB.ipoBEAN.mesReajMan31 eq null ? true : (projetarMB.ipoBEAN.mesReajMan31 eq '' ? true : false)}" />
+
+		<h:selectBooleanCheckbox id="sbcConta32"
+			value="#{projetarMB.ipoBEAN.conta32}">
+			<p:ajax update="itConta32 " />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta32" value="#{projetarMB.ipoBEAN.nomeConta32}" style="font-size: 12px !important;" />
+
+		<p:outputLabel id="olValor32" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta32"
+			value="#{projetarMB.ipoBEAN.valorConta32}"
+			disabled="#{projetarMB.ipoBEAN.conta32 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<p:outputLabel value="Mês / Reajuste" style="margin-left: 20px; font-size: 12px !important;" />
+		<p:selectOneMenu value="#{projetarMB.ipoBEAN.mesReajMan32}">
+			<f:selectItem itemLabel="Selecione" />
+			<f:selectItem itemLabel="Jan" itemValue="1" />
+			<f:selectItem itemLabel="Fev" itemValue="2" />
+			<f:selectItem itemLabel="Mar" itemValue="3" />
+			<f:selectItem itemLabel="Abr" itemValue="4" />
+			<f:selectItem itemLabel="Mai" itemValue="5" />
+			<f:selectItem itemLabel="Jun" itemValue="6" />
+			<f:selectItem itemLabel="Jul" itemValue="7" />
+			<f:selectItem itemLabel="Ago" itemValue="8" />
+			<f:selectItem itemLabel="Set" itemValue="9" />
+			<f:selectItem itemLabel="Out" itemValue="10" />
+			<f:selectItem itemLabel="Nov" itemValue="11" />
+			<f:selectItem itemLabel="Dez" itemValue="12" />
+				<p:ajax update="tbvPrevisao:frmProjecao:acpPresisao:imIndice32" />
+		</p:selectOneMenu>
+
+		<p:outputLabel value="Indice" style="font-size: 12px !important;"/>
+				<pe:inputNumber id="imIndice32" symbolPosition="s" symbol="%" emptyValue="zero"
+							value="#{projetarMB.ipoBEAN.indiceReajMan32}" decimalPlaces="1" style="width: 30px !important;"
+							disabled="#{projetarMB.ipoBEAN.mesReajMan32 eq null ? true : (projetarMB.ipoBEAN.mesReajMan32 eq '' ? true : false)}" />
+
+		<h:selectBooleanCheckbox id="sbcConta33"
+			value="#{projetarMB.ipoBEAN.conta33}">
+			<p:ajax update="itConta33 " />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta33" value="#{projetarMB.ipoBEAN.nomeConta33}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor33" value="Valor R$"
+			style="margin-left:20px; font-size: 12px !important;" />
+		<pe:inputNumber id="itConta33"
+			value="#{projetarMB.ipoBEAN.valorConta33}"
+			disabled="#{projetarMB.ipoBEAN.conta33 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<p:outputLabel value="Mês / Reajuste" style="margin-left: 20px;font-size: 12px !important;" />
+		<p:selectOneMenu value="#{projetarMB.ipoBEAN.mesReajMan33}">
+			<f:selectItem itemLabel="Selecione" />
+			<f:selectItem itemLabel="Jan" itemValue="1" />
+			<f:selectItem itemLabel="Fev" itemValue="2" />
+			<f:selectItem itemLabel="Mar" itemValue="3" />
+			<f:selectItem itemLabel="Abr" itemValue="4" />
+			<f:selectItem itemLabel="Mai" itemValue="5" />
+			<f:selectItem itemLabel="Jun" itemValue="6" />
+			<f:selectItem itemLabel="Jul" itemValue="7" />
+			<f:selectItem itemLabel="Ago" itemValue="8" />
+			<f:selectItem itemLabel="Set" itemValue="9" />
+			<f:selectItem itemLabel="Out" itemValue="10" />
+			<f:selectItem itemLabel="Nov" itemValue="11" />
+			<f:selectItem itemLabel="Dez" itemValue="12" />
+				<p:ajax update="tbvPrevisao:frmProjecao:acpPresisao:imIndice33" />
+		</p:selectOneMenu>
+
+		<p:outputLabel value="Indice" style="font-size: 12px !important;" />
+		<pe:inputNumber id="imIndice33" symbolPosition="s" symbol="%" emptyValue="zero"
+							value="#{projetarMB.ipoBEAN.indiceReajMan33}" decimalPlaces="1" style="width: 30px !important;"
+							disabled="#{projetarMB.ipoBEAN.mesReajMan33 eq null ? true : (projetarMB.ipoBEAN.mesReajMan33 eq '' ? true : false)}" />
+
+		<h:selectBooleanCheckbox id="sbcConta34"
+			value="#{projetarMB.ipoBEAN.conta34}">
+			<p:ajax update="itConta34 " />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta34" value="#{projetarMB.ipoBEAN.nomeConta34}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor34" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta34"
+			value="#{projetarMB.ipoBEAN.valorConta34}"
+			disabled="#{projetarMB.ipoBEAN.conta34 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<p:outputLabel value="Mês / Reajuste" style="margin-left: 20px;font-size: 12px !important;" />
+		<p:selectOneMenu value="#{projetarMB.ipoBEAN.mesReajMan34}">
+			<f:selectItem itemLabel="Selecione" />
+			<f:selectItem itemLabel="Jan" itemValue="1" />
+			<f:selectItem itemLabel="Fev" itemValue="2" />
+			<f:selectItem itemLabel="Mar" itemValue="3" />
+			<f:selectItem itemLabel="Abr" itemValue="4" />
+			<f:selectItem itemLabel="Mai" itemValue="5" />
+			<f:selectItem itemLabel="Jun" itemValue="6" />
+			<f:selectItem itemLabel="Jul" itemValue="7" />
+			<f:selectItem itemLabel="Ago" itemValue="8" />
+			<f:selectItem itemLabel="Set" itemValue="9" />
+			<f:selectItem itemLabel="Out" itemValue="10" />
+			<f:selectItem itemLabel="Nov" itemValue="11" />
+			<f:selectItem itemLabel="Dez" itemValue="12" />
+				<p:ajax update="tbvPrevisao:frmProjecao:acpPresisao:imIndice34" />
+		</p:selectOneMenu>
+
+		<p:outputLabel value="Indice" style="font-size: 12px !important;"/>
+		<pe:inputNumber id="imIndice34" symbolPosition="s" symbol="%" emptyValue="zero"
+							value="#{projetarMB.ipoBEAN.indiceReajMan34}" decimalPlaces="1" style="width: 30px !important;"
+							disabled="#{projetarMB.ipoBEAN.mesReajMan34 eq null ? true : (projetarMB.ipoBEAN.mesReajMan34 eq '' ? true : false)}" />
+
+		<h:selectBooleanCheckbox id="sbcConta35"
+			value="#{projetarMB.ipoBEAN.conta35}">
+			<p:ajax update="itConta35 " />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta35" value="#{projetarMB.ipoBEAN.nomeConta35}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor35" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta35"
+			value="#{projetarMB.ipoBEAN.valorConta35}"
+			disabled="#{projetarMB.ipoBEAN.conta35 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<p:outputLabel value="Mês / Reajuste" style="margin-left: 20px;font-size: 12px !important;" />
+		<p:selectOneMenu value="#{projetarMB.ipoBEAN.mesReajMan35}">
+			<f:selectItem itemLabel="Selecione" />
+			<f:selectItem itemLabel="Jan" itemValue="1" />
+			<f:selectItem itemLabel="Fev" itemValue="2" />
+			<f:selectItem itemLabel="Mar" itemValue="3" />
+			<f:selectItem itemLabel="Abr" itemValue="4" />
+			<f:selectItem itemLabel="Mai" itemValue="5" />
+			<f:selectItem itemLabel="Jun" itemValue="6" />
+			<f:selectItem itemLabel="Jul" itemValue="7" />
+			<f:selectItem itemLabel="Ago" itemValue="8" />
+			<f:selectItem itemLabel="Set" itemValue="9" />
+			<f:selectItem itemLabel="Out" itemValue="10" />
+			<f:selectItem itemLabel="Nov" itemValue="11" />
+			<f:selectItem itemLabel="Dez" itemValue="12" />
+				<p:ajax update="tbvPrevisao:frmProjecao:acpPresisao:imIndice35" />
+		</p:selectOneMenu>
+
+		<p:outputLabel value="Indice" style="font-size: 12px !important;"/>
+		<pe:inputNumber id="imIndice35" symbolPosition="s" symbol="%" emptyValue="zero"
+							value="#{projetarMB.ipoBEAN.indiceReajMan35}" decimalPlaces="1" style="width: 30px !important;"
+							disabled="#{projetarMB.ipoBEAN.mesReajMan35 eq null ? true : (projetarMB.ipoBEAN.mesReajMan35 eq '' ? true : false)}" />
+
+		<h:selectBooleanCheckbox id="sbcConta36"
+			value="#{projetarMB.ipoBEAN.conta36}">
+			<p:ajax update="itConta36 " />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta36" value="#{projetarMB.ipoBEAN.nomeConta36}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor36" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta36"
+			value="#{projetarMB.ipoBEAN.valorConta36}"
+			disabled="#{projetarMB.ipoBEAN.conta36 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<p:outputLabel value="Mês / Reajuste" style="margin-left: 20px;font-size: 12px !important;" />
+		<p:selectOneMenu value="#{projetarMB.ipoBEAN.mesReajMan36}">
+			<f:selectItem itemLabel="Selecione" />
+			<f:selectItem itemLabel="Jan" itemValue="1" />
+			<f:selectItem itemLabel="Fev" itemValue="2" />
+			<f:selectItem itemLabel="Mar" itemValue="3" />
+			<f:selectItem itemLabel="Abr" itemValue="4" />
+			<f:selectItem itemLabel="Mai" itemValue="5" />
+			<f:selectItem itemLabel="Jun" itemValue="6" />
+			<f:selectItem itemLabel="Jul" itemValue="7" />
+			<f:selectItem itemLabel="Ago" itemValue="8" />
+			<f:selectItem itemLabel="Set" itemValue="9" />
+			<f:selectItem itemLabel="Out" itemValue="10" />
+			<f:selectItem itemLabel="Nov" itemValue="11" />
+			<f:selectItem itemLabel="Dez" itemValue="12" />
+				<p:ajax update="tbvPrevisao:frmProjecao:acpPresisao:imIndice36" />
+		</p:selectOneMenu>
+
+		<p:outputLabel value="Indice" style="font-size: 12px !important;"/>
+		<pe:inputNumber id="imIndice36" symbolPosition="s" symbol="%" emptyValue="zero"
+							value="#{projetarMB.ipoBEAN.indiceReajMan36}" decimalPlaces="1" style="width: 30px !important;"
+							disabled="#{projetarMB.ipoBEAN.mesReajMan36 eq null ? true : (projetarMB.ipoBEAN.mesReajMan36 eq '' ? true : false)}" />
+
+		<h:selectBooleanCheckbox id="sbcConta37"
+			value="#{projetarMB.ipoBEAN.conta37}">
+			<p:ajax update="itConta37 " />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta37" value="#{projetarMB.ipoBEAN.nomeConta37}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor37" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta37"
+			value="#{projetarMB.ipoBEAN.valorConta37}"
+			disabled="#{projetarMB.ipoBEAN.conta37 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<p:outputLabel value="Mês / Reajuste" style="margin-left: 20px;font-size: 12px !important;" />
+		<p:selectOneMenu value="#{projetarMB.ipoBEAN.mesReajMan37}">
+			<f:selectItem itemLabel="Selecione" />
+			<f:selectItem itemLabel="Jan" itemValue="1" />
+			<f:selectItem itemLabel="Fev" itemValue="2" />
+			<f:selectItem itemLabel="Mar" itemValue="3" />
+			<f:selectItem itemLabel="Abr" itemValue="4" />
+			<f:selectItem itemLabel="Mai" itemValue="5" />
+			<f:selectItem itemLabel="Jun" itemValue="6" />
+			<f:selectItem itemLabel="Jul" itemValue="7" />
+			<f:selectItem itemLabel="Ago" itemValue="8" />
+			<f:selectItem itemLabel="Set" itemValue="9" />
+			<f:selectItem itemLabel="Out" itemValue="10" />
+			<f:selectItem itemLabel="Nov" itemValue="11" />
+			<f:selectItem itemLabel="Dez" itemValue="12" />
+				<p:ajax update="tbvPrevisao:frmProjecao:acpPresisao:imIndice37" />
+		</p:selectOneMenu>
+
+		<p:outputLabel value="Indice" style="font-size: 12px !important;"/>
+		<pe:inputNumber id="imIndice37" symbolPosition="s" symbol="%" emptyValue="zero"
+							value="#{projetarMB.ipoBEAN.indiceReajMan37}" decimalPlaces="1" style="width: 30px !important;"
+							disabled="#{projetarMB.ipoBEAN.mesReajMan37 eq null ? true : (projetarMB.ipoBEAN.mesReajMan37 eq '' ? true : false)}" />
+
+		<h:selectBooleanCheckbox id="sbcConta38"
+			value="#{projetarMB.ipoBEAN.conta38}">
+			<p:ajax update="itConta38 " />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta38" value="#{projetarMB.ipoBEAN.nomeConta38}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor38" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta38"
+			value="#{projetarMB.ipoBEAN.valorConta38}"
+			disabled="#{projetarMB.ipoBEAN.conta38 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<p:outputLabel value="Mês / Reajuste" style="margin-left: 20px;font-size: 12px !important;" />
+		<p:selectOneMenu value="#{projetarMB.ipoBEAN.mesReajMan38}">
+			<f:selectItem itemLabel="Selecione" />
+			<f:selectItem itemLabel="Jan" itemValue="1" />
+			<f:selectItem itemLabel="Fev" itemValue="2" />
+			<f:selectItem itemLabel="Mar" itemValue="3" />
+			<f:selectItem itemLabel="Abr" itemValue="4" />
+			<f:selectItem itemLabel="Mai" itemValue="5" />
+			<f:selectItem itemLabel="Jun" itemValue="6" />
+			<f:selectItem itemLabel="Jul" itemValue="7" />
+			<f:selectItem itemLabel="Ago" itemValue="8" />
+			<f:selectItem itemLabel="Set" itemValue="9" />
+			<f:selectItem itemLabel="Out" itemValue="10" />
+			<f:selectItem itemLabel="Nov" itemValue="11" />
+			<f:selectItem itemLabel="Dez" itemValue="12" />
+				<p:ajax update="tbvPrevisao:frmProjecao:acpPresisao:imIndice38" />
+		</p:selectOneMenu>
+
+		<p:outputLabel value="Indice" style="font-size: 12px !important;"/>
+		<pe:inputNumber id="imIndice38" symbolPosition="s" symbol="%" emptyValue="zero"
+							value="#{projetarMB.ipoBEAN.indiceReajMan38}" decimalPlaces="1" style="width: 30px !important;"
+							disabled="#{projetarMB.ipoBEAN.mesReajMan38 eq null ? true : (projetarMB.ipoBEAN.mesReajMan38 eq '' ? true : false)}" />
+
+		<h:selectBooleanCheckbox id="sbcConta39"
+			value="#{projetarMB.ipoBEAN.conta39}">
+			<p:ajax update="itConta39 " />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta39" value="#{projetarMB.ipoBEAN.nomeConta39}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor39" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta39"
+			value="#{projetarMB.ipoBEAN.valorConta39}"
+			disabled="#{projetarMB.ipoBEAN.conta39 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<p:outputLabel value="Mês / Reajuste" style="margin-left: 20px;font-size: 12px !important;" />
+		<p:selectOneMenu value="#{projetarMB.ipoBEAN.mesReajMan39}">
+			<f:selectItem itemLabel="Selecione" />
+			<f:selectItem itemLabel="Jan" itemValue="1" />
+			<f:selectItem itemLabel="Fev" itemValue="2" />
+			<f:selectItem itemLabel="Mar" itemValue="3" />
+			<f:selectItem itemLabel="Abr" itemValue="4" />
+			<f:selectItem itemLabel="Mai" itemValue="5" />
+			<f:selectItem itemLabel="Jun" itemValue="6" />
+			<f:selectItem itemLabel="Jul" itemValue="7" />
+			<f:selectItem itemLabel="Ago" itemValue="8" />
+			<f:selectItem itemLabel="Set" itemValue="9" />
+			<f:selectItem itemLabel="Out" itemValue="10" />
+			<f:selectItem itemLabel="Nov" itemValue="11" />
+			<f:selectItem itemLabel="Dez" itemValue="12" />
+				<p:ajax update="tbvPrevisao:frmProjecao:acpPresisao:imIndice39" />
+		</p:selectOneMenu>
+
+		<p:outputLabel value="Indice" style="font-size: 12px !important;"/>
+		<pe:inputNumber id="imIndice39" symbolPosition="s" symbol="%" emptyValue="zero"
+							value="#{projetarMB.ipoBEAN.indiceReajMan39}" decimalPlaces="1" style="width: 30px !important;"
+							disabled="#{projetarMB.ipoBEAN.mesReajMan39 eq null ? true : (projetarMB.ipoBEAN.mesReajMan39 eq '' ? true : false)}" />
+
+		<h:selectBooleanCheckbox id="sbcConta310"
+			value="#{projetarMB.ipoBEAN.conta310}">
+			<p:ajax update="itConta310 " />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta310"
+			value="#{projetarMB.ipoBEAN.nomeConta310}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor310" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta310"
+			value="#{projetarMB.ipoBEAN.valorConta310}"
+			disabled="#{projetarMB.ipoBEAN.conta310 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<p:outputLabel value="Mês / Reajuste" style="margin-left: 20px;font-size: 12px !important;" />
+		<p:selectOneMenu value="#{projetarMB.ipoBEAN.mesReajMan310}">
+			<f:selectItem itemLabel="Selecione" />
+			<f:selectItem itemLabel="Jan" itemValue="1" />
+			<f:selectItem itemLabel="Fev" itemValue="2" />
+			<f:selectItem itemLabel="Mar" itemValue="3" />
+			<f:selectItem itemLabel="Abr" itemValue="4" />
+			<f:selectItem itemLabel="Mai" itemValue="5" />
+			<f:selectItem itemLabel="Jun" itemValue="6" />
+			<f:selectItem itemLabel="Jul" itemValue="7" />
+			<f:selectItem itemLabel="Ago" itemValue="8" />
+			<f:selectItem itemLabel="Set" itemValue="9" />
+			<f:selectItem itemLabel="Out" itemValue="10" />
+			<f:selectItem itemLabel="Nov" itemValue="11" />
+			<f:selectItem itemLabel="Dez" itemValue="12" />
+				<p:ajax update="tbvPrevisao:frmProjecao:acpPresisao:imIndice310" />
+		</p:selectOneMenu>
+
+		<p:outputLabel value="Indice" style="font-size: 12px !important;"/>
+		<pe:inputNumber id="imIndice310" symbolPosition="s" symbol="%" emptyValue="zero"
+							value="#{projetarMB.ipoBEAN.indiceReajMan310}" decimalPlaces="1" style="width: 30px !important;"
+							disabled="#{projetarMB.ipoBEAN.mesReajMan310 eq null ? true : (projetarMB.ipoBEAN.mesReajMan310 eq '' ? true : false)}" />
+
+		<h:selectBooleanCheckbox id="sbcConta311"
+			value="#{projetarMB.ipoBEAN.conta311}">
+			<p:ajax update="itConta311 " />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta311" value="#{projetarMB.ipoBEAN.nomeConta311}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor311" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta311"
+			value="#{projetarMB.ipoBEAN.valorConta311}"
+			disabled="#{projetarMB.ipoBEAN.conta311 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<p:outputLabel value="Mês / Reajuste" style="margin-left: 20px;font-size: 12px !important;" />
+		<p:selectOneMenu value="#{projetarMB.ipoBEAN.mesReajMan311}">
+			<f:selectItem itemLabel="Selecione" />
+			<f:selectItem itemLabel="Jan" itemValue="1" />
+			<f:selectItem itemLabel="Fev" itemValue="2" />
+			<f:selectItem itemLabel="Mar" itemValue="3" />
+			<f:selectItem itemLabel="Abr" itemValue="4" />
+			<f:selectItem itemLabel="Mai" itemValue="5" />
+			<f:selectItem itemLabel="Jun" itemValue="6" />
+			<f:selectItem itemLabel="Jul" itemValue="7" />
+			<f:selectItem itemLabel="Ago" itemValue="8" />
+			<f:selectItem itemLabel="Set" itemValue="9" />
+			<f:selectItem itemLabel="Out" itemValue="10" />
+			<f:selectItem itemLabel="Nov" itemValue="11" />
+			<f:selectItem itemLabel="Dez" itemValue="12" />
+				<p:ajax update="tbvPrevisao:frmProjecao:acpPresisao:imIndice311" />
+		</p:selectOneMenu>
+
+		<p:outputLabel value="Indice" style="font-size: 12px !important;"/>
+		<pe:inputNumber id="imIndice311" symbolPosition="s" symbol="%" emptyValue="zero"
+							value="#{projetarMB.ipoBEAN.indiceReajMan311}" decimalPlaces="1" style="width: 30px !important;"
+							disabled="#{projetarMB.ipoBEAN.mesReajMan311 eq null ? true : (projetarMB.ipoBEAN.mesReajMan311 eq '' ? true : false)}" />
+
+		<h:selectBooleanCheckbox id="sbcConta312"
+			value="#{projetarMB.ipoBEAN.conta312}">
+			<p:ajax update="itConta312 " />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta312"
+			value="#{projetarMB.ipoBEAN.nomeConta312}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor312" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta312"
+			value="#{projetarMB.ipoBEAN.valorConta312}"
+			disabled="#{projetarMB.ipoBEAN.conta312 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<p:outputLabel value="Mês / Reajuste" style="margin-left: 20px;font-size: 12px !important;" />
+		<p:selectOneMenu value="#{projetarMB.ipoBEAN.mesReajMan312}">
+			<f:selectItem itemLabel="Selecione" />
+			<f:selectItem itemLabel="Jan" itemValue="1" />
+			<f:selectItem itemLabel="Fev" itemValue="2" />
+			<f:selectItem itemLabel="Mar" itemValue="3" />
+			<f:selectItem itemLabel="Abr" itemValue="4" />
+			<f:selectItem itemLabel="Mai" itemValue="5" />
+			<f:selectItem itemLabel="Jun" itemValue="6" />
+			<f:selectItem itemLabel="Jul" itemValue="7" />
+			<f:selectItem itemLabel="Ago" itemValue="8" />
+			<f:selectItem itemLabel="Set" itemValue="9" />
+			<f:selectItem itemLabel="Out" itemValue="10" />
+			<f:selectItem itemLabel="Nov" itemValue="11" />
+			<f:selectItem itemLabel="Dez" itemValue="12" />
+				<p:ajax update="tbvPrevisao:frmProjecao:acpPresisao:imIndice312" />
+		</p:selectOneMenu>
+
+		<p:outputLabel value="Indice" style="font-size: 12px !important;"/>
+		<pe:inputNumber id="imIndice312" symbolPosition="s" symbol="%" emptyValue="zero"
+							value="#{projetarMB.ipoBEAN.indiceReajMan312}" decimalPlaces="1" style="width: 30px !important;"
+							disabled="#{projetarMB.ipoBEAN.mesReajMan312 eq null ? true : (projetarMB.ipoBEAN.mesReajMan312 eq '' ? true : false)}" />
+
+		<h:selectBooleanCheckbox id="sbcConta313"
+			value="#{projetarMB.ipoBEAN.conta313}">
+			<p:ajax update="itConta313 " />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta313"
+			value="#{projetarMB.ipoBEAN.nomeConta313}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor313" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta313"
+			value="#{projetarMB.ipoBEAN.valorConta313}"
+			disabled="#{projetarMB.ipoBEAN.conta313 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<p:outputLabel value="Mês / Reajuste" style="margin-left: 20px;font-size: 12px !important;" />
+		<p:selectOneMenu value="#{projetarMB.ipoBEAN.mesReajMan313}">
+			<f:selectItem itemLabel="Selecione" />
+			<f:selectItem itemLabel="Jan" itemValue="1" />
+			<f:selectItem itemLabel="Fev" itemValue="2" />
+			<f:selectItem itemLabel="Mar" itemValue="3" />
+			<f:selectItem itemLabel="Abr" itemValue="4" />
+			<f:selectItem itemLabel="Mai" itemValue="5" />
+			<f:selectItem itemLabel="Jun" itemValue="6" />
+			<f:selectItem itemLabel="Jul" itemValue="7" />
+			<f:selectItem itemLabel="Ago" itemValue="8" />
+			<f:selectItem itemLabel="Set" itemValue="9" />
+			<f:selectItem itemLabel="Out" itemValue="10" />
+			<f:selectItem itemLabel="Nov" itemValue="11" />
+			<f:selectItem itemLabel="Dez" itemValue="12" />
+				<p:ajax update="tbvPrevisao:frmProjecao:acpPresisao:imIndice313" />
+		</p:selectOneMenu>
+
+		<p:outputLabel value="Indice" style="font-size: 12px !important;"/>
+		<pe:inputNumber id="imIndice313" symbolPosition="s" symbol="%" emptyValue="zero"
+							value="#{projetarMB.ipoBEAN.indiceReajMan313}" decimalPlaces="1" style="width: 30px !important;"
+							disabled="#{projetarMB.ipoBEAN.mesReajMan313 eq null ? true : (projetarMB.ipoBEAN.mesReajMan313 eq '' ? true : false)}" />
+
+		<h:selectBooleanCheckbox id="sbcConta314"
+			value="#{projetarMB.ipoBEAN.conta314}">
+			<p:ajax update="itConta314 " />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta314"
+			value="#{projetarMB.ipoBEAN.nomeConta314}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor314" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta314"
+			value="#{projetarMB.ipoBEAN.valorConta314}"
+			disabled="#{projetarMB.ipoBEAN.conta314 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<p:outputLabel value="Mês / Reajuste" style="margin-left: 20px;font-size: 12px !important;" />
+		<p:selectOneMenu value="#{projetarMB.ipoBEAN.mesReajMan314}">
+			<f:selectItem itemLabel="Selecione" />
+			<f:selectItem itemLabel="Jan" itemValue="1" />
+			<f:selectItem itemLabel="Fev" itemValue="2" />
+			<f:selectItem itemLabel="Mar" itemValue="3" />
+			<f:selectItem itemLabel="Abr" itemValue="4" />
+			<f:selectItem itemLabel="Mai" itemValue="5" />
+			<f:selectItem itemLabel="Jun" itemValue="6" />
+			<f:selectItem itemLabel="Jul" itemValue="7" />
+			<f:selectItem itemLabel="Ago" itemValue="8" />
+			<f:selectItem itemLabel="Set" itemValue="9" />
+			<f:selectItem itemLabel="Out" itemValue="10" />
+			<f:selectItem itemLabel="Nov" itemValue="11" />
+			<f:selectItem itemLabel="Dez" itemValue="12" />
+				<p:ajax update="tbvPrevisao:frmProjecao:acpPresisao:imIndice314" />
+		</p:selectOneMenu>
+
+		<p:outputLabel value="Indice" style="font-size: 12px !important;"/>
+		<pe:inputNumber id="imIndice314" symbolPosition="s" symbol="%" emptyValue="zero"
+							value="#{projetarMB.ipoBEAN.indiceReajMan314}" decimalPlaces="1" style="width: 30px !important;"
+							disabled="#{projetarMB.ipoBEAN.mesReajMan314 eq null ? true : (projetarMB.ipoBEAN.mesReajMan314 eq '' ? true : false)}" />
+
+		<h:selectBooleanCheckbox id="sbcConta315"
+			value="#{projetarMB.ipoBEAN.conta315}">
+			<p:ajax update="itConta315 " />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta315"
+			value="#{projetarMB.ipoBEAN.nomeConta315}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor315" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta315"
+			value="#{projetarMB.ipoBEAN.valorConta315}"
+			disabled="#{projetarMB.ipoBEAN.conta315 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<p:outputLabel value="Mês / Reajuste" style="margin-left: 20px;font-size: 12px !important;" />
+		<p:selectOneMenu value="#{projetarMB.ipoBEAN.mesReajMan315}">
+			<f:selectItem itemLabel="Selecione" />
+			<f:selectItem itemLabel="Jan" itemValue="1" />
+			<f:selectItem itemLabel="Fev" itemValue="2" />
+			<f:selectItem itemLabel="Mar" itemValue="3" />
+			<f:selectItem itemLabel="Abr" itemValue="4" />
+			<f:selectItem itemLabel="Mai" itemValue="5" />
+			<f:selectItem itemLabel="Jun" itemValue="6" />
+			<f:selectItem itemLabel="Jul" itemValue="7" />
+			<f:selectItem itemLabel="Ago" itemValue="8" />
+			<f:selectItem itemLabel="Set" itemValue="9" />
+			<f:selectItem itemLabel="Out" itemValue="10" />
+			<f:selectItem itemLabel="Nov" itemValue="11" />
+			<f:selectItem itemLabel="Dez" itemValue="12" />
+				<p:ajax update="tbvPrevisao:frmProjecao:acpPresisao:imIndice315" />
+		</p:selectOneMenu>
+
+		<p:outputLabel value="Indice" style="font-size: 12px !important;" />
+		<pe:inputNumber id="imIndice315" symbolPosition="s" symbol="%" emptyValue="zero"
+							value="#{projetarMB.ipoBEAN.indiceReajMan315}" decimalPlaces="1" style="width: 30px !important;"
+							disabled="#{projetarMB.ipoBEAN.mesReajMan315 eq null ? true : (projetarMB.ipoBEAN.mesReajMan315 eq '' ? true : false)}" />
+
+		<h:selectBooleanCheckbox id="sbcConta316"
+			value="#{projetarMB.ipoBEAN.conta316}">
+			<p:ajax update="itConta316 " />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta316"
+			value="#{projetarMB.ipoBEAN.nomeConta316}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor316" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta316"
+			value="#{projetarMB.ipoBEAN.valorConta316}"
+			disabled="#{projetarMB.ipoBEAN.conta316 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<p:outputLabel value="Mês / Reajuste" style="margin-left: 20px;font-size: 12px !important;" />
+		<p:selectOneMenu value="#{projetarMB.ipoBEAN.mesReajMan316}">
+			<f:selectItem itemLabel="Selecione" />
+			<f:selectItem itemLabel="Jan" itemValue="1" />
+			<f:selectItem itemLabel="Fev" itemValue="2" />
+			<f:selectItem itemLabel="Mar" itemValue="3" />
+			<f:selectItem itemLabel="Abr" itemValue="4" />
+			<f:selectItem itemLabel="Mai" itemValue="5" />
+			<f:selectItem itemLabel="Jun" itemValue="6" />
+			<f:selectItem itemLabel="Jul" itemValue="7" />
+			<f:selectItem itemLabel="Ago" itemValue="8" />
+			<f:selectItem itemLabel="Set" itemValue="9" />
+			<f:selectItem itemLabel="Out" itemValue="10" />
+			<f:selectItem itemLabel="Nov" itemValue="11" />
+			<f:selectItem itemLabel="Dez" itemValue="12" />
+				<p:ajax update="tbvPrevisao:frmProjecao:acpPresisao:imIndice316" />
+		</p:selectOneMenu>
+
+		<p:outputLabel value="Indice" style="font-size: 12px !important;"/>
+		<pe:inputNumber id="imIndice316" symbolPosition="s" symbol="%" emptyValue="zero"
+							value="#{projetarMB.ipoBEAN.indiceReajMan316}" decimalPlaces="1" style="width: 30px !important;"
+							disabled="#{projetarMB.ipoBEAN.mesReajMan316 eq null ? true : (projetarMB.ipoBEAN.mesReajMan316 eq '' ? true : false)}" />
+
+		<h:selectBooleanCheckbox id="sbcConta317"
+			value="#{projetarMB.ipoBEAN.conta317}">
+			<p:ajax update="itConta317 " />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta317"
+			value="#{projetarMB.ipoBEAN.nomeConta317}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor317" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta317"
+			value="#{projetarMB.ipoBEAN.valorConta317}"
+			disabled="#{projetarMB.ipoBEAN.conta317 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<p:outputLabel value="Mês / Reajuste" style="margin-left: 20px;font-size: 12px !important;" />
+		<p:selectOneMenu value="#{projetarMB.ipoBEAN.mesReajMan317}">
+			<f:selectItem itemLabel="Selecione" />
+			<f:selectItem itemLabel="Jan" itemValue="1" />
+			<f:selectItem itemLabel="Fev" itemValue="2" />
+			<f:selectItem itemLabel="Mar" itemValue="3" />
+			<f:selectItem itemLabel="Abr" itemValue="4" />
+			<f:selectItem itemLabel="Mai" itemValue="5" />
+			<f:selectItem itemLabel="Jun" itemValue="6" />
+			<f:selectItem itemLabel="Jul" itemValue="7" />
+			<f:selectItem itemLabel="Ago" itemValue="8" />
+			<f:selectItem itemLabel="Set" itemValue="9" />
+			<f:selectItem itemLabel="Out" itemValue="10" />
+			<f:selectItem itemLabel="Nov" itemValue="11" />
+			<f:selectItem itemLabel="Dez" itemValue="12" />
+				<p:ajax update="tbvPrevisao:frmProjecao:acpPresisao:imIndice317" />
+		</p:selectOneMenu>
+
+		<p:outputLabel value="Indice" style="font-size: 12px !important;"/>
+		<pe:inputNumber id="imIndice317" symbolPosition="s" symbol="%" emptyValue="zero"
+							value="#{projetarMB.ipoBEAN.indiceReajMan317}" decimalPlaces="1" style="width: 30px !important;"
+							disabled="#{projetarMB.ipoBEAN.mesReajMan317 eq null ? true : (projetarMB.ipoBEAN.mesReajMan317 eq '' ? true : false)}" />
+
+		<h:selectBooleanCheckbox id="sbcConta318"
+			value="#{projetarMB.ipoBEAN.conta318}">
+			<p:ajax update="itConta318 " />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta318"
+			value="#{projetarMB.ipoBEAN.nomeConta318}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor318" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta318"
+			value="#{projetarMB.ipoBEAN.valorConta318}"
+			disabled="#{projetarMB.ipoBEAN.conta318 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<p:outputLabel value="Mês / Reajuste" style="margin-left: 20px;font-size: 12px !important;" />
+		<p:selectOneMenu value="#{projetarMB.ipoBEAN.mesReajMan318}">
+			<f:selectItem itemLabel="Selecione" />
+			<f:selectItem itemLabel="Jan" itemValue="1" />
+			<f:selectItem itemLabel="Fev" itemValue="2" />
+			<f:selectItem itemLabel="Mar" itemValue="3" />
+			<f:selectItem itemLabel="Abr" itemValue="4" />
+			<f:selectItem itemLabel="Mai" itemValue="5" />
+			<f:selectItem itemLabel="Jun" itemValue="6" />
+			<f:selectItem itemLabel="Jul" itemValue="7" />
+			<f:selectItem itemLabel="Ago" itemValue="8" />
+			<f:selectItem itemLabel="Set" itemValue="9" />
+			<f:selectItem itemLabel="Out" itemValue="10" />
+			<f:selectItem itemLabel="Nov" itemValue="11" />
+			<f:selectItem itemLabel="Dez" itemValue="12" />
+				<p:ajax update="tbvPrevisao:frmProjecao:acpPresisao:imIndice318" />
+		</p:selectOneMenu>
+
+		<p:outputLabel value="Indice" style="font-size: 12px !important;"/>
+		<pe:inputNumber id="imIndice318" symbolPosition="s" symbol="%" emptyValue="zero"
+							value="#{projetarMB.ipoBEAN.indiceReajMan318}" decimalPlaces="1" style="width: 30px !important;"
+							disabled="#{projetarMB.ipoBEAN.mesReajMan318 eq null ? true : (projetarMB.ipoBEAN.mesReajMan318 eq '' ? true : false)}" />
+
+		<h:selectBooleanCheckbox id="sbcConta319"
+			value="#{projetarMB.ipoBEAN.conta319}">
+			<p:ajax update="itConta319 " />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta319"
+			value="#{projetarMB.ipoBEAN.nomeConta319}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor319" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta319"
+			value="#{projetarMB.ipoBEAN.valorConta319}"
+			disabled="#{projetarMB.ipoBEAN.conta319 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<p:outputLabel value="Mês / Reajuste" style="margin-left: 20px;font-size: 12px !important;" />
+		<p:selectOneMenu value="#{projetarMB.ipoBEAN.mesReajMan319}">
+			<f:selectItem itemLabel="Selecione" />
+			<f:selectItem itemLabel="Jan" itemValue="1" />
+			<f:selectItem itemLabel="Fev" itemValue="2" />
+			<f:selectItem itemLabel="Mar" itemValue="3" />
+			<f:selectItem itemLabel="Abr" itemValue="4" />
+			<f:selectItem itemLabel="Mai" itemValue="5" />
+			<f:selectItem itemLabel="Jun" itemValue="6" />
+			<f:selectItem itemLabel="Jul" itemValue="7" />
+			<f:selectItem itemLabel="Ago" itemValue="8" />
+			<f:selectItem itemLabel="Set" itemValue="9" />
+			<f:selectItem itemLabel="Out" itemValue="10" />
+			<f:selectItem itemLabel="Nov" itemValue="11" />
+			<f:selectItem itemLabel="Dez" itemValue="12" />
+				<p:ajax update="tbvPrevisao:frmProjecao:acpPresisao:imIndice319" />
+		</p:selectOneMenu>
+
+		<p:outputLabel value="Indice" style="font-size: 12px !important;"/>
+		<pe:inputNumber id="imIndice319" symbolPosition="s" symbol="%" emptyValue="zero"
+							value="#{projetarMB.ipoBEAN.indiceReajMan319}" decimalPlaces="1" style="width: 30px !important;"
+							disabled="#{projetarMB.ipoBEAN.mesReajMan319 eq null ? true : (projetarMB.ipoBEAN.mesReajMan319 eq '' ? true : false)}" />
+
+		<h:selectBooleanCheckbox id="sbcConta320"
+			value="#{projetarMB.ipoBEAN.conta320}">
+			<p:ajax update="itConta320 " />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta320"
+			value="#{projetarMB.ipoBEAN.nomeConta320}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor320" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta320"
+			value="#{projetarMB.ipoBEAN.valorConta320}"
+			disabled="#{projetarMB.ipoBEAN.conta320 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<p:outputLabel value="Mês / Reajuste" style="margin-left: 20px;font-size: 12px !important;" />
+		<p:selectOneMenu value="#{projetarMB.ipoBEAN.mesReajMan320}">
+			<f:selectItem itemLabel="Selecione" />
+			<f:selectItem itemLabel="Jan" itemValue="1" />
+			<f:selectItem itemLabel="Fev" itemValue="2" />
+			<f:selectItem itemLabel="Mar" itemValue="3" />
+			<f:selectItem itemLabel="Abr" itemValue="4" />
+			<f:selectItem itemLabel="Mai" itemValue="5" />
+			<f:selectItem itemLabel="Jun" itemValue="6" />
+			<f:selectItem itemLabel="Jul" itemValue="7" />
+			<f:selectItem itemLabel="Ago" itemValue="8" />
+			<f:selectItem itemLabel="Set" itemValue="9" />
+			<f:selectItem itemLabel="Out" itemValue="10" />
+			<f:selectItem itemLabel="Nov" itemValue="11" />
+			<f:selectItem itemLabel="Dez" itemValue="12" />
+				<p:ajax update="tbvPrevisao:frmProjecao:acpPresisao:imIndice320" />
+		</p:selectOneMenu>
+
+		<p:outputLabel value="Indice" style="font-size: 12px !important;"/>
+		<pe:inputNumber id="imIndice320" symbolPosition="s" symbol="%" emptyValue="zero"
+							value="#{projetarMB.ipoBEAN.indiceReajMan320}" decimalPlaces="1" style="width: 30px !important;"
+							disabled="#{projetarMB.ipoBEAN.mesReajMan320 eq null ? true : (projetarMB.ipoBEAN.mesReajMan320 eq '' ? true : false)}" />
+
+		<h:selectBooleanCheckbox id="sbcConta321"
+			value="#{projetarMB.ipoBEAN.conta321}">
+			<p:ajax update="itConta321 " />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta321"
+			value="#{projetarMB.ipoBEAN.nomeConta321}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor321" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta321"
+			value="#{projetarMB.ipoBEAN.valorConta321}"
+			disabled="#{projetarMB.ipoBEAN.conta321 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<p:outputLabel value="Mês / Reajuste" style="margin-left: 20px;font-size: 12px !important;" />
+		<p:selectOneMenu value="#{projetarMB.ipoBEAN.mesReajMan321}">
+			<f:selectItem itemLabel="Selecione" />
+			<f:selectItem itemLabel="Jan" itemValue="1" />
+			<f:selectItem itemLabel="Fev" itemValue="2" />
+			<f:selectItem itemLabel="Mar" itemValue="3" />
+			<f:selectItem itemLabel="Abr" itemValue="4" />
+			<f:selectItem itemLabel="Mai" itemValue="5" />
+			<f:selectItem itemLabel="Jun" itemValue="6" />
+			<f:selectItem itemLabel="Jul" itemValue="7" />
+			<f:selectItem itemLabel="Ago" itemValue="8" />
+			<f:selectItem itemLabel="Set" itemValue="9" />
+			<f:selectItem itemLabel="Out" itemValue="10" />
+			<f:selectItem itemLabel="Nov" itemValue="11" />
+			<f:selectItem itemLabel="Dez" itemValue="12" />
+				<p:ajax update="tbvPrevisao:frmProjecao:acpPresisao:imIndice321" />
+		</p:selectOneMenu>
+
+		<p:outputLabel value="Indice" style="font-size: 12px !important;"/>
+		<pe:inputNumber id="imIndice321" symbolPosition="s" symbol="%" emptyValue="zero"
+							value="#{projetarMB.ipoBEAN.indiceReajMan321}" decimalPlaces="1" style="width: 30px !important;"
+							disabled="#{projetarMB.ipoBEAN.mesReajMan321 eq null ? true : (projetarMB.ipoBEAN.mesReajMan321 eq '' ? true : false)}" />
+
+		<h:selectBooleanCheckbox id="sbcConta322"
+			value="#{projetarMB.ipoBEAN.conta322}">
+			<p:ajax update="itConta322 " />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta322"
+			value="#{projetarMB.ipoBEAN.nomeConta322}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor322" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta322"
+			value="#{projetarMB.ipoBEAN.valorConta322}"
+			disabled="#{projetarMB.ipoBEAN.conta322 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<p:outputLabel value="Mês / Reajuste" style="margin-left: 20px;font-size: 12px !important;" />
+		<p:selectOneMenu value="#{projetarMB.ipoBEAN.mesReajMan322}">
+			<f:selectItem itemLabel="Selecione" />
+			<f:selectItem itemLabel="Jan" itemValue="1" />
+			<f:selectItem itemLabel="Fev" itemValue="2" />
+			<f:selectItem itemLabel="Mar" itemValue="3" />
+			<f:selectItem itemLabel="Abr" itemValue="4" />
+			<f:selectItem itemLabel="Mai" itemValue="5" />
+			<f:selectItem itemLabel="Jun" itemValue="6" />
+			<f:selectItem itemLabel="Jul" itemValue="7" />
+			<f:selectItem itemLabel="Ago" itemValue="8" />
+			<f:selectItem itemLabel="Set" itemValue="9" />
+			<f:selectItem itemLabel="Out" itemValue="10" />
+			<f:selectItem itemLabel="Nov" itemValue="11" />
+			<f:selectItem itemLabel="Dez" itemValue="12" />
+				<p:ajax update="tbvPrevisao:frmProjecao:acpPresisao:imIndice322" />
+		</p:selectOneMenu>
+
+		<p:outputLabel value="Indice" style="font-size: 12px !important;" />
+		<pe:inputNumber id="imIndice322" symbolPosition="s" symbol="%" emptyValue="zero"
+							value="#{projetarMB.ipoBEAN.indiceReajMan322}" decimalPlaces="1" style="width: 30px !important;"
+							disabled="#{projetarMB.ipoBEAN.mesReajMan322 eq null ? true : (projetarMB.ipoBEAN.mesReajMan322 eq '' ? true : false)}" />
+
+		<h:selectBooleanCheckbox id="sbcConta323"
+			value="#{projetarMB.ipoBEAN.conta323}">
+			<p:ajax update="itConta323 " />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta323"
+			value="#{projetarMB.ipoBEAN.nomeConta323}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor323" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta323"
+			value="#{projetarMB.ipoBEAN.valorConta323}"
+			disabled="#{projetarMB.ipoBEAN.conta323 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<p:outputLabel value="Mês / Reajuste" style="margin-left: 20px;font-size: 12px !important;" />
+		<p:selectOneMenu value="#{projetarMB.ipoBEAN.mesReajMan323}">
+			<f:selectItem itemLabel="Selecione" />
+			<f:selectItem itemLabel="Jan" itemValue="1" />
+			<f:selectItem itemLabel="Fev" itemValue="2" />
+			<f:selectItem itemLabel="Mar" itemValue="3" />
+			<f:selectItem itemLabel="Abr" itemValue="4" />
+			<f:selectItem itemLabel="Mai" itemValue="5" />
+			<f:selectItem itemLabel="Jun" itemValue="6" />
+			<f:selectItem itemLabel="Jul" itemValue="7" />
+			<f:selectItem itemLabel="Ago" itemValue="8" />
+			<f:selectItem itemLabel="Set" itemValue="9" />
+			<f:selectItem itemLabel="Out" itemValue="10" />
+			<f:selectItem itemLabel="Nov" itemValue="11" />
+			<f:selectItem itemLabel="Dez" itemValue="12" />
+				<p:ajax update="tbvPrevisao:frmProjecao:acpPresisao:imIndice323" />
+		</p:selectOneMenu>
+
+		<p:outputLabel value="Indice" style="font-size: 12px !important;"/>
+		<pe:inputNumber id="imIndice323" symbolPosition="s" symbol="%" emptyValue="zero"
+							value="#{projetarMB.ipoBEAN.indiceReajMan323}" decimalPlaces="1" style="width: 30px !important;"
+							disabled="#{projetarMB.ipoBEAN.mesReajMan323 eq null ? true : (projetarMB.ipoBEAN.mesReajMan323 eq '' ? true : false)}" />
+
+		<h:selectBooleanCheckbox id="sbcConta324"
+			value="#{projetarMB.ipoBEAN.conta324}">
+			<p:ajax update="itConta324 " />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta324"
+			value="#{projetarMB.ipoBEAN.nomeConta324}" style="font-size: 12px !important;" />
+
+		<p:outputLabel id="olValor324" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta324"
+			value="#{projetarMB.ipoBEAN.valorConta324}"
+			disabled="#{projetarMB.ipoBEAN.conta324 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<p:outputLabel value="Mês / Reajuste" style="margin-left: 20px;font-size: 12px !important;" />
+		<p:selectOneMenu value="#{projetarMB.ipoBEAN.mesReajMan324}">
+			<f:selectItem itemLabel="Selecione" />
+			<f:selectItem itemLabel="Jan" itemValue="1" />
+			<f:selectItem itemLabel="Fev" itemValue="2" />
+			<f:selectItem itemLabel="Mar" itemValue="3" />
+			<f:selectItem itemLabel="Abr" itemValue="4" />
+			<f:selectItem itemLabel="Mai" itemValue="5" />
+			<f:selectItem itemLabel="Jun" itemValue="6" />
+			<f:selectItem itemLabel="Jul" itemValue="7" />
+			<f:selectItem itemLabel="Ago" itemValue="8" />
+			<f:selectItem itemLabel="Set" itemValue="9" />
+			<f:selectItem itemLabel="Out" itemValue="10" />
+			<f:selectItem itemLabel="Nov" itemValue="11" />
+			<f:selectItem itemLabel="Dez" itemValue="12" />
+				<p:ajax update="tbvPrevisao:frmProjecao:acpPresisao:imIndice31" />
+		</p:selectOneMenu>
+
+		<p:outputLabel value="Indice" style="font-size: 12px !important;" />
+		<pe:inputNumber id="imIndice324" symbolPosition="s" symbol="%" emptyValue="zero"
+							value="#{projetarMB.ipoBEAN.indiceReajMan324}" decimalPlaces="1" style="width: 30px !important;"
+							disabled="#{projetarMB.ipoBEAN.mesReajMan324 eq null ? true : (projetarMB.ipoBEAN.mesReajMan324 eq '' ? true : false)}" />
+
+		<h:selectBooleanCheckbox id="sbcConta325"
+			value="#{projetarMB.ipoBEAN.conta325}">
+			<p:ajax update="itConta325 " />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta325"
+			value="#{projetarMB.ipoBEAN.nomeConta325}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor325" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta325"
+			value="#{projetarMB.ipoBEAN.valorConta325}"
+			disabled="#{projetarMB.ipoBEAN.conta325 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<p:outputLabel value="Mês / Reajuste" style="margin-left: 20px;font-size: 12px !important;" />
+		<p:selectOneMenu value="#{projetarMB.ipoBEAN.mesReajMan325}">
+			<f:selectItem itemLabel="Selecione" />
+			<f:selectItem itemLabel="Jan" itemValue="1" />
+			<f:selectItem itemLabel="Fev" itemValue="2" />
+			<f:selectItem itemLabel="Mar" itemValue="3" />
+			<f:selectItem itemLabel="Abr" itemValue="4" />
+			<f:selectItem itemLabel="Mai" itemValue="5" />
+			<f:selectItem itemLabel="Jun" itemValue="6" />
+			<f:selectItem itemLabel="Jul" itemValue="7" />
+			<f:selectItem itemLabel="Ago" itemValue="8" />
+			<f:selectItem itemLabel="Set" itemValue="9" />
+			<f:selectItem itemLabel="Out" itemValue="10" />
+			<f:selectItem itemLabel="Nov" itemValue="11" />
+			<f:selectItem itemLabel="Dez" itemValue="12" />
+				<p:ajax update="tbvPrevisao:frmProjecao:acpPresisao:imIndice325" />
+		</p:selectOneMenu>
+
+		<p:outputLabel value="Indice" style="font-size: 12px !important;"/>
+		<pe:inputNumber id="imIndice325" symbolPosition="s" symbol="%" emptyValue="zero"
+							value="#{projetarMB.ipoBEAN.indiceReajMan325}" decimalPlaces="1" style="width: 30px !important;"
+							disabled="#{projetarMB.ipoBEAN.mesReajMan325 eq null ? true : (projetarMB.ipoBEAN.mesReajMan325 eq '' ? true : false)}" />
+
+		<h:selectBooleanCheckbox id="sbcConta326"
+			value="#{projetarMB.ipoBEAN.conta326}">
+			<p:ajax update="itConta326 " />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta326"
+			value="#{projetarMB.ipoBEAN.nomeConta326}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor326" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta326"
+			value="#{projetarMB.ipoBEAN.valorConta326}"
+			disabled="#{projetarMB.ipoBEAN.conta326 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<p:outputLabel value="Mês / Reajuste" style="margin-left: 20px;font-size: 12px !important;" />
+		<p:selectOneMenu value="#{projetarMB.ipoBEAN.mesReajMan326}">
+			<f:selectItem itemLabel="Selecione" />
+			<f:selectItem itemLabel="Jan" itemValue="1" />
+			<f:selectItem itemLabel="Fev" itemValue="2" />
+			<f:selectItem itemLabel="Mar" itemValue="3" />
+			<f:selectItem itemLabel="Abr" itemValue="4" />
+			<f:selectItem itemLabel="Mai" itemValue="5" />
+			<f:selectItem itemLabel="Jun" itemValue="6" />
+			<f:selectItem itemLabel="Jul" itemValue="7" />
+			<f:selectItem itemLabel="Ago" itemValue="8" />
+			<f:selectItem itemLabel="Set" itemValue="9" />
+			<f:selectItem itemLabel="Out" itemValue="10" />
+			<f:selectItem itemLabel="Nov" itemValue="11" />
+			<f:selectItem itemLabel="Dez" itemValue="12" />
+				<p:ajax update="tbvPrevisao:frmProjecao:acpPresisao:imIndice326" />
+		</p:selectOneMenu>
+
+		<p:outputLabel value="Indice" style="font-size: 12px !important;"/>
+		<pe:inputNumber id="imIndice326" symbolPosition="s" symbol="%" emptyValue="zero"
+							value="#{projetarMB.ipoBEAN.indiceReajMan326}" decimalPlaces="1" style="width: 30px !important;"
+							disabled="#{projetarMB.ipoBEAN.mesReajMan326 eq null ? true : (projetarMB.ipoBEAN.mesReajMan326 eq '' ? true : false)}" />
+
+		<h:selectBooleanCheckbox id="sbcConta327"
+			value="#{projetarMB.ipoBEAN.conta327}">
+			<p:ajax update="itConta327 " />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta327"
+			value="#{projetarMB.ipoBEAN.nomeConta327}" style="font-size: 12px !important;" />
+
+		<p:outputLabel id="olValor327" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta327"
+			value="#{projetarMB.ipoBEAN.valorConta327}"
+			disabled="#{projetarMB.ipoBEAN.conta327 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<p:outputLabel value="Mês / Reajuste" style="margin-left: 20px;font-size: 12px !important;" />
+		<p:selectOneMenu value="#{projetarMB.ipoBEAN.mesReajMan327}">
+			<f:selectItem itemLabel="Selecione" />
+			<f:selectItem itemLabel="Jan" itemValue="1" />
+			<f:selectItem itemLabel="Fev" itemValue="2" />
+			<f:selectItem itemLabel="Mar" itemValue="3" />
+			<f:selectItem itemLabel="Abr" itemValue="4" />
+			<f:selectItem itemLabel="Mai" itemValue="5" />
+			<f:selectItem itemLabel="Jun" itemValue="6" />
+			<f:selectItem itemLabel="Jul" itemValue="7" />
+			<f:selectItem itemLabel="Ago" itemValue="8" />
+			<f:selectItem itemLabel="Set" itemValue="9" />
+			<f:selectItem itemLabel="Out" itemValue="10" />
+			<f:selectItem itemLabel="Nov" itemValue="11" />
+			<f:selectItem itemLabel="Dez" itemValue="12" />
+				<p:ajax update="tbvPrevisao:frmProjecao:acpPresisao:imIndice327" />
+		</p:selectOneMenu>
+
+		<p:outputLabel value="Indice" style="font-size: 12px !important;" />
+		<pe:inputNumber id="imIndice327" symbolPosition="s" symbol="%" emptyValue="zero"
+							value="#{projetarMB.ipoBEAN.indiceReajMan327}" decimalPlaces="1" style="width: 30px !important;"
+							disabled="#{projetarMB.ipoBEAN.mesReajMan327 eq null ? true : (projetarMB.ipoBEAN.mesReajMan327 eq '' ? true : false)}" />
+
+		<h:selectBooleanCheckbox id="sbcConta328"
+			value="#{projetarMB.ipoBEAN.conta328}">
+			<p:ajax update="itConta328 " />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta328"
+			value="#{projetarMB.ipoBEAN.nomeConta328}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor328" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta328"
+			value="#{projetarMB.ipoBEAN.valorConta328}"
+			disabled="#{projetarMB.ipoBEAN.conta328 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<p:outputLabel value="Mês / Reajuste" style="margin-left: 20px;font-size: 12px !important;" />
+		<p:selectOneMenu value="#{projetarMB.ipoBEAN.mesReajMan328}">
+			<f:selectItem itemLabel="Selecione" />
+			<f:selectItem itemLabel="Jan" itemValue="1" />
+			<f:selectItem itemLabel="Fev" itemValue="2" />
+			<f:selectItem itemLabel="Mar" itemValue="3" />
+			<f:selectItem itemLabel="Abr" itemValue="4" />
+			<f:selectItem itemLabel="Mai" itemValue="5" />
+			<f:selectItem itemLabel="Jun" itemValue="6" />
+			<f:selectItem itemLabel="Jul" itemValue="7" />
+			<f:selectItem itemLabel="Ago" itemValue="8" />
+			<f:selectItem itemLabel="Set" itemValue="9" />
+			<f:selectItem itemLabel="Out" itemValue="10" />
+			<f:selectItem itemLabel="Nov" itemValue="11" />
+			<f:selectItem itemLabel="Dez" itemValue="12" />
+				<p:ajax update="tbvPrevisao:frmProjecao:acpPresisao:imIndice328" />
+		</p:selectOneMenu>
+
+		<p:outputLabel value="Indice" style="font-size: 12px !important;"/>
+		<pe:inputNumber id="imIndice328" symbolPosition="s" symbol="%" emptyValue="zero"
+							value="#{projetarMB.ipoBEAN.indiceReajMan328}" decimalPlaces="1" style="width: 30px !important;"
+							disabled="#{projetarMB.ipoBEAN.mesReajMan328 eq null ? true : (projetarMB.ipoBEAN.mesReajMan328 eq '' ? true : false)}" />
+
+		<h:selectBooleanCheckbox id="sbcConta329"
+			value="#{projetarMB.ipoBEAN.conta329}">
+			<p:ajax update="itConta329 " />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta329"
+			value="#{projetarMB.ipoBEAN.nomeConta329}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor329" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta329"
+			value="#{projetarMB.ipoBEAN.valorConta329}"
+			disabled="#{projetarMB.ipoBEAN.conta329 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<p:outputLabel value="Mês / Reajuste" style="margin-left: 20px;font-size: 12px !important;" />
+		<p:selectOneMenu value="#{projetarMB.ipoBEAN.mesReajMan329}">
+			<f:selectItem itemLabel="Selecione" />
+			<f:selectItem itemLabel="Jan" itemValue="1" />
+			<f:selectItem itemLabel="Fev" itemValue="2" />
+			<f:selectItem itemLabel="Mar" itemValue="3" />
+			<f:selectItem itemLabel="Abr" itemValue="4" />
+			<f:selectItem itemLabel="Mai" itemValue="5" />
+			<f:selectItem itemLabel="Jun" itemValue="6" />
+			<f:selectItem itemLabel="Jul" itemValue="7" />
+			<f:selectItem itemLabel="Ago" itemValue="8" />
+			<f:selectItem itemLabel="Set" itemValue="9" />
+			<f:selectItem itemLabel="Out" itemValue="10" />
+			<f:selectItem itemLabel="Nov" itemValue="11" />
+			<f:selectItem itemLabel="Dez" itemValue="12" />
+				<p:ajax update="tbvPrevisao:frmProjecao:acpPresisao:imIndice329" />
+		</p:selectOneMenu>
+
+		<p:outputLabel value="Indice" style="font-size: 12px !important;" />
+		<pe:inputNumber id="imIndice329" symbolPosition="s" symbol="%" emptyValue="zero"
+							value="#{projetarMB.ipoBEAN.indiceReajMan329}" decimalPlaces="1" style="width: 30px !important;"
+							disabled="#{projetarMB.ipoBEAN.mesReajMan329 eq null ? true : (projetarMB.ipoBEAN.mesReajMan329 eq '' ? true : false)}" />
+
+		<h:selectBooleanCheckbox id="sbcConta330"
+			value="#{projetarMB.ipoBEAN.conta330}">
+			<p:ajax update="itConta330 " />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta330"
+			value="#{projetarMB.ipoBEAN.nomeConta330}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor330" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta330"
+			value="#{projetarMB.ipoBEAN.valorConta330}"
+			disabled="#{projetarMB.ipoBEAN.conta330 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<p:outputLabel value="Mês / Reajuste" style="margin-left: 20px;font-size: 12px !important;" />
+		<p:selectOneMenu value="#{projetarMB.ipoBEAN.mesReajMan330}">
+			<f:selectItem itemLabel="Selecione" />
+			<f:selectItem itemLabel="Jan" itemValue="1" />
+			<f:selectItem itemLabel="Fev" itemValue="2" />
+			<f:selectItem itemLabel="Mar" itemValue="3" />
+			<f:selectItem itemLabel="Abr" itemValue="4" />
+			<f:selectItem itemLabel="Mai" itemValue="5" />
+			<f:selectItem itemLabel="Jun" itemValue="6" />
+			<f:selectItem itemLabel="Jul" itemValue="7" />
+			<f:selectItem itemLabel="Ago" itemValue="8" />
+			<f:selectItem itemLabel="Set" itemValue="9" />
+			<f:selectItem itemLabel="Out" itemValue="10" />
+			<f:selectItem itemLabel="Nov" itemValue="11" />
+			<f:selectItem itemLabel="Dez" itemValue="12" />
+				<p:ajax update="tbvPrevisao:frmProjecao:acpPresisao:imIndice330" />
+		</p:selectOneMenu>
+
+		<p:outputLabel value="Indice" style="font-size: 12px !important;"/>
+		<pe:inputNumber id="imIndice330" symbolPosition="s" symbol="%" emptyValue="zero"
+							value="#{projetarMB.ipoBEAN.indiceReajMan330}" decimalPlaces="1" style="width: 30px !important;"
+							disabled="#{projetarMB.ipoBEAN.mesReajMan330 eq null ? true : (projetarMB.ipoBEAN.mesReajMan330 eq '' ? true : false)}" />
+
+		<h:selectBooleanCheckbox id="sbcConta331"
+			value="#{projetarMB.ipoBEAN.conta331}">
+			<p:ajax update="itConta331 " />
+		</h:selectBooleanCheckbox>
+		<p:outputLabel id="olConta331"
+			value="#{projetarMB.ipoBEAN.nomeConta331}" style="font-size: 12px !important;"/>
+
+		<p:outputLabel id="olValor331" value="Valor R$"
+			style="margin-left:20px;font-size: 12px !important;" />
+		<pe:inputNumber id="itConta331"
+			value="#{projetarMB.ipoBEAN.valorConta331}"
+			disabled="#{projetarMB.ipoBEAN.conta331 eq true ? false : true}"
+			decimalPlaces="2" thousandSeparator="." minValue="-999999999"
+			maxValue="999999999" decimalSeparator="," emptyValue="0,00" />
+
+		<p:outputLabel value="Mês / Reajuste" style="margin-left: 20px;font-size: 12px !important;" />
+		<p:selectOneMenu value="#{projetarMB.ipoBEAN.mesReajMan331}">
+			<f:selectItem itemLabel="Selecione" />
+			<f:selectItem itemLabel="Jan" itemValue="1" />
+			<f:selectItem itemLabel="Fev" itemValue="2" />
+			<f:selectItem itemLabel="Mar" itemValue="3" />
+			<f:selectItem itemLabel="Abr" itemValue="4" />
+			<f:selectItem itemLabel="Mai" itemValue="5" />
+			<f:selectItem itemLabel="Jun" itemValue="6" />
+			<f:selectItem itemLabel="Jul" itemValue="7" />
+			<f:selectItem itemLabel="Ago" itemValue="8" />
+			<f:selectItem itemLabel="Set" itemValue="9" />
+			<f:selectItem itemLabel="Out" itemValue="10" />
+			<f:selectItem itemLabel="Nov" itemValue="11" />
+			<f:selectItem itemLabel="Dez" itemValue="12" />
+				<p:ajax update="tbvPrevisao:frmProjecao:acpPresisao:imIndice331" />
+		</p:selectOneMenu>
+
+		<p:outputLabel value="Indice" style="font-size: 12px !important;"/>
+		<pe:inputNumber id="imIndice331" symbolPosition="s" symbol="%" emptyValue="zero"
+							value="#{projetarMB.ipoBEAN.indiceReajMan331}" decimalPlaces="1" style="width: 30px !important;"
+							disabled="#{projetarMB.ipoBEAN.mesReajMan331 eq null ? true : (projetarMB.ipoBEAN.mesReajMan331 eq '' ? true : false)}" />
+
+	</h:panelGrid>
+
+</ui:composition>

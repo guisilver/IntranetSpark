@@ -1,0 +1,205 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	<style>
+.ui-datatable .ui-column-filter {
+	width: 80px;
+}
+.headerColunaPequeno[role="columnheader"] input {
+	width: 40px !important;
+}
+.headerColunaVencimento[role="columnheader"] input {
+	width: 80px !important;
+}
+.gridAcao {
+	width: auto;
+	margin-left: auto;
+	margin-right: auto;
+	width: 130px;
+}
+.gridAcao tbody td {
+	border: 0px !important;
+}
+.headerColuna[role="columnheader"] {
+	text-align: center !important;
+}
+.noBorder tbody tr td {
+	border: 0px !important;
+}
+</style>
+	<div class="layout-portlets-box">
+		<div class="DispInlBlock TexAlLeft">
+			<div class="Fleft">
+				<h2 class="black Fs24 FontRalewayMedium">Entrada / Saída</h2>
+			</div>
+		</div>
+		<div class="Seperator"></div>
+		<div class="Container50 Responsive50">
+			<div class="ContainerIndent">
+				<h:form>
+					<h:panelGrid columns="2">
+						<p:commandButton value="Nova Entrada / Saída"
+							icon="fa fa-plus Fs16 white" ajax="false"
+							action="entrada-saida/nova-entrada-saida.xhtml?faces-redirect=true;" />
+					</h:panelGrid>
+				</h:form>
+			</div>
+		</div>
+		<div class="Container100 Responsive100">
+			<div class="ContainerIndent">
+				<h:form id="frmFiltroEmissor">
+					<p:panelGrid id="gridFiltro" columns="1"
+						style="margin-bottom:20px;">
+						<f:facet name="header">
+							<h:outputText value="Filtros" />
+						</f:facet>
+						<h:panelGrid columns="2" styleClass="noBorder">
+							<p:selectOneRadio
+								value="#{movimentoCaixaMB.tipoMovimentoPesquisa}">
+								<p:ajax listener="#{movimentoCaixaMB.atualizaLista()}"
+									update=":frmMovimentos" resetValues="true" />
+								<f:selectItem itemLabel="Todos" itemValue="Todos" />
+								<f:selectItem itemLabel="Entrada" itemValue="Entrada" />
+								<f:selectItem itemLabel="Saída" itemValue="Saida" />
+							</p:selectOneRadio>
+						</h:panelGrid>
+					</p:panelGrid>
+				</h:form>
+			</div>
+		</div>
+		<div class="Container100 TexAlCenter">
+			<div class="ContainerIndent">
+				<h:form id="frmMovimentos">
+					<p:messages autoUpdate="true" closable="true" escape="true"
+						showDetail="false" />
+					<p:dataTable id="singleDT" var="movimento" widgetVar="singleDT"
+						value="#{movimentoCaixaMB.listaMovimentoCaixa}"
+						filteredValue="#{movimentoCaixaMB.filtroMovimentoCaixa}"
+						rowKey="#{movimento.codigo}" rows="10" paginator="true"
+						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15"
+						emptyMessage="Nenhum resultado encontrado!" reflow="true">
+						<p:ajax event="page" oncomplete="subPag();" />
+						<f:facet name="header">
+							<p:outputPanel>
+								<h:outputText value="Buscar em todos os campos:" />
+								<p:inputText id="globalFilter" onkeyup="PF('singleDT').filter()"
+									style="width:150px;margin-left:5px;"
+									placeholder="Insira a palavra" />
+							</p:outputPanel>
+						</f:facet>
+
+						<p:column headerText="Id" sortBy="#{movimento.id}"
+							filterBy="#{movimento.id}" filterStyle="display:none;"
+							style="width:60px;" styleClass="headerColunaPequeno">
+							<h:outputText value="#{movimento.id}" />
+						</p:column>
+
+						<p:column headerText="Vencimento"
+							sortBy="#{movimento.vencimentoString}"
+							filterBy="#{movimento.vencimentoString}"
+							filterMatchMode="contains" style="width:110px;"
+							styleClass="headerColunaVencimento">
+							<h:outputText value="#{movimento.vencimentoString}" />
+						</p:column>
+
+						<p:column headerText="Tipo" sortBy="#{movimento.tipo}"
+							style="width:60px;" filterMatchMode="contains">
+							<h:outputText
+								value="#{movimento.tipo == 0 ? 'Saída' : 'Entrada'}" />
+						</p:column>
+
+						<p:column headerText="Cnd" style="text-align:left;"
+							styleClass="headerColuna" filterBy="#{movimento.cndCodNome}"
+							filterMatchMode="contains">
+							<h:outputText value="#{movimento.cndCodNome}" />
+						</p:column>
+
+						<p:column headerText="Gerente" style="text-align:left;"
+							styleClass="headerColuna" filterBy="#{movimento.nomeGerente}"
+							filterMatchMode="contains">
+							<h:outputText value="#{movimento.nomeGerente}" />
+						</p:column>
+
+						<p:column headerText="Referência" style="text-align:left;"
+							styleClass="headerColuna" filterBy="#{movimento.referencia}"
+							filterMatchMode="contains">
+							<h:outputText value="#{movimento.referencia}" />
+						</p:column>
+
+						<p:column headerText="Favorecido" style="text-align:left;"
+							styleClass="headerColuna" filterBy="#{movimento.favorecido}"
+							filterMatchMode="contains">
+							<h:outputText value="#{movimento.favorecido}" />
+						</p:column>
+
+						<p:column headerText="Valor" style="width:80px;"
+							styleClass="headerColunaPequeno" filterBy="#{movimento.valor}"
+							filterMatchMode="contains">
+							<h:outputText value="#{movimento.valor}" />
+						</p:column>
+
+						<p:column style="width:180px;">
+							<h:panelGrid columns="4" styleClass="gridAcao">
+
+								<p:commandButton icon="fa fa-pencil Fs16 white"
+									actionListener="#{movimentoCaixaMB.abreAlteraMovimentoCaixa(movimento)}"
+									ajax="false" title="Alterar" />
+
+								<p:commandButton icon="fa fa-copy white"
+									action="#{movimentoCaixaMB.abreDuplicaMovimentoCaixa(movimento)}"
+									ajax="false" title="Duplicar" />
+
+								<p:commandButton icon="fa fa-file-text-o white"
+									action="#{movimentoCaixaMB.geraRelatorioTbl(movimento)}"
+									title="Gerar Relatório" />
+
+								<p:commandButton
+									actionListener="#{movimentoCaixaMB.excluirMovimentoTbl(movimento)}"
+									icon="fa fa-trash Fs16 white" update="@form" title="Excluir">
+									<p:confirm header="Confirmação"
+										message="Você confirma a exclusão?"
+										icon="fa fa-alert Fs16 white" />
+								</p:commandButton>
+
+							</h:panelGrid>
+						</p:column>
+					</p:dataTable>
+					<p:confirmDialog global="true" widgetVar="dlgExclui"
+						showEffect="fade" hideEffect="fade">
+						<p:commandButton value="Não" type="button"
+							styleClass="ui-confirmdialog-no"
+							icon="ui-icon-close fa fa-close Fs14 white" />
+						<p:commandButton value="Sim" type="button" ajax="false"
+							styleClass="ui-confirmdialog-yes"
+							icon="ui-icon-check fa fa-check Fs14 white" />
+					</p:confirmDialog>
+				</h:form>
+				<script>
+					function clicaBotaoDownload() {
+						$("[id='frmDownload:btnDownload']").click();
+					}
+
+					function subPag() {
+						$('#frmMovimentos').submit();
+					}
+				</script>
+				<h:form id="frmDownload">
+					<h:commandLink id="btnDownload"
+						action="#{movimentoCaixaMB.downloadPDF(movimentoCaixaMB.retorno)}"
+						target="_blank" style="visibility:hidden;" />
+				</h:form>
+			</div>
+		</div>
+	</div>
+	<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+		closable="false" resizable="false" showHeader="false">
+					Aguarde...<br />
+		<br />
+		<p:graphicImage library="imagens" name="loader.gif" />
+	</p:dialog>
+</ui:composition>

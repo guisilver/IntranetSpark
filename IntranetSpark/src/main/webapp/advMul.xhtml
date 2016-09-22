@@ -1,0 +1,63 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<div class="layout-portlets-box">
+
+			<div class="DispInlBlock TexAlLeft">
+				<div class="Fleft">
+					<h2 class="black Fs24 FontRalewayMedium">Advertência / Multa</h2>
+				</div>
+			</div>
+			<div class="Seperator"></div>
+
+			<div class="Container100 Responsive100">
+				<div class="ContainerIndent">
+					<div class="Responsive50">
+						<h:form id="frmAdvMul">
+							<h:panelGrid id="plgCondominio" columns="2"
+								style="margin-bottom:10px;width:300px;" cellpadding="5">
+								<p:outputLabel for="console" value="Condomínio:" />
+								<p:selectOneMenu id="console" value="#{amMB.condominio}"
+									style="width:300px;" filter="true" filterMatchMode="contains">
+									<f:selectItem itemLabel="Selecione" itemValue="0" />
+									<f:selectItems value="#{SessaoMB.listaCondominios}" var="item"
+										itemLabel="#{item.cndCodNome}" itemValue="#{item.codigo}" />
+									<p:ajax
+										update=":tbvAdvMul:frmAdvertencia:somBloco :tbvAdvMul:frmAdvertencia:somUnidade 
+										:tbvAdvMul:frmMulta:somBloco :tbvAdvMul:frmMulta:somUnidade"
+										listener="#{amMB.retornaNomeCondominio}" />
+								</p:selectOneMenu>
+							</h:panelGrid>
+							<p:messages id="msg" showDetail="true" autoUpdate="false"
+								closable="true" escape="true" showSummary="false" />
+						</h:form>
+
+						<p:tabView id="tbvAdvMul">
+							<p:tab id="tabAdvertencia" title="Advertência">
+								<ui:include src="gerencia/advertencia-multa/advertencia.xhtml" />
+								<ui:include
+									src="gerencia/advertencia-multa/advertMultStyle.xhtml" />
+								<ui:include src="gerencia/advertencia-multa/dlgPrintAdv.xhtml" />
+							</p:tab>
+							<p:tab title="Multa">
+								<ui:include src="gerencia/advertencia-multa/multa.xhtml" />
+								<ui:include src="gerencia/advertencia-multa/dlgPrintMulta.xhtml" />
+							</p:tab>
+							<p:tab title="Histórico">
+								<ui:include src="gerencia/advertencia-multa/historico.xhtml" />
+								<ui:include src="gerencia/advertencia-multa/dlgAlterar.xhtml" />
+								<ui:include
+									src="gerencia/advertencia-multa/dlgTableRelatorio.xhtml" />
+								<ui:include src="gerencia/advertencia-multa/dlgRelatorio.xhtml" />
+							</p:tab>
+						</p:tabView>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

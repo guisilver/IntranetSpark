@@ -1,0 +1,65 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<h:form id="frmAltReq"
+			rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysrequisicaoProtocolo}">
+
+
+			<f:metadata>
+				<f:event listener="#{pcMB.pesquisaRequisicaoSelecionada()}"
+					type="preRenderView" />
+			</f:metadata>
+			<div class="layout-portlets-box">
+				<div class="Fleft">
+					<h2 class="black Fs24 FontRalewayMedium">Alterar Requisição de
+						Malote</h2>
+				</div>
+				<div class="Seperator"></div>
+				<div class="Container100 Responsive100">
+					<div class="ContainerIndent">
+						<p:messages />
+
+						<h:panelGrid columns="2" cellpadding="3" id="pgAltReq">
+
+							<p:outputLabel value="Gerente:" />
+							<p:inputText value="#{pcMB.rpBEAN.nomGerente}"
+								style="width:403px;" />
+							<p:outputLabel value="Condomínio:" />
+							<p:inputText value="#{pcMB.rpBEAN.cond_cod}" style="width:403px;" />
+							<p:outputLabel value="Aos Cuidados:" />
+							<p:inputText value="#{pcMB.rpBEAN.aosCuidados}"
+								style="width:403px;" />
+							<p:outputLabel value="Correio:" />
+							<p:inputText value="#{pcMB.rpBEAN.correio}" style="width:403px;" />
+							<p:outputLabel value="Malote:" />
+							<p:inputText value="#{pcMB.rpBEAN.diaMalote}"
+								style="width:403px;" />
+							<p:outputLabel value="Endereço:" />
+							<p:inputText value="#{pcMB.rpBEAN.endereco}" style="width:403px;" />
+							<p:outputLabel value="Referência:" />
+							<p:inputText value="#{pcMB.rpBEAN.referencia}"
+								style="width:403px;" />
+						</h:panelGrid>
+						<h:panelGrid>
+							<p:commandButton value="Voltar para Requisição" process="@this"
+								action="/requisicao-protocolo?faces-redirect=true;"
+								icon="fa fa-arrow-left Fs16 white" />
+							<p:commandButton value="Alterar"
+								action="#{pcMB.salvarAltProtocolo()}"
+								icon="fa fa-check Fs16 white" update="frmAltReq:pgAltReq" />
+						</h:panelGrid>
+
+
+					</div>
+				</div>
+			</div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

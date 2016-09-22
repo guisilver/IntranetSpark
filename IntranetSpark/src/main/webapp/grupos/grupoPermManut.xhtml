@@ -1,0 +1,667 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<style>
+#frmGrupoPerm\:pnlGPermissao_header {
+	text-align: center !important;
+}
+
+#frmGrupoPerm\:pnlSelectGrupo_header {
+	text-align: center !important;
+}
+
+#frmGrupoPerm\:gridGrupoPerm {
+	border: 0px !important;
+}
+
+#frmGrupoPerm\:j_idt53_content {
+	border: 0px !important;
+}
+</style>
+
+	<script>
+		function myFunction() {
+			location.reload();
+		}
+	</script>
+
+	<p:wizard id="wzdAlter" nextLabel="Próximo" backLabel="Voltar"
+		widgetVar="wzdGeral" flowListener="#{grupo.handleFlow}">
+		<p:tab title="Permissões">
+			<p:panel id="pnlSelectGrupo" header="Grupos / Permissões">
+				<h:panelGrid id="pgSelectGrupo" columns="2">
+					<p:selectOneRadio id="sorGrupo" value="#{grupo.nomePermissao}"
+						layout="pageDirection">
+						<f:selectItems value="#{grupo.gruposPerm}" var="g"
+							itemLabel="#{g.nomeGrupo}" itemValue="#{g.nomeGrupo}" />
+						<p:ajax update=":frmGrupoPerm:pnlGPermissao" />
+					</p:selectOneRadio>
+				</h:panelGrid>
+			</p:panel>
+		</p:tab>
+		<p:tab title="Alterar Permissões">
+			<p:panel id="pnlGPermissao" header="Objeto #{grupo.nomePermissao}">
+				<p:accordionPanel id="accpGeral">
+
+					<p:tab title="Administrador">
+						<p:selectBooleanCheckbox value="#{grupo.permissaoBean.sysAdmin}" />
+						<p:outputLabel value="Acessar" />
+					</p:tab>
+
+					<p:tab title="Advertencia / Multa">
+						<h:panelGrid columns="2">
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.sysAdvertMult}" />
+							<p:outputLabel value="Acessar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.advertMultAdd}" />
+							<p:outputLabel value="Inserir" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.advertMultChange}" />
+							<p:outputLabel value="alterar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.advertMultConsult}" />
+							<p:outputLabel value="Consultar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.advertMultRemove}" />
+							<p:outputLabel value="Remover" />
+						</h:panelGrid>
+					</p:tab>
+					<p:tab title="Assembléias">
+						<h:panelGrid columns="2">
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.sysAssembleia}" />
+							<p:outputLabel value="Acessar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.assembleiaAdd}" />
+							<p:outputLabel value="Inserir" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.assembleiaChange}" />
+							<p:outputLabel value="alterar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.assembleiaConsult}" />
+							<p:outputLabel value="Consultar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.assembleiaRemove}" />
+							<p:outputLabel value="Remover" />
+						</h:panelGrid>
+					</p:tab>
+					<p:tab title="Baixar Imagem - GED">
+						<h:panelGrid columns="2">
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.sysContabilidade}" />
+							<p:outputLabel value="Acessar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.imagemRecebidaAdd}" />
+							<p:outputLabel value="Inserir" />
+
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.imagemRecebidaConsult}" />
+							<p:outputLabel value="Consultar" />
+
+						</h:panelGrid>
+					</p:tab>
+					<p:tab title="Cobrança">
+						<h:panelGrid columns="2">
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.sysCobranca}" />
+							<p:outputLabel value="Acessar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.cobrancaAdd}" />
+							<p:outputLabel value="Inserir" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.cobrancaChange}" />
+							<p:outputLabel value="alterar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.cobrancaConsult}" />
+							<p:outputLabel value="Consultar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.cobrancaRemove}" />
+							<p:outputLabel value="Remover" />
+						</h:panelGrid>
+					</p:tab>
+					<p:tab title="Contabilizador de Horas">
+						<h:panelGrid columns="2">
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.sysContabilizador}" />
+							<p:outputLabel value="Acessar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.contabilizadorAdd}" />
+							<p:outputLabel value="Inserir" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.contabilizadorChange}" />
+							<p:outputLabel value="alterar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.contabilizadorConsult}" />
+							<p:outputLabel value="Consultar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.contabilizadorRemove}" />
+							<p:outputLabel value="Remover" />
+						</h:panelGrid>
+					</p:tab>
+					<p:tab title="Contas a Pagar">
+						<h:panelGrid columns="2">
+							<p:selectBooleanCheckbox value="#{grupo.permissaoBean.sysContas}" />
+							<p:outputLabel value="Acessar" />
+						</h:panelGrid>
+					</p:tab>
+					<p:tab title="Controle de Contas">
+						<h:panelGrid columns="2">
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.sysControleContas}" />
+							<p:outputLabel value="Acessar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.controleContasAdd}" />
+							<p:outputLabel value="Inserir" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.controleContasChange}" />
+							<p:outputLabel value="alterar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.controleContasConsult}" />
+							<p:outputLabel value="Consultar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.controleContasRemove}" />
+							<p:outputLabel value="Remover" />
+						</h:panelGrid>
+					</p:tab>
+					<p:tab title="Corpo Diretivo">
+						<h:panelGrid columns="2">
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.sysCorpoDiretivo}" />
+							<p:outputLabel value="Acessar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.corpoDiretivoAdd}" />
+							<p:outputLabel value="Inserir" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.corpoDiretivoChange}" />
+							<p:outputLabel value="alterar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.corpoDiretivoConsult}" />
+							<p:outputLabel value="Consultar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.corpoDiretivoRemove}" />
+							<p:outputLabel value="Remover" />
+						</h:panelGrid>
+					</p:tab>
+
+
+					<p:tab title="Diretoria">
+						<h:panelGrid columns="2">
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.sysDiretoria}" />
+							<p:outputLabel value="Acessar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.diretoriaAdd}" />
+							<p:outputLabel value="Inserir" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.diretoriaChange}" />
+							<p:outputLabel value="alterar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.diretoriaConsult}" />
+							<p:outputLabel value="Consultar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.diretoriaRemove}" />
+							<p:outputLabel value="Remover" />
+						</h:panelGrid>
+					</p:tab>
+
+
+
+					<p:tab title="DP">
+						<h:panelGrid columns="2">
+							<p:selectBooleanCheckbox value="#{grupo.permissaoBean.sysDP}" />
+							<p:outputLabel value="Acessar" />
+							<p:selectBooleanCheckbox value="#{grupo.permissaoBean.dpAdd}" />
+							<p:outputLabel value="Inserir" />
+							<p:selectBooleanCheckbox value="#{grupo.permissaoBean.dpChange}" />
+							<p:outputLabel value="alterar" />
+							<p:selectBooleanCheckbox value="#{grupo.permissaoBean.dpConsult}" />
+							<p:outputLabel value="Consultar" />
+							<p:selectBooleanCheckbox value="#{grupo.permissaoBean.dpRemove}" />
+							<p:outputLabel value="Remover" />
+						</h:panelGrid>
+					</p:tab>
+					<p:tab title="Emissao">
+						<h:panelGrid columns="2">
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.sysEmissao}" />
+							<p:outputLabel value="Acessar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.emissaoAdd}" />
+							<p:outputLabel value="Inserir" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.emissaoChange}" />
+							<p:outputLabel value="alterar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.emissaoConsult}" />
+							<p:outputLabel value="Consultar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.emissaoRemove}" />
+							<p:outputLabel value="Remover" />
+						</h:panelGrid>
+					</p:tab>
+
+					<p:tab title="Emissor">
+						<h:panelGrid columns="2">
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.sysEmissor}" />
+							<p:outputLabel value="Acessar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.emissorAdd}" />
+							<p:outputLabel value="Inserir" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.emissorChange}" />
+							<p:outputLabel value="alterar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.emissorConsult}" />
+							<p:outputLabel value="Consultar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.emissorRemove}" />
+							<p:outputLabel value="Remover" />
+						</h:panelGrid>
+					</p:tab>
+					<p:tab title="Entrada e Saida">
+						<h:panelGrid columns="2">
+							<p:selectBooleanCheckbox value="#{grupo.permissaoBean.sysES}" />
+							<p:outputLabel value="Acessar" />
+							<p:selectBooleanCheckbox value="#{grupo.permissaoBean.esAdd}" />
+							<p:outputLabel value="Inserir" />
+							<p:selectBooleanCheckbox value="#{grupo.permissaoBean.esChange}" />
+							<p:outputLabel value="alterar" />
+							<p:selectBooleanCheckbox value="#{grupo.permissaoBean.esConsult}" />
+							<p:outputLabel value="Consultar" />
+							<p:selectBooleanCheckbox value="#{grupo.permissaoBean.esRemove}" />
+							<p:outputLabel value="Remover" />
+						</h:panelGrid>
+					</p:tab>
+
+					<p:tab title="GED">
+						<h:panelGrid columns="2">
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.sysFinanceiro}" />
+							<p:outputLabel value="Acessar GED" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.lancamento}" />
+							<p:outputLabel value="Acessar Lancto" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.protocolos}" />
+							<p:outputLabel value="Acessar Protocolos" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.adicionarParcela}" />
+							<p:outputLabel value="Adicionar Parcela" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.alterarLancto}" />
+							<p:outputLabel value="Alterar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.aprovarLancto}" />
+							<p:outputLabel value="Aprovar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.consultarLancamento}" />
+							<p:outputLabel value="Consultar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.excluirLancto}" />
+							<p:outputLabel value="Remover" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.preAprovarLancto}" />
+							<p:outputLabel value="Pré Aprovar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.reprovarLancto}" />
+							<p:outputLabel value="Reprovar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.excluirEtiquetaSiga}" />
+							<p:outputLabel value="Excluir Etiqueta Siga" />
+						</h:panelGrid>
+					</p:tab>
+
+					<p:tab title="Global">
+						<h:panelGrid columns="2">
+							<p:selectBooleanCheckbox value="#{grupo.permissaoBean.sysGlobal}" />
+							<p:outputLabel value="Acessar" />
+							<p:selectBooleanCheckbox value="#{grupo.permissaoBean.globalAdd}" />
+							<p:outputLabel value="Inserir" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.globalChange}" />
+							<p:outputLabel value="alterar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.globalConsult}" />
+							<p:outputLabel value="Consultar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.globalRemove}" />
+							<p:outputLabel value="Remover" />
+						</h:panelGrid>
+					</p:tab>
+
+					<p:tab title="Juridico">
+						<h:panelGrid columns="2">
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.sysJuridico}" />
+							<p:outputLabel value="Acessar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.juridicoAdd}" />
+							<p:outputLabel value="Inserir" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.juridicoChange}" />
+							<p:outputLabel value="alterar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.juridicoConsult}" />
+							<p:outputLabel value="Consultar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.juridicoRemove}" />
+							<p:outputLabel value="Remover" />
+						</h:panelGrid>
+					</p:tab>
+
+					<p:tab title="Lista de Presença">
+						<h:panelGrid columns="2">
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.syslistaPresenca}" />
+							<p:outputLabel value="Acessar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.listaPresencaAdd}" />
+							<p:outputLabel value="Inserir" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.listaPresencaChange}" />
+							<p:outputLabel value="alterar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.listaPresencaConsult}" />
+							<p:outputLabel value="Consultar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.listaPresencaRemove}" />
+							<p:outputLabel value="Remover" />
+						</h:panelGrid>
+					</p:tab>
+
+					<p:tab title="Papercut">
+						<h:panelGrid columns="2">
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.sysPapercut}" />
+							<p:outputLabel value="Acessar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.papercutAdd}" />
+							<p:outputLabel value="Inserir" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.papercutChange}" />
+							<p:outputLabel value="alterar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.papercutConsult}" />
+							<p:outputLabel value="Consultar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.papercutRemove}" />
+							<p:outputLabel value="Remover" />
+						</h:panelGrid>
+					</p:tab>
+
+					<p:tab title="Repasse de Serviços">
+						<h:panelGrid columns="2">
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.sysServicos}" />
+							<p:outputLabel value="Acessar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.servicosAdd}" />
+							<p:outputLabel value="Inserir" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.servicosChange}" />
+							<p:outputLabel value="alterar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.servicosConsult}" />
+							<p:outputLabel value="Consultar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.servicosRemove}" />
+							<p:outputLabel value="Remover" />
+						</h:panelGrid>
+					</p:tab>
+
+					<p:tab title="Requisição de Malote">
+						<h:panelGrid columns="2">
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.sysrequisicaoProtocolo}" />
+							<p:outputLabel value="Acessar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.requisicaoProtocoloAdd}" />
+							<p:outputLabel value="Inserir" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.requisicaoProtocoloChange}" />
+							<p:outputLabel value="alterar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.requisicaoProtocoloConsult}" />
+							<p:outputLabel value="Consultar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.requisicaoProtocoloRemove}" />
+							<p:outputLabel value="Remover" />
+						</h:panelGrid>
+					</p:tab>
+
+
+
+					<p:tab title="Previsao Orcamentaria">
+						<h:panelGrid columns="2">
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.sysPrevisao}" />
+							<p:outputLabel value="Acessar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.previsaoAdd}" />
+							<p:outputLabel value="Inserir" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.previsaoChange}" />
+							<p:outputLabel value="alterar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.previsaoConsult}" />
+							<p:outputLabel value="Consultar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.previsaoRemove}" />
+							<p:outputLabel value="Remover" />
+						</h:panelGrid>
+					</p:tab>
+					<p:tab title="Relatorio Semanal">
+						<h:panelGrid columns="2">
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.sysRelatorioSemanal}" />
+							<p:outputLabel value="Acessar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.relatorioSemanalAdd}" />
+							<p:outputLabel value="Inserir" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.relatorioSemanalConsult}" />
+							<p:outputLabel value="Consultar" />
+						</h:panelGrid>
+					</p:tab>
+
+					<p:tab title="SIP">
+						<h:panelGrid columns="2">
+							<p:selectBooleanCheckbox value="#{grupo.permissaoBean.sysSip}" />
+							<p:outputLabel value="Acessar" />
+						</h:panelGrid>
+					</p:tab>
+					<p:tab title="SIP - Fiscal">
+						<h:panelGrid columns="2">
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.sysSipFiscal}" />
+							<p:outputLabel value="Acessar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.sysSipFiscalAdd}" />
+							<p:outputLabel value="Inserir" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.sysSipFiscalChange}" />
+							<p:outputLabel value="Alterar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.sysSipFiscalConsult}" />
+							<p:outputLabel value="Consultar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.sysSipFiscalRemove}" />
+							<p:outputLabel value="Remover" />
+						</h:panelGrid>
+					</p:tab>
+					<p:tab title="SIP - GED">
+						<h:panelGrid columns="2">
+							<p:selectBooleanCheckbox value="#{grupo.permissaoBean.sysSipGed}" />
+							<p:outputLabel value="Acessar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.sysSipGEDAdd}" />
+							<p:outputLabel value="Inserir" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.sysSipGEDChange}" />
+							<p:outputLabel value="Alterar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.sysSipGEDConsult}" />
+							<p:outputLabel value="Consultar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.sysSipGEDRemove}" />
+							<p:outputLabel value="Remover" />
+						</h:panelGrid>
+					</p:tab>
+					<p:tab title="SIP - Gerência">
+						<h:panelGrid columns="2">
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.sysSipGerencia}" />
+							<p:outputLabel value="Acessar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.sysSipGerenciaAdd}" />
+							<p:outputLabel value="Inserir" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.sysSipGerenciaChange}" />
+							<p:outputLabel value="Alterar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.sysSipGerenciaConsult}" />
+							<p:outputLabel value="Consultar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.sysSipGerenciaRemove}" />
+							<p:outputLabel value="Remover" />
+						</h:panelGrid>
+					</p:tab>
+					<p:tab title="SIP - Lançamento">
+						<h:panelGrid columns="2">
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.sysSipLancamento}" />
+							<p:outputLabel value="Acessar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.sysSipLancamentoAdd}" />
+							<p:outputLabel value="Inserir" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.sysSipLancamentoChange}" />
+							<p:outputLabel value="Alterar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.sysSipLancamentoConsult}" />
+							<p:outputLabel value="Consultar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.sysSipLancamentoRemove}" />
+							<p:outputLabel value="Remover" />
+						</h:panelGrid>
+					</p:tab>
+					<p:tab title="SIP - Pré Lançamento">
+						<h:panelGrid columns="2">
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.sysSipPreLancamento}" />
+							<p:outputLabel value="Acessar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.sysSipPreLancamentoAdd}" />
+							<p:outputLabel value="Inserir" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.sysSipPreLancamentoChange}" />
+							<p:outputLabel value="Alterar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.sysSipPreLancamentoConsult}" />
+							<p:outputLabel value="Consultar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.sysSipPreLancamentoRemove}" />
+							<p:outputLabel value="Remover" />
+						</h:panelGrid>
+					</p:tab>
+
+					<p:tab title="Sistema Emissão">
+						<h:panelGrid columns="2">
+							<p:selectBooleanCheckbox value="#{grupo.permissaoBean.sysSEM}" />
+							<p:outputLabel value="Acessar" />
+							<p:selectBooleanCheckbox value="#{grupo.permissaoBean.semAdd}" />
+							<p:outputLabel value="Inserir" />
+							<p:selectBooleanCheckbox value="#{grupo.permissaoBean.semChange}" />
+							<p:outputLabel value="Alterar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.semConsult}" />
+							<p:outputLabel value="Consultar" />
+							<p:selectBooleanCheckbox value="#{grupo.permissaoBean.semRemove}" />
+							<p:outputLabel value="Remover" />
+						</h:panelGrid>
+					</p:tab>
+
+					<p:tab title="Query E-mail">
+						<h:panelGrid columns="2">
+							<p:selectBooleanCheckbox value="#{grupo.permissaoBean.sysQuerym}" />
+							<p:outputLabel value="Acessar" />
+							<p:selectBooleanCheckbox value="#{grupo.permissaoBean.querymAdd}" />
+							<p:outputLabel value="Inserir" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.querymChange}" />
+							<p:outputLabel value="alterar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.querymConsult}" />
+							<p:outputLabel value="Consultar" />
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.querymRemove}" />
+							<p:outputLabel value="Remover" />
+						</h:panelGrid>
+					</p:tab>
+
+					<p:tab title="Quiz">
+						<h:panelGrid columns="2">
+							<p:selectBooleanCheckbox value="#{grupo.permissaoBean.sysQuiz}" />
+							<p:outputLabel value="Acessar" />
+						</h:panelGrid>
+					</p:tab>
+
+					<p:tab title="Taxa Inadimplencia">
+						<h:panelGrid columns="2">
+							<p:selectBooleanCheckbox
+								value="#{grupo.permissaoBean.sysTaxaInadimplencia}" />
+							<p:outputLabel value="Acessar" />
+						</h:panelGrid>
+					</p:tab>
+
+					<p:tab title="TI">
+						<h:panelGrid columns="2">
+							<p:selectBooleanCheckbox value="#{grupo.permissaoBean.sysTI}" />
+							<p:outputLabel value="Acessar" />
+							<p:selectBooleanCheckbox value="#{grupo.permissaoBean.tiAdd}" />
+							<p:outputLabel value="Inserir" />
+							<p:selectBooleanCheckbox value="#{grupo.permissaoBean.tiChange}" />
+							<p:outputLabel value="alterar" />
+							<p:selectBooleanCheckbox value="#{grupo.permissaoBean.tiConsult}" />
+							<p:outputLabel value="Consultar" />
+							<p:selectBooleanCheckbox value="#{grupo.permissaoBean.tiRemove}" />
+							<p:outputLabel value="Remover" />
+						</h:panelGrid>
+					</p:tab>
+
+				</p:accordionPanel>
+			</p:panel>
+			<br />
+			<p:commandButton value="Salvar" action="#{grupo.alterarPermissao()}"
+				style="float:right;" />
+			<p:commandButton value="Deletar" oncomplete="PF('confirm').show();"
+				actionListener="#{grupo.excluirPermissao()}" update="@this"
+				style="float:right; right:20px;">
+				<p:confirm header="Confirmation"
+					message="Confirma a exclusão desse Grupo?"
+					icon="fa fa-alert Fs16 white" />
+			</p:commandButton>
+
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
+				widgetVar="confirm">
+				<p:commandButton value="No" type="button"
+					styleClass="ui-confirmdialog-no" icon="fa fa-close Fs16 white" />
+				<p:commandButton value="Yes" type="button"
+					styleClass="ui-confirmdialog-yes" icon="fa fa-check Fs16 white" />
+			</p:confirmDialog>
+		</p:tab>
+	</p:wizard>
+
+	<h:form id="teste">
+		<h:panelGrid columns="2" rendered="false">
+			<p:outputLabel value="teste" />
+		</h:panelGrid>
+	</h:form>
+
+
+</ui:composition>

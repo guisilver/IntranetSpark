@@ -1,0 +1,29 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+	<p:dialog header="Imagem Encontrada" widgetVar="dlgImagem" modal="true"
+		resizable="false" draggable="false" closeOnEscape="true">
+		<h:form id="frmImagem">
+			<p:focus for="txtInvisivel" />
+			<p:inputText id="txtInvisivel" onkeydown="aceitaImagem(event);"
+				styleClass="inputPrevent"
+				style="position:absolute;top:-100px!important;" />
+			<p:media id="imagem" player="pdf" width="800" height="400"
+				cache="false" value="#{ImgServiceBean.pdfLancamentoEtiqueta}"
+				rendered="#{lancamentoMB.lv.etiqueta gt 0}" style="margin-top:10px;">
+				<f:param name="etiqueta" value="#{lancamentoMB.lv.etiqueta}" />
+			</p:media>
+		</h:form>
+		<h:panelGrid columns="2" width="100%" style="width:100%;">
+			<p:commandButton icon="fa fa-close Fs16 white"
+				actionListener="#{lancamentoMB.excluirImagem()}"
+				onclick="PF('dlgImagem').hide();" style="float:left;" />
+			<p:commandButton id="btnAceitaImagem" icon="fa fa-check Fs16 white"
+				update=":frmNovoLancamento:colImagem,:frmNovoLancamento:selectCnd"
+				oncomplete="PF('dlgImagem').hide();" style="float:right;" />
+		</h:panelGrid>
+	</p:dialog>
+</ui:composition>

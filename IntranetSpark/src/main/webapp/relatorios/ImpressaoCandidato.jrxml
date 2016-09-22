@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.2.0.final using JasperReports Library version 6.2.0  -->
+<!-- 2016-07-04T15:05:29 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ImpressaoCandidato" pageWidth="595" pageHeight="842" columnWidth="483" leftMargin="56" rightMargin="56" topMargin="20" bottomMargin="20" uuid="5f2f61c6-ffe9-4d75-aa1f-72c33b06d597">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="3"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="net.sf.jasperreports.print.create.bookmarks" value="false"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Sample DB"/>
+	<parameter name="codigoCandidato" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["G:\\CPD\\PROJETOS\\Projetos Java\\IntranetSpark\\src\\main\\webapp\\relatorios\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="idadeFilhos" class="java.lang.String"/>
+	<parameter name="periodo" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<parameter name="dCargos" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select * from omacorp.dbo.intra_candidato u
+left join omacorp.dbo.intra_candidato_foto c on u.codigo = c.codigoCandidato
+where u.codigo = $P{codigoCandidato}]]>
+	</queryString>
+	<field name="codigo" class="java.lang.Integer"/>
+	<field name="bairro" class="java.lang.String"/>
+	<field name="cargoPretendido" class="java.lang.String"/>
+	<field name="categoriaCnh" class="java.lang.String"/>
+	<field name="cep" class="java.lang.String"/>
+	<field name="cidade" class="java.lang.String"/>
+	<field name="cnh" class="java.lang.String"/>
+	<field name="complemento" class="java.lang.String"/>
+	<field name="conjugeTrabalha" class="java.lang.Boolean"/>
+	<field name="cpf" class="java.lang.String"/>
+	<field name="dataEntrevista" class="java.sql.Timestamp"/>
+	<field name="dataExpedicaoCtps" class="java.sql.Timestamp"/>
+	<field name="dataExpedicaoRG" class="java.sql.Timestamp"/>
+	<field name="dataNascimento" class="java.sql.Timestamp"/>
+	<field name="dataValidadeCnh" class="java.sql.Timestamp"/>
+	<field name="dispensadoServicoMilitar" class="java.lang.Boolean"/>
+	<field name="email" class="java.lang.String"/>
+	<field name="endereco" class="java.lang.String"/>
+	<field name="entrevistado" class="java.lang.Boolean"/>
+	<field name="estadoCivil" class="java.lang.String"/>
+	<field name="estudaAtualmente" class="java.lang.Boolean"/>
+	<field name="formacao" class="java.lang.String"/>
+	<field name="fumante" class="java.lang.Boolean"/>
+	<field name="idade" class="java.lang.Integer"/>
+	<field name="localNascimento" class="java.lang.String"/>
+	<field name="maeTrabalha" class="java.lang.Boolean"/>
+	<field name="nacionalidade" class="java.lang.String"/>
+	<field name="nome" class="java.lang.String"/>
+	<field name="nomeBanco" class="java.lang.String"/>
+	<field name="nomeConjuge" class="java.lang.String"/>
+	<field name="nomeMae" class="java.lang.String"/>
+	<field name="nomePai" class="java.lang.String"/>
+	<field name="numeroAgencia" class="java.lang.String"/>
+	<field name="numeroConta" class="java.lang.String"/>
+	<field name="numeroCtps" class="java.lang.String"/>
+	<field name="numeroEndereco" class="java.lang.String"/>
+	<field name="numeroPis" class="java.lang.String"/>
+	<field name="paiTrabalha" class="java.lang.Boolean"/>
+	<field name="parecerEntrevistador" class="java.lang.String"/>
+	<field name="possuiCertificadoMilitar" class="java.lang.Boolean"/>
+	<field name="possuiConhecimentoInformatica" class="java.lang.Boolean"/>
+	<field name="possuiContaBancaria" class="java.lang.Boolean"/>
+	<field name="possuiDeficiencia" class="java.lang.Boolean"/>
+	<field name="possuiFilhos" class="java.lang.Boolean"/>
+	<field name="possuiPis" class="java.lang.Boolean"/>
+	<field name="possuiTituloEleitor" class="java.lang.Boolean"/>
+	<field name="preCadastro" class="java.lang.Boolean"/>
+	<field name="pretendeResidirNoPredio" class="java.lang.String"/>
+	<field name="pretensaoSalarial" class="java.lang.Double"/>
+	<field name="profissaoConjuge" class="java.lang.String"/>
+	<field name="profissaoMae" class="java.lang.String"/>
+	<field name="profissaoPai" class="java.lang.String"/>
+	<field name="qtdFilhos" class="java.lang.String"/>
+	<field name="rg" class="java.lang.String"/>
+	<field name="serieCtps" class="java.lang.String"/>
+	<field name="sexo" class="java.lang.String"/>
+	<field name="telCelular" class="java.lang.String"/>
+	<field name="telResidencial" class="java.lang.String"/>
+	<field name="tipoConta" class="java.lang.String"/>
+	<field name="tipoDeficiencia" class="java.lang.String"/>
+	<field name="zonaBairro" class="java.lang.String"/>
+	<field name="bloqEntrevista" class="java.lang.Boolean"/>
+	<field name="bloqLevantamentoCadastral" class="java.lang.Boolean"/>
+	<field name="cursos" class="java.lang.String"/>
+	<field name="dataLevantamento" class="java.sql.Timestamp"/>
+	<field name="levantamentoFeito" class="java.lang.Boolean"/>
+	<field name="obsLevantamento" class="java.lang.String"/>
+	<field name="codigoCandidato" class="java.lang.Integer"/>
+	<field name="foto" class="java.io.InputStream"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="104" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="63" width="483" height="40" uuid="51ca26f2-ef81-481a-9afc-61e143289e38"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FICHA DO CANDIDATO]]></text>
+			</staticText>
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement x="0" y="0" width="100" height="63" uuid="ae03d7b7-1156-4f6f-91a8-b9d634f0b83f"/>
+				<imageExpression><![CDATA["http://10.1.1.20:8080//imagens//logo45pb.bmp"]]></imageExpression>
+			</image>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="401">
+			<staticText>
+				<reportElement x="0" y="0" width="366" height="20" uuid="8c041b09-0043-423f-b543-fee588fa8eea"/>
+				<textElement>
+					<font fontName="Verdana" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cargo:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="62" width="368" height="20" uuid="40b857e8-9587-4e7a-b4ab-64e9e16d62f4"/>
+				<textElement>
+					<font fontName="Verdana" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nome:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="82" width="368" height="20" uuid="0b03fa30-6d9d-4ce3-bc6d-b624bdc44196"/>
+				<textElement>
+					<font fontName="Verdana" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Idade:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="102" width="368" height="20" uuid="98e72fb0-6853-42f2-84d1-481d74e2dd9e"/>
+				<textElement>
+					<font fontName="Verdana" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Naturalidade:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="122" width="368" height="20" uuid="4341a899-ac3e-4f44-87c0-f51947bfe5f1"/>
+				<textElement>
+					<font fontName="Verdana" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tel. / Cel.:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="142" width="368" height="20" uuid="6daecfb9-c080-4847-8b84-8e2f9b714db9"/>
+				<textElement>
+					<font fontName="Verdana" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Bairro:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="162" width="368" height="20" uuid="22bd666f-53ad-49a0-b1aa-8f040968a179"/>
+				<textElement>
+					<font fontName="Verdana" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Zona:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="182" width="368" height="20" uuid="57757465-531f-4ffd-bfd8-a2f29c023d55"/>
+				<textElement>
+					<font fontName="Verdana" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Estado Civil:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="202" width="368" height="20" uuid="abdf5d8f-9a33-4d61-bf2d-61398bd74769"/>
+				<textElement>
+					<font fontName="Verdana" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Filhos:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="222" width="368" height="20" uuid="8854e0f2-2dbd-4ac8-a7e2-204d49f9cc67"/>
+				<textElement>
+					<font fontName="Verdana" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Escolaridade:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="242" width="368" height="20" uuid="2dd527ea-af1d-4697-838d-920598c929dc"/>
+				<textElement>
+					<font fontName="Verdana" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Pretensão Salarial:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" x="0" y="263" width="368" height="20" uuid="04bf1fbc-f510-4f00-8db0-716787a4870e">
+					<printWhenExpression><![CDATA[($F{cargoPretendido}.equals("ZELADOR") )]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="Verdana" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Pretensão por moradia:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="80" y="122" width="288" height="20" uuid="d4e819ed-5bde-4e7f-9316-667643be7c11"/>
+				<textElement>
+					<font fontName="Verdana" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{telResidencial} +($F{telResidencial} != null  && !$F{telResidencial} .trim().equals("") && $F{telCelular} != null  &&
+ !$F{telCelular} .trim().equals("")
+? " / " : "") + $F{telCelular}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="90" y="182" width="278" height="20" uuid="c519a6d1-1cd3-483d-871f-ba24b8f00962"/>
+				<textElement>
+					<font fontName="Verdana" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{estadoCivil}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="44" y="162" width="324" height="20" uuid="575743f0-ed18-45e8-be07-9a6334eb73b3"/>
+				<textElement>
+					<font fontName="Verdana" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zonaBairro}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="100" y="102" width="268" height="20" uuid="d58a99f8-7dd5-476d-ac84-630b0fa52b8d"/>
+				<textElement>
+					<font fontName="Verdana" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[(br.com.oma.intranet.util.StringUtil.trataNomeComposto($F{localNascimento}))]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="50" y="0" width="312" height="20" uuid="9f928809-28d3-4e3a-98a3-f85b3c0729e6"/>
+				<textElement>
+					<font fontName="Verdana" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[(br.com.oma.intranet.util.StringUtil.trataNomeComposto($F{cargoPretendido}))]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="54" y="82" width="314" height="20" uuid="8b2c8e4a-4cf0-492c-89e8-eea4e990b2d8"/>
+				<textElement>
+					<font fontName="Verdana" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{dataNascimento} != null ?
+org.joda.time.Years.yearsBetween(new org.joda.time.DateTime($F{dataNascimento}),new org.joda.time.DateTime(new Date())).getYears() + " anos" : "Não Informado")]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="54" y="62" width="314" height="20" uuid="a02e852d-151d-4d26-932f-e3e55ac45ca8"/>
+				<textElement>
+					<font fontName="Verdana" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[(br.com.oma.intranet.util.StringUtil.trataNomeComposto($F{nome}))]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="54" y="142" width="314" height="20" uuid="70efd208-e9ce-4601-a97e-70ff7853ed7c"/>
+				<textElement>
+					<font fontName="Verdana" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[(br.com.oma.intranet.util.StringUtil.trataNomeComposto($F{bairro}))]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="100" y="222" width="268" height="20" uuid="5ff8d790-aba1-4fe2-8f04-5802fbaf302b"/>
+				<textElement>
+					<font fontName="Verdana" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{formacao}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="140" y="242" width="228" height="20" uuid="d9997837-a60f-4e90-a8a7-34608acf247d"/>
+				<textElement>
+					<font fontName="Verdana" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("R$ #,##0.00").format(Double.valueOf($F{pretensaoSalarial}))]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement key="" x="165" y="263" width="203" height="20" uuid="ea570265-e2fd-4acf-8587-e8ea30052020">
+					<printWhenExpression><![CDATA[($F{cargoPretendido}.equals("ZELADOR") )]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="Verdana" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pretendeResidirNoPredio}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="284" width="483" height="22" uuid="ce0e5fb6-530b-4647-9a62-70444613b56e"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Verdana" size="12" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Experiência Profissional]]></text>
+			</staticText>
+			<image scaleImage="FillFrame">
+				<reportElement mode="Transparent" x="368" y="20" width="115" height="160" uuid="e0c31447-4141-4351-93c1-1fd9366bc757"/>
+				<imageExpression><![CDATA[$F{foto}]]></imageExpression>
+			</image>
+			<subreport>
+				<reportElement x="0" y="310" width="483" height="40" isRemoveLineWhenBlank="true" uuid="15b68013-aaf3-4fd2-a8af-4928161bf952">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<subreportParameter name="candidato_codigo">
+					<subreportParameterExpression><![CDATA[$F{codigo}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Candidato_HistoricoProfissional.jasper"]]></subreportExpression>
+			</subreport>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="353" width="482" height="20" uuid="72fc5090-a8d0-41e1-ab19-c9b39c86043e">
+					<printWhenExpression><![CDATA[($F{cursos} != null && !$F{cursos}.trim().isEmpty())]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="Verdana" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cursos:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="54" y="353" width="429" height="20" uuid="c521d847-f126-4eec-90ae-93c37fa4bfcc"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Verdana" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cursos}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="377" width="100" height="20" uuid="fadc0f10-0358-4009-8e12-cebf4e7f75f9">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<printWhenExpression><![CDATA[($F{parecerEntrevistador} != null && !$F{parecerEntrevistador}.trim().isEmpty())]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="Verdana" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Observações:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="0" y="377" width="483" height="20" uuid="4e0237b9-e2a0-415c-8759-5ae61e6b6ebc"/>
+				<textElement textAlignment="Justified" markup="none">
+					<font fontName="Verdana" size="12"/>
+					<paragraph firstLineIndent="95"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{parecerEntrevistador}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement x="50" y="202" width="318" height="20" uuid="bbea0753-02d4-4e26-a70f-3cd8ea5ce983"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($P{idadeFilhos} == null || !$P{idadeFilhos}.equals("") ? $P{idadeFilhos} : "Não")]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="20" width="366" height="20" uuid="e86c5a40-e182-49f1-aed9-1996691afbda">
+					<printWhenExpression><![CDATA[($P{periodo} != null && !$P{periodo}.trim().isEmpty() ? true : false)]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="Verdana" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Período:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="60" y="20" width="306" height="20" uuid="affee23d-030a-4e02-adb6-9af900d715da"/>
+				<textElement>
+					<font fontName="Verdana" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{periodo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="40" width="366" height="20" uuid="b6a4ac92-0d38-4e33-b995-00474d64ce4c">
+					<printWhenExpression><![CDATA[($P{dCargos} != null && !$P{dCargos}.trim().isEmpty() ? true : false)]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="Verdana" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Demais Cargos:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="0" y="40" width="366" height="20" uuid="0ca73ad8-8f57-4677-957c-26767daa8c46"/>
+				<textElement>
+					<font size="12"/>
+					<paragraph firstLineIndent="108"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{dCargos}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="91" splitType="Stretch">
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement positionType="Float" x="0" y="59" width="100" height="23" uuid="20e5a2fd-b6ee-4c9e-b3f6-238b44ec7cb4"/>
+				<imageExpression><![CDATA["http://10.1.1.20:8080//imagens//rodapepb.bmp"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="82" width="70" height="9" uuid="e0499e6d-4265-4361-aee5-26fd15de03dc"/>
+				<textElement rotation="None">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[OMA INTRANET]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="10" width="112" height="20" uuid="146fcc38-c150-4361-a8a8-7168755a31e4"/>
+				<textElement>
+					<font fontName="Verdana" size="12"/>
+				</textElement>
+				<text><![CDATA[Atenciosamente,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="30" width="132" height="20" uuid="ce6a9ac9-f17a-47be-8761-4a73546ad742"/>
+				<textElement>
+					<font fontName="Verdana" size="12"/>
+				</textElement>
+				<text><![CDATA[Recurso Humanos]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

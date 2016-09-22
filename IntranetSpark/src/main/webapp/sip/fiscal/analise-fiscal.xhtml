@@ -1,0 +1,495 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<style>
+#frmAnaliseFiscal>table:nth-child(3)>tbody>tr>td:nth-child(1),
+	#frmAnaliseFiscal>table:nth-child(3)>tbody>tr>td:nth-child(2) {
+	vertical-align: top;
+}
+
+.calendario input {
+	width: 100px;
+}
+
+.invalido input, .invalido input:hover {
+	background: #D0525D;
+	color: white !important;
+}
+
+.porcentagem input {
+	width: 50px !important;
+}
+
+.base input, .valor input {
+	width: 70px !important;
+}
+
+.ui-calendar input {
+	width: 85px !important;
+}
+
+body {
+	min-width: 1850px;
+}
+
+.gridDtlhLancto>tbody>tr>td:nth-child(1) {
+	width: 130px;
+}
+</style>
+
+		<div class="layout-portlets-box">
+			<div class="DispInlBlock TexAlLeft">
+				<div class="Fleft">
+					<h2 class="black Fs24 FontRalewayMedium">Análise Fiscal</h2>
+				</div>
+			</div>
+			<div class="Seperator"></div>
+			<div class="Container100 Responsive100">
+				<p:messages autoUpdate="true" id="msg" />
+
+				<h:form id="frmAnaliseFiscal" target="_balnk"
+					rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysSipFiscal}">
+
+					<p:panel id="pnlLancamento"
+						style="height:auto;width: 800px !important;float:left;">
+						<f:facet name="header">Lançamento</f:facet>
+
+						<p:commandButton value="Follow-up"
+							icon="fa fa-file-text-o Fs16 white"
+							actionListener="#{analiseFiscalMB.abrirFollowUp()}"
+							update=":frmFollowUp" />
+
+						<p:dataTable id="tblArquivos" var="item"
+							value="#{analiseFiscalMB.listaArquivos}"
+							emptyMessage="Nenhum resultado encontrado."
+							style="width: 98.5% !important;margin-top:10px;">
+							<p:column headerText="Etiqueta">
+								<p:outputLabel value="#{analiseFiscalMB.converte(item.id)}"
+									style="color:blue;word-wrap:break-word;" />
+							</p:column>
+							<p:column headerText="Nome" style="width:180px;">
+								<p:outputLabel value="${item.nome_arquivo}"
+									style="color:blue;word-wrap:break-word;" />
+							</p:column>
+							<p:column style="width:45px;">
+								<p:commandButton
+									actionListener="#{analiseFiscalMB.visualizarImagem(analiseFiscalMB.listaArquivos.indexOf(item))}"
+									style="color:red;" icon="fa fa-search Fs16 white"
+									update=":frmAnaliseFiscal:plgMedia">
+								</p:commandButton>
+							</p:column>
+						</p:dataTable>
+
+						<p:panelGrid styleClass="gridDtlhLancto" columns="2"
+							style="margin-top:10px;width:100%;">
+							<p:outputLabel value="Condomínio:" style="color:blue;" />
+							<h:outputText value="#{analiseFiscalMB.lancamento.condominio}" />
+							<p:outputLabel value="Emissão:" style="color:blue;" />
+							<h:outputText value="#{analiseFiscalMB.lancamento.emissaoNf}">
+								<f:convertDateTime pattern="dd/MM/yyyy" locale="pt"
+									timeZone="America/Sao_Paulo" />
+							</h:outputText>
+							<p:outputLabel value="Vencimento:" style="color:blue;" />
+							<h:outputText value="#{analiseFiscalMB.lancamento.vencimento}">
+								<f:convertDateTime pattern="dd/MM/yyyy" locale="pt"
+									timeZone="America/Sao_Paulo" />
+							</h:outputText>
+							<p:outputLabel value="Valor Bruto:" style="color:blue;" />
+							<h:outputText value="#{analiseFiscalMB.lancamento.valorLancto}">
+								<f:convertNumber currencySymbol="R$" minFractionDigits="2" />
+							</h:outputText>
+							<p:outputLabel value="Cnpj Fornecedor:" style="color:blue;" />
+							<p:column>
+								<h:outputText
+									value="#{analiseFiscalMB.lancamento.fornecedorCnpj}">
+									<f:convertNumber currencySymbol="R$" minFractionDigits="2" />
+								</h:outputText>
+
+								<p:graphicImage library="imagens" name="alert.png" width="20"
+									height="20" style="margin-left:10px;"
+									rendered="#{analiseFiscalMB.fornecedor == null}" />
+								<p:outputLabel value="Fornecedor não cadastrado."
+									rendered="#{analiseFiscalMB.fornecedor == null}"
+									style="color:red;font-weight:bold;font-size:20px;margin-left:10px;" />
+							</p:column>
+							<p:outputLabel value="Obs. Fornecedor:" style="color:blue;" />
+							<p:outputLabel value="#{analiseFiscalMB.fornecedor.observacoes}"
+								style="color: red !important;" />
+						</p:panelGrid>
+
+						<div class="Seperator"></div>
+
+						<h:panelGrid>
+							<h:panelGrid
+								rendered="#{empty analiseFiscalMB.lancamento.feitoFiscalSIP}">
+								<a
+									href="http://192.1.7.9/condominioweb/Pagar/Cadastros/CadFornecedores.aspx"
+									target="_blank"
+									style="text-decoration: underline; font-weight: bold; color: blue; font-size: 16px; font-family: 'ralewayregular';">Cadastrar
+									Fornecedor no SIGA</a>
+							</h:panelGrid>
+						</h:panelGrid>
+
+
+						<h:panelGrid>
+							<h:panelGrid
+								rendered="#{empty analiseFiscalMB.lancamento.feitoFiscalSIP}">
+								<p:outputLabel
+									value="Cadastrar ou alterar Fornecedor neste Lançamento:" />
+							</h:panelGrid>
+							<h:panelGrid columns="3"
+								rendered="#{empty analiseFiscalMB.lancamento.feitoFiscalSIP}">
+								<p:outputLabel value="Nome Usual:" />
+								<p:inputText value="#{analiseFiscalMB.usualcred}" maxlength="12" />
+								<p:commandButton value="Salvar"
+									action="#{analiseFiscalMB.cadastraFornecedor()}"
+									update="@form:pnlLancamento" />
+							</h:panelGrid>
+						</h:panelGrid>
+						
+						<h:panelGroup styleClass="Seperator" layout="block"
+							rendered="#{empty analiseFiscalMB.lancamento.feitoFiscalSIP}" />
+							
+						<h:panelGrid>
+							<h:panelGrid columns="3"
+								rendered="#{empty analiseFiscalMB.lancamento.feitoFiscalSIP}">
+								<p:outputLabel value="Valor Bruto:" />
+								<pe:inputNumber id="valorBruto" style="margin-left: 7px !important;"
+									value="#{analiseFiscalMB.lancamento.valorLancto}"
+									decimalPlaces="2" decimalSeparator="," thousandSeparator="." />
+								<p:commandButton value="Alterar"
+									action="#{analiseFiscalMB.alteraValorBruto()}"
+									update="@form:pnlLancamento" />
+							</h:panelGrid>
+						</h:panelGrid>
+
+						<h:panelGroup styleClass="Seperator" layout="block"
+							rendered="#{empty analiseFiscalMB.lancamento.feitoFiscalSIP}" />
+
+						<h:panelGrid id="gridImpostos">
+							<h:panelGrid columns="6">
+								<p:column />
+								<p:column />
+								<p:outputLabel value="Alíq." />
+								<p:outputLabel value="Base" />
+								<p:outputLabel value="Valor" />
+								<p:outputLabel value="Venc." />
+
+								<!-- PCC -->
+								<p:selectBooleanCheckbox
+									value="#{analiseFiscalMB.impostos.usarPCC}">
+									<p:ajax process="@this"
+										listener="#{analiseFiscalMB.impostos.calculaValorLiquido()}"
+										update=":frmAnaliseFiscal:valorLiq" />
+								</p:selectBooleanCheckbox>
+								<p:outputLabel value="PCC" />
+								<pe:inputNumber id="alqPCC" styleClass="porcentagem"
+									value="#{analiseFiscalMB.impostos.PCC}" symbol="%"
+									maxValue="100" minValue="0" symbolPosition="s"
+									emptyValue="sign" decimalPlaces="2" style="width:30px;">
+									<p:ajax event="blur" process="@this"
+										listener="#{analiseFiscalMB.impostos.trataAliq()}"
+										update=":frmAnaliseFiscal:valorLiq, :frmAnaliseFiscal:valorPCC" />
+								</pe:inputNumber>
+								<pe:inputNumber id="basePCC" styleClass="base"
+									value="#{analiseFiscalMB.impostos.basePCC}" decimalPlaces="2"
+									decimalSeparator="," thousandSeparator="." style="width:80px;">
+									<p:ajax event="blur" process="@this"
+										listener="#{analiseFiscalMB.impostos.calculaValorImpostos()}"
+										update=":frmAnaliseFiscal:valorPCC" />
+								</pe:inputNumber>
+								<pe:inputNumber id="valorPCC" styleClass="valor"
+									value="#{analiseFiscalMB.impostos.valorPCC}" decimalPlaces="2"
+									decimalSeparator="," thousandSeparator="." style="width:80px;">
+									<p:ajax event="blur"
+										listener="#{analiseFiscalMB.impostos.trataValor()}"
+										process="@this"
+										update=":frmAnaliseFiscal:valorLiq, :frmAnaliseFiscal:alqPCC" />
+								</pe:inputNumber>
+								<p:calendar value="#{analiseFiscalMB.impostos.vencPCC}"
+									pattern="dd/MM/yy" locale="pt" timeZone="America/Sao_Paulo"
+									styleClass="#{analiseFiscalMB.validaVencimento(analiseFiscalMB.impostos.vencPCC)}">
+									<p:ajax event="dateSelect" process="@this" update="@this" />
+								</p:calendar>
+
+								<!-- INSS -->
+								<p:selectBooleanCheckbox
+									value="#{analiseFiscalMB.impostos.usarINSS}">
+									<p:ajax process="@this"
+										listener="#{analiseFiscalMB.impostos.calculaValorLiquido()}"
+										update=":frmAnaliseFiscal:valorLiq" />
+								</p:selectBooleanCheckbox>
+								<p:outputLabel value="INSS" />
+								<pe:inputNumber id="alqINSS" maxValue="100" minValue="0"
+									styleClass="porcentagem"
+									value="#{analiseFiscalMB.impostos.INSS}" decimalPlaces="2"
+									symbol="%" symbolPosition="s" emptyValue="sign"
+									style="width:30px;">
+									<p:ajax event="blur" process="@this"
+										listener="#{analiseFiscalMB.impostos.trataAliq()}"
+										update=":frmAnaliseFiscal:valorLiq, :frmAnaliseFiscal:valorINSS" />
+								</pe:inputNumber>
+								<pe:inputNumber id="baseINSS" styleClass="base"
+									value="#{analiseFiscalMB.impostos.baseINSS}" decimalPlaces="2"
+									decimalSeparator="," thousandSeparator="." style="width:80px;">
+									<p:ajax event="blur" process="@this"
+										listener="#{analiseFiscalMB.impostos.calculaValorImpostos()}"
+										update=":frmAnaliseFiscal:valorINSS" />
+								</pe:inputNumber>
+								<pe:inputNumber id="valorINSS" styleClass="valor"
+									value="#{analiseFiscalMB.impostos.valorINSS}" decimalPlaces="2"
+									decimalSeparator="," thousandSeparator="." style="width:80px;">
+									<p:ajax event="blur"
+										listener="#{analiseFiscalMB.impostos.trataValor()}"
+										process="@this"
+										update=":frmAnaliseFiscal:valorLiq, :frmAnaliseFiscal:alqINSS" />
+								</pe:inputNumber>
+								<p:calendar value="#{analiseFiscalMB.impostos.vencINSS}"
+									pattern="dd/MM/yy" locale="pt" timeZone="America/Sao_Paulo"
+									styleClass="#{analiseFiscalMB.validaVencimento(analiseFiscalMB.impostos.vencINSS)}">
+									<p:ajax event="dateSelect" process="@this" update="@this" />
+								</p:calendar>
+
+								<!-- IRRF -->
+								<p:selectBooleanCheckbox
+									value="#{analiseFiscalMB.impostos.usarIRRF}">
+									<p:ajax process="@this"
+										listener="#{analiseFiscalMB.impostos.calculaValorLiquido()}"
+										update=":frmAnaliseFiscal:valorLiq" />
+								</p:selectBooleanCheckbox>
+								<p:outputLabel value="IRRF" />
+								<pe:inputNumber id="alqIRRF" maxValue="100" minValue="0"
+									styleClass="porcentagem"
+									value="#{analiseFiscalMB.impostos.IRRF}" decimalPlaces="2"
+									symbol="%" symbolPosition="s" emptyValue="sign"
+									style="width:30px;">
+									<p:ajax event="blur" process="@this"
+										listener="#{analiseFiscalMB.impostos.trataAliq()}"
+										update=":frmAnaliseFiscal:valorIRRF" />
+								</pe:inputNumber>
+								<pe:inputNumber id="baseIRRF" styleClass="base"
+									value="#{analiseFiscalMB.impostos.baseIRRF}" decimalPlaces="2"
+									decimalSeparator="," thousandSeparator="." style="width:80px;">
+									<p:ajax event="blur" process="@this"
+										listener="#{analiseFiscalMB.impostos.calculaValorImpostos()}"
+										update=":frmAnaliseFiscal:valorLiq, :frmAnaliseFiscal:valorIRRF" />
+								</pe:inputNumber>
+								<pe:inputNumber id="valorIRRF" styleClass="valor"
+									value="#{analiseFiscalMB.impostos.valorIRRF}" decimalPlaces="2"
+									decimalSeparator="," thousandSeparator="." style="width:80px;">
+									<p:ajax event="blur"
+										listener="#{analiseFiscalMB.impostos.trataValor()}"
+										process="@this"
+										update=":frmAnaliseFiscal:valorLiq, :frmAnaliseFiscal:alqIRRF" />
+								</pe:inputNumber>
+								<p:calendar value="#{analiseFiscalMB.impostos.vencIRRF}"
+									pattern="dd/MM/yy" locale="pt" timeZone="America/Sao_Paulo"
+									styleClass="#{analiseFiscalMB.validaVencimento(analiseFiscalMB.impostos.vencIRRF)}">
+									<p:ajax event="dateSelect" process="@this" update="@this" />
+								</p:calendar>
+
+								<!-- ISS -->
+								<p:selectBooleanCheckbox
+									value="#{analiseFiscalMB.impostos.usarISS}">
+									<p:ajax process="@this"
+										listener="#{analiseFiscalMB.impostos.calculaValorLiquido()}"
+										update=":frmAnaliseFiscal:valorLiq" />
+								</p:selectBooleanCheckbox>
+								<p:outputLabel value="ISS" />
+								<pe:inputNumber id="alqISS" maxValue="100" minValue="0"
+									styleClass="porcentagem"
+									value="#{analiseFiscalMB.impostos.ISS}" symbol="%"
+									symbolPosition="s" emptyValue="sign" decimalPlaces="2"
+									style="width:30px;">
+									<p:ajax event="blur" process="@this"
+										listener="#{analiseFiscalMB.impostos.trataAliq()}"
+										update=":frmAnaliseFiscal:valorISS" />
+								</pe:inputNumber>
+								<pe:inputNumber id="baseISS" styleClass="base"
+									value="#{analiseFiscalMB.impostos.baseISS}" decimalPlaces="2"
+									decimalSeparator="," thousandSeparator="." style="width:80px;">
+									<p:ajax event="blur" process="@this"
+										listener="#{analiseFiscalMB.impostos.calculaValorImpostos()}"
+										update=":frmAnaliseFiscal:valorLiq, :frmAnaliseFiscal:valorISS" />
+								</pe:inputNumber>
+								<pe:inputNumber id="valorISS" styleClass="valor"
+									value="#{analiseFiscalMB.impostos.valorISS}" decimalPlaces="2"
+									decimalSeparator="," thousandSeparator="." style="width:80px;">
+									<p:ajax event="blur"
+										listener="#{analiseFiscalMB.impostos.trataValor()}"
+										process="@this"
+										update=":frmAnaliseFiscal:valorLiq, :frmAnaliseFiscal:alqISS" />
+								</pe:inputNumber>
+								<p:calendar value="#{analiseFiscalMB.impostos.vencISS}"
+									pattern="dd/MM/yy" locale="pt" timeZone="America/Sao_Paulo"
+									styleClass="#{analiseFiscalMB.validaVencimento(analiseFiscalMB.impostos.vencISS)}">
+									<p:ajax event="dateSelect" process="@this" update="@this" />
+								</p:calendar>
+							</h:panelGrid>
+
+							<h:panelGrid columns="2" style="margin-top:20px;">
+								<p:outputLabel value="Valor Líquido:" />
+								<pe:inputNumber id="valorLiq"
+									value="#{analiseFiscalMB.impostos.valorLiquido}"
+									decimalPlaces="2" decimalSeparator="," thousandSeparator="." />
+							</h:panelGrid>
+						</h:panelGrid>
+					</p:panel>
+
+					<p:panel id="pnlImg"
+						style="width: 800px !important;float:left;margin-left:5px;">
+						<f:facet name="header">Imagem</f:facet>
+						<h:panelGrid id="plgMedia">
+							<p:media player="pdf"
+								value="#{ImgServiceBean.pdfLancamentoEtiqueta}" width="800"
+								height="800" cache="false">
+								<f:param name="etiqueta" value="#{analiseFiscalMB.codigoImagem}" />
+							</p:media>
+						</h:panelGrid>
+					</p:panel>
+				</h:form>
+
+			</div>
+		</div>
+
+		<style>
+.divAction {
+	width: 100%;
+	height: 60px;
+	position: fixed;
+	bottom: 0px;
+	background: rgba(51, 51, 51, 0.9);
+	z-index: 9999;
+	box-sizing: border-box;
+}
+</style>
+
+		<div class="divAction">
+			<h:form>
+				<div style="display: block; margin: 10px; opacity: 1; float: left;">
+					<p:commandButton value="Voltar" ajax="false"
+						action="/sip/fiscal/pre-lancamentos.xhtml?faces-redirect=true;"
+						icon="fa fa-arrow-left Fs16 white" />
+				</div>
+				<div style="display: block; margin: 10px; opacity: 1; float: right;">
+					<h:panelGrid columns="5">
+						<p:commandButton id="cmbLiberar" value="Liberar"
+							style="margin-left: 10px !important;"
+							disabled="#{not empty analiseFiscalMB.lancamento.feitoFiscalSIP}"
+							oncomplete="PF('libLanctoFiscal').show();"
+							rendered="#{analiseFiscalMB.lancamento.suspensoFiscal == 3}">
+						</p:commandButton>
+
+						<p:commandButton value="Reprovar" process="@this"
+							onclick="PF('repLanctoFiscal').show();" 
+							disabled="#{not empty analiseFiscalMB.lancamento.feitoFiscalSIP}"
+							icon="fa fa-close Fs16 white" />
+
+						<p:commandButton id="cmbBloqueio" value="Suspender"
+							disabled="#{not empty analiseFiscalMB.lancamento.feitoFiscalSIP}"
+							oncomplete="PF('suspLanctoFiscal').show();"
+							rendered="#{analiseFiscalMB.lancamento.suspensoFiscal == 0}">
+						</p:commandButton>
+
+						<p:commandButton icon="fa fa-check Fs16 white"
+							disabled="#{not empty analiseFiscalMB.lancamento.feitoFiscalSIP}"
+							actionListener="#{analiseFiscalMB.aprovarEVoltar()}"
+							value="Aprovar e Voltar">
+							<p:confirm header="Confirmação"
+								message="Você confirma a aprovação?" icon="ui-icon-alert" />
+						</p:commandButton>
+
+						<p:commandButton icon="fa fa-check Fs16 white"
+							disabled="#{not empty analiseFiscalMB.lancamento.feitoFiscalSIP}"
+							actionListener="#{analiseFiscalMB.aprovarEIrParaProximo()}"
+							value="Aprovar e ir para próx.">
+							<p:confirm header="Confirmação"
+								message="Você confirma a aprovação?" icon="ui-icon-alert" />
+						</p:commandButton>
+					</h:panelGrid>
+				</div>
+
+			</h:form>
+		</div>
+
+		<script>
+			$('.divAction').appendTo('body');
+		</script>
+
+		<p:confirmDialog global="true" widgetVar="dlgExclui" showEffect="fade"
+			hideEffect="fade">
+			<p:commandButton value="Não" type="button"
+				styleClass="ui-confirmdialog-no"
+				icon="ui-icon-close fa fa-close Fs14 white" />
+			<p:commandButton value="Sim" type="button" process="@this"
+				styleClass="ui-confirmdialog-yes"
+				icon="ui-icon-check fa fa-check Fs14 white" />
+		</p:confirmDialog>
+
+		<script>
+			function goBack() {
+				window.history.back();
+			}
+		</script>
+		<script>
+			function atualizar() {
+				location.reload();
+			}
+		</script>
+
+		<p:dialog widgetVar="dlgFollowUp" resizable="false" modal="true"
+			header="Follow Up Lançamento" showEffect="slide" hideEffect="slide"
+			responsive="true" closeOnEscape="true" width="790">
+			<h:form id="frmFollowUp">
+				<p:dataTable var="item" emptyMessage="Não há registros."
+					rowKey="#{item.codigo}" value="#{analiseFiscalMB.lstFollowUp}"
+					id="tblFollowUp" rows="10"
+					style="font-size:12px;text-align:center;"
+					rowsPerPageTemplate="5,10,15,20,25,30,50,100" paginator="true">
+
+					<p:column headerText="Código" rendered="false"
+						filterBy="#{item.codigo}">
+						<h:outputText value="#{item.codigo}" />
+					</p:column>
+
+					<p:column headerText="Nº Lançamento" filterBy="#{item.nrolancto}">
+						<h:outputText value="#{item.nrolancto}" />
+					</p:column>
+
+					<p:column headerText="Ação" filterBy="#{item.acao}">
+						<h:outputText value="#{item.acao}" styleClass="#{item.acao}" />
+					</p:column>
+
+					<p:column headerText="Feito Por"
+						style="width:auto;text-align:left;" filterBy="#{item.feitoPor}">
+						<h:outputText value="#{item.feitoPor}"
+							style="word-wrap:break-word;" />
+					</p:column>
+
+					<p:column headerText="Obs"
+						style="width:auto;text-align:left;width:200px;"
+						filterBy="#{item.obs}">
+						<h:outputText value="#{item.obs}" style="word-wrap:break-word;" />
+					</p:column>
+
+					<p:column headerText="Data" sortBy="#{item.data}"
+						filterBy="#{item.data}">
+						<h:outputText value="#{item.data}">
+							<f:convertDateTime pattern="dd/MM/yyyy HH:mm" locale="pt"
+								timeZone="America/Sao_Paulo" />
+						</h:outputText>
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</p:dialog>
+		<ui:include src="/sip/fiscal/dlg-acao-suspender.xhtml" />
+		<ui:include src="/sip/fiscal/dlg-acao-liberar.xhtml" />
+		<ui:include src="/sip/fiscal/dlg-acao-reprovar.xhtml" />
+	</ui:define>
+</ui:composition>

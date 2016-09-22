@@ -1,0 +1,66 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<h:form id="frmServicos">
+		<p:panel header="Selecione o Período:">
+			<p:messages id="msg2" showDetail="true" autoUpdate="false"
+				closable="true" escape="true" showSummary="false" />
+			<h:panelGrid columns="5">
+				<p:outputLabel value="Inicial:" />
+				<p:calendar value="#{servicos.periodoInicial}" pattern="dd/MM/yyyy"
+					locale="pt" />
+				<p:outputLabel value="Final:" />
+				<p:calendar value="#{servicos.periodoFinal}" pattern="dd/MM/yyyy"
+					locale="pt" />
+				<p:commandButton value="Pesquisar"
+					rendered="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.igp.servicosConsult}"
+					action="#{servicos.listarServicos()}"
+					update="frmServicos:tblServico :frmServicos:msg2"
+					onstart="PF('statusPesquisar').show();"
+					onsuccess="PF('statusPesquisar').hide();" />
+			</h:panelGrid>
+		</p:panel>
+
+		<p:separator />
+		<p:commandButton value="Gerar"
+			oncomplete="PF('processamento').show();"
+			rendered="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.igp.servicosAdd}"
+			style="float: right !important;" />
+		<br />
+		<br />
+		<p:dataTable id="tblServico" var="p"
+			value="#{servicos.listaDeServicos}"
+			selection="#{servicos.selectServicos}" rowKey="#{p.condominio}"
+			emptyMessage="Nenhum item encontrado...">
+
+			<p:column selectionMode="multiple"
+				style="width:16px;text-align:center" />
+			<p:column headerText="Condomínio"
+				style="text-align: center !important;"> #{p.condominio} </p:column>
+			<p:column headerText="Cota Cond."
+				style="text-align: center !important;"> #{p.cotaCondominio} </p:column>
+			<p:column headerText="Cota Extr."
+				style="text-align: center !important;"> #{p.cotaExtra} </p:column>
+		</p:dataTable>
+		<br />
+		<p:commandButton value="Gerar"
+			oncomplete="PF('processamento').show();"
+			rendered="#{SessaoMB.verificaDepto(' Todos') || SessaoMB.igp.servicosAdd}"
+			style="float: right !important;" />
+	</h:form>
+
+	<h:form id="frmStatus">
+		<p:dialog id="dlgPesquisar" modal="true" widgetVar="statusPesquisar"
+			header="Pesquisando, aguarde..." draggable="false" resizable="false"
+			closable="false">
+			<center>
+				<p:graphicImage name="loader.gif" library="imagens" width="250"
+					height="25" />
+			</center>
+		</p:dialog>
+	</h:form>
+</ui:composition>

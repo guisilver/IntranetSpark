@@ -1,0 +1,720 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+	<style>
+#frmPreLancto\:dtLancto\:clCondominio\:filter {
+	width: 35px !important;
+}
+
+#frmPreLancto\:dtLancto\:clRateado\:filter {
+	width: 30px !important;
+}
+
+#frmPreLancto\:dtLancto\:clParcelado\:filter {
+	width: 30px !important;
+}
+#frmPreLancto\:dtLancto\:clStatus\:filter {
+	width: 50px !important;
+}
+
+#frmPreLancto\:dtLancto\:clCnpjFornecedor\:filter {
+	width: 90px !important;
+}
+
+#frmPreLancto\:dtLancto\:clTipoLancamento\:filter {
+	width: 60px !important;
+}
+
+#frmPreLancto\:dtLancto\:clCnpjFornecedor\:filter {
+	width: 60px !important;
+}
+#frmPreLancto\:dtLancto\:clNotaFiscal\:filter {
+	width: 40px !important;
+}
+
+#frmPreLancto\:dtLancto\:clValorBruto\:filter {
+	width: 40px !important;
+}
+#frmPreLancto\:dtLancto\:clValorLiq\:filter {
+	width: 40px !important;
+}
+#frmPreLancto\:dtLancto\:clStatus\:filter {
+	width: 40px !important;
+}
+#frmPreLancto\:dtLancto\:clNotaFiscal\:filter {
+	width: 40px !important;
+}
+
+.menuLeft {
+	float: left !important;
+}
+
+body {
+	min-width: 1850px;
+}
+
+.alertaSuspenso {
+	color: red !important;
+	font-size: 12px !important;
+}
+
+.fontSize {
+	font-size: 12px !important;
+}
+
+
+.btnLittle>.ui-icon {
+	height: auto !important;
+	top: 61% !important;
+	font-size: 10px !important;
+}
+</style>
+
+
+	<h:form id="frmPreLancto"
+		rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysSipLancamento}">
+
+		<h:panelGrid id="plgGrid0" rendered="#{ged.proxima1}">
+			<p:outputLabel value="Opções" />
+			<p:selectOneRadio value="#{ged.opcaoLancto}">
+				<f:selectItem itemLabel="Aprovar" itemValue="0" />
+				<f:selectItem itemLabel="Aprovados" itemValue="2" />
+				<f:selectItem itemLabel="Suspensos" itemValue="3" />
+				<p:ajax update=":frmPreLancto" listener="#{ged.listarLancto()}" />
+			</p:selectOneRadio>
+
+		</h:panelGrid>
+		<p:messages id="msg0" autoUpdate="true" showSummary="true" />
+
+		<h:panelGrid id="plgGrid1">
+			<p:panel header="Pré-lançamentos para Aprovar"
+				rendered="#{ged.proxima1}">
+
+				<p:dataTable id="dtLancto" var="p"
+					value="#{ged.listarCndpagarContas}" rowKey="#{p.codigo}" rows="10"
+					paginator="true">
+
+					<p:column headerText="Vencto." styleClass="fontSize"
+						style="text-align: center !important; width: 100px !important;"
+						sortBy="#{p.vencimento}">
+						<p:outputLabel value="#{p.vencimento}"
+							styleClass="#{alerta.alertaSuspenso(p.suspensoContas)}">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</p:outputLabel>
+					</p:column>
+
+					<p:column id="clCondominio" headerText="Cond."
+						styleClass="fontSize" filterBy="#{p.condominio}"
+						sortBy="#{p.condominio}" filterMatchMode="contains"
+						style="text-align: center !important; width: 80px !important;">
+						<p:outputLabel value="#{p.condominio}"
+							styleClass="#{alerta.alertaSuspenso(p.suspensoContas)}" />
+					</p:column>
+
+					<!-- 	<p:column id="clRateado" headerText="Rateado" styleClass="fontSize"
+						filterBy="#{p.rateado}"
+						style="text-align: center !important; width: 55px !important;"
+						filterMaxLength="1" filterMatchMode="contains">
+						<p:outputLabel value="#{p.rateado == 'S' ? 'S' : ''}"
+							styleClass="#{alerta.alertaSuspenso(p.suspensoContas)}"
+							style="color: red !important;" />
+					</p:column> -->
+
+					<p:column id="clParcelado" headerText="Parc."
+						styleClass="fontSize" filterBy="#{p.parcelado}"
+						sortBy="#{p.parcelado}"
+						style="text-align: center !important; width: 55px !important;"
+						filterMaxLength="1" filterMatchMode="contains">
+						<p:outputLabel value="#{p.parcelado == 'S' ? 'S' : ''}"
+							styleClass="#{alerta.alertaSuspenso(p.suspensoContas)}"
+							style="color: red !important;" />
+					</p:column>
+
+					<p:column id="clFornecedor" headerText="Fornecedor"
+						styleClass="fontSize" filterBy="#{ged.listarFornecedor(p.credor)}"
+						sortBy="#{ged.listarFornecedor(p.credor)}"
+						filterMatchMode="contains">
+						<p:outputLabel value="#{ged.listarFornecedor(p.credor)}"
+							styleClass="#{alerta.alertaSuspenso(p.suspensoContas)}" />
+					</p:column>
+
+					<p:column id="clCnpjFornecedor" headerText="CNPJ Fornec."
+						filterBy="#{ged.listarFornecedorCNPJ(p.credor)}"
+						filterMatchMode="contains"
+						sortBy="#{ged.listarFornecedorCNPJ(p.credor)}"
+						style="width: 110px !important; text-align: center !important;"
+						styleClass="fontSize">
+						<p:outputLabel value="#{ged.listarFornecedorCNPJ(p.credor)}"
+							styleClass="#{alerta.alertaSuspenso(p.suspensoContas)}" />
+					</p:column>
+
+					<p:column id="clNotaFiscal" headerText="NF." style="width: 100px !important;" styleClass="fontSize"
+						filterBy="#{p.numeroNf}" sortBy="#{p.numeroNf}"> 
+						<p:outputLabel value="#{p.numeroNf}"
+							styleClass="#{alerta.alertaSuspenso(p.suspensoContas)}" />
+					</p:column>
+
+					<p:column id="clValorBruto" headerText="Valor Bruto"
+						styleClass="fontSize" style="width: 120px !important;"
+						sortBy="#{p.valorLancto}" filterBy="#{p.valorLancto}"
+						filterMatchMode="contains">
+						<p:outputLabel value="R$ "
+							styleClass="#{alerta.alertaSuspenso(p.suspensoContas)}"
+							style="font-size: 12px !important;" />
+						<p:outputLabel id="oplValorBruto" value="#{p.valorLancto}"
+							styleClass="#{alerta.alertaSuspenso(p.suspensoContas)}">
+							<f:convertNumber pattern="#,##0.00" locale="pt"
+								for="oplValorBruto" />
+						</p:outputLabel>
+					</p:column>
+
+					<p:column id="clValorLiq" headerText="Valor Liq."
+						styleClass="fontSize" style="width: 120px !important;"
+						sortBy="#{p.valor}" filterBy="#{p.valor}"
+						filterMatchMode="contains">
+						<p:outputLabel value="R$ "
+							styleClass="#{alerta.alertaSuspenso(p.suspensoContas)}" />
+						<p:outputLabel id="oplValorLiq" value="#{p.valor}"
+							styleClass="#{alerta.alertaSuspenso(p.suspensoContas)}"
+							style="width: 150px !important;">
+							<f:convertNumber pattern="#,##0.00" locale="pt" for="oplValorLiq" />
+						</p:outputLabel>
+					</p:column>
+
+					<p:column headerText="Historico" styleClass="fontSize"
+						sortBy="#{p.historico}" filterBy="#{p.historico}"
+						filterMatchMode="contains">
+						<p:outputLabel value="#{p.historico}"
+							styleClass="#{alerta.alertaSuspenso(p.suspensoContas)}" />
+					</p:column>
+
+					<p:column id="clStatus" headerText="Status" styleClass="fontSize"
+						sortBy="#{p.statusSIP == 1 ? 'Pré-Lancto' : p.statusSIP == 2 ? 'Fiscal' : p.statusSIP == 3 ? 'Lançamento' : p.statusSIP == 4 ? 'Gerente' : p.statusSIP == 5 ? 'Integrado' : ''}"
+						filterBy="#{p.statusSIP == 1 ? 'Pré-Lancto' : p.statusSIP == 2 ? 'Fiscal' : p.statusSIP == 3 ? 'Lançamento' : p.statusSIP == 4 ? 'Gerente' : p.statusSIP == 5 ? 'Integrado' : ''}"
+						filterMatchMode="contains" style="width: 100px !important;">
+						<p:outputLabel
+							styleClass="#{alerta.alertaSuspenso(p.suspensoContas)}"
+							value="#{p.statusSIP == 1 ? 'Pré-Lancto' : p.statusSIP == 2 ? 'Fiscal' : p.statusSIP == 3 ? 'Lançamento' : p.statusSIP == 4 ? 'Gerente' : p.statusSIP == 5 ? 'Integrado' : ''}" />
+					</p:column>
+
+					<p:column headerText="Feito em:" styleClass="fontSize"
+						style="text-align: center !important;width: 120px !important;">
+						<p:outputLabel
+							value="#{not empty p.feitoLanctoSIP ? p.feitoFiscalSIP : p.statusSIP == 1 ? p.feitoPreLanctoSIP : p.statusSIP == 2 ? p.feitoFiscalSIP : p.statusSIP == 3 ? p.feitoLanctoSIP : p.statusSIP == 4 ? p.feitoGerenteSIP : ''}"
+							styleClass="#{alerta.alertaSuspenso(p.suspensoContas)}">
+							<f:convertDateTime pattern="dd/MM/yyyy HH:mm" locale="pt_BR"
+								timeZone="America/Sao_Paulo" />
+						</p:outputLabel>
+					</p:column>
+
+					<p:column style="width:120px;text-align: center">
+						<p:commandButton icon="fa fa-search Fs16 white" title="Consultar"
+							disabled="#{p.suspensoFiscal == 3 or p.suspensoGerente == 3 or p.feitoFiscalSIP == null}"
+							action="#{ged.avancar(p, 1)}" styleClass="btnLittle"
+							update=":frmPreLancto :frmLancamento :frmImagem" />
+
+						<p:commandButton id="cmbBloqueio" icon="fa fa-unlock Fs16 white"
+							style="margin-left: 10px !important;" styleClass="btnLittle"
+							title="Suspender"
+							oncomplete="PF('suspenderLanctoContas').show();"
+							disabled="#{p.suspensoFiscal == 3 or p.suspensoGerente == 3 or p.feitoFiscalSIP == null}"
+							rendered="#{ged.opcaoLancto == 0}">
+							<p:ajax listener="#{ged.suspenderLiberar(p)}" />
+						</p:commandButton>
+
+						<p:commandButton id="cmbLiberar" icon="fa fa-lock Fs16 white"
+							style="margin-left: 10px !important;" title="Liberar"
+							styleClass="btnLittle"
+							oncomplete="PF('liberarLanctoContas').show();"
+							rendered="#{ged.opcaoLancto == 3 and (p.suspensoFiscal == 0 or p.suspensoGerente == 0 or p.feitoFiscalSIP == null)}">
+							<p:ajax listener="#{ged.suspenderLiberar(p)}" />
+						</p:commandButton>
+
+						<p:commandButton icon="fa fa-file-text-o Fs16 white"
+							title="FollowUp" styleClass="btnLittle"
+							style="margin-left: 5px !important"
+							actionListener="#{ged.abrirFollowUp(p)}" update=":frmFollowUp" />
+
+					</p:column>
+
+				</p:dataTable>
+				<p:confirmDialog global="true" widgetVar="dlgExclui"
+					showEffect="fade" hideEffect="fade">
+					<p:commandButton value="Não" type="button"
+						styleClass="ui-confirmdialog-no"
+						icon="ui-icon-close fa fa-close Fs14 white" />
+					<p:commandButton value="Sim" type="button" ajax="false"
+						styleClass="ui-confirmdialog-yes"
+						icon="ui-icon-check fa fa-check Fs14 white" />
+				</p:confirmDialog>
+			</p:panel>
+		</h:panelGrid>
+
+	</h:form>
+
+	<h:form id="frmLancamento" style="float: left !important;"
+		rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.igp.sysSipLancamento}">
+
+		<p:panel header="Lançamento" style="width: 750px !important;"
+			rendered="#{ged.proxima2}">
+			<p:commandButton value="Follow-up"
+				icon="fa fa-file-text-o Fs16 white"
+				actionListener="#{ged.abrirFollowUp()}" update=":frmFollowUp" />
+
+			<h:panelGrid id="plg0">
+				<p:dataTable id="tblArquivos" var="item"
+					value="#{ged.listaArquivos}"
+					emptyMessage="Nenhum resultado encontrado." scrollable="true"
+					scrollHeight="50">
+					<p:column headerText="Etiqueta">
+						<p:outputLabel value="#{ged.converte(item.id)}"
+							style="color:blue;word-wrap:break-word;" />
+					</p:column>
+					<p:column headerText="Nome" style="width:150px;">
+						<p:outputLabel value="${item.nome_arquivo}"
+							style="color:blue;word-wrap:break-word;" />
+					</p:column>
+					<p:column style="width:45px;">
+						<p:commandButton
+							actionListener="#{ged.visualizarImagem(ged.listaArquivos.indexOf(item))}"
+							style="color:red;" icon="fa fa-download Fs16 white" ajax="false"
+							update="frmImagem:plImagem">
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+			</h:panelGrid>
+
+			<p:separator />
+
+			<h:panelGrid id="plg1" columns="2" style="margin-bottom:15px">
+				<p:outputLabel value="Tipo de pagamento:" />
+				<p:selectOneMenu value="#{ged.tipoPagamento}"
+					style="width: 400px !important;">
+					<p:ajax listener="#{ged.limpaTipoConta()}"
+						update=":frmLancamento:plg2" />
+					<f:selectItem itemLabel="Nenhum" noSelectionOption="true" />
+					<f:selectItem itemLabel="Crédito em Conta" itemValue="5" />
+					<f:selectItem itemLabel="DOC" itemValue="7" />
+					<f:selectItem itemLabel="Ficha de Compensação / Boleto"
+						itemValue="8" />
+					<f:selectItem
+						itemLabel="Concessionárias - água / luz / telefone / gás / etc"
+						itemValue="E" />
+				</p:selectOneMenu>
+			</h:panelGrid>
+
+			<h:panelGrid id="plg2">
+				<!-- Crédito em Conta -->
+				<h:panelGrid id="plg3" columns="1"
+					rendered="#{ged.tipoPagamento == '5'}"
+					style="vertical-align:bottom;">
+					<p:column>
+						<p:outputLabel value="Favorecido:"
+							for=":frmLancamento:txtNomeFavorecidoCC" />
+						<p:inputText id="txtNomeFavorecidoCC"
+							value="#{ged.nomeFavorecido}"
+							style="width:325px; margin-left:65px !important;" maxlength="50" />
+						<p:commandButton icon="fa fa-search Fs16 white"
+							style="margin-left:5px;"
+							onclick="PF('dlgPesqFavorecido').show();" />
+					</p:column>
+
+					<p:column>
+						<h:panelGrid id="plg4" columns="4">
+							<p:outputLabel id="oplCodBanco" value="Código do Banco:"
+								for=":frmLancamento:txtCodBancoCC" />
+							<p:inputText onkeypress="validate(event)"
+								style="width:60px; margin-left: 12px !important;"
+								value="#{ged.codBanco}" id="txtCodBancoCC" maxlength="4">
+								<p:ajax event="blur" listener="#{ged.pesquisarBanco()}"
+									update=":frmLancamento:txtNomeBancoCC" />
+							</p:inputText>
+							<p:inputText id="txtNomeBancoCC" value="#{ged.nomeDoBanco}"
+								style="width:300px;" />
+							<p:commandButton icon="fa fa-search Fs16 white"
+								style="margin-left:5px;" onclick="PF('dlgPesqBanco').show();" />
+						</h:panelGrid>
+					</p:column>
+					<p:column>
+						<h:panelGrid id="plg5" columns="6">
+							<p:outputLabel id="oplCodAgenc" value="Código da Agência:" />
+							<p:inputText onkeypress="validate(event)" style="width:80px;"
+								value="#{ged.codAgencia}" id="txtCodAgenciaCC" />
+							<p:tooltip value="Conta Corrente" for="txtContaCC" />
+							<p:inputText id="txtContaCC" style="width:150px;"
+								value="#{ged.cc}" placeholder="Conta Corrente" />
+							<p:outputLabel id="oplCC" value="Digito" />
+							<p:inputText style="width:40px;" value="#{ged.dac}"
+								id="txtDigitoCC" />
+						</h:panelGrid>
+					</p:column>
+					<p:column>
+						<h:panelGrid id="plg6" columns="6">
+							<p:outputLabel id="oplTipoconta" value="Conta poupança:" />
+							<p:selectOneRadio id="sorCPoupancaCC"
+								value="#{ged.contaPoupanca}"
+								style="margin-left: 15px !important;">
+								<f:selectItem itemLabel="S" itemValue="S" />
+								<f:selectItem itemLabel="N" itemValue="N" />
+								<p:ajax update="sorCPoupancaCC" />
+							</p:selectOneRadio>
+							<p:outputLabel id="oplTipoPessoa" value="Tipo Pessoa" />
+							<p:selectOneRadio value="#{ged.tipoPessoa}" id="sorTipoPessoaCC">
+								<f:selectItem itemLabel="F" itemValue="F" />
+								<f:selectItem itemLabel="J" itemValue="J" />
+								<p:ajax update="sorTipoPessoaCC" />
+							</p:selectOneRadio>
+							<p:tooltip value="CPF/CNPJ" for="txtCpfCnpjCC" />
+							<p:inputText id="txtCpfCnpjCC" style="width:150px;"
+								placeholder="CPF/CNPJ" value="#{ged.cpf_cnpj}"
+								onkeypress="validate(event)">
+								<p:ajax event="blur" listener="#{ged.validaCPF()}" />
+							</p:inputText>
+						</h:panelGrid>
+						<p:messages id="msg6" showDetail="true" autoUpdate="false"
+							closable="true" escape="true" showSummary="false" />
+					</p:column>
+					<p:column rendered="false">
+						<h:panelGrid id="plg7" columns="5">
+							<p:outputLabel value="Tipo de pagamento" />
+							<p:inputText style="width:80px;" value="#{ged.tipoPagto}" />
+							<p:selectOneMenu style="width:300px;" value="#{ged.codBarras}" />
+							<p:outputLabel value="Código do Movimento" />
+							<p:inputText onkeypress="validate(event)" style="width:80px;"
+								value="#{ged.codMovimento}" />
+						</h:panelGrid>
+					</p:column>
+				</h:panelGrid>
+
+				<h:panelGrid id="plg8" columns="1"
+					rendered="#{ged.tipoPagamento == '7'}"
+					style="vertical-align:bottom;">
+					<p:column>
+						<p:outputLabel id="oplFavor" value="Favorecido:" />
+						<p:inputText id="txtNomeFavorecidoDoc"
+							value="#{ged.nomeFavorecido}"
+							style="width:325px; margin-left:65px !important;" maxlength="50" />
+						<p:commandButton icon="fa fa-search Fs16 white"
+							style="margin-left:5px;"
+							onclick="PF('dlgPesqFavorecido').show();" />
+					</p:column>
+					<p:column>
+						<h:panelGrid id="plg9" columns="4">
+							<p:outputLabel id="oplCodBanco2" value="Banco Destino:" />
+							<p:inputText onkeypress="validate(event)" id="txtCodBancoDoc"
+								style="width:60px; margin-left: 32px !important;"
+								value="#{ged.codBanco}" maxlength="4">
+								<p:ajax listener="#{ged.pesquisarBanco()}"
+									update=":frmLancamento:txtNomeBancoDoc" />
+							</p:inputText>
+							<p:inputText id="txtNomeBancoDoc" value="#{ged.nomeDoBanco}"
+								style="width:300px;" />
+							<p:commandButton icon="fa fa-search Fs16 white"
+								style="margin-left:5px;" onclick="PF('dlgPesqBanco').show();" />
+						</h:panelGrid>
+					</p:column>
+					<p:column>
+						<h:panelGrid id="plg10" columns="8">
+							<p:outputLabel id="oplCodigoAgencia" value="Código da Agência:" />
+							<p:inputText style="width:80px;" onkeypress="validate(event)"
+								value="#{ged.codAgencia}" id="txtCodAgenciaDoc" />
+							<p:tooltip value="Conta Corrente" for="txtContaDoc" />
+							<p:inputText style="width:150px;" value="#{ged.cc}"
+								placeholder="Conta Corrente" id="txtContaDoc" />
+							<p:outputLabel id="oplDigito" value="Digito" />
+							<p:inputText style="width:40px;" value="#{ged.dac}"
+								id="txtDigitoDoc" />
+						</h:panelGrid>
+					</p:column>
+					<p:column>
+						<h:panelGrid id="plg11" columns="6">
+							<p:outputLabel id="oplContaPoupanca" value="Conta poupança:" />
+							<p:selectOneRadio value="#{ged.contaPoupanca}"
+								style="margin-left: 15px !important;" id="sorCPoupancaDoc">
+								<f:selectItem itemLabel="S" itemValue="S" />
+								<f:selectItem itemLabel="N" itemValue="N" />
+								<p:ajax update="sorCPoupancaDoc" />
+							</p:selectOneRadio>
+							<p:outputLabel id="opltipoDePessoa" value="Tipo Pessoa" />
+							<p:selectOneRadio value="#{ged.tipoPessoa}" id="sorTipoPessoaDoc">
+								<f:selectItem itemLabel="F" itemValue="F" />
+								<f:selectItem itemLabel="J" itemValue="J" />
+								<p:ajax update="sorTipoPessoaDoc" />
+							</p:selectOneRadio>
+							<p:tooltip value="CPF/CNPJ" for="txtCpfCnpjDoc" />
+							<p:inputText id="txtCpfCnpjDoc" style="width:150px;"
+								value="#{ged.cpf_cnpj}" placeholder="CPF/CNPJ"
+								onkeypress="validate(event)">
+								<p:ajax event="blur" listener="#{ged.validaCPF()}" />
+							</p:inputText>
+						</h:panelGrid>
+						<p:messages id="msg5" showDetail="true" autoUpdate="false"
+							closable="true" escape="true" showSummary="false" />
+					</p:column>
+
+					<p:column rendered="false">
+						<h:panelGrid id="plg12" columns="5">
+							<p:outputLabel value="Tipo de pagamento" />
+							<p:inputText style="width:80px;" value="#{ged.tipoPagto}" />
+							<p:selectOneMenu style="width:300px;" />
+							<p:outputLabel value="Usar TED" />
+							<p:selectBooleanCheckbox value="#{ged.usarTED}" />
+						</h:panelGrid>
+					</p:column>
+				</h:panelGrid>
+
+
+				<h:panelGrid id="plg13" rendered="#{ged.tipoPagamento == '8'}"
+					columns="1">
+					<p:column>
+						<h:panelGrid id="plg14" columns="2">
+							<p:outputLabel id="oplCodBarras" value="Código de barras:" />
+							<p:inputText id="txtCodBarras"
+								style="width:400px !important; margin-left: 10px !important;"
+								maxlength="44" value="#{ged.codigoBarras}"
+								onkeydown="validaBarras(event);">
+								<p:ajax event="blur" update=":frmLancamento:plg15"
+									listener="#{ged.listarLinhaDigitavel()}" />
+							</p:inputText>
+						</h:panelGrid>
+					</p:column>
+					<p:column>
+						<h:panelGrid columns="6" id="plg15">
+							<p:outputLabel id="oplLinhaDig" value="Linha digitável:" />
+							<p:inputMask mask="99999.99999" maxlength="11" id="ldComp1"
+								onkeyup="validaLDComp1();" value="#{ged.ldCampo1}"
+								style="width:100px !important; margin-left: 30px !important;" />
+							<p:inputMask mask="99999.999999" maxlength="12" id="ldComp2"
+								onkeyup="validaLDComp2();" value="#{ged.ldCampo2}"
+								style="width:100px !important;" />
+							<p:inputMask mask="99999.999999" id="ldComp3"
+								onkeyup="validaLDComp3();" maxlength="12"
+								value="#{ged.ldCampo3}" style="width:100px;" />
+							<p:inputMask mask="9" maxlength="1" id="ldComp4"
+								onkeyup="validaLDComp4();" value="#{ged.ldDac}"
+								style="width:10px;" />
+							<p:inputMask mask="99999999999999" maxlength="14" id="ldComp5"
+								onkeyup="validaLDComp5();" value="#{ged.ldValor}"
+								style="width:120px;" onblur="validaLD();" />
+						</h:panelGrid>
+					</p:column>
+				</h:panelGrid>
+
+				<h:panelGrid id="plg16" rendered="#{ged.tipoPagamento == 'E'}"
+					columns="1">
+					<p:column>
+						<h:panelGrid id="plg17" columns="2">
+							<p:outputLabel id="oplCodDeBarr" value="Código de barras:" />
+							<p:inputText id="txtCodBarras2"
+								style="width:400px;margin-left: 10px !important;" maxlength="44"
+								value="#{ged.codigoBarras}" onkeydown="validaBarras(event);">
+								<p:ajax event="blur" update=":frmLancamento:plg18"
+									listener="#{ged.listarLinhaDigitavel()}" />
+							</p:inputText>
+						</h:panelGrid>
+					</p:column>
+
+					<p:column>
+						<h:panelGrid columns="6" id="plg18">
+							<p:outputLabel value="Linha digitável:" />
+							<p:inputMask mask="999999999999" maxlength="12" id="ldConc1"
+								onkeyup="validaLDConc1();" value="#{ged.concSegbarra1}"
+								style="width:100px !important; margin-left: 30px !important;" />
+							<p:inputMask mask="999999999999" maxlength="12" id="ldConc2"
+								onkeyup="validaLDConc2();" value="#{ged.concSegbarra2}"
+								style="width:100px;" />
+							<p:inputMask mask="999999999999" maxlength="12" id="ldConc3"
+								onkeyup="validaLDConc3();" value="#{ged.concSegbarra3}"
+								style="width:100px;" />
+							<p:inputMask mask="999999999999" maxlength="12" id="ldConc4"
+								onkeyup="validaLDConc4();" value="#{ged.concSegbarra4}"
+								style="width:100px;" onblur="validaLD();" />
+						</h:panelGrid>
+					</p:column>
+				</h:panelGrid>
+			</h:panelGrid>
+
+
+			<p:separator title="Lançamento" />
+
+
+			<h:panelGrid id="plg19">
+				<h:panelGrid columns="2" id="plg20">
+
+					<p:outputLabel value="Fornecedor:" />
+					<p:column>
+						<h:panelGrid columns="3" id="plg21">
+							<p:column>
+								<p:inputText id="txtFornecedor" onkeypress="validate(event)"
+									placeholder="CPF/CNPJ" value="#{ged.fornecedor}" maxlength="14">
+									<p:ajax event="blur" listener="#{ged.pesquisaFornecedor()}"
+										update=":frmLancamento:txtNomeFornecedor" />
+								</p:inputText>
+								<p:commandButton icon="fa fa-search Fs16 white" immediate="true"
+									style="margin-left:5px;"
+									onclick="PF('dlgPesqFornecedor').show();" />
+								<p:outputLabel id="txtNomeFornecedor"
+									value="#{ged.nomeFornecedor}" style="margin-left:5px;" />
+							</p:column>
+						</h:panelGrid>
+					</p:column>
+
+					<p:outputLabel value="Vencimento" />
+					<p:calendar id="dtVencimento" mask="true" locale="pt"
+						style="margin-left: 3px !important;" timeZone="America/Sao_Paulo"
+						pattern="dd/MM/yy" value="#{ged.vencimento}" />
+
+
+					<!-- <p:outputLabel value="Pagto. Rateado:" />
+					<h:panelGrid id="plg22" columns="4">
+						<p:selectOneRadio value="#{ged.rateado}" id="sorRateio" disabled="true">
+							<f:selectItem itemLabel="S" itemValue="S" />
+							<f:selectItem itemLabel="N" itemValue="N" />
+							<p:ajax update=":frmLancamento:plg22 :frmLancamento:plg24 :frmLancamento:plg25 :frmLancamento:plg27 :frmLancamento:plg28" />
+						</p:selectOneRadio>
+
+						<h:panelGrid id="plg23">
+							<p:commandButton value="Rateio" onclick="PF('dlgValRat').show();"  rendered="#{ged.rateado eq 'S' }" />
+						</h:panelGrid>
+					</h:panelGrid> -->
+
+					<h:panelGrid id="plg24" columns="2">
+						<p:outputLabel value="Conta contábil:"
+							rendered="#{ged.rateado == 'N'}" />
+						<p:outputLabel value="Qtde. de Contas:"
+							rendered="#{ged.rateado == 'S'}" />
+					</h:panelGrid>
+
+					<p:column>
+						<h:panelGrid id="plg25" columns="2">
+							<p:column rendered="#{ged.rateado == 'N'}">
+								<p:inputText id="txtContaContabil"
+									rendered="#{ged.rateado == 'N'}" value="#{ged.contaContabil}"
+									onkeypress="validate(event)" maxlength="9" required="true"
+									requiredMessage="Insira a conta!">
+									<p:ajax listener="#{ged.pesquisaContaCod()}"
+										update=":frmLancamento:nomeContaContabil :frmLancamento:txtComplemento" />
+								</p:inputText>
+								<p:commandButton icon="fa fa-search Fs16 white" immediate="true"
+									rendered="#{ged.rateado == 'N'}" style="margin-left:5px;"
+									onclick="PF('dlgPesqConta').show();" />
+							</p:column>
+							<p:outputLabel id="nomeContaContabil"
+								rendered="#{ged.rateado == 'N'}" value="#{ged.nomeConta}"
+								style="margin-top:5px;" />
+
+							<p:outputLabel value="#{ged.qtdeDeContas}"
+								rendered="#{ged.rateado == 'S'}" />
+						</h:panelGrid>
+					</p:column>
+
+					<h:panelGrid id="plg27" columns="2">
+						<p:outputLabel id="oplValor" value="Valor:"
+							rendered="#{ged.rateado eq 'N'}" />
+						<p:outputLabel id="oplValorBruto" value="Valor Bruto:"
+							rendered="#{ged.rateado == 'S'}" />
+					</h:panelGrid>
+
+					<h:panelGrid id="plg28" columns="2">
+						<c:if test="#{ged.rateado eq 'N'}">
+							<pe:inputNumber id="txtValor" value="#{ged.valorGed}"
+								decimalPlaces="2" symbol="R$" thousandSeparator="."
+								decimalSeparator=","></pe:inputNumber>
+						</c:if>
+						<p:outputLabel id="txtValorBt" value="#{ged.rat.valorBruto}"
+							rendered="#{ged.rateado eq 'S'}">
+							<f:convertNumber type="currency" currencySymbol="R$" locale="pt" />
+						</p:outputLabel>
+					</h:panelGrid>
+
+					<p:outputLabel value="Nota Fiscal:" id="lblTipoDoc" />
+					<p:inputText onkeypress="validate(event)" id="txtNF"
+						style="margin-left: 3px !important;" value="#{ged.notaFiscal}"
+						maxlength="9">
+					</p:inputText>
+
+
+					<p:outputLabel value="Emissão N.F:" />
+					<p:calendar id="dtEmissaoNF" mask="true" locale="pt"
+						style="margin-left: 3px !important;" timeZone="America/Sao_Paulo"
+						pattern="dd/MM/yy" value="#{ged.dtEmissaoNF}" />
+
+					<p:outputLabel value="Hist. padrão:" />
+					<h:panelGrid columns="2">
+						<p:inputText value="#{ged.codigoHistPadrao}"
+							onkeypress="validate(event)">
+							<p:ajax event="blur" listener="#{ged.listarHistPadrao}"
+								update=":frmLancamento:txtComplemento :frmLancamento:oplAlertaHP" />
+						</p:inputText>
+						<p:outputLabel id="oplAlertaHP" value="#{ged.msgHistPadrao}"
+							style="color: red !important;" />
+					</h:panelGrid>
+
+					<p:outputLabel value="Histórico:" />
+					<p:inputTextarea id="txtComplemento" value="#{ged.complemento}"
+						maxlength="150" style="margin-left: 3px !important;">
+					</p:inputTextarea>
+
+
+
+				</h:panelGrid>
+			</h:panelGrid>
+			<p:separator />
+			<p:commandButton id="cmbVoltar" value="Voltar"
+				action="#{ged.voltar()}" style="float: left !important;"
+				update="frmPreLancto :frmLancamento :frmImagem" />
+
+			<p:commandButton id="cmbSalvar" value="Salvar"
+				rendered="#{ged.cndpagar.statusSIP == 3}"
+				oncomplete="PF('dlgObsLancto').show();"
+				style="float: right !important;" />
+
+			<p:commandButton id="cmbSuspender"
+				style="margin-left: 10px !important;float: right !important;margin-right:10px!important;"
+				value="Suspender" update=":frmPreLancto"
+				rendered="#{ged.opcaoLancto == 0 and ged.cndpagar.statusSIP == 3}"
+				disabled="#{ged.cndpagar.suspensoFiscal == 3 or (ged.cndpagar.suspensoGerente == 3 or ged.cndpagar.feitoFiscalSIP == null)}"
+				oncomplete="PF('suspenderLanctoContas').show();">
+				<p:ajax listener="#{ged.suspenderLiberar(ged.cndpagar)}" />
+			</p:commandButton>
+
+			<p:commandButton id="cmbLiber"
+				style="margin-left: 10px !important;float: right !important;margin-right:10px!important;"
+				value="Liberar" oncomplete="PF('liberarLanctoContas').show();"
+				rendered="#{ged.opcaoLancto == 3 and (ged.cndpagar.suspensoFiscal == 0 or ged.cndpagar.suspensoGerente == 0 or ged.cndpagar.feitoFiscalSIP == null)}">
+				<p:ajax listener="#{ged.suspenderLiberar(ged.cndpagar)}" />
+			</p:commandButton>
+
+			<p:defaultCommand target="cmbSalvar" />
+		</p:panel>
+
+		<p:confirmDialog global="true" widgetVar="dlgExclui" showEffect="fade"
+			hideEffect="fade">
+			<p:commandButton value="Não" type="button"
+				styleClass="ui-confirmdialog-no"
+				icon="ui-icon-close fa fa-close Fs14 white" />
+			<p:commandButton value="Sim" type="button" ajax="false"
+				styleClass="ui-confirmdialog-yes"
+				icon="ui-icon-check fa fa-check Fs14 white" />
+		</p:confirmDialog>
+
+	</h:form>
+
+	<h:form id="frmImagem" styleClass="menuLeft">
+		<p:panel id="plImagem" header="Imagem" rendered="#{ged.proxima2}">
+			<h:panelGrid id="gridMedia">
+				<p:media player="pdf"
+					value="#{ImgServiceBean.pdfLancamentoEtiqueta}" width="800"
+					height="800" cache="false">
+					<f:param name="etiqueta" value="#{ged.cdImagem}" />
+				</p:media>
+			</h:panelGrid>
+		</p:panel>
+	</h:form>
+
+</ui:composition>

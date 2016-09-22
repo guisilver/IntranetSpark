@@ -1,0 +1,114 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<style>
+#frmPaperIsento\:tblPaperIsento\:clCondo\:filter {
+	width: 45px !important;
+}
+</style>
+
+	<h:form id="frmPaperIsento">
+		<p:messages id="msg" showDetail="true" autoUpdate="false"
+			closable="true" escape="true" showSummary="false" />
+		<p:panel header="Adicionar Isenção" style="width: 250px !important;">
+			<h:panelGrid columns="2">
+				<p:outputLabel value="Selecione: *" style="color: red;" />
+				<p:selectCheckboxMenu label="Condominios"
+					value="#{paperIsentoBean.selectCondominios}" filter="true"
+					filterMatchMode="startsWith" panelStyle="width:250px">
+					<f:selectItems value="#{SessaoMB.listaDeCondominios}" var="item"
+						itemLabel="#{item.codigo}" itemValue="#{item.codigo}" />
+				</p:selectCheckboxMenu>
+			</h:panelGrid>
+			<p:separator />
+
+			<h:panelGrid columns="2">
+				<p:outputLabel value="Ata" />
+				<p:selectBooleanCheckbox value="#{paperIsentoBean.selectAta}" />
+				<p:outputLabel value="Balancete" />
+				<p:selectBooleanCheckbox value="#{paperIsentoBean.selectBalancete}" />
+				<p:outputLabel value="Circular" />
+				<p:selectBooleanCheckbox value="#{paperIsentoBean.selectCircular}" />
+				<p:outputLabel value="Convencão-Reg. Interno" />
+				<p:selectBooleanCheckbox value="#{paperIsentoBean.selectConvReg}" />
+				<p:outputLabel value="Convocanção" />
+				<p:selectBooleanCheckbox value="#{paperIsentoBean.selectConvocacao}" />
+				<p:outputLabel value="Geral" />
+				<p:selectBooleanCheckbox value="#{paperIsentoBean.selectGeral}" />
+				<p:outputLabel value="Impressoes Coloridas" />
+				<p:selectBooleanCheckbox value="#{paperIsentoBean.selectImpCol}" />
+			</h:panelGrid>
+			<p:separator />
+			<p:commandButton value="Salvar"
+				actionListener="#{paperIsentoBean.salvar()}" update="frmPaperIsento"
+				style="float: right;" />
+		</p:panel>
+		<p:separator />
+		<p:panel header="Manutenção">
+			<p:dataTable id="tblPaperIsento" var="p"
+				value="#{paperIsentoBean.listaPapercutIsento}"
+				rowKey="#{p.condominio}"
+				selection="#{paperIsentoBean.papercutIsentoBean}"
+				emptyMessage="Nenhum registro encontrado...">
+
+				<p:column id="clCondo" headerText="Cond." width="60"
+					style="text-align: center" filterBy="#{p.condominio}">
+					#{p.condominio}
+				</p:column>
+				<p:column id="clAta" headerText="Ata" style="text-align: center">
+					<p:outputLabel value="#{p.ata ? 'Não Cobrar' : 'Cobrar'}"
+						style="color: #{p.ata ? '' : 'red'}" />
+				</p:column>
+				<p:column id="clBalancete" headerText="Balancete"
+					style="text-align: center">
+					<p:outputLabel value="#{p.balancete ? 'Não Cobrar' : 'Cobrar'}"
+						style="color: #{p.balancete ? '' : 'red'}" />
+				</p:column>
+				<p:column id="clCircular" headerText="Circular">
+					<p:outputLabel value="#{p.circulares ? 'Não Cobrar' : 'Cobrar'}"
+						style="color: #{p.circulares ? '' : 'red'}" />
+				</p:column>
+				<p:column id="clConvReg" headerText="Convenção-Reg. Int."
+					style="width: 150px !important; text-align: center">
+					<p:outputLabel
+						value="#{p.convencaoRegulamento ? 'Não Cobrar' : 'Cobrar'}"
+						style="color: #{p.convencaoRegulamento ? '' : 'red'}" />
+				</p:column>
+				<p:column id="clConvocacao" headerText="Convocação"
+					style="text-align: center">
+					<p:outputLabel value="#{p.convocacao ? 'Não Cobrar' : 'Cobrar'}"
+						style="color: #{p.convocacao ? '' : 'red'}" />
+				</p:column>
+				<p:column id="clGeral" headerText="Geral" style="text-align: center">
+					<p:outputLabel value="#{p.geral ? 'Não Cobrar' : 'Cobrar'}"
+						style="color: #{p.geral ? '' : 'red'}" />
+				</p:column>
+				<p:column id="clImpCol" headerText="Impressão Colorida"
+					style="text-align: center">
+					<p:outputLabel
+						value="#{p.impressaoColorida ? 'Não Cobrar' : 'Cobrar'}"
+						style="color: #{p.impressaoColorida ? '' : 'red'}" />
+				</p:column>
+				<p:column style="width:50px;text-align: center">
+					<p:commandLink value="Excluir"
+						actionListener="#{paperIsentoBean.excluir(p)}"
+						update=":frmPaperIsento">
+						<p:confirm header="Confirmação"
+							message="Você confirma a Exclusão?" icon="fa fa-warning Fs16 red" />
+					</p:commandLink>
+				</p:column>
+			</p:dataTable>
+		</p:panel>
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+			<p:commandButton value="Não" type="button"
+				styleClass="ui-confirmdialog-no" icon="fa fa-close Fs16 white" />
+			<p:commandButton value="Sim" type="button"
+				styleClass="ui-confirmdialog-yes" icon="fa fa-check Fs16 white" />
+		</p:confirmDialog>
+	</h:form>
+
+</ui:composition>

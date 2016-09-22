@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.2.0.final using JasperReports Library version 6.2.0  -->
+<!-- 2016-02-17T11:23:05 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Atas" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5dfc8c6f-a34a-44df-9e7a-c01f5da710ac">
+	<property name="ireport.zoom" value="2.415765000000002"/>
+	<property name="ireport.x" value="837"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="omacorpP"/>
+	<parameter name="dataInicio" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="dataFim" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[select a.codigo,a.condominio_codigo,a.gerente_codigo,a.contas,a.dataAssembleia,a.horario1,
+a.localAssembleia,a.tipo,a.obs,a.eleicaoSindico,
+a.digitacao,a.distribuicao,a.protocolo,a.advogado,a.assinada,a.cartorio,a.enviadoPresidente, a.enviadoTi, a.publicacaoAta,
+(select g.nome from intra_grupo_gerente as g where a.gerente_codigo = g.codigo)as gerente_nome,
+(select c.nome from intra_condominios as c where c.codigo = a.condominio_codigo)as condominio_nome
+from intra_assembleia as a where a.dataAssembleia between  $P{dataInicio}  and  $P{dataFim} 
+order by gerente_nome asc]]>
+	</queryString>
+	<field name="codigo" class="java.lang.Integer"/>
+	<field name="condominio_codigo" class="java.lang.Short"/>
+	<field name="gerente_codigo" class="java.lang.Integer"/>
+	<field name="contas" class="java.lang.String"/>
+	<field name="dataAssembleia" class="java.sql.Timestamp"/>
+	<field name="horario1" class="java.sql.Timestamp"/>
+	<field name="localAssembleia" class="java.lang.String"/>
+	<field name="tipo" class="java.lang.String"/>
+	<field name="obs" class="java.lang.String"/>
+	<field name="eleicaoSindico" class="java.lang.Boolean"/>
+	<field name="digitacao" class="java.sql.Timestamp"/>
+	<field name="distribuicao" class="java.sql.Timestamp"/>
+	<field name="protocolo" class="java.sql.Timestamp"/>
+	<field name="advogado" class="java.sql.Timestamp"/>
+	<field name="assinada" class="java.sql.Timestamp"/>
+	<field name="cartorio" class="java.sql.Timestamp"/>
+	<field name="enviadoPresidente" class="java.lang.String"/>
+	<field name="enviadoTi" class="java.sql.Timestamp"/>
+	<field name="publicacaoAta" class="java.sql.Timestamp"/>
+	<field name="gerente_nome" class="java.lang.String"/>
+	<field name="condominio_nome" class="java.lang.String"/>
+	<title>
+		<band height="25" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="802" height="25" uuid="0bf7af5d-dfd7-4a5f-8c1d-cc20d498b1b4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ATAS]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="21" splitType="Stretch">
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="44" y="0" width="85" height="21" isPrintWhenDetailOverflows="true" forecolor="#000000" uuid="3560262c-6768-4985-98b3-0ba92797acf1"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ GERENTE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="164" y="0" width="101" height="21" isPrintWhenDetailOverflows="true" forecolor="#000000" uuid="8ed5d732-5e42-4786-9bb6-1c270fb6ef47"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CONDOMÍNIO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="265" y="0" width="34" height="21" isPrintWhenDetailOverflows="true" forecolor="#000000" uuid="d931d0ea-ace3-4ce2-a1a3-83e691f291a8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TIPO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="299" y="0" width="57" height="21" isPrintWhenDetailOverflows="true" forecolor="#000000" uuid="d204f806-5197-41cc-a497-b2ef612a3260"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DATA DIGITAÇÃO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="356" y="0" width="55" height="21" isPrintWhenDetailOverflows="true" forecolor="#000000" uuid="75337bd3-26a6-4c4e-840a-fba9d3843cbc"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CAMILA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="411" y="0" width="91" height="21" isPrintWhenDetailOverflows="true" forecolor="#000000" uuid="c7fe6477-8d74-4601-8979-2ef4018436db"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ENVIADO P/ PRESIDENTE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="502" y="0" width="56" height="21" isPrintWhenDetailOverflows="true" forecolor="#000000" uuid="96991275-e1cb-4456-b545-320f59f689e3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ASSINADA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="558" y="0" width="66" height="21" isPrintWhenDetailOverflows="true" forecolor="#000000" uuid="43dfa1d6-7641-44b8-9500-bfab7d48f1f7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DISTRIBUICAO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="624" y="0" width="58" height="21" isPrintWhenDetailOverflows="true" forecolor="#000000" uuid="8dd1126f-a660-49a2-83f2-3644bcc15b74"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CARTORIO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="129" y="0" width="35" height="21" forecolor="#000000" uuid="d3acf967-a818-4a2c-aeb1-a464cd56e0e9"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="44" height="21" isPrintWhenDetailOverflows="true" forecolor="#000000" uuid="98c89cc6-da5f-4ba9-9bc3-80a873d41cb0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DATA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="737" y="0" width="65" height="21" forecolor="#000000" uuid="b218d6bc-86da-4474-8d35-e18c20ef6b6c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PUBLICADO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="682" y="0" width="55" height="21" isPrintWhenDetailOverflows="true" forecolor="#000000" uuid="3350326d-c6ca-40fe-b971-d9a4f950ffcf">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ENVIADO TI]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="19" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="265" y="0" width="34" height="19" isRemoveLineWhenBlank="true" uuid="d5a6f35e-fe48-45b4-8b48-f1a4b38a51c3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="7" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipo}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="411" y="0" width="91" height="19" isRemoveLineWhenBlank="true" uuid="8fb88c73-ff83-4a7b-a014-07f6b3575d77"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana" size="7" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{enviadoPresidente}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="44" height="19" isRemoveLineWhenBlank="true" uuid="599024f3-f318-42d2-a634-b6c5eaa21e38"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="7" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("dd/MM/yyyy").format($F{dataAssembleia})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="299" y="0" width="57" height="19" isRemoveLineWhenBlank="true" uuid="6ec79e59-0779-4c56-8639-b842b53821c1">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="7" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("dd/MM/yyyy").format($F{digitacao})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="356" y="0" width="55" height="19" isRemoveLineWhenBlank="true" uuid="e42e6c79-ead4-4994-94c9-e0842d8fe55d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="7" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("dd/MM/yyyy").format($F{advogado})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="502" y="0" width="56" height="19" isRemoveLineWhenBlank="true" uuid="93f3bf81-531c-456d-be97-538b484e2a72"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="7" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("dd/MM/yyyy").format($F{assinada})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="558" y="0" width="66" height="19" isRemoveLineWhenBlank="true" uuid="ea27894b-e583-431e-9b6b-4def20b327fb"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="7" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("dd/MM/yyyy").format($F{distribuicao})]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="737" y="0" width="65" height="19" uuid="d740df04-a1a7-4f97-9d56-877de1191343"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("dd/MM/yyyy").format($F{publicacaoAta})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="624" y="0" width="58" height="19" isRemoveLineWhenBlank="true" uuid="d0d339fb-914a-4cb9-8034-9ce086f45925"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="7" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("dd/MM/yyyy").format($F{cartorio})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="129" y="0" width="35" height="19" uuid="0183df77-cabb-4c6c-b159-15086635c8e7"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{condominio_codigo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="164" y="0" width="101" height="19" uuid="95a12ee5-5c11-4f9f-8700-375873f14d4f"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[""+$F{condominio_nome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="44" y="0" width="85" height="19" uuid="70a8a382-fc57-4bb7-8740-61b3366207bf"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[""+$F{gerente_nome}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="682" y="0" width="55" height="19" uuid="a7e6e0ca-ffe3-4a49-93c9-207f2a6418c4">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("dd/MM/yyyy").format($F{enviadoTi})]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

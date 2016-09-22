@@ -1,0 +1,55 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+	<p:dialog widgetVar="dlgExcluirSipLancto" resizable="false"
+		modal="true" width="auto" header="exclusão do Lançamento"
+		hideEffect="slide" showEffect="slide" responsive="true"
+		closeOnEscape="true">
+		<h:form id="frmObsSipLancto">
+			<h:panelGrid columns="1">
+				<p:outputLabel
+					value="Esse pagamento possui tributos que serão excluídos!"
+					style="color: red !important;" />
+				<p:outputLabel value="Deseja continuar?"
+					style="color: red !important;" />
+			</h:panelGrid>
+			<h:panelGrid columns="2">
+				<p:outputLabel value="Obs: *" style="color: red !important;" />
+				<p:inputTextarea autoResize="true" required="true"
+					requiredMessage="Obrigatório colocar uma observação!"
+					value="#{ged.obsLancto}" maxlength="180"
+					style="width:400px;height:120px;" />
+			</h:panelGrid>
+			<p:messages id="msg8" showDetail="true" autoUpdate="false"
+				closable="true" escape="true" showSummary="false" />
+			<p:separator></p:separator>
+			<center>
+				<p:commandButton value="Cancelar"
+					oncomplete="PF('dlgExcluirLancto').hide();"
+					icon="fa fa-close Fs16 white" />
+				<p:spacer />
+				<p:commandButton value="Excluir"
+					actionListener="#{ged.excluirLancamentoSIP()}"
+					style="float: right !important;"
+					onstart="PF('excluirSipLan').show(); PF('dlgExcluirLancto').hide();"
+					onsuccess="PF('excluirSipLan').hide();"
+					update=":frmPreLancto :frmLancamento :frmImagem"
+					icon="fa fa-check Fs16 white" />
+			</center>
+		</h:form>
+	</p:dialog>
+	<p:dialog id="dlgExcluirSipLancto" modal="true"
+		widgetVar="excluirSipLan" responsive="true"
+		header="Excluindo, aguarde..." draggable="false" resizable="false"
+		closable="false">
+		<center>
+			<p:graphicImage name="loader.gif" library="imagens" width="250"
+				height="25" />
+		</center>
+	</p:dialog>
+</ui:composition>

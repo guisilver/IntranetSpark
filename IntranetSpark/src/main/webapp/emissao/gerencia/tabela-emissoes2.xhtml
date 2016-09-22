@@ -1,0 +1,35 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+	<style>
+.msg {
+	color: #FFF;
+	font-size: 20px;
+}
+
+#frmFiltro table td {
+	border: 0px !important;
+}
+
+.ui-selectoneradio tbody tr td {
+	border: 0px !important;
+}
+
+.gridFiltro tbody tr td {
+	border: 0px !important;
+}
+</style>
+
+	<p:dataTable value="#{SessaoMB.listaCondominios}" var="item"
+		scrollable="true">
+		<p:column style="width:16px;">
+			<p:rowToggler />
+		</p:column>
+		<p:column>
+			<h:outputText value="#{item.cndCodNome}" />
+		</p:column>
+	</p:dataTable>
+</ui:composition>

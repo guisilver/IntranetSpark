@@ -1,0 +1,102 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	<style>
+.alerta {
+	color: red !important;
+	font-size: 12px !important;
+}
+
+.alerta2 {
+	color: red !important;
+}
+
+.alinharTexto {
+	text-align: center !important;
+}
+
+.tamanho1 {
+	width: 70px !important;
+}
+
+#frmDuplicidade\:dlgDuplicidade_title {
+	color: red !important;
+}
+</style>
+	<h:form id="frmDuplicidade">
+
+		<p:dialog id="dlgDuplicidade" widgetVar="duplicidade"
+			header="Possível duplicidade" modal="true" resizable="false"
+			responsive="true">
+
+
+			<h:panelGrid columns="3">
+				<c:choose>
+					<c:when test="#{lancamentoMB.duplicidadeTotal == 1}">
+						<p:outputLabel value="Lançamento duplicado!" styleClass="alerta2" />
+					</c:when>
+				</c:choose>
+				<c:if test="#{lancamentoMB.duplicidadeTotal == 2}">
+					<p:outputLabel
+						value="Possível duplicidade com lançamentos abaixo, deseja continuar?"
+						styleClass="alerta2" />
+					<p:commandButton value="Sim"
+						actionListener="#{lancamentoMB.salvarNovoLancamento()}"
+						rendered="#{lancamentoMB.lv.debitoAutomatico == null}"
+						ajax="false" icon="fa fa-check Fs16 white" style="float:right;" />
+					<p:commandButton value="Não" oncomplete="PF('duplicidade').hide();" />
+				</c:if>
+			</h:panelGrid>
+			<p:separator />
+			<p:dataTable id="dtDuplicidade" var="p"
+				value="#{lancamentoMB.listaDeDuplicidade}"
+				style="width: 700px !important;" rows="10" paginator="true">
+
+				<p:column style="width: 20px !important;">
+					<div class="#{lancamentoMB.alerta()}"></div>
+				</p:column>
+
+				<p:column headerText="Cond." styleClass="tamanho1 alinharTexto"
+					sortBy="#{p.condominio}" filterBy="#{p.condominio}">
+					<p:outputLabel value="#{p.condominio}" styleClass="alerta" />
+				</p:column>
+
+				<p:column headerText="Cnpj Fornec." styleClass="alinharTexto"
+					sortBy="#{p.fornecedorCnpj}" filterBy="#{p.fornecedorCnpj}">
+					<p:outputLabel value="#{p.fornecedorCnpj}" styleClass="alerta" />
+				</p:column>
+
+				<p:column headerText="Nota Fiscal" sortBy="#{p.numeroNf}"
+					styleClass="tamanho1 alinharTexto" filterBy="#{p.numeroNf}">
+					<p:outputLabel value="#{p.numeroNf}" styleClass="alerta" />
+				</p:column>
+
+				<p:column headerText="Vencimento" styleClass="alinharTexto"
+					sortBy="#{p.vencimento}" filterBy="#{p.vencimento}">
+					<p:outputLabel value="#{p.vencimento}" styleClass="alerta">
+						<f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR" />
+					</p:outputLabel>
+				</p:column>
+
+				<p:column headerText="Valor" filterBy="#{p.valorLancto}"
+					sortBy="#{p.valorLancto}">
+					<p:outputLabel value="R$ " styleClass="alerta" />
+					<h:outputLabel id="oplValor" value="#{p.valorLancto}"
+						styleClass="alerta">
+						<f:convertNumber currencySymbol="R$" for="oplValor"
+							pattern="#,##0.00" locale="pt_BR" type="currency" />
+					</h:outputLabel>
+				</p:column>
+
+			</p:dataTable>
+
+		</p:dialog>
+
+	</h:form>
+
+
+</ui:composition>

@@ -1,0 +1,45 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:form id="frmConsultaAtendimentoC"
+		rendered="#{SessaoMB.igp.sysAdmin || SessaoMB.verificaDepto('Comercial')}">
+		<p:dialog id="dlgConsultaAtendimentoC"
+			widgetVar="dlgConsultaAtendimentoC" resizable="false" modal="true"
+			responsive="true" closeOnEscape="true" header="Atendimentos">
+			<p:growl autoUpdate="true" id="growl" widgetVar="growl" />
+			<p:messages id="msg" showDetail="true" autoUpdate="false"
+				closable="true" escape="true" showSummary="false" styleClass="msg" />
+
+			<p:dataTable id="tblAtendimentoC" var="atendimento"
+				value="#{cmcaMB.listaAtendimento2}" rows="10" paginator="true"
+				rowKey="#{atendimento.id}"
+				emptyMessage="Não houve atendimento para esse condomínio."
+				style="font-size:12px; text-align:center;width:900px;">
+				<f:facet name="header">Atendimentos	</f:facet>
+				<p:column headerText="Data" style="width:120px;">
+					<h:outputText value="#{atendimento.data}">
+						<f:convertDateTime locale="pt" pattern="dd/MM/yyyy HH:mm"
+							timeZone="America/Sao_Paulo" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="Histórico" style="width:250px;">
+					<h:outputText value="#{atendimento.historico}" />
+				</p:column>
+				<p:column headerText="Usuário" style="width:150px;">
+					<h:outputText value="#{atendimento.usuario}" />
+				</p:column>
+				<p:column headerText="Solucionado" style="width:70px;">
+					<h:outputText value="Sim"
+						rendered="#{atendimento.solucionado eq true}" style="color:blue" />
+					<h:outputText value="Não"
+						rendered="#{atendimento.solucionado eq false}" style="color:red" />
+				</p:column>
+			</p:dataTable>
+
+		</p:dialog>
+	</h:form>
+</ui:composition>

@@ -1,0 +1,186 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	<style>
+#frmFiltro table td {
+	border: 0px !important;
+}
+
+.ui-selectoneradio tbody tr td {
+	border: 0px !important;
+}
+
+.gridFiltro tbody tr td {
+	border: 0px !important;
+}
+</style>
+	<div class="Container100 Responsive100">
+		<div class="ContainerIndent">
+			<h:form id="frmFiltro" rendered="#{SessaoMB.igp.sysAdmin}">
+				<p:growl autoUpdate="true" />
+				<p:panelGrid id="gridFiltro" columns="1" styleClass="gridFiltro">
+					<f:facet name="header">
+						<h:outputText value="Filtros" />
+					</f:facet>
+					<h:panelGrid columns="2" border="0" id="gridPeriodo"
+						styleClass="gridFiltro">
+						<p:outputLabel for="pesquisarPor" value="Pesquisar Por:" />
+						<p:selectOneRadio id="pesquisarPor" value="#{ctMB.pesquisarPor}">
+							<p:ajax update=":frmFiltro:gridFiltro" process="@form"
+								event="change" />
+							<f:selectItem itemLabel="Todos" itemValue="Todos" />
+							<f:selectItem itemLabel="Condomínio" itemValue="Condominio" />
+							<f:selectItem itemLabel="Carteira" itemValue="Carteira" />
+							<f:selectItem itemLabel="Usuário" itemValue="Usuario" />
+						</p:selectOneRadio>
+
+						<p:outputLabel id="txtCondominio" for="selectCondominio"
+							value="Condomínio:"
+							rendered="#{ctMB.pesquisarPor eq 'Condominio'}" />
+						<p:selectOneMenu id="selectCondominio" value="#{ctMB.condominio}"
+							rendered="#{ctMB.pesquisarPor eq 'Condominio'}"
+							converter="omnifaces.SelectItemsConverter" filter="true"
+							filterMatchMode="contains" style="width:95%;">
+							<f:selectItem itemLabel="Condomínio" noSelectionOption="true" />
+							<f:selectItems var="condominio"
+								value="#{SessaoMB.listaCondominios}"
+								itemLabel="#{condominio.cndCodNome}" itemValue="#{condominio}" />
+						</p:selectOneMenu>
+
+						<p:outputLabel id="txtCarteira" for="selectCarteira"
+							value="Carteira:" rendered="#{ctMB.pesquisarPor eq 'Carteira'}" />
+						<p:selectOneMenu id="selectCarteira"
+							value="#{SessaoMB.gerenteSelecionado}"
+							rendered="#{ctMB.pesquisarPor eq 'Carteira'}"
+							converter="omnifaces.SelectItemsConverter" style="width:95%;"
+							filter="true" filterMatchMode="contains">
+							<f:selectItem itemLabel="Carteira" noSelectionOption="true" />
+							<f:selectItems var="gerente" value="#{SessaoMB.listaGerentes}"
+								itemLabel="#{gerente.nome}" itemValue="#{gerente}" />
+						</p:selectOneMenu>
+
+						<p:outputLabel id="txtUsuario" for="selectUsuario"
+							value="Usuários:" rendered="#{ctMB.pesquisarPor eq 'Usuario'}" />
+						<p:selectOneMenu id="selectUsuario" value="#{ctMB.usuario}"
+							rendered="#{ctMB.pesquisarPor eq 'Usuario'}"
+							converter="omnifaces.SelectItemsConverter" filter="true"
+							filterMatchMode="contains" style="width:95%;">
+							<f:selectItem itemLabel="Funcionário" noSelectionOption="true" />
+							<f:selectItems var="usuario" value="#{ctMB.listaUsuarios}"
+								itemLabel="#{usuario.nome}" itemValue="#{usuario}" />
+						</p:selectOneMenu>
+
+					</h:panelGrid>
+					<h:panelGrid columns="3" border="0" styleClass="gridFiltro">
+						<p:outputLabel value="Período" />
+						<p:calendar value="#{ctMB.dataInicial}" id="dataInicial"
+							pattern="dd/MM/yyyy" locale="pt" timeZone="America/Sao_Paulo"
+							styleClass="calendario" />
+						<p:calendar value="#{ctMB.dataFinal}" id="dataFinal"
+							pattern="dd/MM/yyyy" locale="pt" timeZone="America/Sao_Paulo"
+							styleClass="calendario" />
+
+						<p:commandButton value="Filtrar"
+							action="#{ctMB.pesquisaContabilizador()}"
+							update=":frmTblLote:dtHistorico"
+							onstart="PF('dlgStatus').show();"
+							oncomplete="PF('dlgStatus').hide();"
+							icon="fa fa-search Fs16 white" />
+					</h:panelGrid>
+				</p:panelGrid>
+				<h:panelGrid style="margin:5px;" columns="2">
+					<p:outputLabel value="Exportar para Excel: " />
+					<h:commandLink>
+						<p:graphicImage library="imagens" name="excel.png" />
+						<p:dataExporter type="xls" target=":frmTblLote:dtHistorico"
+							fileName="contabilizador" pageOnly="false"
+							postProcessor="#{exportarBean.postProcessXLS}" />
+					</h:commandLink>
+				</h:panelGrid>
+			</h:form>
+		</div>
+	</div>
+
+	<div class="Container100 TexAlCenter">
+		<div class="ContainerIndent">
+			<h:form id="frmTblLote" target="_blank"
+				rendered="#{SessaoMB.igp.sysAdmin}">
+				<p:dataTable id="dtHistorico" var="contab"
+					value="#{ctMB.listaContabilizador}"
+					filteredValue="#{ctMB.fltrContabilizador}" rowKey="#{contab}"
+					rows="10" paginator="true"
+					emptyMessage="Nenhum resultado encontrado!"
+					style="font-size: 13px; text-align:center;"
+					rowsPerPageTemplate="10,30,50,100">
+					<p:column>
+						<f:facet name="header"> Código Cond.</f:facet>
+						<h:outputText value="#{contab.condominio_codigo}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header"> Condomínio </f:facet>
+						<h:outputText value="#{contab.condominio_nome}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header"> Gerente </f:facet>
+						<h:outputText value="#{contab.nomeGerente}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header"> Feito Por </f:facet>
+						<h:outputText value="#{contab.usuario}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header"> Observação </f:facet>
+						<h:outputText value="#{contab.obs}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header"> Minutos </f:facet>
+						<h:outputText value="#{contab.minutos}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header"> Data de Atendimento </f:facet>
+						<h:outputText value="#{contab.dataInserido}" />
+					</p:column>
+
+					<f:facet name="header">
+					Contabilizador
+					</f:facet>
+
+					<f:facet name="footer">
+						<p:outputPanel>
+							<p:commandButton value="Analítico"
+								action="#{ctMB.gerarRelatorioAnalitico}" ajax="false"
+								process="dtHistorico" icon="fa fa-print Fs16 white" />
+							<p:commandButton value="Sintético"
+								action="#{ctMB.gerarRelatorioSintetico}" ajax="false"
+								process="dtHistorico" icon="fa fa-print Fs16 white" />
+						</p:outputPanel>
+					</f:facet>
+				</p:dataTable>
+
+				<p:dialog widgetVar="dlgStatus" id="dlgStatus" header="Status"
+					style="font-size:13px;" resizable="false" modal="true"
+					closable="false">	
+					Esta pesquisa pode levar alguns segundos.<br />
+					Carregando...<br />
+					<br />
+					<p:graphicImage library="imagens" name="loader.gif" />
+					<br />
+				</p:dialog>
+
+				<script type="text/javascript">
+					function start() {
+						PF('statusDialog').show();
+					}
+					function stop() {
+						PF('statusDialog').hide();
+						PF('relatorio').hide();
+					}
+				</script>
+			</h:form>
+		</div>
+	</div>
+</ui:composition>

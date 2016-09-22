@@ -1,0 +1,254 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	
+
+<style>
+.btnObs {
+	color: red !important;
+}
+.botoes{
+	margin-left: 50px !important;
+	width: 40px !important;
+}
+.borda{
+	border: 0px !important;
+}
+</style>
+		<p:dialog id="dlgDetalhesLancto" widgetVar="detalhesLancto"
+				 hideEffect="slide" showEffect="slide" maximizable="true" minimizable="true"
+				 responsive="true" resizable="false" closable="false">
+				 <h:form id="frmDetalhesLancamento">
+			<f:facet name="header">
+				<p:outputLabel id="oplCabecalho" value="Detalhes do Lançamento"	style="font-size:16px;color:red;font-weight:bold;" />
+			</f:facet>
+		<p:scrollPanel style="width: 600px !important; height: 500px !important;" styleClass="borda" mode="native">
+			
+		<h:panelGrid id="panelTblLancamento">
+			<h:panelGrid id="plgResumo1" columns="1" >
+			<h:panelGrid columns="2">
+						<p:commandButton value="Follow-up" icon="fa fa-file-text-o Fs16 white"
+							rendered="#{(SessaoMB.igp.sysAdmin) or (SessaoMB.igp.consultarLancamento)}"
+							actionListener="#{ged.abrirFollowUp()}" update=":frmFollowUp" />
+			
+			<h:panelGrid styleClass="botoes" columns="3">
+							
+							<p:commandButton value="Adic. Parc." icon="fa fa-plus Fs16 white"
+							disabled="#{ged.validaBtnParcelado()}"
+							ajax="false" actionListener="#{ged.abrirAlterarLancamento(1)}"
+							rendered="#{(ged.cndpagar.status != 'A' and ged.cndpagar.parcelado == 'S')}" />
+							
+							<p:commandButton value="Alterar" icon="fa fa-pencil Fs16 white"
+							ajax="false" actionListener="#{ged.abrirAlterarLancamento(2)}"
+							rendered="#{(SessaoMB.igp.sysAdmin) or (SessaoMB.igp.alterarLancto)}"
+							disabled="#{ged.cndpagar.status == 'A'}" />
+
+							<p:commandButton value="Excluir" 
+							disabled="#{ged.cndpagar.status == 'A'}"
+							rendered="#{(SessaoMB.igp.sysAdmin) or (SessaoMB.igp.excluirLancto)}"
+							update=":frmExclui"
+							onclick="PF('dlgExclui').show();" icon="fa fa-trash Fs16 white"  />
+
+							<p:commandButton value="Reprovar" icon="fa fa-close Fs16 white"
+							onclick="PF('dlgReprovacao').show();" disabled="#{ged.cndpagar.status == 'A'}"
+							rendered="#{(ged.cndpagar.status != 'R') or (ged.cndpagar.status != 'R')}" />
+
+						<c:if test="#{(SessaoMB.igp.sysAdmin) or (ged.autorizaAprovacaoSiga()  and SessaoMB.igp.aprovarLancto)}">
+							<p:commandButton id="aprova1" value="Aprovar" update=":frmAprovacao1"
+								icon="fa fa-save Fs16 white" oncomplete="PF('dlgAp1').show();"
+								disabled="#{ged.cndpagar.status == 'A'}"
+								rendered="#{(ged.cndpagar.status != 'R' and  ged.cndpagar.rateado == 'S')}" />
+
+							<p:commandButton id="aprova2" value="Aprovar"  update=":frmAprovacao2"
+								icon="fa fa-save Fs16 white" oncomplete="PF('dlgAp2').show();"
+								disabled="#{ged.cndpagar.status == 'A'}"
+								rendered="#{(ged.cndpagar.status != 'R' and ged.cndpagar.rateado == 'N')}" />
+						</c:if>
+
+			</h:panelGrid>
+			</h:panelGrid>			
+			<h:panelGrid columns="1" style="margin-left: 190px;">
+						<c:if
+							test="#{(SessaoMB.igp.sysAdmin) or (ged.retornaAprovacaoLancto() and ged.autorizaPreAprovacao())}">
+							<p:commandButton id="pre-aprovacao1" value="Pré Aprovar"  update=":frmPreAprovacao1"
+								icon="fa fa-check Fs16 white" oncomplete="PF('dlgPreAprovacao1').show();"
+								rendered="#{(ged.cndpagar.status eq 'Z' and ged.cndpagar.rateado eq 'N')}" />
+
+							<p:commandButton id="pre-aprovacao2" value="Pré Aprovar" update=":frmPreAprovacao1"
+								icon="fa fa-check Fs16 white" oncomplete="PF('dlgPreAprovacao2').show();"
+								rendered="#{(ged.cndpagar.status eq 'Z' and ged.cndpagar.rateado eq 'S')}" />
+						</c:if>
+			</h:panelGrid>
+		<p:column>
+				
+					<h:panelGrid id="plgResumo2" style="float:left;text-align:left;width:430px;">
+						
+						<p:panelGrid columns="2" style="width:100%;border: 0px !important;">
+							<f:facet name="header">
+								<p:outputLabel value="RESUMO DO LANÇAMENTO" />
+							</f:facet>
+							<p:outputLabel value="Vencimento:" />
+							<p:outputLabel value="#{ged.cndpagar.vencimento}">
+								<f:convertDateTime pattern="dd/MM/yyyy"
+									timeZone="America/Sao_Paulo" locale="pt" />
+							</p:outputLabel>
+
+							<p:outputLabel value="Valor:"
+								rendered="#{ged.cndpagar.rateado == 'N'}" />
+							<p:outputLabel value="#{ged.cndpagar.valor}"
+								rendered="#{ged.cndpagar.rateado == 'N'}">
+								<f:convertNumber type="currency" currencySymbol="R$" locale="pt" />
+							</p:outputLabel>
+
+							<p:outputLabel value="Valor Bruto:"
+								rendered="#{ged.cndpagar.rateado == 'S'}" />
+							<p:outputLabel value="#{ged.valorBruto}"
+								rendered="#{ged.cndpagar.rateado == 'S'}">
+								<f:convertNumber type="currency" currencySymbol="R$" locale="pt" />
+							</p:outputLabel>
+
+							<p:outputLabel value="Conta:"
+								rendered="#{ged.cndpagar.rateado == 'N'}" />
+							<p:outputLabel
+								value="#{ged.nomeDoPlanoContas}"
+								rendered="#{ged.cndpagar.rateado == 'N'}" />
+
+							<p:outputLabel value="Contas:"
+								rendered="#{ged.cndpagar.rateado == 'S'}" />
+							<p:column rendered="#{ged.cndpagar.rateado == 'S'}">
+								<c:forEach var="item" items="#{ged.listaDeCodReduzido}">
+									<p:outputLabel value="#{item}" />; <p:spacer />
+								<br />
+								</c:forEach>
+							</p:column>
+
+							<p:outputLabel value="Fornecedor:" />
+							<p:outputLabel value="#{ged.cndpagar.credor}" />
+							<p:outputLabel value="NF:" />
+							<p:outputLabel
+								value="#{ged.converte(ged.cndpagar.numeroNf)}"/>
+							<p:outputLabel value="Histórico:" />
+							<p:outputLabel value="#{ged.cndpagar.historico}" />
+							<p:outputLabel value="Tipo pagamento:" />
+							<p:outputLabel value="#{ged.cndpagar.tipoPagto}" />
+
+							<p:outputLabel value="Favorecido:"
+								rendered="#{ged.cndpagar.tipoPagto == '5' or ged.cndpagar.tipoPagto == '7'}" />
+							<p:outputLabel value="#{ged.cndpagar.favorecido}"
+								rendered="#{ged.cndpagar.tipoPagto == '5' or ged.cndpagar.tipoPagto == '7'}" />
+
+							<p:outputLabel value="Banco:"
+								rendered="#{ged.cndpagar.tipoPagto == '5' or ged.cndpagar.tipoPagto == '7'}" />
+							<p:outputLabel value="#{ged.cndpagar.bancoDestino}"
+								rendered="#{ged.cndpagar.tipoPagto == '5' or ged.cndpagar.tipoPagto == '7'}" />
+
+							<p:outputLabel value="Agência:"
+								rendered="#{ged.cndpagar.tipoPagto == '5' or ged.cndpagar.tipoPagto == '7'}" />
+							<p:outputLabel value="#{ged.cndpagar.agencDestino}"
+								rendered="#{ged.cndpagar.tipoPagto == '5' or ged.cndpagar.tipoPagto == '7'}" />
+
+							<p:outputLabel value="Conta:"
+								rendered="#{ged.cndpagar.tipoPagto == '5' or ged.cndpagar.tipoPagto == '7'}" />
+							<p:outputLabel
+								value="#{ged.cndpagar.contaDestino} - #{ged.cndpagar.digAgeDest}"
+								rendered="#{ged.cndpagar.tipoPagto == '5' or ged.cndpagar.tipoPagto == '7'}" />
+
+							<p:outputLabel value="CPF/CNPJ:"
+								rendered="#{ged.cndpagar.tipoPagto == '5' or ged.cndpagar.tipoPagto == '7'}" />
+							<p:outputLabel
+								value="#{ged.converteDouble(ged.cndpagar.cnpj)}"
+								rendered="#{ged.cndpagar.tipoPagto == '5' or ged.cndpagar.tipoPagto == '7'}" />
+
+
+							<p:outputLabel value="Cód. de barras:"
+								rendered="#{ged.cndpagar.tipoPagto == 'E' or ged.cndpagar.tipoPagto == '8'}" />
+							<p:outputLabel value="#{ged.cndpagar.codigoBarra}"
+								rendered="#{ged.cndpagar.tipoPagto == 'E' or ged.cndpagar.tipoPagto == '8'}" />
+							<p:outputLabel value="Linha digitável:"
+								rendered="#{ged.cndpagar.tipoPagto == 'E' or ged.cndpagar.tipoPagto == '8'}" />
+
+							<p:column rendered="#{ged.cndpagar.tipoPagto == 'E'}">
+								<p:outputLabel value="#{ged.concSegbarra1}" /><p:spacer />
+							<p:outputLabel value="#{ged.concSegbarra2}" /><p:spacer />
+							<p:outputLabel value="#{ged.concSegbarra3}" /><p:spacer />
+							<p:outputLabel value="#{ged.concSegbarra4}" />
+							</p:column>
+
+							<p:column rendered="#{ged.cndpagar.tipoPagto == '8'}">
+								<p:outputLabel value="#{ged.ldCampo1}" /><p:spacer />
+							<p:outputLabel value="#{ged.ldCampo2}" /><p:spacer />
+							<p:outputLabel value="#{ged.ldCampo3}" /><p:spacer />
+							<p:outputLabel value="#{ged.ldDac}" /><p:spacer />
+							<p:outputLabel value="#{ged.ldValor}" />
+							</p:column>
+
+							<p:outputLabel value="Motivo Reprovação:"
+								rendered="#{ged.cndpagar.status == 'R'}"
+								style="color:red;" />
+							<p:outputLabel
+								value="#{ged.cndpagar.motivoReprovacao}"
+								rendered="#{ged.cndpagar.status == 'R'}"
+								style="color:red;" />
+						</p:panelGrid>
+						
+						<p:dataTable id="tblArquivos" var="item"
+							value="#{ged.cndpagar.imagens}"
+							emptyMessage="Nenhum resultado encontrado." style="width: 550px;"
+							scrollable="true" scrollHeight="auto" rowKey="#{item.codigo}">
+							<f:facet name="header">
+								<h:outputText value="ARQUIVOS" />
+							</f:facet>
+							<p:column headerText="Código" rendered="false">
+								<h:outputText value="#{item.codigo}" />
+							</p:column>
+							<p:column headerText="Etiqueta" style="width:130px;">
+								<h:outputText value="#{ged.converte(item.id)}"
+									style="color:blue;word-wrap:break-word;" />
+							</p:column>
+							<p:column headerText="Nome" style="width:150px;">
+								<h:outputText value="${item.nome_arquivo}"
+									style="color:blue;word-wrap:break-word;" />
+							</p:column>
+							<p:column style="width:40px;">
+<!-- 								<p:commandButton icon="fa fa-search Fs16 white" update=":frmImagemView:gridMedia" onclick="PF('imagemView').show();">
+									<f:setPropertyActionListener target="#{ged.cdFinancImagem}"	value="#{item.codigo}" />
+								</p:commandButton> -->
+						
+						 <p:commandButton ajax="false" icon="fa fa-search Fs16 white">
+        					<p:fileDownload value="#{ImgServiceBean.Lancamento(item.codigo)}" />
+    					</p:commandButton>
+						
+							</p:column>
+						</p:dataTable>
+					</h:panelGrid>
+					
+				</p:column>
+			</h:panelGrid>
+		</h:panelGrid>
+		</p:scrollPanel>
+		<hr/>
+			<p:commandButton value="Fechar" style="float:right;" oncomplete="PF('detalhesLancto').hide(); PF('imagemView').hide();"/>
+				</h:form>
+		</p:dialog>
+
+
+	<p:dialog widgetVar="imagemView" showEffect="slide" hideEffect="slide"
+		responsive="true" resizable="true" maximizable="true"
+		minimizable="true" height="500" width="800">
+		<h:form id="frmImagemView">
+			<h:panelGrid id="gridMedia">
+				<p:media player="pdf" value="#{ImgServiceBean.pdfLancamento}"
+					width="800" height="500" cache="false"
+					rendered="#{ged.cdFinancImagem > 0}">
+					<f:param name="cdFinancImagem" value="#{ged.cdFinancImagem}" />
+				</p:media>
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
+
+
+</ui:composition>
